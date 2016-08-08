@@ -13,7 +13,7 @@
         ResizeMode="CanMinimize"              
         WindowTransitionsEnabled="False"
         WindowStartupLocation="CenterScreen"              
-        Title="Analyzer Database" Height="720" Width="1024">
+        Title="Analyzer Database" Height="875" Width="1024">
     
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
@@ -32,25 +32,31 @@
 
         <StackPanel Grid.Column="0" Grid.Row="1" Margin="0,25,0,0">
             <Button x:Name="HomeBtn"  Background="#cccccc" Margin="5,2,0,2">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="{Binding ElementName=PresentationBtn, Path=ActualWidth}" >
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="{Binding ElementName=HomeBtn, Path=ActualWidth}" >
                     <Image Source="../Assets/Menu Icons/Home.png" Width="100" Margin="10,10,10,10"/>
                     <TextBlock HorizontalAlignment="Center" FontSize="17" Text="Home"/>
                 </StackPanel>
             </Button>
             <Button x:Name="SearchBtn"  Background="#cccccc" Margin="5,2,0,2">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="{Binding ElementName=PresentationBtn, Path=ActualWidth}" >
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="{Binding ElementName=SearchBtn, Path=ActualWidth}" >
                     <Image Source="../Assets/Menu Icons/Search.png" Width="100" Margin="10,10,10,10"/>
                     <TextBlock HorizontalAlignment="Center" FontSize="17" Text="Search"/>
                 </StackPanel>
             </Button>
+            <Button x:Name="StatisticsBtn"  Background="#cccccc" Margin="5,2,0,2">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="{Binding ElementName=StatisticsBtn, Path=ActualWidth}" >
+                    <Image Source="../Assets/Menu Icons/Statistics.png" Width="100" Margin="10,10,10,10"/>
+                    <TextBlock HorizontalAlignment="Center" FontSize="17" Text="Statistics"/>
+                </StackPanel>
+            </Button>
             <Button x:Name="SettingsBtn"  Background="#cccccc" Margin="5,2,0,2">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="{Binding ElementName=PresentationBtn, Path=ActualWidth}" >
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="{Binding ElementName=SettingsBtn, Path=ActualWidth}" >
                     <Image Source="../Assets/Menu Icons/Settings.png" Width="100" Margin="10,10,10,10"/>
                     <TextBlock HorizontalAlignment="Center" FontSize="17" Text="Settings"/>
                 </StackPanel>
             </Button>
             <Button x:Name="AboutBtn"  Background="#cccccc" Margin="5,2,0,2">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="{Binding ElementName=PresentationBtn, Path=ActualWidth}" >
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="{Binding ElementName=AboutBtn, Path=ActualWidth}" >
                     <Image Source="../Assets/Menu Icons/About.png" Width="100" Margin="10,10,10,10"/>
                     <TextBlock HorizontalAlignment="Center" FontSize="17" Text="About"/>
                 </StackPanel>
@@ -60,7 +66,7 @@
         <ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding CurrentViewModel}"/>
         
         <StackPanel Grid.Column="1">
-            <Grid Margin="0,360,0,5">
+            <Grid Margin="0,500,0,5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="5"/>
