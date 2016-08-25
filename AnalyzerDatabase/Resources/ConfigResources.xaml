@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!-- String resource that can be localized -->
+    <system:String x:Key="SearchQuery">https://api.elsevier.com/content/search/scidir?query={0}&amp;apiKey=b3a71de2bde04544495881ed9d2f9c5b</system:String>
+
+</ResourceDictionary>
