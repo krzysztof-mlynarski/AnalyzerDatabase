@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AnalyzerDatabase.ViewModels;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Views;
 
 namespace AnalyzerDatabase.ViewModel
 {
@@ -12,9 +15,86 @@ namespace AnalyzerDatabase.ViewModel
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        public MainViewModel()
+
+        private ViewModelBase _currentViewModel;
+        private RelayCommand _openSearchDatabaseCommand;
+        private RelayCommand _openStatisticsCommand;
+        private RelayCommand _openSettingsCommand;
+        private RelayCommand _openAboutCommand;
+
+
+        private readonly INavigationService _navigationService;
+
+        public MainViewModel(INavigationService navigationService)
         {
-            
+            _navigationService = navigationService;
+            CurrentViewModel = (new ViewModelLocator()).SearchDatabase;
+            CurrentViewModel = null;
+        }
+
+        #region Getters setters
+        public ViewModelBase CurrentViewModel
+        {
+            get { return _currentViewModel; }
+            set
+            {
+                _currentViewModel = value;
+                RaisePropertyChanged("CurrentViewModel");
+            }
+        }
+        public RelayCommand OpenSearchDatabaseCommand
+        {
+            get
+            {
+                return _openSearchDatabaseCommand ?? (_openSearchDatabaseCommand = new RelayCommand(OpenSearchDatabase));
+            }
+        }
+
+        public RelayCommand OpenStatisticsCommand
+        {
+            get
+            {
+                return _openStatisticsCommand ?? (_openStatisticsCommand = new RelayCommand(OpenStatistics));
+            }
+        }
+
+        public RelayCommand OpenSettingsCommand
+        {
+            get
+            {
+                return _openSettingsCommand ?? (_openSettingsCommand = new RelayCommand(OpenSettings));
+            }
+        }
+
+        public RelayCommand OpenAboutCommand
+        {
+            get
+            {
+                return _openAboutCommand ?? (_openAboutCommand = new RelayCommand(OpenAbout));
+            }
+        }
+
+        #endregion
+
+        private void OpenSearchDatabase()
+        {
+            CurrentViewModel = (new ViewModelLocator()).SearchDatabase;
+            //_navigationService.NavigateTo("SearchDatabaseView");
+        }
+
+        private void OpenStatistics()
+        {
+            _navigationService.NavigateTo("StatisticsView");
+        }
+
+        private void OpenSettings()
+        {
+            _navigationService.NavigateTo("SettingsView");
+        }
+
+        private void OpenAbout()
+        {
+            _navigationService.NavigateTo("AboutView");
         }
     }
 }

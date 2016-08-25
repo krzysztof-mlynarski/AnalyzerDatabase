@@ -1,0 +1,93 @@
+﻿<UserControl x:Class="AnalyzerDatabase.View.SearchDatabaseView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AnalyzerDatabase.View"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="875" d:DesignWidth="1024"
+             DataContext="{Binding Source={StaticResource Locator}, Path=SearchDatabase}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="160"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Column="0" Grid.Row="1" Margin="0,25,0,0">
+            <Button x:Name="HomeBtn"  Background="#cccccc" Margin="5,2,0,2">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="{Binding ElementName=HomeBtn, Path=ActualWidth}" >
+                    <Image Source="../Assets/Menu Icons/Home.png" Width="100" Margin="0,10,10,10"/>
+                    <TextBlock HorizontalAlignment="Center" FontSize="17" Text="Home" Margin="0,0,10,0"/>
+                </StackPanel>
+            </Button>
+
+            <Button x:Name="StatisticsBtn" Background="#cccccc" Margin="5,2,0,2">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="{Binding ElementName=StatisticsBtn, Path=ActualWidth}" >
+                    <Image Source="../Assets/Menu Icons/Statistics.png" Width="100" Margin="0,10,10,10"/>
+                    <TextBlock HorizontalAlignment="Center" FontSize="17" Text="Statistics" Margin="0,0,10,0"/>
+                </StackPanel>
+            </Button>
+            <Button x:Name="SettingsBtn" Background="#cccccc" Margin="5,2,0,2">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="{Binding ElementName=SettingsBtn, Path=ActualWidth}" >
+                    <Image Source="../Assets/Menu Icons/Settings.png" Width="100" Margin="0,10,10,10"/>
+                    <TextBlock HorizontalAlignment="Center" FontSize="17" Text="Settings" Margin="0,0,10,0"/>
+                </StackPanel>
+            </Button>
+            <Button x:Name="AboutBtn" Background="#cccccc" Margin="5,2,0,2">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="{Binding ElementName=AboutBtn, Path=ActualWidth}" >
+                    <Image Source="../Assets/Menu Icons/About.png" Width="100" Margin="0,10,10,10"/>
+                    <TextBlock HorizontalAlignment="Center" FontSize="17" Text="About" Margin="0,0,10,0"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding CurrentViewModel}"/>
+
+        <StackPanel Grid.Column="1">
+            <Grid Margin="0,100,0,5">
+                <TextBlock x:Name="QueryTextBox" HorizontalAlignment="Center"
+                     FontSize="16" 
+                     Margin="5,15" 
+                     Text="{Binding QueryTextBox}" 
+                     Opacity="0.95">
+                </TextBlock>
+            </Grid>
+
+            <Grid Margin="0,100,0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Margin="25,20,0,0" Grid.Column="0"><InlineUIContainer>
+                        <Image Source="../Assets/Library Icons/Scopus.png" Width="250"/>
+                    </InlineUIContainer><InlineUIContainer>
+                        <CheckBox x:Name="checkBox" Content="CheckBox"/>
+                    </InlineUIContainer></TextBlock>
+                <TextBlock Margin="25,150,0,0" Grid.Column="4">
+                    <Image Source="../Assets/Library Icons/Springer.png" Width="250"/>
+                </TextBlock>
+                <TextBlock Margin="25,70,0,0" Grid.Column="2">
+                    <Image Source="../Assets/Library Icons/IEEE Xplore.png" Width="250"/>
+                </TextBlock>
+                <TextBlock Margin="25,30,0,0" Grid.Column="2">
+                    <Image Source="../Assets/Library Icons/ScienceDirect.png" Width="250"/>
+                </TextBlock>
+                <TextBlock Margin="0,0,0,0" Grid.Column="4">
+                    <Image Source="../Assets/Library Icons/Web of Science.png" Width="300"/>
+                </TextBlock>
+                <TextBlock Margin="25,130,0,0" Grid.Column="0">
+                    <Image Source="../Assets/Library Icons/Wiley Online Library.png" Width="250"/>
+                </TextBlock>
+            </Grid>
+        </StackPanel>
+
+    </Grid>
+</UserControl>
+

@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:AnalyzerDatabase"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
+        DataContext="{Binding Source={StaticResource Locator}, Path=Main}"       
         
         BorderThickness="0" 
         GlowBrush="Black" 
@@ -31,34 +32,92 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Column="0" Grid.Row="1" Margin="0,25,0,0">
-            <Button x:Name="HomeBtn"  Background="#cccccc" Margin="5,2,0,2">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="{Binding ElementName=HomeBtn, Path=ActualWidth}" >
-                    <Image Source="../Assets/Menu Icons/Home.png" Width="100" Margin="0,10,10,10"/>
-                    <TextBlock HorizontalAlignment="Center" FontSize="17" Text="Home" Margin="0,0,10,0"/>
+            <Button x:Name="HomeBtn"  
+                    Background="#cccccc" 
+                    Margin="5,2,0,2">
+                <StackPanel Orientation="Vertical" 
+                            HorizontalAlignment="Stretch" 
+                            VerticalAlignment="Stretch" 
+                            Width="{Binding ElementName=HomeBtn, Path=ActualWidth}" >
+                    <Image Source="../Assets/Menu Icons/Home.png" 
+                           Width="100" 
+                           Margin="0,10,10,10"/>
+                    <TextBlock HorizontalAlignment="Center" 
+                               FontSize="17" 
+                               Text="Home" 
+                               Margin="0,0,10,0"/>
                 </StackPanel>
             </Button>
-            <Button x:Name="SearchBtn"  Background="#cccccc" Margin="5,2,0,2">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="{Binding ElementName=SearchBtn, Path=ActualWidth}" >
-                    <Image Source="../Assets/Menu Icons/Search.png" Width="100" Margin="0,10,10,10"/>
-                    <TextBlock HorizontalAlignment="Center" FontSize="17" Text="Search" Margin="0,0,10,0"/>
+            
+            <Button x:Name="SearchBtn" 
+                    Background="#cccccc" 
+                    Margin="5,2,0,2" 
+                    Command="{Binding OpenSearchDatabaseCommand}">
+                <StackPanel Orientation="Vertical" 
+                            HorizontalAlignment="Stretch" 
+                            VerticalAlignment="Stretch" 
+                            Width="{Binding ElementName=SearchBtn, Path=ActualWidth}" >
+                    <Image Source="../Assets/Menu Icons/Search.png" 
+                           Width="100" 
+                           Margin="0,10,10,10"/>
+                    <TextBlock HorizontalAlignment="Center" 
+                               FontSize="17" 
+                               Text="Search" 
+                               Margin="0,0,10,0"/>
                 </StackPanel>
             </Button>
-            <Button x:Name="StatisticsBtn"  Background="#cccccc" Margin="5,2,0,2">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="{Binding ElementName=StatisticsBtn, Path=ActualWidth}" >
-                    <Image Source="../Assets/Menu Icons/Statistics.png" Width="100" Margin="0,10,10,10"/>
-                    <TextBlock HorizontalAlignment="Center" FontSize="17" Text="Statistics" Margin="0,0,10,0"/>
+            
+            <Button x:Name="StatisticsBtn" 
+                    Background="#cccccc" 
+                    Margin="5,2,0,2"
+                    Command="{Binding OpenStatisticsCommand}">
+                <StackPanel Orientation="Vertical" 
+                            HorizontalAlignment="Stretch" 
+                            VerticalAlignment="Stretch" 
+                            Width="{Binding ElementName=StatisticsBtn, Path=ActualWidth}" >
+                    <Image Source="../Assets/Menu Icons/Statistics.png" 
+                           Width="100" 
+                           Margin="0,10,10,10"/>
+                    <TextBlock HorizontalAlignment="Center" 
+                               FontSize="17" 
+                               Text="Statistics" 
+                               Margin="0,0,10,0"/>
                 </StackPanel>
             </Button>
-            <Button x:Name="SettingsBtn"  Background="#cccccc" Margin="5,2,0,2">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="{Binding ElementName=SettingsBtn, Path=ActualWidth}" >
-                    <Image Source="../Assets/Menu Icons/Settings.png" Width="100" Margin="0,10,10,10"/>
-                    <TextBlock HorizontalAlignment="Center" FontSize="17" Text="Settings" Margin="0,0,10,0"/>
+            
+            <Button x:Name="SettingsBtn" 
+                    Background="#cccccc" 
+                    Margin="5,2,0,2"
+                    Command="{Binding OpenSettingsCommand}">
+                <StackPanel Orientation="Vertical" 
+                            HorizontalAlignment="Stretch" 
+                            VerticalAlignment="Stretch" 
+                            Width="{Binding ElementName=SettingsBtn, Path=ActualWidth}" >
+                    <Image Source="../Assets/Menu Icons/Settings.png" 
+                           Width="100" 
+                           Margin="0,10,10,10"/>
+                    <TextBlock HorizontalAlignment="Center" 
+                               FontSize="17" 
+                               Text="Settings" 
+                               Margin="0,0,10,0"/>
                 </StackPanel>
             </Button>
-            <Button x:Name="AboutBtn"  Background="#cccccc" Margin="5,2,0,2">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="{Binding ElementName=AboutBtn, Path=ActualWidth}" >
-                    <Image Source="../Assets/Menu Icons/About.png" Width="100" Margin="0,10,10,10"/>
-                    <TextBlock HorizontalAlignment="Center" FontSize="17" Text="About" Margin="0,0,10,0"/>
+            
+            <Button x:Name="AboutBtn" 
+                    Background="#cccccc" 
+                    Margin="5,2,0,2"
+                    Command="{Binding OpenAboutCommand}">
+                <StackPanel Orientation="Vertical" 
+                            HorizontalAlignment="Stretch" 
+                            VerticalAlignment="Stretch" 
+                            Width="{Binding ElementName=AboutBtn, Path=ActualWidth}" >
+                    <Image Source="../Assets/Menu Icons/About.png" 
+                           Width="100"
+                           Margin="0,10,10,10"/>
+                    <TextBlock HorizontalAlignment="Center" 
+                               FontSize="17" 
+                               Text="About" 
+                               Margin="0,0,10,0"/>
                 </StackPanel>
             </Button>
         </StackPanel>
@@ -68,7 +127,8 @@
         <StackPanel Grid.Column="1">
             <Grid Margin="0,100,0,5">
                 <TextBlock HorizontalAlignment="Center">
-                    <Image Source="../Assets/Logo/AnalyzerDatabaseLogo.png" Width="500"/>
+                    <Image Source="../Assets/Logo/AnalyzerDatabaseLogo.png" 
+                           Width="500"/>
                 </TextBlock>
             </Grid>
             
@@ -81,22 +141,28 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Margin="25,20,0,0" Grid.Column="0">
-                    <Image Source="../Assets/Library Icons/Scopus.png" Width="250"/>
+                    <Image Source="../Assets/Library Icons/Scopus.png" 
+                           Width="250"/>
                 </TextBlock>
                 <TextBlock Margin="25,150,0,0" Grid.Column="4">
-                    <Image Source="../Assets/Library Icons/Springer.png" Width="250"/>
+                    <Image Source="../Assets/Library Icons/Springer.png" 
+                           Width="250"/>
                 </TextBlock>
                 <TextBlock Margin="25,70,0,0" Grid.Column="2">
-                    <Image Source="../Assets/Library Icons/IEEE Xplore.png" Width="250"/>
+                    <Image Source="../Assets/Library Icons/IEEE Xplore.png" 
+                           Width="250"/>
                 </TextBlock>
                 <TextBlock Margin="25,30,0,0" Grid.Column="2">
-                    <Image Source="../Assets/Library Icons/ScienceDirect.png" Width="250"/>
+                    <Image Source="../Assets/Library Icons/ScienceDirect.png" 
+                           Width="250"/>
                 </TextBlock>
                 <TextBlock Margin="0,0,0,0" Grid.Column="4">
-                    <Image Source="../Assets/Library Icons/Web of Science.png" Width="300"/>
+                    <Image Source="../Assets/Library Icons/Web of Science.png" 
+                           Width="300"/>
                 </TextBlock>
                 <TextBlock Margin="25,130,0,0" Grid.Column="0">
-                    <Image Source="../Assets/Library Icons/Wiley Online Library.png" Width="250"/>
+                    <Image Source="../Assets/Library Icons/Wiley Online Library.png" 
+                           Width="250"/>
                 </TextBlock>
             </Grid>
         </StackPanel>
