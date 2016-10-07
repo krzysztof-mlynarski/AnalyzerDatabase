@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using AnalyzerDatabase.ViewModel;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
+using GalaSoft.MvvmLight.Views;
 using Microsoft.Practices.ServiceLocation;
 
 namespace AnalyzerDatabase.ViewModels

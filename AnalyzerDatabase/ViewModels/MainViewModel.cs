@@ -22,12 +22,8 @@ namespace AnalyzerDatabase.ViewModel
         private RelayCommand _openSettingsCommand;
         private RelayCommand _openAboutCommand;
 
-
-        private readonly INavigationService _navigationService;
-
-        public MainViewModel(INavigationService navigationService)
+        public MainViewModel()
         {
-            _navigationService = navigationService;
             CurrentViewModel = (new ViewModelLocator()).SearchDatabase;
             CurrentViewModel = null;
         }
@@ -35,7 +31,11 @@ namespace AnalyzerDatabase.ViewModel
         #region Getters setters
         public ViewModelBase CurrentViewModel
         {
-            get { return _currentViewModel; }
+            get
+            {
+                return _currentViewModel;
+            }
+
             set
             {
                 _currentViewModel = value;
@@ -79,22 +79,20 @@ namespace AnalyzerDatabase.ViewModel
         private void OpenSearchDatabase()
         {
             CurrentViewModel = (new ViewModelLocator()).SearchDatabase;
-            //_navigationService.NavigateTo("SearchDatabaseView");
         }
 
         private void OpenStatistics()
         {
-            _navigationService.NavigateTo("StatisticsView");
         }
 
         private void OpenSettings()
         {
-            _navigationService.NavigateTo("SettingsView");
+
         }
 
         private void OpenAbout()
         {
-            _navigationService.NavigateTo("AboutView");
+
         }
     }
 }
