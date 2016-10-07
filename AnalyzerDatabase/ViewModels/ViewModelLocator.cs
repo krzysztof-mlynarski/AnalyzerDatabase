@@ -14,7 +14,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Navigation;
-using AnalyzerDatabase.ViewModel;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
@@ -31,6 +30,19 @@ namespace AnalyzerDatabase.ViewModels
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
         /// </summary>
+
+        private static ViewModelLocator _instance;
+
+        public static ViewModelLocator Instance
+        {
+            get
+            {
+                if(_instance == null)
+                    _instance = new ViewModelLocator();
+                return _instance;
+            }
+        }
+
         public ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);

@@ -105,6 +105,7 @@
     <Compile Include="Services\InternetConnectionService.cs" />
     <Compile Include="Services\ScopusRestService.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
+    <Compile Include="ViewModels\ExtendedViewModelBase.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SearchDatabaseViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />

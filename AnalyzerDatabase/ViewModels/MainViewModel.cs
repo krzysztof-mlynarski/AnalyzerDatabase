@@ -1,22 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AnalyzerDatabase.ViewModels;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Views;
+﻿using GalaSoft.MvvmLight.Command;
 
-namespace AnalyzerDatabase.ViewModel
+namespace AnalyzerDatabase.ViewModels
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : ExtendedViewModelBase
     {
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
 
-        private ViewModelBase _currentViewModel;
         private RelayCommand _openSearchDatabaseCommand;
         private RelayCommand _openStatisticsCommand;
         private RelayCommand _openSettingsCommand;
@@ -24,24 +15,15 @@ namespace AnalyzerDatabase.ViewModel
 
         public MainViewModel()
         {
-            CurrentViewModel = (new ViewModelLocator()).SearchDatabase;
+            CurrentViewModel = ViewModelLocator.Instance.SearchDatabase;
+            //CurrentViewModel = ViewModelLocator.Instance.Statistics;
+            //CurrentViewModel = ViewModelLocator.Instance.Settings;
+            //CurrentViewModel = ViewModelLocator.Instance.About;
             CurrentViewModel = null;
         }
 
         #region Getters setters
-        public ViewModelBase CurrentViewModel
-        {
-            get
-            {
-                return _currentViewModel;
-            }
 
-            set
-            {
-                _currentViewModel = value;
-                RaisePropertyChanged("CurrentViewModel");
-            }
-        }
         public RelayCommand OpenSearchDatabaseCommand
         {
             get
@@ -78,21 +60,22 @@ namespace AnalyzerDatabase.ViewModel
 
         private void OpenSearchDatabase()
         {
-            CurrentViewModel = (new ViewModelLocator()).SearchDatabase;
+            NavigateTo(ViewModelLocator.Instance.SearchDatabase);
         }
 
         private void OpenStatistics()
         {
+            //NavigateTo(ViewModelLocator.Instance.Statistics);
         }
 
         private void OpenSettings()
         {
-
+            //NavigateTo(ViewModelLocator.Instance.Settings);
         }
 
         private void OpenAbout()
         {
-
+            //NavigateTo(ViewModelLocator.Instance.About);
         }
     }
 }

@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AnalyzerDatabase"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:viewModel="clr-namespace:AnalyzerDatabase.ViewModels"
+        xmlns:view="clr-namespace:AnalyzerDatabase.View"
         mc:Ignorable="d"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"       
         
@@ -21,6 +23,21 @@
             <Button Content="Settings" />
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
+    
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModel:SearchDatabaseViewModel}">
+            <view:SearchDatabaseView/>
+        </DataTemplate>
+        <!--<DataTemplate DataType="{x:Type viewModel:StatisticsViewModel}">
+            <view:StatisticsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:SettingsViewModel}">
+            <view:SettingsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:AboutViewModel}">
+            <view:AboutView/>
+        </DataTemplate>-->
+    </Window.Resources>
     
     <Grid>
         <Grid.ColumnDefinitions>
