@@ -118,24 +118,24 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutMenu" xml:space="preserve">
-    <value>About</value>
+    <value>O programie</value>
   </data>
   <data name="HomeMenu" xml:space="preserve">
-    <value>Home</value>
+    <value>Strona główna</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>Szukaj</value>
   </data>
   <data name="SearchMenu" xml:space="preserve">
-    <value>Search</value>
-  </data>
-  <data name="SelectDatabase" xml:space="preserve">
-    <value>Select the database to search:</value>
+    <value>Szukaj</value>
   </data>
   <data name="SettingsMenu" xml:space="preserve">
-    <value>Settings</value>
+    <value>Ustawienia</value>
   </data>
   <data name="StatisticsMenu" xml:space="preserve">
-    <value>Statistics</value>
+    <value>Statystyki</value>
+  </data>
+  <data name="SelectDatabase" xml:space="preserve">
+    <value>Wybierz bazy danych do przeszukania:</value>
   </data>
 </root>
