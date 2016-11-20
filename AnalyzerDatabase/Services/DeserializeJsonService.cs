@@ -6,6 +6,7 @@ namespace AnalyzerDatabase.Services
 {
     public class DeserializeJsonService : IDeserializeJsonService
     {
+        #region Public methods
         public T GetObjectFromJson<T>(string jsonToDeserialize)
         {
             if (!String.IsNullOrEmpty(jsonToDeserialize))
@@ -25,5 +26,6 @@ namespace AnalyzerDatabase.Services
                 return default(T);
             }
         }
+        #endregion
     }
 }

@@ -1,34 +1,41 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using AnalyzerDatabase.Interfaces;
-using AnalyzerDatabase.Models;
+using AnalyzerDatabase.Models.ScienceDirect;
+using AnalyzerDatabase.Models.Scopus;
+using AnalyzerDatabase.Models.Springer;
 
 namespace AnalyzerDatabase.Services
 {
-    public class ScopusRestService : IScopusRestService
+    public class RestService : IRestService
     {
+        #region Private fields
         private readonly ResourceDictionary _resources = Application.Current.Resources;
         private readonly IDeserializeJsonService _deserializeJsonService;
+        #endregion
 
-        public ScopusRestService(IDeserializeJsonService deserializeJsonService)
+        #region Constructor
+        public RestService(IDeserializeJsonService deserializeJsonService)
         {
             _deserializeJsonService = deserializeJsonService;
         }
-        public async Task<List<SearchQueryModel>> GetSearchQuery(string query, CancellationTokenSource cts = null)
+        #endregion
+
+        #region Public methods
+        public async Task<ScienceDirectSearchQuery> GetSearchQueryScienceDirect(string query, CancellationTokenSource cts = null)
         {
             try
             {
-                string url = String.Format(_resources["SearchQuery"].ToString(), query);
+                string url = String.Format(_resources["SearchQueryScienceDirect"].ToString(), query, _resources["X-ELS-APIKey"]);
+                //string url = "http://www.mocky.io/v2/582ae222280000940c53c360";  // arrayJson
+                //string url = "http://www.mocky.io/v2/582b02f22800007b1053c3aa";
                 string webPageSource = await GetWebPageSource(url, cts);
-
-                return _deserializeJsonService.GetObjectFromJson<List<SearchQueryModel>>(webPageSource);
+                
+                return _deserializeJsonService.GetObjectFromJson<ScienceDirectSearchQuery>(webPageSource);
             }
             catch (TaskCanceledException ex)
             {
@@ -40,6 +47,46 @@ namespace AnalyzerDatabase.Services
             }
         }
 
+        public async Task<ScopusSearchQuery> GetSearchQueryScopus(string query, CancellationTokenSource cts = null)
+        {
+            try
+            {
+                string url = String.Format(_resources["SearchQueryScopus"].ToString(), query, _resources["X-ELS-APIKey"]);
+                string webPageSource = await GetWebPageSource(url, cts);
+
+                return _deserializeJsonService.GetObjectFromJson<ScopusSearchQuery>(webPageSource);
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw ex;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public async Task<SpringerSearchQuery> GetSearchQuerySpringer(string query, CancellationTokenSource cts = null)
+        {
+            try
+            {
+                string url = String.Format(_resources["SearchQuerySpringer"].ToString(), query);
+                string webPageSource = await GetWebPageSource(url, cts);
+
+                return _deserializeJsonService.GetObjectFromJson<SpringerSearchQuery>(webPageSource);
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw ex;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        #endregion
+
+        #region Private methods
         private async Task<string> GetWebPageSource(string url, CancellationTokenSource cts, bool authorize = false)
         {
             using (HttpClient httpClient = new HttpClient())
@@ -71,7 +118,7 @@ namespace AnalyzerDatabase.Services
         private async Task<string> DecodeResponseContent(HttpResponseMessage response)
         {
             string jsonString = "";
-            byte[] byteContent = await response.Content.ReadAsByteArrayAsync();
+            var byteContent = await response.Content.ReadAsByteArrayAsync();
 
             try
             {
@@ -84,5 +131,7 @@ namespace AnalyzerDatabase.Services
             }
             return jsonString;
         }
+
+        #endregion
     }
 }

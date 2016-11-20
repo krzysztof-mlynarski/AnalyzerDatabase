@@ -102,8 +102,32 @@
     <Compile Include="Converters\ViewModelBaseToVisibilityConverter.cs" />
     <Compile Include="Interfaces\IDeserializeJsonService.cs" />
     <Compile Include="Interfaces\IInternetConnectionService.cs" />
-    <Compile Include="Interfaces\IScopusRestService.cs" />
-    <Compile Include="Models\SearchQueryModel.cs" />
+    <Compile Include="Interfaces\IRestService.cs" />
+    <Compile Include="Models\CollectionSearch.cs" />
+    <Compile Include="Models\IeeeXplore\testowa.cs" />
+    <Compile Include="Models\ScienceDirect\Author.cs" />
+    <Compile Include="Models\ScienceDirect\Authors.cs" />
+    <Compile Include="Models\ScienceDirect\EntryScienceDirect.cs" />
+    <Compile Include="Models\ScienceDirect\LinkPaging.cs" />
+    <Compile Include="Models\ScienceDirect\LinkArticle.cs" />
+    <Compile Include="Models\ScienceDirect\OpensearchQuery.cs" />
+    <Compile Include="Models\ScienceDirect\PrismCoverDate.cs" />
+    <Compile Include="Models\ScienceDirect\ScienceDirectSearchQuery.cs" />
+    <Compile Include="Models\ScienceDirect\SearchResults.cs" />
+    <Compile Include="Models\Scopus\Affiliation.cs" />
+    <Compile Include="Models\Scopus\EntryScopus.cs" />
+    <Compile Include="Models\Scopus\LinkArticle.cs" />
+    <Compile Include="Models\Scopus\LinkPaging.cs" />
+    <Compile Include="Models\Scopus\OpensearchQuery.cs" />
+    <Compile Include="Models\Scopus\ScopusSearchQuery.cs" />
+    <Compile Include="Models\Scopus\SearchResults.cs" />
+    <Compile Include="Models\Springer\Creator.cs" />
+    <Compile Include="Models\Springer\Facet.cs" />
+    <Compile Include="Models\Springer\Record.cs" />
+    <Compile Include="Models\Springer\Result.cs" />
+    <Compile Include="Models\Springer\SpringerSearchQuery.cs" />
+    <Compile Include="Models\Springer\Url.cs" />
+    <Compile Include="Models\Springer\Value.cs" />
     <Compile Include="Properties\Resources.pl-PL.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -111,14 +135,18 @@
     </Compile>
     <Compile Include="Services\DeserializeJsonService.cs" />
     <Compile Include="Services\InternetConnectionService.cs" />
-    <Compile Include="Services\ScopusRestService.cs" />
+    <Compile Include="Services\RestService.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\ExtendedViewModelBase.cs" />
+    <Compile Include="ViewModels\FullDataGridViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SearchDatabaseViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="View\FullDataGridView.xaml.cs">
+      <DependentUpon>FullDataGridView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SearchDatabaseView.xaml.cs">
       <DependentUpon>SearchDatabaseView.xaml</DependentUpon>
     </Compile>
@@ -129,6 +157,10 @@
     <Page Include="Simple Styles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\FullDataGridView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
