@@ -103,7 +103,6 @@
     <Compile Include="Interfaces\IDeserializeJsonService.cs" />
     <Compile Include="Interfaces\IInternetConnectionService.cs" />
     <Compile Include="Interfaces\IRestService.cs" />
-    <Compile Include="Models\CollectionSearch.cs" />
     <Compile Include="Models\IeeeXplore\testowa.cs" />
     <Compile Include="Models\ScienceDirect\Author.cs" />
     <Compile Include="Models\ScienceDirect\Authors.cs" />
