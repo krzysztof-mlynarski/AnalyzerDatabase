@@ -1,10 +1,10 @@
-﻿<Controls:MetroWindow x:Class="AnalyzerDatabase.MainWindow"
+﻿<controls:MetroWindow x:Class="AnalyzerDatabase.View.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AnalyzerDatabase"
-        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:local="clr-namespace:AnalyzerDatabase.View"
+        xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:viewModel="clr-namespace:AnalyzerDatabase.ViewModels"
         xmlns:view="clr-namespace:AnalyzerDatabase.View"
         xmlns:converters="clr-namespace:AnalyzerDatabase.Converters"
@@ -20,11 +20,11 @@
         WindowStartupLocation="CenterScreen"              
         Title="Analyzer Database" Height="875" Width="1024">
 
-    <Controls:MetroWindow.RightWindowCommands>
-        <Controls:WindowCommands>
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
             <Button Content="Settings" />
-        </Controls:WindowCommands>
-    </Controls:MetroWindow.RightWindowCommands>
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
 
     <Window.Resources>
         <converters:ViewModelBaseToVisibilityConverter x:Key="ViewModelBaseToVisibilityConverter"/>
@@ -165,4 +165,5 @@
         </StackPanel>
 
     </Grid>
-</Controls:MetroWindow>
+</controls:MetroWindow>
+

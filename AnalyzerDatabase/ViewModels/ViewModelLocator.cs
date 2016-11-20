@@ -1,23 +1,15 @@
-﻿/*
- In App.xaml:
- <Application.Resources>
-     <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:RepositoryParser.ViewModel" />
- </Application.Resources>
-
- In the View:
- DataContext="{Binding Source={StaticResource Locator}, Path=ViewModelName}"
-*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Navigation;
-using AnalyzerDatabase.View;
+using AnalyzerDatabase.Interfaces;
+using AnalyzerDatabase.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
+using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Practices.ServiceLocation;
 
 namespace AnalyzerDatabase.ViewModels
@@ -38,7 +30,7 @@ namespace AnalyzerDatabase.ViewModels
         {
             get
             {
-                if(_instance == null)
+                if (_instance == null)
                     _instance = new ViewModelLocator();
                 return _instance;
             }
@@ -48,11 +40,38 @@ namespace AnalyzerDatabase.ViewModels
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
+            SimpleIoc.Default.Register<IDialogCoordinator, DialogCoordinator>();
+
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<SearchDatabaseViewModel>();
             SimpleIoc.Default.Register<StatisticsViewModel>();
             SimpleIoc.Default.Register<SettingsViewModel>();
             SimpleIoc.Default.Register<AboutViewModel>();
+
+            SimpleIoc.Default.Register<FullDataGridViewModel>();
+
+            // if (ViewModelBase.IsInDesignModeStatic)
+            // {
+            //      SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
+            // }
+            // else
+            // {
+            //      SimpleIoc.Default.Register<IDataService, DataService>();
+            // }
+
+            if (ViewModelBase.IsInDesignModeStatic)
+            {
+                SimpleIoc.Default.Register<IDeserializeJsonService, DeserializeJsonService>();
+                SimpleIoc.Default.Register<IInternetConnectionService, InternetConnectionService>();
+                SimpleIoc.Default.Register<IRestService, RestService>();
+
+            }
+            else
+            {
+                SimpleIoc.Default.Register<IDeserializeJsonService, DeserializeJsonService>();
+                SimpleIoc.Default.Register<IInternetConnectionService, InternetConnectionService>();
+                SimpleIoc.Default.Register<IRestService, RestService>();
+            }
         }
 
         public MainViewModel Main
@@ -92,6 +111,14 @@ namespace AnalyzerDatabase.ViewModels
             get
             {
                 return ServiceLocator.Current.GetInstance<AboutViewModel>();
+            }
+        }
+
+        public FullDataGridViewModel FullDataGrid
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<FullDataGridViewModel>();               
             }
         }
 

@@ -3,12 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:AnalyzerDatabase.View"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:converters="clr-namespace:AnalyzerDatabase.Converters"
              xmlns:viewModel="clr-namespace:AnalyzerDatabase.ViewModels"
              xmlns:view="clr-namespace:AnalyzerDatabase.View"
              xmlns:analyzerDatabase="clr-namespace:AnalyzerDatabase"
+             xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             dialog:DialogParticipation.Register="{Binding}"
              xmlns:res="clr-namespace:AnalyzerDatabase.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="800"
@@ -27,6 +28,11 @@
         <DataTemplate DataType="{x:Type viewModel:AboutViewModel}">
             <view:AboutView/>
         </DataTemplate>-->
+        <!--<DataTemplate DataType="{x:Type viewModel:FullDataGridViewModel}">
+            <Window>
+                <view:FullDataGridView/>
+            </Window>
+        </DataTemplate>-->
     </UserControl.Resources>
 
     <Grid>
@@ -42,41 +48,63 @@
 
         <Grid Margin="0,50,0,10" Grid.RowSpan="2">
             <TextBox x:Name="QueryTextBox"
-                         Background="WhiteSmoke"
-                         BorderThickness="2"
-                         FontSize="18" 
-                         Margin="10,0" 
-                         controls:TextBoxHelper.Watermark="Search in database..."
-                         Opacity="0.85" 
-                         Width="780" Height="40" 
-                         HorizontalAlignment="Center"
-                         controls:TextBoxHelper.ClearTextButton="True"/>
-            <Button HorizontalAlignment="Center" Content="{x:Static res:Resources.Search}" Margin="355,90,340,0" Height="35" Width="100" FontSize="18"/>
+                        Background="WhiteSmoke"
+                        BorderThickness="2"
+                        FontSize="18" 
+                        Margin="10,0"
+                        Text="{Binding QueryTextBox}"
+                        controls:TextBoxHelper.Watermark="{x:Static res:Resources.QueryText}"
+                        Opacity="0.85" 
+                        Width="780" Height="40" 
+                        HorizontalAlignment="Center"
+                        controls:TextBoxHelper.ClearTextButton="True"/>
+            <Button x:Name="SearchBtn" HorizontalAlignment="Center" 
+                    Content="{x:Static res:Resources.Search}" 
+                    Margin="355,90,340,0" Height="35" Width="100" 
+                    FontSize="18"
+                    Command="{Binding SearchCommand}"/>
         </Grid>
         <Grid Grid.Row="2" Grid.RowSpan="2">
             <TextBlock Margin="60,-13,505,273" Text="{x:Static res:Resources.SelectDatabase}"/>
-            <CheckBox x:Name="checkBoxScopus" Content="Scopus" HorizontalAlignment="Left" Margin="80,0,0,0" VerticalAlignment="Top" Height="63" Width="160"/>
-            <CheckBox x:Name="checkBoxSpringer" Content="Springer" HorizontalAlignment="Left" Margin="80,43,0,0" VerticalAlignment="Top" Height="63" Width="160"/>
-            <CheckBox x:Name="checkBoxWiley" Content="Wiley Online Library" HorizontalAlignment="Left" Margin="330,0,0,0" Width="160" Height="63" VerticalAlignment="Top"/>
-            <CheckBox x:Name="checkBoxScienceDirect" Content="Science Direct" HorizontalAlignment="Left" Margin="330,43,0,0" Width="160" Height="63" VerticalAlignment="Top"/>
-            <CheckBox x:Name="checkBoxWebOfScience" Content="Web Of Science" HorizontalAlignment="Left" Margin="590,0,0,0" Width="160" Height="63"  VerticalAlignment="Top"/>
-            <CheckBox x:Name="checkBoxIEEEXplore" Content="IEEE Xplore" HorizontalAlignment="Left" Margin="590,43,0,0" Width="160" Height="63" VerticalAlignment="Top"/>
+            <CheckBox x:Name="CheckBoxScopus" Content="Scopus" IsChecked="{Binding CheckBoxScopus}" HorizontalAlignment="Left" Margin="80,0,0,0" VerticalAlignment="Top" Height="63" Width="160"/>
+            <CheckBox x:Name="CheckBoxSpringer" Content="Springer" IsChecked="{Binding CheckBoxSpringer}" HorizontalAlignment="Left" Margin="80,43,0,0" VerticalAlignment="Top" Height="63" Width="160"/>
+            <CheckBox x:Name="CheckBoxWiley" Content="Wiley Online Library" IsChecked="{Binding CheckBoxWiley}" HorizontalAlignment="Left" Margin="330,0,0,0" Width="160" Height="63" VerticalAlignment="Top"/>
+            <CheckBox x:Name="CheckBoxScienceDirect" Content="Science Direct" IsChecked="{Binding CheckBoxScienceDirect}" HorizontalAlignment="Left" Margin="330,43,0,0" Width="160" Height="63" VerticalAlignment="Top"/>
+            <CheckBox x:Name="CheckBoxWebOfScience" Content="Web Of Science" IsChecked="{Binding CheckBoxWebOfScience}" HorizontalAlignment="Left" Margin="590,0,0,0" Width="160" Height="63"  VerticalAlignment="Top"/>
+            <CheckBox x:Name="CheckBoxIeeeXplore" Content="IEEE Xplore" IsChecked="{Binding CheckBoxIeeeXplore}" HorizontalAlignment="Left" Margin="590,43,0,0" Width="160" Height="63" VerticalAlignment="Top"/>
         </Grid>
 
         <!--WYSWIETLANIE WYNIKOW WYSZUKIWANIA-->
         <Grid Grid.Row="3">
-            <DataGrid x:Name="dataGrid" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" Height="125" Width="750">
+            <DataGrid x:Name="DataGrid" 
+                      ItemsSource="{Binding Path=ScienceDirectSearchCollection.SearchResults.Entry}"
+                      AutoGenerateColumns="False" 
+                      HorizontalAlignment="Center" 
+                      Margin="0,20,0,0" 
+                      VerticalAlignment="Top" 
+                      Height="250" 
+                      Width="750"
+                      Style="{StaticResource AzureDataGrid}">
+                
                 <DataGrid.Columns>
                     <DataGridCheckBoxColumn ElementStyle="{DynamicResource MetroDataGridCheckBox}"
                                         EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
-                                        Header="Selected"
+                                        Header="{x:Static res:Resources.Selected}"
                                         Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=IsSelected, Mode=OneWay}"/>
-                    <DataGridTextColumn Header="Nazwa"
-                                    Binding="{Binding Nazwa.Name}" />
+                    <DataGridTextColumn Header="{x:Static res:Resources.AuthorDataGrid}" Binding="{Binding DcCreator}" />
+                    <DataGridTextColumn Header="{x:Static res:Resources.TitleDataGrid}" Binding="{Binding DcTitle}" />
+                    <DataGridTextColumn Header="{x:Static res:Resources.VolumeDataGrid}" Binding="{Binding PrismVolume}" />
+                    <DataGridTextColumn Header="{x:Static res:Resources.IssueDataGrid}" Binding="{Binding PrismIssueIdentifier}" />
+                    <DataGridTextColumn Header="{x:Static res:Resources.DoiDataGrid}" Binding="{Binding PrismDoi}" />
+                    <DataGridTextColumn Header="{x:Static res:Resources.Source}" Binding="{Binding Source}"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <ProgressBar HorizontalAlignment="Center" Margin="38,160,40,20" VerticalAlignment="Bottom" Width="750"/>
-            <controls:MetroProgressBar/>
+
+            <controls:ProgressRing IsActive="{Binding IsDataLoading}" />
+            <Label x:Name="LabelTime" Margin="60, 270, 505, 5" Content="ilosc wynikow i czas"/>
+            <!--Content="{Binding ExecutionTime}"-->
+            <Button x:Name="FullScreenDataGrid" Content="Data" Command="{Binding OpenFullScreenDataGrid}" HorizontalAlignment="Right" Margin="0,20.16,0,0" VerticalAlignment="Top" Width="20" Background="Red"/>
+            
         </Grid>
     </Grid>
 
