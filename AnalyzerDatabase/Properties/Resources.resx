@@ -120,8 +120,20 @@
   <data name="AboutMenu" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="AuthorDataGrid" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="DoiDataGrid" xml:space="preserve">
+    <value>DOI</value>
+  </data>
   <data name="HomeMenu" xml:space="preserve">
     <value>Home</value>
+  </data>
+  <data name="IssueDataGrid" xml:space="preserve">
+    <value>Issue</value>
+  </data>
+  <data name="QueryText" xml:space="preserve">
+    <value>Search in database...</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
@@ -132,10 +144,22 @@
   <data name="SelectDatabase" xml:space="preserve">
     <value>Select the database to search:</value>
   </data>
+  <data name="Selected" xml:space="preserve">
+    <value>Selected</value>
+  </data>
   <data name="SettingsMenu" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="Source" xml:space="preserve">
+    <value>Source</value>
+  </data>
   <data name="StatisticsMenu" xml:space="preserve">
     <value>Statistics</value>
+  </data>
+  <data name="TitleDataGrid" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="VolumeDataGrid" xml:space="preserve">
+    <value>Volume</value>
   </data>
 </root>

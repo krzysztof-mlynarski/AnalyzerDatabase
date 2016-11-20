@@ -138,4 +138,28 @@
   <data name="SelectDatabase" xml:space="preserve">
     <value>Wybierz bazy danych do przeszukania:</value>
   </data>
+  <data name="QueryText" xml:space="preserve">
+    <value>Wyszukaj w bazach...</value>
+  </data>
+  <data name="Selected" xml:space="preserve">
+    <value>Wybrany</value>
+  </data>
+  <data name="AuthorDataGrid" xml:space="preserve">
+    <value>Autor</value>
+  </data>
+  <data name="DoiDataGrid" xml:space="preserve">
+    <value>DOI</value>
+  </data>
+  <data name="IssueDataGrid" xml:space="preserve">
+    <value>Issue?</value>
+  </data>
+  <data name="TitleDataGrid" xml:space="preserve">
+    <value>Tytuł</value>
+  </data>
+  <data name="VolumeDataGrid" xml:space="preserve">
+    <value>Volume?</value>
+  </data>
+  <data name="Source" xml:space="preserve">
+    <value>Źródło</value>
+  </data>
 </root>
