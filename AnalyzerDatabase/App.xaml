@@ -10,6 +10,8 @@
         <ResourceDictionary>
             <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:AnalyzerDatabase.ViewModels" />
             <ResourceDictionary.MergedDictionaries>
+                <!-- ConfigResources for REST API -->
+                <ResourceDictionary Source="Resources/ConfigResources.xaml" />
                 <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
@@ -17,6 +19,7 @@
                 <!-- Accent and AppTheme setting -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Green.xaml" /><!-- Blue.xaml !-->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+                <ResourceDictionary Source="Simple Styles.xaml"/>
                 <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />-->
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>     

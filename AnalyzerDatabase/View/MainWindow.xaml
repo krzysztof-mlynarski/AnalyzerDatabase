@@ -1,10 +1,14 @@
-﻿<Controls:MetroWindow x:Class="AnalyzerDatabase.MainWindow"
+﻿<controls:MetroWindow x:Class="AnalyzerDatabase.View.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AnalyzerDatabase"
-        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:local="clr-namespace:AnalyzerDatabase.View"
+        xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:viewModel="clr-namespace:AnalyzerDatabase.ViewModels"
+        xmlns:view="clr-namespace:AnalyzerDatabase.View"
+        xmlns:converters="clr-namespace:AnalyzerDatabase.Converters"
+        xmlns:res="clr-namespace:AnalyzerDatabase.Properties"
         mc:Ignorable="d"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"       
         
@@ -15,13 +19,30 @@
         WindowTransitionsEnabled="False"
         WindowStartupLocation="CenterScreen"              
         Title="Analyzer Database" Height="875" Width="1024">
-    
-    <Controls:MetroWindow.RightWindowCommands>
-        <Controls:WindowCommands>
+
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
             <Button Content="Settings" />
-        </Controls:WindowCommands>
-    </Controls:MetroWindow.RightWindowCommands>
-    
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
+
+    <Window.Resources>
+        <converters:ViewModelBaseToVisibilityConverter x:Key="ViewModelBaseToVisibilityConverter"/>
+
+        <DataTemplate DataType="{x:Type viewModel:SearchDatabaseViewModel}">
+            <view:SearchDatabaseView/>
+        </DataTemplate>
+        <!--<DataTemplate DataType="{x:Type viewModel:StatisticsViewModel}">
+            <view:StatisticsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:SettingsViewModel}">
+            <view:SettingsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:AboutViewModel}">
+            <view:AboutView/>
+        </DataTemplate>-->
+    </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="160"/>
@@ -31,6 +52,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <!--MENU-->
         <StackPanel Grid.Column="0" Grid.Row="1" Margin="0,25,0,0">
             <Button x:Name="HomeBtn"  
                     Background="#cccccc" 
@@ -44,11 +66,11 @@
                            Margin="0,10,10,10"/>
                     <TextBlock HorizontalAlignment="Center" 
                                FontSize="17" 
-                               Text="Home" 
+                               Text="{x:Static res:Resources.HomeMenu}" 
                                Margin="0,0,10,0"/>
                 </StackPanel>
             </Button>
-            
+
             <Button x:Name="SearchBtn" 
                     Background="#cccccc" 
                     Margin="5,2,0,2" 
@@ -62,11 +84,11 @@
                            Margin="0,10,10,10"/>
                     <TextBlock HorizontalAlignment="Center" 
                                FontSize="17" 
-                               Text="Search" 
+                               Text="{x:Static res:Resources.SearchMenu}"  
                                Margin="0,0,10,0"/>
                 </StackPanel>
             </Button>
-            
+
             <Button x:Name="StatisticsBtn" 
                     Background="#cccccc" 
                     Margin="5,2,0,2"
@@ -80,11 +102,11 @@
                            Margin="0,10,10,10"/>
                     <TextBlock HorizontalAlignment="Center" 
                                FontSize="17" 
-                               Text="Statistics" 
+                               Text="{x:Static res:Resources.StatisticsMenu}"  
                                Margin="0,0,10,0"/>
                 </StackPanel>
             </Button>
-            
+
             <Button x:Name="SettingsBtn" 
                     Background="#cccccc" 
                     Margin="5,2,0,2"
@@ -98,11 +120,11 @@
                            Margin="0,10,10,10"/>
                     <TextBlock HorizontalAlignment="Center" 
                                FontSize="17" 
-                               Text="Settings" 
+                               Text="{x:Static res:Resources.SettingsMenu}"  
                                Margin="0,0,10,0"/>
                 </StackPanel>
             </Button>
-            
+
             <Button x:Name="AboutBtn" 
                     Background="#cccccc" 
                     Margin="5,2,0,2"
@@ -116,56 +138,32 @@
                            Margin="0,10,10,10"/>
                     <TextBlock HorizontalAlignment="Center" 
                                FontSize="17" 
-                               Text="About" 
+                               Text="{x:Static res:Resources.AboutMenu}"  
                                Margin="0,0,10,0"/>
                 </StackPanel>
             </Button>
         </StackPanel>
 
-        <ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding CurrentViewModel}"/>
-        
+        <ContentControl Grid.Row="0" Grid.Column="1" Content="{Binding CurrentViewModel}"/>
+
         <StackPanel Grid.Column="1">
             <Grid Margin="0,100,0,5">
                 <TextBlock HorizontalAlignment="Center">
                     <Image Source="../Assets/Logo/AnalyzerDatabaseLogo.png" 
-                           Width="500"/>
+                           Width="500"
+                           Visibility="{Binding CurrentViewModel, Converter={StaticResource ViewModelBaseToVisibilityConverter}}"/>
                 </TextBlock>
             </Grid>
-            
-            <Grid Margin="0,100,0,5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="5"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="5"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Margin="25,20,0,0" Grid.Column="0">
-                    <Image Source="../Assets/Library Icons/Scopus.png" 
-                           Width="250"/>
+
+            <!--LOGA BAZ-->
+            <StackPanel>
+                <TextBlock HorizontalAlignment="Center">
+                        <Image Source="../Assets/Library Icons/Library1.png"                              
+                               Visibility="{Binding CurrentViewModel, Converter={StaticResource ViewModelBaseToVisibilityConverter}}"/>
                 </TextBlock>
-                <TextBlock Margin="25,150,0,0" Grid.Column="4">
-                    <Image Source="../Assets/Library Icons/Springer.png" 
-                           Width="250"/>
-                </TextBlock>
-                <TextBlock Margin="25,70,0,0" Grid.Column="2">
-                    <Image Source="../Assets/Library Icons/IEEE Xplore.png" 
-                           Width="250"/>
-                </TextBlock>
-                <TextBlock Margin="25,30,0,0" Grid.Column="2">
-                    <Image Source="../Assets/Library Icons/ScienceDirect.png" 
-                           Width="250"/>
-                </TextBlock>
-                <TextBlock Margin="0,0,0,0" Grid.Column="4">
-                    <Image Source="../Assets/Library Icons/Web of Science.png" 
-                           Width="300"/>
-                </TextBlock>
-                <TextBlock Margin="25,130,0,0" Grid.Column="0">
-                    <Image Source="../Assets/Library Icons/Wiley Online Library.png" 
-                           Width="250"/>
-                </TextBlock>
-            </Grid>
+            </StackPanel>
         </StackPanel>
 
     </Grid>
-</Controls:MetroWindow>
+</controls:MetroWindow>
+

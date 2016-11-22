@@ -3,91 +3,110 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:AnalyzerDatabase.View"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:converters="clr-namespace:AnalyzerDatabase.Converters"
+             xmlns:viewModel="clr-namespace:AnalyzerDatabase.ViewModels"
+             xmlns:view="clr-namespace:AnalyzerDatabase.View"
+             xmlns:analyzerDatabase="clr-namespace:AnalyzerDatabase"
+             xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             dialog:DialogParticipation.Register="{Binding}"
+             xmlns:res="clr-namespace:AnalyzerDatabase.Properties"
              mc:Ignorable="d" 
-             d:DesignHeight="875" d:DesignWidth="1024"
+             d:DesignHeight="500" d:DesignWidth="800"
              DataContext="{Binding Source={StaticResource Locator}, Path=SearchDatabase}">
+
+    <UserControl.Resources>
+        <!--<DataTemplate DataType="{x:Type viewModel:MainViewModel}">
+            <analyzerDatabase:MainWindow/>
+        </DataTemplate>-->
+        <!--<DataTemplate DataType="{x:Type viewModel:StatisticsViewModel}">
+            <view:StatisticsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:SettingsViewModel}">
+            <view:SettingsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:AboutViewModel}">
+            <view:AboutView/>
+        </DataTemplate>-->
+        <!--<DataTemplate DataType="{x:Type viewModel:FullDataGridViewModel}">
+            <Window>
+                <view:FullDataGridView/>
+            </Window>
+        </DataTemplate>-->
+    </UserControl.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="160"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="9*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Column="0" Grid.Row="1" Margin="0,25,0,0">
-            <Button x:Name="HomeBtn"  Background="#cccccc" Margin="5,2,0,2">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="{Binding ElementName=HomeBtn, Path=ActualWidth}" >
-                    <Image Source="../Assets/Menu Icons/Home.png" Width="100" Margin="0,10,10,10"/>
-                    <TextBlock HorizontalAlignment="Center" FontSize="17" Text="Home" Margin="0,0,10,0"/>
-                </StackPanel>
-            </Button>
+        <Grid Margin="0,50,0,10" Grid.RowSpan="2">
+            <TextBox x:Name="QueryTextBox"
+                        Background="WhiteSmoke"
+                        BorderThickness="2"
+                        FontSize="18" 
+                        Margin="10,0"
+                        Text="{Binding QueryTextBox}"
+                        controls:TextBoxHelper.Watermark="{x:Static res:Resources.QueryText}"
+                        Opacity="0.85" 
+                        Width="780" Height="40" 
+                        HorizontalAlignment="Center"
+                        controls:TextBoxHelper.ClearTextButton="True"/>
+            <Button x:Name="SearchBtn" HorizontalAlignment="Center" 
+                    Content="{x:Static res:Resources.Search}" 
+                    Margin="355,90,340,0" Height="35" Width="100" 
+                    FontSize="18"
+                    Command="{Binding SearchCommand}"/>
+        </Grid>
+        <Grid Grid.Row="2" Grid.RowSpan="2">
+            <TextBlock Margin="60,-13,505,273" Text="{x:Static res:Resources.SelectDatabase}"/>
+            <CheckBox x:Name="CheckBoxScopus" Content="Scopus" IsChecked="{Binding CheckBoxScopus}" HorizontalAlignment="Left" Margin="80,0,0,0" VerticalAlignment="Top" Height="63" Width="160"/>
+            <CheckBox x:Name="CheckBoxSpringer" Content="Springer" IsChecked="{Binding CheckBoxSpringer}" HorizontalAlignment="Left" Margin="80,43,0,0" VerticalAlignment="Top" Height="63" Width="160"/>
+            <CheckBox x:Name="CheckBoxWiley" Content="Wiley Online Library" IsChecked="{Binding CheckBoxWiley}" HorizontalAlignment="Left" Margin="330,0,0,0" Width="160" Height="63" VerticalAlignment="Top"/>
+            <CheckBox x:Name="CheckBoxScienceDirect" Content="Science Direct" IsChecked="{Binding CheckBoxScienceDirect}" HorizontalAlignment="Left" Margin="330,43,0,0" Width="160" Height="63" VerticalAlignment="Top"/>
+            <CheckBox x:Name="CheckBoxWebOfScience" Content="Web Of Science" IsChecked="{Binding CheckBoxWebOfScience}" HorizontalAlignment="Left" Margin="590,0,0,0" Width="160" Height="63"  VerticalAlignment="Top"/>
+            <CheckBox x:Name="CheckBoxIeeeXplore" Content="IEEE Xplore" IsChecked="{Binding CheckBoxIeeeXplore}" HorizontalAlignment="Left" Margin="590,43,0,0" Width="160" Height="63" VerticalAlignment="Top"/>
+        </Grid>
 
-            <Button x:Name="StatisticsBtn" Background="#cccccc" Margin="5,2,0,2">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="{Binding ElementName=StatisticsBtn, Path=ActualWidth}" >
-                    <Image Source="../Assets/Menu Icons/Statistics.png" Width="100" Margin="0,10,10,10"/>
-                    <TextBlock HorizontalAlignment="Center" FontSize="17" Text="Statistics" Margin="0,0,10,0"/>
-                </StackPanel>
-            </Button>
-            <Button x:Name="SettingsBtn" Background="#cccccc" Margin="5,2,0,2">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="{Binding ElementName=SettingsBtn, Path=ActualWidth}" >
-                    <Image Source="../Assets/Menu Icons/Settings.png" Width="100" Margin="0,10,10,10"/>
-                    <TextBlock HorizontalAlignment="Center" FontSize="17" Text="Settings" Margin="0,0,10,0"/>
-                </StackPanel>
-            </Button>
-            <Button x:Name="AboutBtn" Background="#cccccc" Margin="5,2,0,2">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="{Binding ElementName=AboutBtn, Path=ActualWidth}" >
-                    <Image Source="../Assets/Menu Icons/About.png" Width="100" Margin="0,10,10,10"/>
-                    <TextBlock HorizontalAlignment="Center" FontSize="17" Text="About" Margin="0,0,10,0"/>
-                </StackPanel>
-            </Button>
-        </StackPanel>
+        <!--WYSWIETLANIE WYNIKOW WYSZUKIWANIA-->
+        <Grid Grid.Row="3">
+            <DataGrid x:Name="DataGrid" 
+                      ItemsSource="{Binding Path=ScienceDirectSearchCollection.SearchResults.Entry}"
+                      AutoGenerateColumns="False" 
+                      HorizontalAlignment="Center" 
+                      Margin="0,20,0,0" 
+                      VerticalAlignment="Top" 
+                      Height="250" 
+                      Width="750"
+                      Style="{StaticResource AzureDataGrid}">
+                
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn ElementStyle="{DynamicResource MetroDataGridCheckBox}"
+                                        EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
+                                        Header="{x:Static res:Resources.Selected}"
+                                        Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=IsSelected, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="{x:Static res:Resources.AuthorDataGrid}" Binding="{Binding DcCreator}" />
+                    <DataGridTextColumn Header="{x:Static res:Resources.TitleDataGrid}" Binding="{Binding DcTitle}" />
+                    <DataGridTextColumn Header="{x:Static res:Resources.VolumeDataGrid}" Binding="{Binding PrismVolume}" />
+                    <DataGridTextColumn Header="{x:Static res:Resources.IssueDataGrid}" Binding="{Binding PrismIssueIdentifier}" />
+                    <DataGridTextColumn Header="{x:Static res:Resources.DoiDataGrid}" Binding="{Binding PrismDoi}" />
+                    <DataGridTextColumn Header="{x:Static res:Resources.Source}" Binding="{Binding Source}"/>
+                </DataGrid.Columns>
+            </DataGrid>
 
-        <ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding CurrentViewModel}"/>
-
-        <StackPanel Grid.Column="1">
-            <Grid Margin="0,100,0,5">
-                <TextBlock x:Name="QueryTextBox" HorizontalAlignment="Center"
-                     FontSize="16" 
-                     Margin="5,15" 
-                     Text="{Binding QueryTextBox}" 
-                     Opacity="0.95">
-                </TextBlock>
-            </Grid>
-
-            <Grid Margin="0,100,0,5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="5"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="5"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Margin="25,20,0,0" Grid.Column="0"><InlineUIContainer>
-                        <Image Source="../Assets/Library Icons/Scopus.png" Width="250"/>
-                    </InlineUIContainer><InlineUIContainer>
-                        <CheckBox x:Name="checkBox" Content="CheckBox"/>
-                    </InlineUIContainer></TextBlock>
-                <TextBlock Margin="25,150,0,0" Grid.Column="4">
-                    <Image Source="../Assets/Library Icons/Springer.png" Width="250"/>
-                </TextBlock>
-                <TextBlock Margin="25,70,0,0" Grid.Column="2">
-                    <Image Source="../Assets/Library Icons/IEEE Xplore.png" Width="250"/>
-                </TextBlock>
-                <TextBlock Margin="25,30,0,0" Grid.Column="2">
-                    <Image Source="../Assets/Library Icons/ScienceDirect.png" Width="250"/>
-                </TextBlock>
-                <TextBlock Margin="0,0,0,0" Grid.Column="4">
-                    <Image Source="../Assets/Library Icons/Web of Science.png" Width="300"/>
-                </TextBlock>
-                <TextBlock Margin="25,130,0,0" Grid.Column="0">
-                    <Image Source="../Assets/Library Icons/Wiley Online Library.png" Width="250"/>
-                </TextBlock>
-            </Grid>
-        </StackPanel>
-
+            <controls:ProgressRing IsActive="{Binding IsDataLoading}" />
+            <Label x:Name="LabelTime" Margin="60, 270, 505, 5" Content="ilosc wynikow i czas"/>
+            <!--Content="{Binding ExecutionTime}"-->
+            <Button x:Name="FullScreenDataGrid" Content="Data" Command="{Binding OpenFullScreenDataGrid}" HorizontalAlignment="Right" Margin="0,20.16,0,0" VerticalAlignment="Top" Width="20" Background="Red"/>
+            
+        </Grid>
     </Grid>
+
 </UserControl>
 

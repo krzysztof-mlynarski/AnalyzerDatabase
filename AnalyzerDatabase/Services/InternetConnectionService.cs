@@ -1,37 +1,34 @@
-﻿using System.Net.NetworkInformation;
-using System.Threading.Tasks;
+﻿using System;
+using System.Runtime.InteropServices;
 using AnalyzerDatabase.Interfaces;
 
 namespace AnalyzerDatabase.Services
 {
+
     public class InternetConnectionService : IInternetConnectionService
     {
-        //public bool CheckConnection()
-        //{
-        //    ConnectionProfile internetConnectionProfile = NetworkInformation.GetInternetConnectionProfile();
-
-        //    if (internetConnectionProfile == null)
-        //    {
-        //        return false;
-        //    }
-
-        //    return true;
-        //}
-
-        public async Task<bool> IsNetworkAvailable()
+        #region Public methods
+        [DllImport("wininet.dll")]
+        private static extern bool InternetGetConnectedState(out int description, int reservedValue);
+        public bool CheckConnectedToInternet()
         {
-            if (!(await Task.Run(() => NetworkInterface.GetIsNetworkAvailable())))
-                return false;
-            else
-                return true;
+            bool isConnected = false;
+            try
+            {
+                int desc;
+                isConnected = InternetGetConnectedState(out desc, 0);
+            }
+            catch (Exception)
+            {
+                isConnected = false;
+            }
+            return isConnected;
         }
 
-        //public bool IsInternetAccess()
-        //{
-        //    if (!(NetworkInformation.GetInternetConnectionProfile().GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess))
-        //        return false;
-        //    else
-        //        return true;
-        //}
+        public bool CheckConnectedToInternetVpn()
+        {
+            throw new System.NotImplementedException();
+        }
+        #endregion
     }
 }

@@ -65,6 +65,8 @@
       <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Expression.Prototyping.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
@@ -97,23 +99,65 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\ViewModelBaseToVisibilityConverter.cs" />
     <Compile Include="Interfaces\IDeserializeJsonService.cs" />
     <Compile Include="Interfaces\IInternetConnectionService.cs" />
-    <Compile Include="Interfaces\IScopusRestService.cs" />
-    <Compile Include="Models\SearchQueryModel.cs" />
+    <Compile Include="Interfaces\IRestService.cs" />
+    <Compile Include="Models\IeeeXplore\testowa.cs" />
+    <Compile Include="Models\ScienceDirect\Author.cs" />
+    <Compile Include="Models\ScienceDirect\Authors.cs" />
+    <Compile Include="Models\ScienceDirect\EntryScienceDirect.cs" />
+    <Compile Include="Models\ScienceDirect\LinkPaging.cs" />
+    <Compile Include="Models\ScienceDirect\LinkArticle.cs" />
+    <Compile Include="Models\ScienceDirect\OpensearchQuery.cs" />
+    <Compile Include="Models\ScienceDirect\PrismCoverDate.cs" />
+    <Compile Include="Models\ScienceDirect\ScienceDirectSearchQuery.cs" />
+    <Compile Include="Models\ScienceDirect\SearchResults.cs" />
+    <Compile Include="Models\Scopus\Affiliation.cs" />
+    <Compile Include="Models\Scopus\EntryScopus.cs" />
+    <Compile Include="Models\Scopus\LinkArticle.cs" />
+    <Compile Include="Models\Scopus\LinkPaging.cs" />
+    <Compile Include="Models\Scopus\OpensearchQuery.cs" />
+    <Compile Include="Models\Scopus\ScopusSearchQuery.cs" />
+    <Compile Include="Models\Scopus\SearchResults.cs" />
+    <Compile Include="Models\Springer\Creator.cs" />
+    <Compile Include="Models\Springer\Facet.cs" />
+    <Compile Include="Models\Springer\Record.cs" />
+    <Compile Include="Models\Springer\Result.cs" />
+    <Compile Include="Models\Springer\SpringerSearchQuery.cs" />
+    <Compile Include="Models\Springer\Url.cs" />
+    <Compile Include="Models\Springer\Value.cs" />
+    <Compile Include="Properties\Resources.pl-PL.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.pl-PL.resx</DependentUpon>
+    </Compile>
     <Compile Include="Services\DeserializeJsonService.cs" />
     <Compile Include="Services\InternetConnectionService.cs" />
-    <Compile Include="Services\ScopusRestService.cs" />
+    <Compile Include="Services\RestService.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
+    <Compile Include="ViewModels\ExtendedViewModelBase.cs" />
+    <Compile Include="ViewModels\FullDataGridViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SearchDatabaseViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="View\FullDataGridView.xaml.cs">
+      <DependentUpon>FullDataGridView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SearchDatabaseView.xaml.cs">
       <DependentUpon>SearchDatabaseView.xaml</DependentUpon>
     </Compile>
     <Page Include="Resources\ConfigResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Simple Styles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\FullDataGridView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -148,8 +192,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Properties\Resources.pl-PL.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.pl-PL.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
@@ -163,7 +211,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Converters\" />
     <Folder Include="Messages\" />
     <Folder Include="Resources\Themes\" />
   </ItemGroup>
@@ -198,6 +245,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Logo\AnalyzerDatabaseLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Library Icons\Library1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
