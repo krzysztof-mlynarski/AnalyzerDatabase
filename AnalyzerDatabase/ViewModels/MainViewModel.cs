@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight.Command;
+﻿using AnalyzerDatabase.Interfaces;
+using GalaSoft.MvvmLight.Command;
 
 namespace AnalyzerDatabase.ViewModels
 {
@@ -8,21 +9,68 @@ namespace AnalyzerDatabase.ViewModels
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
 
+        private readonly IInternetConnectionService _internetConnectionService;
+        private bool _isInternetConnection;
+        private bool _isVpnConnection;
+
         private RelayCommand _openSearchDatabaseCommand;
         private RelayCommand _openStatisticsCommand;
         private RelayCommand _openSettingsCommand;
         private RelayCommand _openAboutCommand;
 
-        public MainViewModel()
+        public MainViewModel(IInternetConnectionService internetConnectionService)
         {
+            _internetConnectionService = internetConnectionService;
             CurrentViewModel = ViewModelLocator.Instance.SearchDatabase;
             //CurrentViewModel = ViewModelLocator.Instance.Statistics;
             //CurrentViewModel = ViewModelLocator.Instance.Settings;
             //CurrentViewModel = ViewModelLocator.Instance.About;
             CurrentViewModel = null;
+
+            CheckInternetConnection();
+        }
+
+        private void CheckInternetConnection()
+        {
+            IsInternetConnection = _internetConnectionService.CheckConnectedToInternet();
+            IsVpnConnection = _internetConnectionService.CheckConnectedToInternetVpn();
         }
 
         #region Getters setters
+
+        public bool IsInternetConnection
+        {
+            get
+            {
+                return _isInternetConnection;               
+            }
+            set
+            {
+                if (_isInternetConnection != value)
+                {
+                    _isInternetConnection = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        public bool IsVpnConnection
+        {
+            get
+            {
+                return _isVpnConnection;                 
+            }
+            set
+            {
+                if (_isVpnConnection != value)
+                {
+                    _isVpnConnection = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+
 
         public RelayCommand OpenSearchDatabaseCommand
         {

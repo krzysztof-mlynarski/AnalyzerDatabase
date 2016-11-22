@@ -8,7 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Documents;
 using AnalyzerDatabase.Interfaces;
+using AnalyzerDatabase.Models;
 using AnalyzerDatabase.Models.ScienceDirect;
 using AnalyzerDatabase.Models.Scopus;
 using AnalyzerDatabase.Models.Springer;
@@ -28,17 +30,13 @@ namespace AnalyzerDatabase.ViewModels
         private ScopusSearchQuery _scopusSearchCollection;
         private SpringerSearchQuery _springerSearchCollection;
 
-        private ObservableCollection<EntryScienceDirect> _scienceDirectObservableCollection;
-
-
         private RelayCommand _searchCommand;
-
         private RelayCommand _fullScreenDataGrid;
+
         private bool _isDataLoading;
         private string _executionTime;
 
         private List<String> test = new List<string>();
-
 
         private string _queryTextBox = "";
 
@@ -50,35 +48,18 @@ namespace AnalyzerDatabase.ViewModels
         private bool _checkBoxIeeeXplore /*= true*/;
 
         #region Constructors
+
         public SearchDatabaseViewModel(IRestService restService, IInternetConnectionService internetConnectionService)
         {
             _restService = restService;
             _internetConnectionService = internetConnectionService;
         }
-        #endregion
 
-        public ObservableCollection<EntryScienceDirect> ScienceDirectObservableCollection
-        {
-            get
-            {
-                return _scienceDirectObservableCollection;
-            }
-            set
-            {
-                if (_scienceDirectObservableCollection != value)
-                {
-                    _scienceDirectObservableCollection = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        #endregion
 
         public RelayCommand OpenFullScreenDataGrid
         {
-            get
-            {
-                return _fullScreenDataGrid ?? (_fullScreenDataGrid = new RelayCommand(FullDataGridMethod));              
-            }
+            get { return _fullScreenDataGrid ?? (_fullScreenDataGrid = new RelayCommand(FullDataGridMethod)); }
         }
 
         public string ExecutionTime
@@ -242,10 +223,7 @@ namespace AnalyzerDatabase.ViewModels
 
         public RelayCommand SearchCommand
         {
-            get
-            {
-                return _searchCommand ?? (_searchCommand = new RelayCommand(Search));               
-            }
+            get { return _searchCommand ?? (_searchCommand = new RelayCommand(Search)); }
         }
 
         public string QueryTextBox
@@ -293,12 +271,10 @@ namespace AnalyzerDatabase.ViewModels
                         else if (CheckBoxScopus && CheckBoxScienceDirect && CheckBoxSpringer && CheckBoxWebOfScience &&
                                  CheckBoxWiley)
                         {
-
                         }
                         //Brak IEEE Xplore i Wiley
                         else if (CheckBoxScopus && CheckBoxScienceDirect && CheckBoxSpringer && CheckBoxWebOfScience)
                         {
-
                         }
                         //Brak IEEE Xplore, Wiley, Web of Science
                         else if (CheckBoxScopus && CheckBoxScienceDirect && CheckBoxSpringer)
@@ -313,11 +289,8 @@ namespace AnalyzerDatabase.ViewModels
                         }
                         else if (CheckBoxScienceDirect)
                         {
-                            //ScienceDirectSearchCollection = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
-
-                            //List<ScienceDirectSearchQuery> _list = new List<ScienceDirectSearchQuery>();
-
-                            //_list = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
+                            ScienceDirectSearchCollection = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
+                            //_entryScienceDirects = ScienceDirectSearchCollection.SearchResults.Entry;
 
                         }
                         else if (CheckBoxSpringer)
@@ -327,6 +300,8 @@ namespace AnalyzerDatabase.ViewModels
                         else if (CheckBoxWebOfScience)
                         {
                             //TODO:
+
+                            
                         }
                         else if (CheckBoxWiley)
                         {
@@ -357,19 +332,12 @@ namespace AnalyzerDatabase.ViewModels
                     //TODO: brak wpisanego slowa do wyszukania
 
                     //await this.ShowMessageAsync("Nie wprowadziłeś kryteria wyszukiwania");
-
                 }
             }
             else
             {
                 //TODO: brak polaczenia z internetem
             }
-        }
-
-        private void FillCollectionDataGrid()
-        {
-
-            
         }
     }
 }

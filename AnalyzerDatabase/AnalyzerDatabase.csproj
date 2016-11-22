@@ -99,6 +99,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\NegativeBooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\ViewModelBaseToVisibilityConverter.cs" />
     <Compile Include="Interfaces\IDeserializeJsonService.cs" />
     <Compile Include="Interfaces\IInternetConnectionService.cs" />
@@ -248,6 +250,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Library Icons\Library1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Other Icons\Network.png" />
+    <Resource Include="Assets\Other Icons\Vpn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Other Icons\NetworkConnect.png" />
+    <Resource Include="Assets\Other Icons\NetworkDisconnect.png" />
+    <Resource Include="Assets\Other Icons\VpnConnect.png" />
+    <Resource Include="Assets\Other Icons\VpnDisconnect.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
