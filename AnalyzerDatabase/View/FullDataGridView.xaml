@@ -25,7 +25,7 @@
     <Grid>
         <DataGrid x:Name="DataGrid" 
                     ItemsSource="{Binding Path=ScienceDirectSearchCollection.SearchResults.Entry}"                    
-                    AutoGenerateColumns="False" 
+                    AutoGenerateColumns="True" 
                     HorizontalAlignment="Center" 
                     Margin="0,20,0,0" 
                     VerticalAlignment="Top" 
@@ -40,12 +40,12 @@
                                         EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
                                         Header="{x:Static res:Resources.Selected}"
                                         Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=IsSelected, Mode=OneWay}"/>
-                <DataGridTextColumn Header="{x:Static res:Resources.AuthorDataGrid}" Binding="{Binding DcCreator}" />
+                <!--<DataGridTextColumn Header="{x:Static res:Resources.AuthorDataGrid}" Binding="{Binding DcCreator}" />
                 <DataGridTextColumn Header="{x:Static res:Resources.TitleDataGrid}" Binding="{Binding DcTitle}" />
                 <DataGridTextColumn Header="{x:Static res:Resources.VolumeDataGrid}" Binding="{Binding PrismVolume}" />
                 <DataGridTextColumn Header="{x:Static res:Resources.IssueDataGrid}" Binding="{Binding PrismIssueIdentifier}" />
-                <DataGridTextColumn Header="{x:Static res:Resources.DoiDataGrid}" Binding="{Binding PrismDoi}" />
-                <DataGridTextColumn Header="{x:Static res:Resources.Source}" Binding="{Binding Source}"/>
+                <DataGridTextColumn Header="{x:Static res:Resources.DoiDataGrid}" Binding="{Binding PrismDoi}" />-->
+                <!--<DataGridTextColumn Header="{x:Static res:Resources.Source}" Binding="{Binding Source}"/>-->
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
