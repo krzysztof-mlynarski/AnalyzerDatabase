@@ -7,7 +7,7 @@ namespace AnalyzerDatabase.Models.Springer
         [JsonProperty("creator")]
         public string Creators { get; set; }
 
-        public Creator(string creator)
+        public Creator (string creator)
         {
             Creators = creator;
         }

@@ -1,19 +1,64 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
+using AnalyzerDatabase.Enums;
+using AnalyzerDatabase.Interfaces;
 using Newtonsoft.Json;
 
 namespace AnalyzerDatabase.Models.ScienceDirect
 {
-    public class EntryScienceDirect
+    public class EntryScienceDirect : IScienceDirectAndScopus
     {
+        [JsonProperty("dc:title")]
+        public string Title { get; set; }
+
+        [JsonProperty("prism:publicationName")]
+        public string PublicationName { get; set; }
+
+        [JsonProperty("prism:coverDisplayDate")]
+        public string PublicationDate { get; set; }
+
+        [JsonProperty("dc:creator")]
+        public string Creator { get; set; }
+
+        //IList<Creator> Creators {get;set;}
+
+        [JsonProperty("prism:volume")]
+        public string Volume { get; set; }
+
+        [JsonProperty("prism:issueIdentifier")]
+        public string IssueIdentifier { get; set; }
+
+        [JsonProperty("prism:doi")]
+        public string Doi { get; set; }
+
+        [JsonProperty("pii")]
+        public string Pii { get; set; }
+
+        [JsonProperty("prism:issn")]
+        public string Issn { get; set; }
+
+        [JsonProperty("dc:identifier")]
+        public string Identifier { get; set; }
+
+        [JsonProperty("openaccess")]
+        public string OpenAccess { get; set; }
+
+        [JsonProperty("prism:teaser")]
+        public string Abstract { get; set; }
+
+        public SourceDatabase Source { get; set; }
+
+        //unused
+        public string Isbn { get; set; }
+        public string PageRange { get; set; }
+
+
+        //JsonProperty
         [JsonProperty("@_fa")]
         public string Fa { get; set; }
 
         [JsonProperty("link")]
         public IList<LinkArticle> Link { get; set; }
-
-        [JsonProperty("dc:identifier")]
-        public string DcIdentifier { get; set; }
 
         [JsonProperty("eid")]
         public string Eid { get; set; }
@@ -21,41 +66,14 @@ namespace AnalyzerDatabase.Models.ScienceDirect
         [JsonProperty("prism:url")]
         public string PrismUrl { get; set; }
 
-        [JsonProperty("dc:title")]
-        public string DcTitle { get; set; }
-
-        [JsonProperty("dc:creator")]
-        public string DcCreator { get; set; }
-
-        [JsonProperty("prism:publicationName")]
-        public string PrismPublicationName { get; set; }
-
-        [JsonProperty("prism:issn")]
-        public string PrismIssn { get; set; }
-
-        [JsonProperty("prism:volume")]
-        public string PrismVolume { get; set; }
-
-        [JsonProperty("prism:issueIdentifier")]
-        public string PrismIssueIdentifier { get; set; }
-
         [JsonProperty("prism:coverDate")]
         public IList<PrismCoverDate> PrismCoverDate { get; set; }
-
-        [JsonProperty("prism:coverDisplayDate")]
-        public string PrismCoverDisplayDate { get; set; }
 
         [JsonProperty("prism:startingPage")]
         public string PrismStartingPage { get; set; }
 
         [JsonProperty("prism:endingPage")]
         public string PrismEndingPage { get; set; }
-
-        [JsonProperty("prism:doi")]
-        public string PrismDoi { get; set; }
-
-        [JsonProperty("openaccess")]
-        public string Openaccess { get; set; }
 
         [JsonProperty("openaccessArticle")]
         public bool OpenaccessArticle { get; set; }
@@ -66,43 +84,35 @@ namespace AnalyzerDatabase.Models.ScienceDirect
         [JsonProperty("openaccessUserLicense")]
         public string OpenaccessUserLicense { get; set; }
 
-        [JsonProperty("pii")]
-        public string Pii { get; set; }
-
         [JsonProperty("authors")]
         public Authors Authors { get; set; }
-
-        [JsonProperty("prism:teaser")]
-        public string PrismTeaser { get; set; }
-
-        public string Source { get; set; }
 
         public EntryScienceDirect(string fa, IList<LinkArticle> link, string dcIdentifier, string eid, string prismUrl, string dcTitle, string dcCreator, string prismPublicationName, string prismIssn, string prismVolume, string prismIssueIdentifier, IList<PrismCoverDate> prismCoverDate, string prismCoverDisplayDate, string prismStartingPage, string prismEndingPage, string prismDoi, string openaccess, bool openaccessArticle, bool openArchiveArticle, string openaccessUserLicense, string pii, Authors authors, string prismTeaser)
         {
             Fa = fa;
             Link = link;
-            DcIdentifier = dcIdentifier;
+            Identifier = dcIdentifier;
             Eid = eid;
             PrismUrl = prismUrl;
-            DcTitle = dcTitle;
-            DcCreator = dcCreator;
-            PrismPublicationName = prismPublicationName;
-            PrismIssn = prismIssn;
-            PrismVolume = prismVolume;
-            PrismIssueIdentifier = prismIssueIdentifier;
+            Title = dcTitle;
+            Creator = dcCreator;
+            PublicationName = prismPublicationName;
+            Issn = prismIssn;
+            Volume = prismVolume;
+            IssueIdentifier = prismIssueIdentifier;
             PrismCoverDate = prismCoverDate;
-            PrismCoverDisplayDate = prismCoverDisplayDate;
+            PublicationDate = prismCoverDisplayDate;
             PrismStartingPage = prismStartingPage;
             PrismEndingPage = prismEndingPage;
-            PrismDoi = prismDoi;
-            Openaccess = openaccess;
+            Doi = prismDoi;
+            OpenAccess = openaccess;
             OpenaccessArticle = openaccessArticle;
             OpenArchiveArticle = openArchiveArticle;
             OpenaccessUserLicense = openaccessUserLicense;
             Pii = pii;
             Authors = authors;
-            PrismTeaser = prismTeaser;
-            Source = "Science Direct";
+            Abstract = prismTeaser;
+            Source = SourceDatabase.ScienceDirect;
         }
     }
 }

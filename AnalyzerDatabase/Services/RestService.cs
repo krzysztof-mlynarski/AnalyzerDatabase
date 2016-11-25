@@ -31,8 +31,7 @@ namespace AnalyzerDatabase.Services
             try
             {
                 string url = String.Format(_resources["SearchQueryScienceDirect"].ToString(), query, _resources["X-ELS-APIKey"]);
-                //string url = "http://www.mocky.io/v2/582ae222280000940c53c360";  // arrayJson
-                //string url = "http://www.mocky.io/v2/582b02f22800007b1053c3aa";
+                //string url = String.Format(_resources["ScienceDirectAllResult"].ToString(), query, _resources["X-ELS-APIKey"]);
                 string webPageSource = await GetWebPageSource(url, cts);
                 
                 return _deserializeJsonService.GetObjectFromJson<ScienceDirectSearchQuery>(webPageSource);
@@ -52,6 +51,7 @@ namespace AnalyzerDatabase.Services
             try
             {
                 string url = String.Format(_resources["SearchQueryScopus"].ToString(), query, _resources["X-ELS-APIKey"]);
+                //string url = String.Format(_resources["ScopusAllResult"].ToString(), query, _resources["X-ELS-APIKey"]);
                 string webPageSource = await GetWebPageSource(url, cts);
 
                 return _deserializeJsonService.GetObjectFromJson<ScopusSearchQuery>(webPageSource);

@@ -11,12 +11,18 @@
     
     <!-- Metody dla bazy ScienceDirect //json-->
     <system:String x:Key="SearchQueryScienceDirect">https://api.elsevier.com/content/search/scidir?query={0}&amp;apiKey={1}</system:String>
+    <system:String x:Key="ScienceDirectPreviousPageResult">https://api.elsevier.com/content/search/scidir?start=25&amp;count=25&amp;query={0}&amp;apiKey={1}</system:String>
+    <system:String x:Key="ScienceDirectNextPageResult">https://api.elsevier.com/content/search/scidir?start=25&amp;count=25&amp;query={0}&amp;apiKey={1}</system:String>
     
     <!-- Metody dla bazy Scopus //json-->
     <system:String x:Key="SearchQueryScopus">https://api.elsevier.com/content/search/scopus?query={0}&amp;apiKey={1}</system:String>
-
+    <system:String x:Key="ScopusPreviousPageResult">https://api.elsevier.com/content/search/scidir?start=25&amp;count=25&amp;query={0}&amp;apiKey={1}</system:String>
+    <system:String x:Key="ScopusNextPageResult">https://api.elsevier.com/content/search/scopus?start=25&amp;count=25&amp;query={0)&amp;apiKey={1}</system:String>
+    
     <!-- Metody dla bazy Springer //json-->
     <system:String x:Key="SearchQuerySpringer">https://api.springer.com/metadata/json?api_key=48ea83f7d924473e203bb36b0868a608&amp;q={0}&amp;s=1&amp;p=25</system:String>
+    
+    <system:String x:Key="SpringerNextPageResult">https://api.springer.com/metadata/json?api_key=48ea83f7d924473e203bb36b0868a608&amp;q={0}&amp;s=25&amp;p=25</system:String>
 
     <!-- Metody dla bazy IEEE Xplore //xml-->
     <system:String x:Key="SearchQueryIeeeXplore">https://ieeexplore.ieee.org/gateway/ipsSearch.jsp?querytext={0}</system:String>
