@@ -102,9 +102,11 @@
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\NegativeBooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\ViewModelBaseToVisibilityConverter.cs" />
+    <Compile Include="Enums\SourceDatabase.cs" />
     <Compile Include="Interfaces\IDeserializeJsonService.cs" />
     <Compile Include="Interfaces\IInternetConnectionService.cs" />
     <Compile Include="Interfaces\IRestService.cs" />
+    <Compile Include="Interfaces\IScienceDirectAndScopus.cs" />
     <Compile Include="Models\IeeeXplore\testowa.cs" />
     <Compile Include="Models\ScienceDirect\Author.cs" />
     <Compile Include="Models\ScienceDirect\Authors.cs" />
@@ -260,6 +262,15 @@
     <Resource Include="Assets\Other Icons\NetworkDisconnect.png" />
     <Resource Include="Assets\Other Icons\VpnConnect.png" />
     <Resource Include="Assets\Other Icons\VpnDisconnect.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Other Icons\TESTOWY.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Other Icons\pdf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Other Icons\ShowMore.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

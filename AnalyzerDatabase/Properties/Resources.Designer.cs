@@ -70,7 +70,16 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Author.
+        ///   Looks up a localized string similar to Abstract: .
+        /// </summary>
+        public static string AbstractDataGrid {
+            get {
+                return ResourceManager.GetString("AbstractDataGrid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Authors: .
         /// </summary>
         public static string AuthorDataGrid {
             get {
@@ -79,11 +88,29 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to DOI.
+        ///   Looks up a localized string similar to Author.
+        /// </summary>
+        public static string AuthorDataGridHeader {
+            get {
+                return ResourceManager.GetString("AuthorDataGridHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DOI:.
         /// </summary>
         public static string DoiDataGrid {
             get {
                 return ResourceManager.GetString("DoiDataGrid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DOI.
+        /// </summary>
+        public static string DoiDataGridHeader {
+            get {
+                return ResourceManager.GetString("DoiDataGridHeader", resourceCulture);
             }
         }
         
@@ -97,11 +124,74 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Issue.
+        ///   Looks up a localized string similar to Isbn: .
+        /// </summary>
+        public static string IsbnDataGrid {
+            get {
+                return ResourceManager.GetString("IsbnDataGrid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Issn: .
+        /// </summary>
+        public static string IssnDataGrid {
+            get {
+                return ResourceManager.GetString("IssnDataGrid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Issue: .
         /// </summary>
         public static string IssueDataGrid {
             get {
                 return ResourceManager.GetString("IssueDataGrid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Access.
+        /// </summary>
+        public static string OpenAccessDataGrid {
+            get {
+                return ResourceManager.GetString("OpenAccessDataGrid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Page range: .
+        /// </summary>
+        public static string PageRangeDataGrid {
+            get {
+                return ResourceManager.GetString("PageRangeDataGrid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pii: .
+        /// </summary>
+        public static string PiiDataGrid {
+            get {
+                return ResourceManager.GetString("PiiDataGrid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Publication date: .
+        /// </summary>
+        public static string PublicationDateDataGrid {
+            get {
+                return ResourceManager.GetString("PublicationDateDataGrid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Publication name:.
+        /// </summary>
+        public static string PublicationNameDataGrid {
+            get {
+                return ResourceManager.GetString("PublicationNameDataGrid", resourceCulture);
             }
         }
         
@@ -160,7 +250,16 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Source.
+        ///   Looks up a localized string similar to Show more details.
+        /// </summary>
+        public static string ShowMoreDetailsToolTip {
+            get {
+                return ResourceManager.GetString("ShowMoreDetailsToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Source: .
         /// </summary>
         public static string Source {
             get {
@@ -178,7 +277,7 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Title.
+        ///   Looks up a localized string similar to Title: .
         /// </summary>
         public static string TitleDataGrid {
             get {
@@ -187,7 +286,16 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Volume.
+        ///   Looks up a localized string similar to Title.
+        /// </summary>
+        public static string TitleDataGridHeader {
+            get {
+                return ResourceManager.GetString("TitleDataGridHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Volume: .
         /// </summary>
         public static string VolumeDataGrid {
             get {

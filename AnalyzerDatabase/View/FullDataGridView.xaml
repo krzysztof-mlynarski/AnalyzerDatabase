@@ -20,33 +20,245 @@
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
+
     </Window.Resources>
 
     <Grid>
-        <DataGrid x:Name="DataGrid" 
-                    ItemsSource="{Binding Path=ScienceDirectSearchCollection.SearchResults.Entry}"                    
-                    AutoGenerateColumns="True" 
-                    HorizontalAlignment="Center" 
-                    Margin="0,20,0,0" 
-                    VerticalAlignment="Top" 
-                    AlternatingRowBackground="Gainsboro"  
-                    AlternationCount="2"
-                    CanUserReorderColumns="True" 
-                    CanUserResizeColumns="True" 
-                    CanUserResizeRows="True" 
-                    CanUserSortColumns="True">
-            <DataGrid.Columns >
-                <DataGridCheckBoxColumn ElementStyle="{DynamicResource MetroDataGridCheckBox}"
+        <DataGrid ItemsSource="{Binding collectionView}"
+                      AutoGenerateColumns="False"
+                      HorizontalAlignment="Stretch"
+                      Margin="0,20,0,0"
+                      VerticalAlignment="Top"
+                      AlternatingRowBackground="Gainsboro"
+                      AlternationCount="2"
+                      CanUserReorderColumns="True"
+                      CanUserResizeColumns="True"
+                      CanUserResizeRows="True"
+                      CanUserSortColumns="True"
+                      FrozenColumnCount="1"
+                      Style="{StaticResource AzureDataGrid}">
+            <DataGrid.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <TextBlock Text="{Binding Path=Name}"></TextBlock>
+                            </DockPanel>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <Expander IsExpanded="True">
+                                            <Expander.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Path=Name}"></TextBlock>
+                                                    <TextBlock Text=" "></TextBlock>
+                                                    <TextBlock Text="{Binding Path=ItemCount}"></TextBlock>
+                                                </StackPanel>
+                                            </Expander.Header>
+                                            <Expander.Content>
+                                                <ItemsPresenter />
+                                            </Expander.Content>
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </DataGrid.GroupStyle>
+            <DataGrid.Columns>
+                <!--<DataGridCheckBoxColumn ElementStyle="{DynamicResource MetroDataGridCheckBox}"
                                         EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
+                                        CanUserResize="False"
                                         Header="{x:Static res:Resources.Selected}"
-                                        Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=IsSelected, Mode=OneWay}"/>
-                <!--<DataGridTextColumn Header="{x:Static res:Resources.AuthorDataGrid}" Binding="{Binding DcCreator}" />
-                <DataGridTextColumn Header="{x:Static res:Resources.TitleDataGrid}" Binding="{Binding DcTitle}" />
-                <DataGridTextColumn Header="{x:Static res:Resources.VolumeDataGrid}" Binding="{Binding PrismVolume}" />
-                <DataGridTextColumn Header="{x:Static res:Resources.IssueDataGrid}" Binding="{Binding PrismIssueIdentifier}" />
-                <DataGridTextColumn Header="{x:Static res:Resources.DoiDataGrid}" Binding="{Binding PrismDoi}" />-->
-                <!--<DataGridTextColumn Header="{x:Static res:Resources.Source}" Binding="{Binding Source}"/>-->
+                                        Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=IsSelected, Mode=OneWay}"/>-->
+                <DataGridTextColumn Header="{x:Static res:Resources.AuthorDataGridHeader}" Binding="{Binding Creator}" IsReadOnly="True" CanUserResize="False" Width="150">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="{x:Static res:Resources.TitleDataGridHeader}" Binding="{Binding Title}"  IsReadOnly="True" Width="880">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="{x:Static res:Resources.DoiDataGridHeader}" Binding="{Binding Doi}" IsReadOnly="True" CanUserResize="False"/>
             </DataGrid.Columns>
+
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <StackPanel>
+                            <Image DockPanel.Dock="Left" Source="../Assets/Other Icons/TESTOWY.png" Height="160" Width="120" Margin="10,30,10,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{x:Static res:Resources.OpenAccessDataGrid}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <!--<TextBlock Text="{Binding OpenAccess}" Foreground="Black" />-->
+                        </StackPanel>
+
+                        <Grid Margin="0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="600" />
+                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition Width="100" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <!--<TextBlock Text="{x:Static res:Resources.PublicationNameDataGrid}" 
+                                       FontWeight="Bold"
+                                       Foreground="Black" 
+                                       FontSize="20" 
+                                       HorizontalAlignment="Right"/>-->
+                            <TextBlock Grid.Row="0" Grid.Column="1"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"
+                                       FontSize="26"
+                                       Foreground="Black"
+                                       FontWeight="ExtraBold"
+                                       Text="{Binding PublicationName}"/>
+
+                            <TextBlock Text="{x:Static res:Resources.TitleDataGrid}"
+                                       Grid.Row="2" Grid.Column="0" 
+                                       FontWeight="Bold" 
+                                       Foreground="Black" 
+                                       HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Row="2" Grid.Column="1"
+                                       FontWeight="Bold"
+                                       Foreground="Black"
+                                       Text="{Binding Title}"/>
+
+                            <TextBlock Text="{x:Static res:Resources.PublicationDateDataGrid}" 
+                                       Grid.Row="3" Grid.Column="0"
+                                       FontWeight="Bold" 
+                                       Foreground="Black" 
+                                       HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Row="3" Grid.Column="1"
+                                       Foreground="Black"
+                                       Text="{Binding PublicationDate}"/>
+
+                            <TextBlock Text="{x:Static res:Resources.AuthorDataGrid}" 
+                                       Grid.Row="5" Grid.Column="0"
+                                       FontWeight="Bold" 
+                                       Foreground="Black" 
+                                       HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Row="5" Grid.Column="1"
+                                       TextWrapping="Wrap"
+                                       Foreground="Black"
+                                       Text="{Binding Creator}"/>
+
+                            <TextBlock Text="{x:Static res:Resources.VolumeDataGrid}" 
+                                       Grid.Row="7" Grid.Column="0"
+                                       FontWeight="Bold" 
+                                       Foreground="Black" 
+                                       HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Column="1" Grid.Row="7"
+                                       Foreground="Black"
+                                       Text="{Binding Volume}"/>
+
+                            <TextBlock Margin="50,0,0,0" Text="{x:Static res:Resources.IssueDataGrid}" 
+                                       Grid.Column="1" Grid.Row="7"
+                                       FontWeight="Bold" 
+                                       Foreground="Black"  
+                                       HorizontalAlignment="Left"/>
+                            <TextBlock Grid.Column="1" Grid.Row="7" 
+                                       Margin="110,0,0,0"
+                                       Foreground="Black"
+                                       Text="{Binding IssueIdentifier}"/>
+
+                            <TextBlock Text="{x:Static res:Resources.PageRangeDataGrid}" 
+                                       Grid.Row="8" Grid.Column="0"
+                                       FontWeight="Bold" 
+                                       Foreground="Black"                                     
+                                       HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Column="1" Grid.Row="8" 
+                                       Foreground="Black"
+                                       Text="{Binding PageRange}" />
+
+                            <TextBlock Text="{x:Static res:Resources.IssnDataGrid}" 
+                                       Grid.Row="9" Grid.Column="0"
+                                       FontWeight="Bold" 
+                                       Foreground="Black" 
+                                       HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Column="1" Grid.Row="9" 
+                                       Foreground="Black"
+                                       Text="{Binding Issn}" />
+
+                            <TextBlock Margin="120,0,0,0" Text="{x:Static res:Resources.IsbnDataGrid}" 
+                                       Grid.Column="1" Grid.Row="9" 
+                                       FontWeight="Bold" 
+                                       Foreground="Black" 
+                                       HorizontalAlignment="Left"/>
+                            <TextBlock Grid.Column="1" Grid.Row="9" 
+                                       Margin="180,0,0,0"
+                                       Foreground="Black"
+                                       Text="{Binding Isbn}" />
+
+                            <TextBlock Text="{x:Static res:Resources.DoiDataGrid}" 
+                                       Grid.Row="10" Grid.Column="0" 
+                                       FontWeight="Bold" 
+                                       Foreground="Black" 
+                                       HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Column="1" Grid.Row="10" 
+                                       Foreground="Black"
+                                       Text="{Binding Doi}" />
+
+                            <TextBlock Text="{x:Static res:Resources.PiiDataGrid}" 
+                                       Grid.Row="11" Grid.Column="0"
+                                       FontWeight="Bold" 
+                                       Foreground="Black" 
+                                       HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Column="1" Grid.Row="11" 
+                                       Foreground="Black"
+                                       Text="{Binding Pii}" />
+
+                            <TextBlock Text="{x:Static res:Resources.AbstractDataGrid}" 
+                                       Grid.Row="13" Grid.Column="0"
+                                       FontWeight="Bold" 
+                                       Foreground="Black" 
+                                       HorizontalAlignment="Right"/>
+                            <StackPanel Grid.Column="1" Grid.Row="13">
+                                <TextBlock 
+                                    TextWrapping="Wrap"
+                                    TextAlignment="Justify"
+                                    Foreground="Black"
+                                    Text="{Binding Abstract}" />
+                            </StackPanel>
+                            
+                            <Button Grid.Row="0" Grid.Column="3">
+                                <Image Source="../Assets/Other Icons/pdf.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Button>
+                            
+                        </Grid>
+                    </DockPanel>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
         </DataGrid>
+        <controls:ProgressRing IsActive="{Binding IsDataLoading}" />
+        <Button x:Name="BtnPrev" Content="Prev" HorizontalAlignment="Left" Margin="300,0,0,0" VerticalAlignment="Top" Width="75" Height="15"/>
+        <Button x:Name="BtnNext" Content="Next" HorizontalAlignment="Left" Margin="410,0,0,0" VerticalAlignment="Top" Width="75" Height="15"/>
     </Grid>
 </controls:MetroWindow>

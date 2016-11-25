@@ -15,26 +15,6 @@
              d:DesignHeight="500" d:DesignWidth="800"
              DataContext="{Binding Source={StaticResource Locator}, Path=SearchDatabase}">
 
-    <UserControl.Resources>
-        <!--<DataTemplate DataType="{x:Type viewModel:MainViewModel}">
-            <analyzerDatabase:MainWindow/>
-        </DataTemplate>-->
-        <!--<DataTemplate DataType="{x:Type viewModel:StatisticsViewModel}">
-            <view:StatisticsView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:SettingsViewModel}">
-            <view:SettingsView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:AboutViewModel}">
-            <view:AboutView/>
-        </DataTemplate>-->
-        <!--<DataTemplate DataType="{x:Type viewModel:FullDataGridViewModel}">
-            <Window>
-                <view:FullDataGridView/>
-            </Window>
-        </DataTemplate>-->
-    </UserControl.Resources>
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -76,35 +56,81 @@
 
         <!--WYSWIETLANIE WYNIKOW WYSZUKIWANIA-->
         <Grid Grid.Row="3">
-            <DataGrid x:Name="DataGrid" 
-                      ItemsSource="{Binding Path=ScienceDirectSearchCollection.SearchResults.Entry}"
-                      AutoGenerateColumns="False" 
-                      HorizontalAlignment="Center" 
-                      Margin="0,20,0,0" 
-                      VerticalAlignment="Top" 
-                      Height="250" 
-                      Width="750"
+            <DataGrid ItemsSource="{Binding Path=collectionView}"
+                      AutoGenerateColumns="False"
+                      HorizontalAlignment="Center"
+                      Margin="20,20,30,35"
+                      VerticalAlignment="Top"
+                      AlternatingRowBackground="Gainsboro"
+                      AlternationCount="2"
+                      CanUserReorderColumns="True"
+                      CanUserResizeColumns="True"
+                      CanUserResizeRows="True"
+                      CanUserSortColumns="True"
+                      FrozenColumnCount="1"
                       Style="{StaticResource AzureDataGrid}">
-                
+                <DataGrid.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate>
+                                <DockPanel>
+                                    <TextBlock Text="{Binding Path=Name}"></TextBlock>
+                                </DockPanel>
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                        <GroupStyle.ContainerStyle>
+                            <Style TargetType="{x:Type GroupItem}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                                            <Expander IsExpanded="False">
+                                                <Expander.Header>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Path=Name}"></TextBlock>
+                                                        <TextBlock Text=" "></TextBlock>
+                                                        <TextBlock Text="{Binding Path=ItemCount}"></TextBlock>
+                                                    </StackPanel>
+                                                </Expander.Header>
+                                                <Expander.Content>
+                                                    <ItemsPresenter />
+                                                </Expander.Content>
+                                            </Expander>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GroupStyle.ContainerStyle>
+                    </GroupStyle>
+                </DataGrid.GroupStyle>
                 <DataGrid.Columns>
-                    <DataGridCheckBoxColumn ElementStyle="{DynamicResource MetroDataGridCheckBox}"
-                                        EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
-                                        Header="{x:Static res:Resources.Selected}"
-                                        Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=IsSelected, Mode=OneWay}"/>
-                    <DataGridTextColumn Header="{x:Static res:Resources.AuthorDataGrid}" Binding="{Binding DcCreator}" />
-                    <DataGridTextColumn Header="{x:Static res:Resources.TitleDataGrid}" Binding="{Binding DcTitle}" />
-                    <DataGridTextColumn Header="{x:Static res:Resources.VolumeDataGrid}" Binding="{Binding PrismVolume}" />
-                    <DataGridTextColumn Header="{x:Static res:Resources.IssueDataGrid}" Binding="{Binding PrismIssueIdentifier}" />
-                    <DataGridTextColumn Header="{x:Static res:Resources.DoiDataGrid}" Binding="{Binding PrismDoi}" />
-                    <DataGridTextColumn Header="{x:Static res:Resources.Source}" Binding="{Binding Source}"/>
+                    <DataGridTextColumn Header="{x:Static res:Resources.AuthorDataGridHeader}" Binding="{Binding Creator}" IsReadOnly="True" CanUserResize="False" Width="130">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style>
+                                <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="{x:Static res:Resources.TitleDataGridHeader}" Binding="{Binding Title}"  IsReadOnly="True" Width="400">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style>
+                                <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="{x:Static res:Resources.DoiDataGridHeader}" Binding="{Binding Doi}" IsReadOnly="True" CanUserResize="False"/>
                 </DataGrid.Columns>
             </DataGrid>
 
             <controls:ProgressRing IsActive="{Binding IsDataLoading}" />
-            <Label x:Name="LabelTime" Margin="60, 270, 505, 5" Content="ilosc wynikow i czas"/>
-            <!--Content="{Binding ExecutionTime}"-->
-            <Button x:Name="FullScreenDataGrid" Content="Data" Command="{Binding OpenFullScreenDataGrid}" HorizontalAlignment="Right" Margin="0,20.16,0,0" VerticalAlignment="Top" Width="20" Background="Red"/>
-            
+            <Label x:Name="LabelTotalResults" Margin="60,270,505,5" Content="{Binding TotalResults}"/>
+            <Label x:Name="LabelTime" Margin="200, 270, 505, 5" Content="{Binding ExecutionTime}"/>
+            <Button x:Name="FullScreenDataGrid" 
+                    Command="{Binding OpenFullScreenDataGrid}" 
+                    ToolTip="{x:Static res:Resources.ShowMoreDetailsToolTip}"  
+                    HorizontalAlignment="Right" VerticalAlignment="Top"
+                    Margin="0,20,10,0">
+                <Image Source="../Assets/Other Icons/ShowMore.png" Width="32"></Image>
+            </Button>
         </Grid>
     </Grid>
 

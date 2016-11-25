@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using AnalyzerDatabase.Interfaces;
@@ -30,15 +32,18 @@ namespace AnalyzerDatabase.ViewModels
         private ScopusSearchQuery _scopusSearchCollection;
         private SpringerSearchQuery _springerSearchCollection;
 
+        private ObservableCollection<IScienceDirectAndScopus> _scienceDirects;
+
+        public ICollectionView collectionView { get; set; }
+
         private RelayCommand _searchCommand;
         private RelayCommand _fullScreenDataGrid;
 
-        private bool _isDataLoading;
+        private string _queryTextBox;
         private string _executionTime;
+        private string _totalResults;
 
-        private List<String> test = new List<string>();
-
-        private string _queryTextBox = "";
+        private bool _isDataLoading;
 
         private bool _checkBoxScopus = true;
         private bool _checkBoxSpringer = true;
@@ -53,13 +58,53 @@ namespace AnalyzerDatabase.ViewModels
         {
             _restService = restService;
             _internetConnectionService = internetConnectionService;
+            ScienceDirectAndScopus = new ObservableCollection<IScienceDirectAndScopus>();
+            collectionView = CollectionViewSource.GetDefaultView(_scienceDirects);
+
         }
 
         #endregion
 
+        public RelayCommand SearchCommand
+        {
+            get { return _searchCommand ?? (_searchCommand = new RelayCommand(Search)); }
+        }
+
         public RelayCommand OpenFullScreenDataGrid
         {
             get { return _fullScreenDataGrid ?? (_fullScreenDataGrid = new RelayCommand(FullDataGridMethod)); }
+        }
+
+        public string QueryTextBox
+        {
+            get
+            {
+                return _queryTextBox;
+            }
+            set
+            {
+                if (_queryTextBox != value)
+                {
+                    _queryTextBox = value;
+                    RaisePropertyChanged("QueryTextBox");
+                }
+            }
+        }
+
+        public string TotalResults
+        {
+            get
+            {
+                return _totalResults;
+            }
+            set
+            {
+                if (_totalResults != value)
+                {
+                    _totalResults = value;
+                    RaisePropertyChanged();
+                }
+            }
         }
 
         public string ExecutionTime
@@ -70,7 +115,7 @@ namespace AnalyzerDatabase.ViewModels
             }
             set
             {
-                if (_executionTime != null)
+                if (_executionTime != value)
                 {
                     _executionTime = value;
                     RaisePropertyChanged();
@@ -173,6 +218,19 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
+        public ObservableCollection<IScienceDirectAndScopus> ScienceDirectAndScopus
+        {
+            get
+            {
+                return _scienceDirects;
+            }
+            set
+            {
+                _scienceDirects = value;
+                this.RaisePropertyChanged();
+            }
+        }
+
         public ScienceDirectSearchQuery ScienceDirectSearchCollection
         {
             get
@@ -221,27 +279,6 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
-        public RelayCommand SearchCommand
-        {
-            get { return _searchCommand ?? (_searchCommand = new RelayCommand(Search)); }
-        }
-
-        public string QueryTextBox
-        {
-            get
-            {
-                return _queryTextBox;
-            }
-            set
-            {
-                if (_queryTextBox != value)
-                {
-                    _queryTextBox = value;
-                    RaisePropertyChanged("QueryTextBox");
-                }
-            }
-        }
-
         private void FullDataGridMethod()
         {
             var windowFullDataGrid = new FullDataGridView();
@@ -251,8 +288,12 @@ namespace AnalyzerDatabase.ViewModels
         private async void Search()
         {
             bool isInternet = _internetConnectionService.CheckConnectedToInternet();
+
             if (isInternet)
             {
+                ScienceDirectAndScopus.Clear();
+                collectionView?.GroupDescriptions.Clear();
+
                 if (!string.IsNullOrEmpty(QueryTextBox))
                 {
                     DateTime startTime = new DateTime();
@@ -261,60 +302,53 @@ namespace AnalyzerDatabase.ViewModels
                         startTime = DateTime.Now;
                         IsDataLoading = true;
 
-                        //Wszystkie bazy
-                        if (CheckBoxScopus && CheckBoxScienceDirect && CheckBoxSpringer && CheckBoxWebOfScience &&
-                            CheckBoxWiley && CheckBoxIeeeXplore)
+                        if (CheckBoxScienceDirect)
                         {
-                            //TODO: Get dla innych baz
+                            var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
+                            obj.SearchResults.Entry.ToList().ForEach(element =>
+                            {
+                                this.ScienceDirectAndScopus.Add(element);
+                            });                          
                         }
-                        //Brak IEEE Xplore
-                        else if (CheckBoxScopus && CheckBoxScienceDirect && CheckBoxSpringer && CheckBoxWebOfScience &&
-                                 CheckBoxWiley)
+                        
+                        if (CheckBoxScopus)
                         {
+                            var obj = await _restService.GetSearchQueryScopus(QueryTextBox);
+                            obj.SearchResults.Entry.ToList().ForEach(e =>
+                            {
+                                this.ScienceDirectAndScopus.Add(e);
+                            });
                         }
-                        //Brak IEEE Xplore i Wiley
-                        else if (CheckBoxScopus && CheckBoxScienceDirect && CheckBoxSpringer && CheckBoxWebOfScience)
-                        {
-                        }
-                        //Brak IEEE Xplore, Wiley, Web of Science
-                        else if (CheckBoxScopus && CheckBoxScienceDirect && CheckBoxSpringer)
-                        {
-                            ScopusSearchCollection = await _restService.GetSearchQueryScopus(QueryTextBox);
-                            ScienceDirectSearchCollection = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
-                            SpringerSearchCollection = await _restService.GetSearchQuerySpringer(QueryTextBox);
-                        }
-                        else if (CheckBoxScopus)
-                        {
-                            ScopusSearchCollection = await _restService.GetSearchQueryScopus(QueryTextBox);
-                        }
-                        else if (CheckBoxScienceDirect)
-                        {
-                            ScienceDirectSearchCollection = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
-                            //_entryScienceDirects = ScienceDirectSearchCollection.SearchResults.Entry;
 
-                        }
-                        else if (CheckBoxSpringer)
+                        if (CheckBoxSpringer)
                         {
-                            SpringerSearchCollection = await _restService.GetSearchQuerySpringer(QueryTextBox);
+                            var obj = await _restService.GetSearchQuerySpringer(QueryTextBox);
+                            obj.Records.ToList().ForEach(e =>
+                            {
+                                this.ScienceDirectAndScopus.Add(e);
+                            });
                         }
-                        else if (CheckBoxWebOfScience)
-                        {
-                            //TODO:
 
-                            
-                        }
-                        else if (CheckBoxWiley)
-                        {
-                            //TODO:
-                        }
-                        else if (CheckBoxIeeeXplore)
-                        {
-                            //TODO:
-                        }
+                        //if (CheckBoxIeeeXplore)
+                        //{
+                        //    //TODO:
+                        //}
+
+                        //if (CheckBoxWebOfScience)
+                        //{
+                        //    //TODO:
+                        //}
+
+                        //if (CheckBoxWiley)
+                        //{
+                        //    //TODO:
+                        //}
+
+                        collectionView?.GroupDescriptions.Add(new PropertyGroupDescription("Source"));
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        throw;
+                        throw ex;
                         //TODO: "nie wybrales zadnej bazy danych do przeszukania"
                     }
                     finally
@@ -323,7 +357,11 @@ namespace AnalyzerDatabase.ViewModels
 
                         var stopTime = DateTime.Now;
                         TimeSpan executionTime = stopTime - startTime;
-                        ExecutionTime = (executionTime.TotalSeconds).ToString();
+                        ExecutionTime = "(" + executionTime.TotalSeconds + "s)";
+
+                        //int allTotalResults = Int32.Parse(SearchResults.OpensearchTotalResults);
+                        //allTotalResults += Int32.Parse(ScopusSearchCollection.SearchResults.OpensearchTotalResults);
+                        //TotalResults = "Około " + allTotalResults + " wyników w";
                     }
                 }
                 else
