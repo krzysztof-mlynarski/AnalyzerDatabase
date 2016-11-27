@@ -198,4 +198,10 @@
   <data name="ShowMoreDetailsToolTip" xml:space="preserve">
     <value>Pokaż więcej informacji</value>
   </data>
+  <data name="NextBtn" xml:space="preserve">
+    <value>Następna</value>
+  </data>
+  <data name="PrevBtn" xml:space="preserve">
+    <value>Poprzednia</value>
+  </data>
 </root>

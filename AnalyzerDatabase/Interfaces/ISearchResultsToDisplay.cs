@@ -5,7 +5,7 @@ using AnalyzerDatabase.Models.Springer;
 
 namespace AnalyzerDatabase.Interfaces
 {
-    public interface IScienceDirectAndScopus
+    public interface ISearchResultsToDisplay
     {
         string Title { get; set; }
 

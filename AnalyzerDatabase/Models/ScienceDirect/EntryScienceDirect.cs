@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace AnalyzerDatabase.Models.ScienceDirect
 {
-    public class EntryScienceDirect : IScienceDirectAndScopus
+    public class EntryScienceDirect : ISearchResultsToDisplay
     {
         [JsonProperty("dc:title")]
         public string Title { get; set; }

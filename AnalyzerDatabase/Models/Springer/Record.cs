@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace AnalyzerDatabase.Models.Springer
 {
-    public class Record : IScienceDirectAndScopus
+    public class Record : ISearchResultsToDisplay
     {
         [JsonProperty("title")]
         public string Title { get; set; }
