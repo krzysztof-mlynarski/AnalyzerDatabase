@@ -147,6 +147,9 @@
   <data name="IssueDataGrid" xml:space="preserve">
     <value>Issue: </value>
   </data>
+  <data name="NextBtn" xml:space="preserve">
+    <value>Next</value>
+  </data>
   <data name="OpenAccessDataGrid" xml:space="preserve">
     <value>Open Access</value>
   </data>
@@ -155,6 +158,9 @@
   </data>
   <data name="PiiDataGrid" xml:space="preserve">
     <value>Pii: </value>
+  </data>
+  <data name="PrevBtn" xml:space="preserve">
+    <value>Previous</value>
   </data>
   <data name="PublicationDateDataGrid" xml:space="preserve">
     <value>Publication date: </value>

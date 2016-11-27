@@ -151,6 +151,15 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Next.
+        /// </summary>
+        public static string NextBtn {
+            get {
+                return ResourceManager.GetString("NextBtn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open Access.
         /// </summary>
         public static string OpenAccessDataGrid {
@@ -174,6 +183,15 @@ namespace AnalyzerDatabase.Properties {
         public static string PiiDataGrid {
             get {
                 return ResourceManager.GetString("PiiDataGrid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Previous.
+        /// </summary>
+        public static string PrevBtn {
+            get {
+                return ResourceManager.GetString("PrevBtn", resourceCulture);
             }
         }
         

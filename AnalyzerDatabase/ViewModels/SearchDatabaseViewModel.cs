@@ -32,12 +32,14 @@ namespace AnalyzerDatabase.ViewModels
         private ScopusSearchQuery _scopusSearchCollection;
         private SpringerSearchQuery _springerSearchCollection;
 
-        private ObservableCollection<IScienceDirectAndScopus> _scienceDirects;
+        private ObservableCollection<ISearchResultsToDisplay> _searchResultsToDisplay;
 
         public ICollectionView collectionView { get; set; }
 
         private RelayCommand _searchCommand;
         private RelayCommand _fullScreenDataGrid;
+        private RelayCommand _nextResultPage;
+        private RelayCommand _prevResultPage;
 
         private string _queryTextBox;
         private string _executionTime;
@@ -52,27 +54,55 @@ namespace AnalyzerDatabase.ViewModels
         private bool _checkBoxWebOfScience /*= true*/;
         private bool _checkBoxIeeeXplore /*= true*/;
 
+        private static int _startUpScienceDirect = 0;
+        private static int _startUpScopus = 0;
+        private static int _startUpSpringer = 1;
+        private static int _startDownScienceDirect = _startUpScienceDirect;
+        private static int _startDownScopus = _startUpScopus;
+        private static int _startDownSpringer = _startUpSpringer;
+
         #region Constructors
 
         public SearchDatabaseViewModel(IRestService restService, IInternetConnectionService internetConnectionService)
         {
             _restService = restService;
             _internetConnectionService = internetConnectionService;
-            ScienceDirectAndScopus = new ObservableCollection<IScienceDirectAndScopus>();
-            collectionView = CollectionViewSource.GetDefaultView(_scienceDirects);
-
+            SearchResultsToDisplay = new ObservableCollection<ISearchResultsToDisplay>();
+            collectionView = CollectionViewSource.GetDefaultView(_searchResultsToDisplay);
         }
 
         #endregion
 
         public RelayCommand SearchCommand
         {
-            get { return _searchCommand ?? (_searchCommand = new RelayCommand(Search)); }
+            get
+            {
+                return _searchCommand ?? (_searchCommand = new RelayCommand(Search));
+            }
         }
 
         public RelayCommand OpenFullScreenDataGrid
         {
-            get { return _fullScreenDataGrid ?? (_fullScreenDataGrid = new RelayCommand(FullDataGridMethod)); }
+            get
+            {
+                return _fullScreenDataGrid ?? (_fullScreenDataGrid = new RelayCommand(FullDataGridMethod));
+            }
+        }
+
+        public RelayCommand NextResultPage
+        {
+            get
+            {
+                return _nextResultPage ?? (_nextResultPage = new RelayCommand(NextPage));
+            }
+        }
+
+        public RelayCommand PrevResultPage
+        {
+            get
+            {
+                return _prevResultPage ?? (_prevResultPage = new RelayCommand(PrevPage));
+            }
         }
 
         public string QueryTextBox
@@ -218,15 +248,15 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
-        public ObservableCollection<IScienceDirectAndScopus> ScienceDirectAndScopus
+        public ObservableCollection<ISearchResultsToDisplay> SearchResultsToDisplay
         {
             get
             {
-                return _scienceDirects;
+                return _searchResultsToDisplay;
             }
             set
             {
-                _scienceDirects = value;
+                _searchResultsToDisplay = value;
                 this.RaisePropertyChanged();
             }
         }
@@ -285,13 +315,131 @@ namespace AnalyzerDatabase.ViewModels
             windowFullDataGrid.Show();
         }
 
+        private async void NextPage()
+        {
+            bool isInternet = _internetConnectionService.CheckConnectedToInternet();
+
+            if (isInternet)
+            {
+                SearchResultsToDisplay.Clear();
+                collectionView?.GroupDescriptions.Clear();
+
+                if (!string.IsNullOrEmpty(QueryTextBox))
+                {
+                    try
+                    {
+                        IsDataLoading = true;
+
+                        if (CheckBoxScienceDirect)
+                        {
+                            _startUpScienceDirect += 25;
+                            var obj = await _restService.GetPreviousOrNextResultScienceDirect(QueryTextBox, _startUpScienceDirect);
+                            obj.SearchResults.Entry.ToList().ForEach(element =>
+                            {
+                                this.SearchResultsToDisplay.Add(element);
+                            });
+                        }
+
+                        if (CheckBoxScopus)
+                        {
+                            _startUpScopus += 25;
+                            var obj = await _restService.GetPreviousOrNextResultScopus(QueryTextBox, _startUpScopus);
+                            obj.SearchResults.Entry.ToList().ForEach(e =>
+                            {
+                                this.SearchResultsToDisplay.Add(e);
+                            });
+                        }
+
+                        if (CheckBoxSpringer)
+                        {
+                            _startUpSpringer += 1;
+                            var obj = await _restService.GetPreviousOrNextResultSpringer(QueryTextBox, _startUpSpringer);
+                            obj.Records.ToList().ForEach(e =>
+                            {
+                                this.SearchResultsToDisplay.Add(e);
+                            });
+                        }
+
+                        collectionView?.GroupDescriptions.Add(new PropertyGroupDescription("Source"));
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    finally
+                    {
+                        IsDataLoading = false;
+                    }
+                }
+            }
+        }
+
+        private async void PrevPage()
+        {
+            bool isInternet = _internetConnectionService.CheckConnectedToInternet();
+
+            if (isInternet)
+            {
+                SearchResultsToDisplay.Clear();
+                collectionView?.GroupDescriptions.Clear();
+
+                if (!string.IsNullOrEmpty(QueryTextBox))
+                {
+                    try
+                    {
+                        IsDataLoading = true;
+
+                        if (CheckBoxScienceDirect)
+                        {
+                            _startDownScienceDirect -= 25;
+                            var obj = await _restService.GetPreviousOrNextResultScienceDirect(QueryTextBox, _startDownScienceDirect);
+                            obj.SearchResults.Entry.ToList().ForEach(element =>
+                            {
+                                this.SearchResultsToDisplay.Add(element);
+                            });
+                        }
+
+                        if (CheckBoxScopus)
+                        {
+                            _startDownScopus -= 25;
+                            var obj = await _restService.GetPreviousOrNextResultScopus(QueryTextBox, _startDownScopus);
+                            obj.SearchResults.Entry.ToList().ForEach(e =>
+                            {
+                                this.SearchResultsToDisplay.Add(e);
+                            });
+                        }
+
+                        if (CheckBoxSpringer)
+                        {
+                            _startDownSpringer -= 1;
+                            var obj = await _restService.GetPreviousOrNextResultSpringer(QueryTextBox, _startDownSpringer);
+                            obj.Records.ToList().ForEach(e =>
+                            {
+                                this.SearchResultsToDisplay.Add(e);
+                            });
+                        }
+
+                        collectionView?.GroupDescriptions.Add(new PropertyGroupDescription("Source"));
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    finally
+                    {
+                        IsDataLoading = false;
+                    }
+                }
+            }
+        }
+
         private async void Search()
         {
             bool isInternet = _internetConnectionService.CheckConnectedToInternet();
 
             if (isInternet)
             {
-                ScienceDirectAndScopus.Clear();
+                SearchResultsToDisplay.Clear();
                 collectionView?.GroupDescriptions.Clear();
 
                 if (!string.IsNullOrEmpty(QueryTextBox))
@@ -307,7 +455,7 @@ namespace AnalyzerDatabase.ViewModels
                             var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
                             obj.SearchResults.Entry.ToList().ForEach(element =>
                             {
-                                this.ScienceDirectAndScopus.Add(element);
+                                this.SearchResultsToDisplay.Add(element);
                             });                          
                         }
                         
@@ -316,7 +464,7 @@ namespace AnalyzerDatabase.ViewModels
                             var obj = await _restService.GetSearchQueryScopus(QueryTextBox);
                             obj.SearchResults.Entry.ToList().ForEach(e =>
                             {
-                                this.ScienceDirectAndScopus.Add(e);
+                                this.SearchResultsToDisplay.Add(e);
                             });
                         }
 
@@ -325,7 +473,7 @@ namespace AnalyzerDatabase.ViewModels
                             var obj = await _restService.GetSearchQuerySpringer(QueryTextBox);
                             obj.Records.ToList().ForEach(e =>
                             {
-                                this.ScienceDirectAndScopus.Add(e);
+                                this.SearchResultsToDisplay.Add(e);
                             });
                         }
 
@@ -359,9 +507,8 @@ namespace AnalyzerDatabase.ViewModels
                         TimeSpan executionTime = stopTime - startTime;
                         ExecutionTime = "(" + executionTime.TotalSeconds + "s)";
 
-                        //int allTotalResults = Int32.Parse(SearchResults.OpensearchTotalResults);
-                        //allTotalResults += Int32.Parse(ScopusSearchCollection.SearchResults.OpensearchTotalResults);
-                        //TotalResults = "Około " + allTotalResults + " wyników w";
+                        var allTotalResults = SearchResultsToDisplay.Count;
+                        TotalResults = "Około " + allTotalResults + " wyników w " + ExecutionTime;
                     }
                 }
                 else

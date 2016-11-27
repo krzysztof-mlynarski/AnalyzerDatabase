@@ -46,12 +46,51 @@ namespace AnalyzerDatabase.Services
             }
         }
 
+        public async Task<ScienceDirectSearchQuery> GetPreviousOrNextResultScienceDirect(string query, int start, CancellationTokenSource cts = null)
+        {
+            try
+            {
+                string url = String.Format(_resources["ScienceDirectPreviousOrNextPageResult"].ToString(), start, query,
+                    _resources["X-ELS-APIKey"]);
+                string webPageSource = await GetWebPageSource(url, cts);
+
+                return _deserializeJsonService.GetObjectFromJson<ScienceDirectSearchQuery>(webPageSource);
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw ex;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         public async Task<ScopusSearchQuery> GetSearchQueryScopus(string query, CancellationTokenSource cts = null)
         {
             try
             {
                 string url = String.Format(_resources["SearchQueryScopus"].ToString(), query, _resources["X-ELS-APIKey"]);
                 //string url = String.Format(_resources["ScopusAllResult"].ToString(), query, _resources["X-ELS-APIKey"]);
+                string webPageSource = await GetWebPageSource(url, cts);
+
+                return _deserializeJsonService.GetObjectFromJson<ScopusSearchQuery>(webPageSource);
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw ex;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public async Task<ScopusSearchQuery> GetPreviousOrNextResultScopus(string query, int start, CancellationTokenSource cts = null)
+        {
+            try
+            {
+                string url = String.Format(_resources["ScopusPreviousOrNextPageResult"].ToString(), start, query, _resources["X-ELS-APIKey"]);
                 string webPageSource = await GetWebPageSource(url, cts);
 
                 return _deserializeJsonService.GetObjectFromJson<ScopusSearchQuery>(webPageSource);
@@ -84,6 +123,26 @@ namespace AnalyzerDatabase.Services
                 return null;
             }
         }
+
+        public async Task<SpringerSearchQuery> GetPreviousOrNextResultSpringer(string query, int start, CancellationTokenSource cts = null)
+        {
+            try
+            {
+                string url = String.Format(_resources["SpringerPreviousOrNextPageResult"].ToString(), query, start);
+                string webPageSource = await GetWebPageSource(url, cts);
+
+                return _deserializeJsonService.GetObjectFromJson<SpringerSearchQuery>(webPageSource);
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw ex;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         #endregion
 
         #region Private methods

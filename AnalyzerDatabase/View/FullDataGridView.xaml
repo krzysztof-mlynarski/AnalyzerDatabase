@@ -27,7 +27,7 @@
         <DataGrid ItemsSource="{Binding collectionView}"
                       AutoGenerateColumns="False"
                       HorizontalAlignment="Stretch"
-                      Margin="0,20,0,0"
+                      Margin="0,35,0,0"
                       VerticalAlignment="Top"
                       AlternatingRowBackground="Gainsboro"
                       AlternationCount="2"
@@ -247,18 +247,26 @@
                                     Foreground="Black"
                                     Text="{Binding Abstract}" />
                             </StackPanel>
-                            
+
                             <Button Grid.Row="0" Grid.Column="3">
                                 <Image Source="../Assets/Other Icons/pdf.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Button>
-                            
+
                         </Grid>
                     </DockPanel>
                 </DataTemplate>
             </DataGrid.RowDetailsTemplate>
         </DataGrid>
         <controls:ProgressRing IsActive="{Binding IsDataLoading}" />
-        <Button x:Name="BtnPrev" Content="Prev" HorizontalAlignment="Left" Margin="300,0,0,0" VerticalAlignment="Top" Width="75" Height="15"/>
-        <Button x:Name="BtnNext" Content="Next" HorizontalAlignment="Left" Margin="410,0,0,0" VerticalAlignment="Top" Width="75" Height="15"/>
+        <Button x:Name="BtnPrev" 
+                Content="{x:Static res:Resources.PrevBtn}" 
+                Command="{Binding PrevResultPage}" 
+                HorizontalAlignment="Center" VerticalAlignment="Top" 
+                Width="75" Height="15" Margin="301,5,395,0"/>
+        <Button x:Name="BtnNext" 
+                Content="{x:Static res:Resources.NextBtn}" 
+                Command="{Binding NextResultPage}" 
+                HorizontalAlignment="Center" VerticalAlignment="Top" 
+                Width="75" Height="15" Margin="396,5,300,0"/>
     </Grid>
 </controls:MetroWindow>

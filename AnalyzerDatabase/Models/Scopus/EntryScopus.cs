@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace AnalyzerDatabase.Models.Scopus
 {
-    public class EntryScopus : IScienceDirectAndScopus
+    public class EntryScopus : ISearchResultsToDisplay
     {
         [JsonProperty("dc:title")]
         public string Title { get; set; }
