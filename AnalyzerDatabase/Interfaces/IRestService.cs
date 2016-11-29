@@ -35,5 +35,6 @@ namespace AnalyzerDatabase.Interfaces
 
         #endregion
 
+        void GetArticle(string doi, string title, CancellationTokenSource cts = null);
     }
 }

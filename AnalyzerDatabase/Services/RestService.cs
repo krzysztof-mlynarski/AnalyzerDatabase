@@ -1,5 +1,11 @@
 ﻿using System;
+using System.CodeDom;
+using System.IO;
+using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,6 +14,7 @@ using AnalyzerDatabase.Interfaces;
 using AnalyzerDatabase.Models.ScienceDirect;
 using AnalyzerDatabase.Models.Scopus;
 using AnalyzerDatabase.Models.Springer;
+using Microsoft.Win32;
 
 namespace AnalyzerDatabase.Services
 {
@@ -143,18 +150,27 @@ namespace AnalyzerDatabase.Services
             }
         }
 
+        public async void GetArticle(string doi, string title, CancellationTokenSource cts = null)
+        {
+            try
+            {
+                string url = String.Format(_resources["DownloadArticleFromScienceDirectToPdf"].ToString(), doi,
+                    _resources["X-ELS-APIKey"]);
+                string webPageSourcePdf = await GetWebPageSourcePdf(url, title, cts);
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw ex;
+            }
+        }
+
         #endregion
 
         #region Private methods
-        private async Task<string> GetWebPageSource(string url, CancellationTokenSource cts, bool authorize = false)
+        private async Task<string> GetWebPageSource(string url, CancellationTokenSource cts)
         {
             using (HttpClient httpClient = new HttpClient())
             {
-                //if (authorize)
-                //{
-                //    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(String.Format("{0}:{1}", _accountService.GetUserEmail(), _accountService.GetUserPassword()))));
-                //}
-
                 HttpResponseMessage response;
                 if (cts == null)
                 {
@@ -177,7 +193,7 @@ namespace AnalyzerDatabase.Services
         private async Task<string> DecodeResponseContent(HttpResponseMessage response)
         {
             string jsonString = "";
-            var byteContent = await response.Content.ReadAsByteArrayAsync();
+            byte[] byteContent = await response.Content.ReadAsByteArrayAsync();
 
             try
             {
@@ -191,6 +207,57 @@ namespace AnalyzerDatabase.Services
             return jsonString;
         }
 
+        private async Task<string> GetWebPageSourcePdf(string url, string title, CancellationTokenSource cts = null)
+        {
+            using (HttpClient httpClient = new HttpClient())
+            {
+                HttpResponseMessage response;
+                if (cts == null)
+                {
+                    response = await httpClient.GetAsync(url);
+                }
+                else
+                {
+                    response = await httpClient.GetAsync(url, cts.Token);
+                }
+
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    throw new HttpRequestException();
+                }
+
+                return await DecodeResponseContentAndSaveToPdf(response, title);
+            }
+        }
+
+        private async Task<string> DecodeResponseContentAndSaveToPdf(HttpResponseMessage response, string title)
+        {
+            string pdfString = "";
+            byte[] byteContent = await response.Content.ReadAsByteArrayAsync();
+
+            try
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog
+                {
+                    Filter = "PDF (*.pdf)|*.pdf",
+                    FileName = title,
+                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+                };
+
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    System.IO.File.WriteAllBytes(saveFileDialog.FileName, byteContent);
+                }
+
+                System.Diagnostics.Process.Start(saveFileDialog.FileName);
+            }
+            catch
+            {
+                pdfString = Encoding.UTF8.GetString(byteContent);
+            }
+
+            return pdfString;
+        }
         #endregion
     }
 }

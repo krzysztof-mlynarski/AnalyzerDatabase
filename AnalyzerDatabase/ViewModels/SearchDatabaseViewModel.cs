@@ -40,6 +40,7 @@ namespace AnalyzerDatabase.ViewModels
         private RelayCommand _fullScreenDataGrid;
         private RelayCommand _nextResultPage;
         private RelayCommand _prevResultPage;
+        private RelayCommand _downloadArticleToPdf;
 
         private string _queryTextBox;
         private string _executionTime;
@@ -85,7 +86,11 @@ namespace AnalyzerDatabase.ViewModels
         {
             get
             {
-                return _fullScreenDataGrid ?? (_fullScreenDataGrid = new RelayCommand(FullDataGridMethod));
+                return _fullScreenDataGrid ?? (_fullScreenDataGrid = new RelayCommand(() =>
+                {
+                    var windowFullDataGrid = new FullDataGridView();
+                    windowFullDataGrid.Show();
+                }));
             }
         }
 
@@ -102,6 +107,14 @@ namespace AnalyzerDatabase.ViewModels
             get
             {
                 return _prevResultPage ?? (_prevResultPage = new RelayCommand(PrevPage));
+            }
+        }
+
+        public RelayCommand DownloadArticleToPdf
+        {
+            get
+            {
+                return _downloadArticleToPdf ?? (_downloadArticleToPdf = new RelayCommand(DownloadArticle));
             }
         }
 
@@ -309,10 +322,14 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
-        private void FullDataGridMethod()
+        private void DownloadArticle()
         {
-            var windowFullDataGrid = new FullDataGridView();
-            windowFullDataGrid.Show();
+            //SearchDatabaseViewModel model = (Button as FrameworkElement).DataContext as SearchDatabaseViewModel;
+            
+            //Mock
+            string doi = "10.1016/j.jrras.2015.12.002";
+            string title = "ERSN-OpenMC";
+            _restService.GetArticle(doi, title);
         }
 
         private async void NextPage()

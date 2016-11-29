@@ -12,7 +12,8 @@
     <!-- Metody dla bazy ScienceDirect //json-->
     <system:String x:Key="SearchQueryScienceDirect">https://api.elsevier.com/content/search/scidir?query={0}&amp;apiKey={1}</system:String>
     <system:String x:Key="ScienceDirectPreviousOrNextPageResult">https://api.elsevier.com/content/search/scidir?start={0}&amp;count=25&amp;query={1}&amp;apiKey={2}</system:String>
-    
+    <system:String x:Key="DownloadArticleFromScienceDirectToPdf">https://api.elsevier.com/content/article/doi/{0}?apiKey={1}&amp;httpAccept=application/pdf</system:String>
+   
     <!-- Metody dla bazy Scopus //json-->
     <system:String x:Key="SearchQueryScopus">https://api.elsevier.com/content/search/scopus?query={0}&amp;apiKey={1}</system:String>
     <system:String x:Key="ScopusPreviousOrNextPageResult">https://api.elsevier.com/content/search/scopus?start={0}&amp;count=25&amp;query={1}&amp;apiKey={2}</system:String>

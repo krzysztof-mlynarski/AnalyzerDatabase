@@ -8,6 +8,8 @@
         xmlns:viewModel="clr-namespace:AnalyzerDatabase.ViewModels"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:res="clr-namespace:AnalyzerDatabase.Properties"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:command="http://www.galasoft.ch/mvvmlight"
         mc:Ignorable="d"
         Title="Received results"
         DataContext="{Binding Source={StaticResource Locator}, Path=SearchDatabase}"
@@ -247,11 +249,11 @@
                                     Foreground="Black"
                                     Text="{Binding Abstract}" />
                             </StackPanel>
-
-                            <Button Grid.Row="0" Grid.Column="3">
+                            <Button Grid.Row="0" Grid.Column="3"
+                                    ToolTip="POBIERZ"
+                                    Command="{Binding Path=(viewModel:SearchDatabaseViewModel.DownloadArticleToPdf)}">
                                 <Image Source="../Assets/Other Icons/pdf.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Button>
-
                         </Grid>
                     </DockPanel>
                 </DataTemplate>
@@ -268,5 +270,7 @@
                 Command="{Binding NextResultPage}" 
                 HorizontalAlignment="Center" VerticalAlignment="Top" 
                 Width="75" Height="15" Margin="396,5,300,0"/>
+
+        <Button Command="{Binding DownloadArticleToPdf}" Width="5" Height="5" Margin="374,5,369,474" Background="Red"/>
     </Grid>
 </controls:MetroWindow>
