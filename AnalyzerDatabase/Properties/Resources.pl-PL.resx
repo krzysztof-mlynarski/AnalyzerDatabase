@@ -204,4 +204,52 @@
   <data name="PrevBtn" xml:space="preserve">
     <value>Poprzednia</value>
   </data>
+  <data name="ConfigApiKeySettings" xml:space="preserve">
+    <value>Konfiguracja kluczy do API</value>
+  </data>
+  <data name="InterfaceSettings" xml:space="preserve">
+    <value>Interfejs</value>
+  </data>
+  <data name="CobaltColorSettings" xml:space="preserve">
+    <value>Kobalt</value>
+  </data>
+  <data name="DefaultSavingLocationSettings" xml:space="preserve">
+    <value>Domyślna lokalizacja zapisywania publikacji</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>Angielski</value>
+  </data>
+  <data name="GreenColorSettings" xml:space="preserve">
+    <value>Zielony</value>
+  </data>
+  <data name="IndigoColorSettings" xml:space="preserve">
+    <value>Indygo</value>
+  </data>
+  <data name="LanguageSettings" xml:space="preserve">
+    <value>Język</value>
+  </data>
+  <data name="Polish" xml:space="preserve">
+    <value>Polski</value>
+  </data>
+  <data name="StyleAppSettings" xml:space="preserve">
+    <value>Styl aplikacji</value>
+  </data>
+  <data name="OpenContainingFolder" xml:space="preserve">
+    <value>Otwórz folder</value>
+  </data>
+  <data name="ApiScienceAndScopusSettings" xml:space="preserve">
+    <value>Science Direct i Scopus</value>
+  </data>
+  <data name="ApiSpringerSettings" xml:space="preserve">
+    <value>Springer</value>
+  </data>
+  <data name="GetApiKeyElsevier" xml:space="preserve">
+    <value>Pobierz klucz API do baz Science Direct oraz Scopus</value>
+  </data>
+  <data name="GetApiKeySpringer" xml:space="preserve">
+    <value>Pobierz klucz API do bazy Springer</value>
+  </data>
+  <data name="StartOnLogin" xml:space="preserve">
+    <value>Startuj z Windowsem</value>
+  </data>
 </root>

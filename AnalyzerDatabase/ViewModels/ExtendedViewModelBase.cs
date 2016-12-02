@@ -1,4 +1,7 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System.Reflection;
+using System.Resources;
+using AnalyzerDatabase.Services;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Views;
 
 namespace AnalyzerDatabase.ViewModels
@@ -6,6 +9,12 @@ namespace AnalyzerDatabase.ViewModels
     public class ExtendedViewModelBase : ViewModelBase
     {
         private ViewModelBase _currentViewModel;
+        private readonly ResourceManager _resourceManager;
+
+        public ExtendedViewModelBase()
+        {
+            _resourceManager = new ResourceManager("AnalyzerDatabase.Properties.Resources", Assembly.GetExecutingAssembly());
+        }
 
         public ViewModelBase CurrentViewModel
         {
@@ -35,6 +44,11 @@ namespace AnalyzerDatabase.ViewModels
             {
                 extendedViewModel.OnLoad();
             }
+        }
+
+        public string GetString(string name)
+        {
+            return _resourceManager.GetString(name, SettingsService.Instance.Culture);
         }
     }
 }

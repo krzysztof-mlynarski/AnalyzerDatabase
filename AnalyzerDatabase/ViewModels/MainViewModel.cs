@@ -17,13 +17,15 @@ namespace AnalyzerDatabase.ViewModels
         private RelayCommand _openStatisticsCommand;
         private RelayCommand _openSettingsCommand;
         private RelayCommand _openAboutCommand;
+        private RelayCommand _goToSettingsViewCommand;
+        private RelayCommand _openHomeWindowCommand;
 
         public MainViewModel(IInternetConnectionService internetConnectionService)
         {
             _internetConnectionService = internetConnectionService;
             CurrentViewModel = ViewModelLocator.Instance.SearchDatabase;
             //CurrentViewModel = ViewModelLocator.Instance.Statistics;
-            //CurrentViewModel = ViewModelLocator.Instance.Settings;
+            CurrentViewModel = ViewModelLocator.Instance.Settings;
             //CurrentViewModel = ViewModelLocator.Instance.About;
             CurrentViewModel = null;
 
@@ -104,7 +106,25 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
+        public RelayCommand GoToSettingsViewCommand
+        {
+            get
+            {
+                return _goToSettingsViewCommand ?? (_goToSettingsViewCommand = new RelayCommand(OpenSettings));
+            }
+        }
+
+        public RelayCommand OpenHomeWindowCommand
+        {
+            get { return _openHomeWindowCommand ?? (_openHomeWindowCommand = new RelayCommand(OpenHomeWindow)); }
+        }
+
         #endregion
+
+        private void OpenHomeWindow()
+        {
+            NavigateTo(ViewModelLocator.Instance.Main);
+        }
 
         private void OpenSearchDatabase()
         {
@@ -118,7 +138,7 @@ namespace AnalyzerDatabase.ViewModels
 
         private void OpenSettings()
         {
-            //NavigateTo(ViewModelLocator.Instance.Settings);
+            NavigateTo(ViewModelLocator.Instance.Settings);
         }
 
         private void OpenAbout()

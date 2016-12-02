@@ -22,7 +22,8 @@
 
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
-            <Button Content="Settings" />
+            <Button Content="Settings" 
+                    Command="{Binding GoToSettingsViewCommand}"/>
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
 
@@ -31,16 +32,20 @@
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converters:NegativeBooleanToVisibilityConverter x:Key="NegativeBooleanToVisibilityConverter"/>
 
+        <!--<DataTemplate DataType="{x:Type viewModel:MainViewModel}">
+            <view:MainWindow/>
+        </DataTemplate>-->
+        
         <DataTemplate DataType="{x:Type viewModel:SearchDatabaseViewModel}">
             <view:SearchDatabaseView/>
         </DataTemplate>
         <!--<DataTemplate DataType="{x:Type viewModel:StatisticsViewModel}">
             <view:StatisticsView/>
-        </DataTemplate>
+        </DataTemplate>-->
         <DataTemplate DataType="{x:Type viewModel:SettingsViewModel}">
             <view:SettingsView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:AboutViewModel}">
+        <!--<DataTemplate DataType="{x:Type viewModel:AboutViewModel}">
             <view:AboutView/>
         </DataTemplate>-->
     </Window.Resources>
@@ -59,7 +64,8 @@
         <StackPanel Grid.Column="0" Margin="0,25,0,0" Grid.RowSpan="2">
             <Button x:Name="HomeBtn"  
                     Background="#cccccc" 
-                    Margin="5,2,0,2">
+                    Margin="5,2,0,2"
+                    Command="{Binding OpenHomeWindowCommand}">
                 <StackPanel Orientation="Vertical" 
                             HorizontalAlignment="Stretch" 
                             VerticalAlignment="Stretch" 
