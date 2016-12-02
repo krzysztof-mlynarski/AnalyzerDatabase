@@ -251,7 +251,7 @@
                             </StackPanel>
                             <Button Grid.Row="0" Grid.Column="3"
                                     ToolTip="POBIERZ"
-                                    Command="{Binding Path=(viewModel:SearchDatabaseViewModel.DownloadArticleToPdf)}">
+                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.DownloadArticleToPdf}">
                                 <Image Source="../Assets/Other Icons/pdf.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Button>
                         </Grid>
@@ -271,6 +271,6 @@
                 HorizontalAlignment="Center" VerticalAlignment="Top" 
                 Width="75" Height="15" Margin="396,5,300,0"/>
 
-        <Button Command="{Binding DownloadArticleToPdf}" Width="5" Height="5" Margin="374,5,369,474" Background="Red"/>
+        <!--<Button Command="{Binding DownloadArticleToPdf}" Width="5" Height="5" Margin="374,5,369,474" Background="Red"/>-->
     </Grid>
 </controls:MetroWindow>
