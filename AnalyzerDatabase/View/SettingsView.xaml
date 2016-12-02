@@ -1,0 +1,156 @@
+﻿<UserControl x:Class="AnalyzerDatabase.View.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AnalyzerDatabase.View"
+             xmlns:res="clr-namespace:AnalyzerDatabase.Properties"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="800"
+             DataContext="{Binding Source={StaticResource Locator}, Path=Settings}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TabControl Margin="30,30,0,0">
+            <TabItem Header="{x:Static res:Resources.InterfaceSettings}">
+                <StackPanel Margin="40,50,0,0">
+                    <TextBlock Text="{x:Static res:Resources.StartOnLogin}" 
+                               FontSize="20"/>
+                    <controls:ToggleSwitchButton HorizontalAlignment="Left"
+                               IsChecked="{Binding StartOnLogin, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <!--<TextBlock Text="{x:Static res:Resources.LanguageSettings}" FontSize="20" Margin="0,50,0,0"/>
+                    <ComboBox Width="200" HorizontalAlignment="Left" Margin="0,10,0,0"
+                              SelectedValue="{Binding SelectedLanguage}"
+                              SelectedValuePath="Content">
+                        <ComboBox.Items>
+                            <ComboBoxItem Content="{x:Static res:Resources.English}"/>
+                            <ComboBoxItem Content="{x:Static res:Resources.Polish}"/>
+                        </ComboBox.Items>
+                    </ComboBox>-->
+
+                    <!--<TextBlock Text="{x:Static res:Resources.StyleAppSettings}" FontSize="20" Margin="0,50,0,0"/>
+                    <ComboBox Width="200" Height="15" HorizontalAlignment="Left" Margin="0,10,0,0"
+                              SelectedValue="{Binding SelectedAppStyle}"
+                              SelectedValuePath="Text">
+                        <ComboBox.Items>
+                            <ComboBoxItem>
+                                <StackPanel Orientation="Horizontal">
+                                    <Rectangle Fill="#FF60A917" Width="16" Height="16" Margin="0,2,5,2"/>
+                                    <TextBlock Text="{x:Static res:Resources.GreenColorSettings}" Foreground="Black" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </ComboBoxItem>
+                            <ComboBoxItem>
+                                <StackPanel Orientation="Horizontal">
+                                    <Rectangle Fill="#FF6A00FF" Width="16" Height="16" Margin="0,2,5,2"/>
+                                    <TextBlock Text="{x:Static res:Resources.IndigoColorSettings}" Foreground="Black" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </ComboBoxItem>
+                            <ComboBoxItem>
+                                <StackPanel Orientation="Horizontal">
+                                    <Rectangle Fill="#FF0050EF" Width="16" Height="16" Margin="0,2,5,2"/>
+                                    <TextBlock Text="{x:Static res:Resources.CobaltColorSettings}" Foreground="Black" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </ComboBoxItem>
+                        </ComboBox.Items>
+                    </ComboBox>-->
+
+                    <Separator Margin="0,50,70,10"></Separator>
+
+                    <TextBlock Text="{x:Static res:Resources.DefaultSavingLocationSettings}" FontSize="20" Margin="0,20,0,0"/>
+                    <DockPanel HorizontalAlignment="Left" Margin="0,10,0,0">
+                        <Button 
+                            DockPanel.Dock="Right"
+                            Content=". . ."
+                            Foreground="Black"
+                            Command="{Binding OpenDirectoryFilePicker}"
+                            Margin="5,0,0,0"
+                            Cursor="Hand"/>
+                        <TextBox
+                            DockPanel.Dock="Left"
+                            Text="{Binding CurrentPublicationSavingPath}"
+                            IsReadOnly="True"
+                            Width="Auto"/>
+                    </DockPanel>
+
+                    <Button Margin="0,5,0,0"
+                            Command="{Binding OpenPublicationsDirectory}"
+                            BorderThickness="0" BorderBrush="Transparent"
+                            Background="Transparent" Foreground="Black"
+                            HorizontalAlignment="Left"
+                            Height="Auto"
+                            Cursor="Hand">
+                        
+                                <TextBlock 
+                                Text="{x:Static res:Resources.OpenContainingFolder}"
+                                FontSize="12"
+                                FontWeight="Light"
+                                TextDecorations="Underline">
+                                </TextBlock>
+                    </Button>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="{x:Static res:Resources.ConfigApiKeySettings}">
+                <StackPanel Margin="40,50,0,0">
+                    <TextBlock Text="{x:Static res:Resources.ApiScienceAndScopusSettings}" FontSize="20"/>
+                    <TextBox
+                        Background="WhiteSmoke"
+                        FontSize="18" 
+                        Margin="0,10,0,0"
+                        Text="{Binding CurrentScienceDirectAndScopusApiKey}"
+                        Width="350"
+                        HorizontalAlignment="Left"
+                        controls:TextBoxHelper.ClearTextButton="True">
+                    </TextBox>
+                    <Button Margin="0,5,0,0"
+                            Command="{Binding OpenPageDevElsevier}"
+                            BorderThickness="0" BorderBrush="Transparent"
+                            Background="Transparent" Foreground="Black"
+                            HorizontalAlignment="Left"
+                            Height="Auto"
+                            Cursor="Hand">
+                                <TextBlock Text="{x:Static res:Resources.GetApiKeyElsevier}"
+                                           FontSize="12"
+                                           FontWeight="Light"
+                                           TextDecorations="Underline"
+                                           Foreground="Black">
+                                </TextBlock>
+                    </Button>
+
+                    <TextBlock Text="{x:Static res:Resources.ApiSpringerSettings}" FontSize="20" Margin="0,50,0,0"/>
+                    <TextBox
+                        Background="WhiteSmoke"
+                        FontSize="18" 
+                        Margin="0,10,0,0"
+                        Text="{Binding CurrentSpringerApiKey}"
+                        Width="350"
+                        HorizontalAlignment="Left"
+                        controls:TextBoxHelper.ClearTextButton="True">
+                    </TextBox>
+                    <Button Margin="0,5,0,0"
+                            Command="{Binding OpenPageDevSpringer}"
+                            BorderThickness="0" BorderBrush="Transparent"
+                            Background="Transparent" Foreground="Black"
+                            HorizontalAlignment="Left"
+                            Height="Auto"
+                            Cursor="Hand">
+                                <TextBlock Text="{x:Static res:Resources.GetApiKeySpringer}"
+                                           FontSize="12"
+                                           FontWeight="Light"
+                                           TextDecorations="Underline">
+                                </TextBlock>
+                    </Button>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>
+
