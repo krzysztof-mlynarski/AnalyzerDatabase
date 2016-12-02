@@ -123,11 +123,26 @@
   <data name="AbstractDataGrid" xml:space="preserve">
     <value>Abstract: </value>
   </data>
+  <data name="ApiScienceAndScopusSettings" xml:space="preserve">
+    <value>Science Direct and Scopus</value>
+  </data>
+  <data name="ApiSpringerSettings" xml:space="preserve">
+    <value>Springer</value>
+  </data>
   <data name="AuthorDataGrid" xml:space="preserve">
     <value>Authors: </value>
   </data>
   <data name="AuthorDataGridHeader" xml:space="preserve">
     <value>Author</value>
+  </data>
+  <data name="CobaltColorSettings" xml:space="preserve">
+    <value>Cobalt</value>
+  </data>
+  <data name="ConfigApiKeySettings" xml:space="preserve">
+    <value>Configuration API Key</value>
+  </data>
+  <data name="DefaultSavingLocationSettings" xml:space="preserve">
+    <value>Default location to save the publication</value>
   </data>
   <data name="DoiDataGrid" xml:space="preserve">
     <value>DOI:</value>
@@ -135,8 +150,26 @@
   <data name="DoiDataGridHeader" xml:space="preserve">
     <value>DOI</value>
   </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="GetApiKeyElsevier" xml:space="preserve">
+    <value>Get API Key for Science Direct and Scopus databases</value>
+  </data>
+  <data name="GetApiKeySpringer" xml:space="preserve">
+    <value>Get API Key for Springer database</value>
+  </data>
+  <data name="GreenColorSettings" xml:space="preserve">
+    <value>Green</value>
+  </data>
   <data name="HomeMenu" xml:space="preserve">
     <value>Home</value>
+  </data>
+  <data name="IndigoColorSettings" xml:space="preserve">
+    <value>Indigo</value>
+  </data>
+  <data name="InterfaceSettings" xml:space="preserve">
+    <value>Interface</value>
   </data>
   <data name="IsbnDataGrid" xml:space="preserve">
     <value>Isbn: </value>
@@ -147,17 +180,26 @@
   <data name="IssueDataGrid" xml:space="preserve">
     <value>Issue: </value>
   </data>
+  <data name="LanguageSettings" xml:space="preserve">
+    <value>Language</value>
+  </data>
   <data name="NextBtn" xml:space="preserve">
     <value>Next</value>
   </data>
   <data name="OpenAccessDataGrid" xml:space="preserve">
     <value>Open Access</value>
   </data>
+  <data name="OpenContainingFolder" xml:space="preserve">
+    <value>Open containing folder</value>
+  </data>
   <data name="PageRangeDataGrid" xml:space="preserve">
     <value>Page range: </value>
   </data>
   <data name="PiiDataGrid" xml:space="preserve">
     <value>Pii: </value>
+  </data>
+  <data name="Polish" xml:space="preserve">
+    <value>Polish</value>
   </data>
   <data name="PrevBtn" xml:space="preserve">
     <value>Previous</value>
@@ -192,8 +234,14 @@
   <data name="Source" xml:space="preserve">
     <value>Source: </value>
   </data>
+  <data name="StartOnLogin" xml:space="preserve">
+    <value>Start on login</value>
+  </data>
   <data name="StatisticsMenu" xml:space="preserve">
     <value>Statistics</value>
+  </data>
+  <data name="StyleAppSettings" xml:space="preserve">
+    <value>Style application</value>
   </data>
   <data name="TitleDataGrid" xml:space="preserve">
     <value>Title: </value>

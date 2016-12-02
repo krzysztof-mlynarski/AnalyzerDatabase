@@ -79,6 +79,24 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Science Direct and Scopus.
+        /// </summary>
+        public static string ApiScienceAndScopusSettings {
+            get {
+                return ResourceManager.GetString("ApiScienceAndScopusSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Springer.
+        /// </summary>
+        public static string ApiSpringerSettings {
+            get {
+                return ResourceManager.GetString("ApiSpringerSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Authors: .
         /// </summary>
         public static string AuthorDataGrid {
@@ -93,6 +111,33 @@ namespace AnalyzerDatabase.Properties {
         public static string AuthorDataGridHeader {
             get {
                 return ResourceManager.GetString("AuthorDataGridHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cobalt.
+        /// </summary>
+        public static string CobaltColorSettings {
+            get {
+                return ResourceManager.GetString("CobaltColorSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configuration API Key.
+        /// </summary>
+        public static string ConfigApiKeySettings {
+            get {
+                return ResourceManager.GetString("ConfigApiKeySettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default location to save the publication.
+        /// </summary>
+        public static string DefaultSavingLocationSettings {
+            get {
+                return ResourceManager.GetString("DefaultSavingLocationSettings", resourceCulture);
             }
         }
         
@@ -115,11 +160,65 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to English.
+        /// </summary>
+        public static string English {
+            get {
+                return ResourceManager.GetString("English", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Get API Key for Science Direct and Scopus databases.
+        /// </summary>
+        public static string GetApiKeyElsevier {
+            get {
+                return ResourceManager.GetString("GetApiKeyElsevier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Get API Key for Springer database.
+        /// </summary>
+        public static string GetApiKeySpringer {
+            get {
+                return ResourceManager.GetString("GetApiKeySpringer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Green.
+        /// </summary>
+        public static string GreenColorSettings {
+            get {
+                return ResourceManager.GetString("GreenColorSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Home.
         /// </summary>
         public static string HomeMenu {
             get {
                 return ResourceManager.GetString("HomeMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Indigo.
+        /// </summary>
+        public static string IndigoColorSettings {
+            get {
+                return ResourceManager.GetString("IndigoColorSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Interface.
+        /// </summary>
+        public static string InterfaceSettings {
+            get {
+                return ResourceManager.GetString("InterfaceSettings", resourceCulture);
             }
         }
         
@@ -151,6 +250,15 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Language.
+        /// </summary>
+        public static string LanguageSettings {
+            get {
+                return ResourceManager.GetString("LanguageSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Next.
         /// </summary>
         public static string NextBtn {
@@ -169,6 +277,15 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open containing folder.
+        /// </summary>
+        public static string OpenContainingFolder {
+            get {
+                return ResourceManager.GetString("OpenContainingFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Page range: .
         /// </summary>
         public static string PageRangeDataGrid {
@@ -183,6 +300,15 @@ namespace AnalyzerDatabase.Properties {
         public static string PiiDataGrid {
             get {
                 return ResourceManager.GetString("PiiDataGrid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Polish.
+        /// </summary>
+        public static string Polish {
+            get {
+                return ResourceManager.GetString("Polish", resourceCulture);
             }
         }
         
@@ -286,11 +412,29 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start on login.
+        /// </summary>
+        public static string StartOnLogin {
+            get {
+                return ResourceManager.GetString("StartOnLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Statistics.
         /// </summary>
         public static string StatisticsMenu {
             get {
                 return ResourceManager.GetString("StatisticsMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Style application.
+        /// </summary>
+        public static string StyleAppSettings {
+            get {
+                return ResourceManager.GetString("StyleAppSettings", resourceCulture);
             }
         }
         
