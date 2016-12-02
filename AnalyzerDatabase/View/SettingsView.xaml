@@ -20,7 +20,7 @@
         </Grid.RowDefinitions>
 
         <TabControl Margin="30,30,0,0">
-            <TabItem Header="{x:Static res:Resources.InterfaceSettings}">
+            <controls:MetroTabItem Header="{x:Static res:Resources.InterfaceSettings}">
                 <StackPanel Margin="40,50,0,0">
                     <TextBlock Text="{x:Static res:Resources.StartOnLogin}" 
                                FontSize="20"/>
@@ -97,7 +97,7 @@
                                 </TextBlock>
                     </Button>
                 </StackPanel>
-            </TabItem>
+            </controls:MetroTabItem>
             <TabItem Header="{x:Static res:Resources.ConfigApiKeySettings}">
                 <StackPanel Margin="40,50,0,0">
                     <TextBlock Text="{x:Static res:Resources.ApiScienceAndScopusSettings}" FontSize="20"/>

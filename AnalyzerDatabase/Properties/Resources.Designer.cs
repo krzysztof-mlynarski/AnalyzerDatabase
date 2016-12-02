@@ -160,6 +160,15 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download publication.
+        /// </summary>
+        public static string DownloadPublication {
+            get {
+                return ResourceManager.GetString("DownloadPublication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to English.
         /// </summary>
         public static string English {

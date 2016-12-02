@@ -19,6 +19,7 @@ using AnalyzerDatabase.Models.Springer;
 using AnalyzerDatabase.View;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using Newtonsoft.Json.Linq;
 using MahApps.Metro.Controls.Dialogs;
 
@@ -34,7 +35,8 @@ namespace AnalyzerDatabase.ViewModels
 
         private ObservableCollection<ISearchResultsToDisplay> _searchResultsToDisplay;
 
-        public ICollectionView collectionView { get; set; }
+        public ICollectionView CollectionView { get; set; }
+        public ISearchResultsToDisplay DoiAndTitle { get; set; }
 
         private RelayCommand _searchCommand;
         private RelayCommand _fullScreenDataGrid;
@@ -47,6 +49,7 @@ namespace AnalyzerDatabase.ViewModels
         private string _totalResults;
 
         private bool _isDataLoading;
+        private bool _isDownloadFile = false;
 
         private bool _checkBoxScopus = true;
         private bool _checkBoxSpringer = true;
@@ -69,7 +72,7 @@ namespace AnalyzerDatabase.ViewModels
             _restService = restService;
             _internetConnectionService = internetConnectionService;
             SearchResultsToDisplay = new ObservableCollection<ISearchResultsToDisplay>();
-            collectionView = CollectionViewSource.GetDefaultView(_searchResultsToDisplay);
+            CollectionView = CollectionViewSource.GetDefaultView(_searchResultsToDisplay);
         }
 
         #endregion
@@ -177,6 +180,22 @@ namespace AnalyzerDatabase.ViewModels
                 if (_isDataLoading != value)
                 {
                     _isDataLoading = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        public bool IsDownloadFile
+        {
+            get
+            {
+                return _isDownloadFile;
+            }
+            set
+            {
+                if (_isDownloadFile != value)
+                {
+                    _isDownloadFile = value;
                     RaisePropertyChanged();
                 }
             }
@@ -324,12 +343,19 @@ namespace AnalyzerDatabase.ViewModels
 
         private void DownloadArticle()
         {
-            //SearchDatabaseViewModel model = (Button as FrameworkElement).DataContext as SearchDatabaseViewModel;
-            
-            //Mock
-            string doi = "10.1016/j.jrras.2015.12.002";
-            string title = "ERSN-OpenMC";
-            _restService.GetArticle(doi, title);
+            try
+            {
+                IsDataLoading = true;
+                _restService.GetArticle(DoiAndTitle.Doi, DoiAndTitle.Title);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                IsDataLoading = false;
+            }
         }
 
         private async void NextPage()
@@ -339,7 +365,7 @@ namespace AnalyzerDatabase.ViewModels
             if (isInternet)
             {
                 SearchResultsToDisplay.Clear();
-                collectionView?.GroupDescriptions.Clear();
+                CollectionView?.GroupDescriptions.Clear();
 
                 if (!string.IsNullOrEmpty(QueryTextBox))
                 {
@@ -377,7 +403,7 @@ namespace AnalyzerDatabase.ViewModels
                             });
                         }
 
-                        collectionView?.GroupDescriptions.Add(new PropertyGroupDescription("Source"));
+                        CollectionView?.GroupDescriptions.Add(new PropertyGroupDescription("Source"));
                     }
                     catch (Exception ex)
                     {
@@ -398,7 +424,7 @@ namespace AnalyzerDatabase.ViewModels
             if (isInternet)
             {
                 SearchResultsToDisplay.Clear();
-                collectionView?.GroupDescriptions.Clear();
+                CollectionView?.GroupDescriptions.Clear();
 
                 if (!string.IsNullOrEmpty(QueryTextBox))
                 {
@@ -436,7 +462,7 @@ namespace AnalyzerDatabase.ViewModels
                             });
                         }
 
-                        collectionView?.GroupDescriptions.Add(new PropertyGroupDescription("Source"));
+                        CollectionView?.GroupDescriptions.Add(new PropertyGroupDescription("Source"));
                     }
                     catch (Exception ex)
                     {
@@ -457,7 +483,7 @@ namespace AnalyzerDatabase.ViewModels
             if (isInternet)
             {
                 SearchResultsToDisplay.Clear();
-                collectionView?.GroupDescriptions.Clear();
+                CollectionView?.GroupDescriptions.Clear();
 
                 if (!string.IsNullOrEmpty(QueryTextBox))
                 {
@@ -509,7 +535,7 @@ namespace AnalyzerDatabase.ViewModels
                         //    //TODO:
                         //}
 
-                        collectionView?.GroupDescriptions.Add(new PropertyGroupDescription("Source"));
+                        CollectionView?.GroupDescriptions.Add(new PropertyGroupDescription("Source"));
                     }
                     catch (Exception ex)
                     {

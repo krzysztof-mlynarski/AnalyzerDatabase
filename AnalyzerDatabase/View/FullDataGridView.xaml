@@ -22,11 +22,13 @@
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
-
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:NegativeBooleanToVisibilityConverter x:Key="NegativeBooleanToVisibilityConverter"/>
     </Window.Resources>
 
     <Grid>
-        <DataGrid ItemsSource="{Binding collectionView}"
+        <DataGrid ItemsSource="{Binding CollectionView}"
+                    SelectedItem="{Binding Doi}"
                       AutoGenerateColumns="False"
                       HorizontalAlignment="Stretch"
                       Margin="0,35,0,0"
@@ -250,10 +252,16 @@
                                     Text="{Binding Abstract}" />
                             </StackPanel>
                             <Button Grid.Row="0" Grid.Column="3"
-                                    ToolTip="POBIERZ"
+                                    Background="Transparent"
+                                    Foreground="Transparent"
+                                    BorderThickness="0" BorderBrush="Transparent"
+                                    ToolTip="{x:Static res:Resources.DownloadPublication}"
                                     Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.DownloadArticleToPdf}">
                                 <Image Source="../Assets/Other Icons/pdf.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Button>
+                            <controls:ProgressRing Grid.Row="0" Grid.Column="3" 
+                                                   Width="60" Foreground="Blue"
+                                                   IsActive="{Binding IsDataLoading}"/>
                         </Grid>
                     </DockPanel>
                 </DataTemplate>
@@ -270,7 +278,5 @@
                 Command="{Binding NextResultPage}" 
                 HorizontalAlignment="Center" VerticalAlignment="Top" 
                 Width="75" Height="15" Margin="396,5,300,0"/>
-
-        <!--<Button Command="{Binding DownloadArticleToPdf}" Width="5" Height="5" Margin="374,5,369,474" Background="Red"/>-->
     </Grid>
 </controls:MetroWindow>

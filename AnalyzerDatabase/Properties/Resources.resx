@@ -150,6 +150,9 @@
   <data name="DoiDataGridHeader" xml:space="preserve">
     <value>DOI</value>
   </data>
+  <data name="DownloadPublication" xml:space="preserve">
+    <value>Download publication</value>
+  </data>
   <data name="English" xml:space="preserve">
     <value>English</value>
   </data>

@@ -252,4 +252,7 @@
   <data name="StartOnLogin" xml:space="preserve">
     <value>Startuj z Windowsem</value>
   </data>
+  <data name="DownloadPublication" xml:space="preserve">
+    <value>Pobierz publikację</value>
+  </data>
 </root>
