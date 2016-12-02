@@ -23,12 +23,18 @@ namespace AnalyzerDatabase.Services
         #region Private fields
         private readonly ResourceDictionary _resources = Application.Current.Resources;
         private readonly IDeserializeJsonService _deserializeJsonService;
+        private readonly string _currentPublicationSavingPath;
+        private readonly string _currentScienceDirectAndScopusApiKey;
+        private readonly string _currentSpringerApiKey;
         #endregion
 
         #region Constructor
         public RestService(IDeserializeJsonService deserializeJsonService)
         {
             _deserializeJsonService = deserializeJsonService;
+            _currentPublicationSavingPath = SettingsService.Instance.Settings.SavingPublicationPath;
+            _currentScienceDirectAndScopusApiKey = SettingsService.Instance.Settings.ScienceDirectAndScopusApiKey;
+            _currentSpringerApiKey = SettingsService.Instance.Settings.SpringerApiKey;
         }
         #endregion
 
@@ -37,8 +43,7 @@ namespace AnalyzerDatabase.Services
         {
             try
             {
-                string url = String.Format(_resources["SearchQueryScienceDirect"].ToString(), query, _resources["X-ELS-APIKey"]);
-                //string url = String.Format(_resources["ScienceDirectAllResult"].ToString(), query, _resources["X-ELS-APIKey"]);
+                string url = String.Format(_resources["SearchQueryScienceDirect"].ToString(), query, _currentScienceDirectAndScopusApiKey);
                 string webPageSource = await GetWebPageSource(url, cts);
                 
                 return _deserializeJsonService.GetObjectFromJson<ScienceDirectSearchQuery>(webPageSource);
@@ -58,7 +63,7 @@ namespace AnalyzerDatabase.Services
             try
             {
                 string url = String.Format(_resources["ScienceDirectPreviousOrNextPageResult"].ToString(), start, query,
-                    _resources["X-ELS-APIKey"]);
+                    _currentScienceDirectAndScopusApiKey);
                 string webPageSource = await GetWebPageSource(url, cts);
 
                 return _deserializeJsonService.GetObjectFromJson<ScienceDirectSearchQuery>(webPageSource);
@@ -77,8 +82,7 @@ namespace AnalyzerDatabase.Services
         {
             try
             {
-                string url = String.Format(_resources["SearchQueryScopus"].ToString(), query, _resources["X-ELS-APIKey"]);
-                //string url = String.Format(_resources["ScopusAllResult"].ToString(), query, _resources["X-ELS-APIKey"]);
+                string url = String.Format(_resources["SearchQueryScopus"].ToString(), query, _currentScienceDirectAndScopusApiKey);
                 string webPageSource = await GetWebPageSource(url, cts);
 
                 return _deserializeJsonService.GetObjectFromJson<ScopusSearchQuery>(webPageSource);
@@ -97,7 +101,7 @@ namespace AnalyzerDatabase.Services
         {
             try
             {
-                string url = String.Format(_resources["ScopusPreviousOrNextPageResult"].ToString(), start, query, _resources["X-ELS-APIKey"]);
+                string url = String.Format(_resources["ScopusPreviousOrNextPageResult"].ToString(), start, query, _currentScienceDirectAndScopusApiKey);
                 string webPageSource = await GetWebPageSource(url, cts);
 
                 return _deserializeJsonService.GetObjectFromJson<ScopusSearchQuery>(webPageSource);
@@ -116,7 +120,7 @@ namespace AnalyzerDatabase.Services
         {
             try
             {
-                string url = String.Format(_resources["SearchQuerySpringer"].ToString(), query);
+                string url = String.Format(_resources["SearchQuerySpringer"].ToString(), _currentSpringerApiKey, query);
                 string webPageSource = await GetWebPageSource(url, cts);
 
                 return _deserializeJsonService.GetObjectFromJson<SpringerSearchQuery>(webPageSource);
@@ -135,7 +139,7 @@ namespace AnalyzerDatabase.Services
         {
             try
             {
-                string url = String.Format(_resources["SpringerPreviousOrNextPageResult"].ToString(), query, start);
+                string url = String.Format(_resources["SpringerPreviousOrNextPageResult"].ToString(), _currentSpringerApiKey, query, start);
                 string webPageSource = await GetWebPageSource(url, cts);
 
                 return _deserializeJsonService.GetObjectFromJson<SpringerSearchQuery>(webPageSource);
@@ -155,7 +159,7 @@ namespace AnalyzerDatabase.Services
             try
             {
                 string url = String.Format(_resources["DownloadArticleFromScienceDirectToPdf"].ToString(), doi,
-                    _resources["X-ELS-APIKey"]);
+                    _currentScienceDirectAndScopusApiKey);
                 string webPageSourcePdf = await GetWebPageSourcePdf(url, title, cts);
             }
             catch (TaskCanceledException ex)
@@ -241,7 +245,7 @@ namespace AnalyzerDatabase.Services
                 {
                     Filter = "PDF (*.pdf)|*.pdf",
                     FileName = title,
-                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+                    InitialDirectory = _currentPublicationSavingPath
                 };
 
                 if (saveFileDialog.ShowDialog() == true)
