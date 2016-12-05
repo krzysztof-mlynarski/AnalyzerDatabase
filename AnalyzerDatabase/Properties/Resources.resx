@@ -160,6 +160,9 @@
   <data name="English" xml:space="preserve">
     <value>English</value>
   </data>
+  <data name="ErrorDownloadPublication" xml:space="preserve">
+    <value>There was a problem downloading the publication, try again in a moment.</value>
+  </data>
   <data name="GetApiKeyElsevier" xml:space="preserve">
     <value>Get API Key for Science Direct and Scopus databases</value>
   </data>

@@ -277,4 +277,7 @@
   <data name="TitleDialogError" xml:space="preserve">
     <value>Błąd!</value>
   </data>
+  <data name="ErrorDownloadPublication" xml:space="preserve">
+    <value>Wystąpił problem podczas pobierania publikacji, spróbuj ponownie za chwilę.</value>
+  </data>
 </root>

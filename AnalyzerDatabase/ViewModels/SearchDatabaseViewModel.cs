@@ -316,8 +316,7 @@ namespace AnalyzerDatabase.ViewModels
             }
             catch (Exception)
             {
-                throw;
-                //TODO: Wystąpił błąd pobierania publikacji
+                ShowDialog(GetString("TitleDialogError"), GetString("ErrorDownloadPublication"));
             }
             finally
             {
@@ -334,8 +333,7 @@ namespace AnalyzerDatabase.ViewModels
             }
             catch (Exception)
             {
-                throw;
-                //TODO: Wystąpił błąd pobierania publikacji
+                ShowDialog(GetString("TitleDialogError"), GetString("ErrorDownloadPublication"));
             }
             finally
             {

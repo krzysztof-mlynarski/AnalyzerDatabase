@@ -23,6 +23,7 @@
                 
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
                 <ResourceDictionary Source="Simple Styles.xaml"/>
+                <ResourceDictionary Source="Resources/Icons.xaml" />
                 <!-- Tab control -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
             </ResourceDictionary.MergedDictionaries>

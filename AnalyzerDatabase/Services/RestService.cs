@@ -157,7 +157,7 @@ namespace AnalyzerDatabase.Services
             {
                 string url = String.Format(_resources["DownloadArticleFromScienceDirectToPdf"].ToString(), doi,
                     _currentScienceDirectAndScopusApiKey);
-                string webPageSourcePdf = await GetWebPageSourcePdf(url, title, cts);
+                var webPageSourcePdf = await GetWebPageSourcePdf(url, title, cts);
             }
             catch (TaskCanceledException ex)
             {

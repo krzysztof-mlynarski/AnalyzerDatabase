@@ -187,6 +187,15 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There was a problem downloading the publication, try again in a moment..
+        /// </summary>
+        public static string ErrorDownloadPublication {
+            get {
+                return ResourceManager.GetString("ErrorDownloadPublication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Get API Key for Science Direct and Scopus databases.
         /// </summary>
         public static string GetApiKeyElsevier {
