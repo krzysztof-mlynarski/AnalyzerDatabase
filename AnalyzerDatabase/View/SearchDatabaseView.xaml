@@ -4,10 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:converters="clr-namespace:AnalyzerDatabase.Converters"
-             xmlns:viewModel="clr-namespace:AnalyzerDatabase.ViewModels"
-             xmlns:view="clr-namespace:AnalyzerDatabase.View"
-             xmlns:analyzerDatabase="clr-namespace:AnalyzerDatabase"
              xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
              dialog:DialogParticipation.Register="{Binding}"
              xmlns:res="clr-namespace:AnalyzerDatabase.Properties"
@@ -39,9 +35,6 @@
                         HorizontalAlignment="Center"
                         AcceptsReturn="False"
                         controls:TextBoxHelper.ClearTextButton="True">
-                <!--<TextBox.Effect>
-                    <DropShadowEffect BlurRadius="5"/>
-                </TextBox.Effect>-->
             </TextBox>
             <Button x:Name="SearchBtn" HorizontalAlignment="Center" 
                     Content="{x:Static res:Resources.Search}" 
@@ -62,7 +55,8 @@
 
         <!--WYSWIETLANIE WYNIKOW WYSZUKIWANIA-->
         <Grid Grid.Row="3">
-            <DataGrid ItemsSource="{Binding Path=CollectionView}"
+            <DataGrid x:Name="FirstDataGrid"
+                      ItemsSource="{Binding Path=CollectionView}"
                       AutoGenerateColumns="False"
                       HorizontalAlignment="Center"
                       Margin="20,20,30,35"
@@ -76,6 +70,7 @@
                       CanUserSortColumns="True"
                       FrozenColumnCount="1"
                       Style="{StaticResource AzureDataGrid}">
+
                 <!-- Grupowanie wyników po bazie danych -->
                 <DataGrid.GroupStyle>
                     <GroupStyle>
@@ -110,6 +105,7 @@
                         </GroupStyle.ContainerStyle>
                     </GroupStyle>
                 </DataGrid.GroupStyle>
+
                 <!-- Kolumny w data gridzie -->
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="{x:Static res:Resources.AuthorDataGridHeader}" Binding="{Binding Creator}" IsReadOnly="True" CanUserResize="False" Width="130">
@@ -131,8 +127,11 @@
             </DataGrid>
 
             <controls:ProgressRing IsActive="{Binding IsDataLoading}" />
+
             <!-- Wyświetlanie ilości zanlezionych wyników i w jakim czasie -->
             <Label x:Name="LabelTotalResults" Margin="60,270,505,5" Content="{Binding TotalResults}"/>
+
+            <!-- Okno z rozszerzeniem informacji dot. danego wyniku -->
             <Button x:Name="FullScreenDataGrid" 
                     Command="{Binding OpenFullScreenDataGrid}" 
                     ToolTip="{x:Static res:Resources.ShowMoreDetailsToolTip}"  
@@ -142,6 +141,5 @@
             </Button>
         </Grid>
     </Grid>
-
 </UserControl>
 

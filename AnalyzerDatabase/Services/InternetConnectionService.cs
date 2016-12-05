@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using AnalyzerDatabase.Interfaces;
 
 namespace AnalyzerDatabase.Services

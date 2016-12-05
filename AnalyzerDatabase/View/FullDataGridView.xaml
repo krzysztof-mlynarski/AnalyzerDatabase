@@ -3,13 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AnalyzerDatabase.View"
         xmlns:converters="clr-namespace:AnalyzerDatabase.Converters"
-        xmlns:viewModel="clr-namespace:AnalyzerDatabase.ViewModels"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:res="clr-namespace:AnalyzerDatabase.Properties"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:command="http://www.galasoft.ch/mvvmlight"
         mc:Ignorable="d"
         Title="Received results"
         DataContext="{Binding Source={StaticResource Locator}, Path=SearchDatabase}"
@@ -27,20 +23,23 @@
     </Window.Resources>
 
     <Grid>
-        <DataGrid ItemsSource="{Binding CollectionView}"
-                      SelectedItem="{Binding DoiAndTitle}"
-                      AutoGenerateColumns="False"
-                      HorizontalAlignment="Stretch"
-                      Margin="0,35,0,0"
-                      VerticalAlignment="Top"
-                      AlternatingRowBackground="Gainsboro"
-                      AlternationCount="2"
-                      CanUserReorderColumns="True"
-                      CanUserResizeColumns="True"
-                      CanUserResizeRows="True"
-                      CanUserSortColumns="True"
-                      FrozenColumnCount="1"
-                      Style="{StaticResource AzureDataGrid}">
+        <DataGrid x:Name="ExtendedDataGrid"
+                    ItemsSource="{Binding CollectionView}"
+                    SelectedItem="{Binding DoiAndTitle}"
+                    AutoGenerateColumns="False"
+                    HorizontalAlignment="Stretch"
+                    Margin="0,35,0,0"
+                    VerticalAlignment="Top"
+                    AlternatingRowBackground="Gainsboro"
+                    AlternationCount="2"
+                    CanUserReorderColumns="True"
+                    CanUserResizeColumns="True"
+                    CanUserResizeRows="True"
+                    CanUserSortColumns="True"
+                    FrozenColumnCount="1"
+                    Style="{StaticResource AzureDataGrid}">
+            
+            <!-- Grupowanie po danej bazie -->
             <DataGrid.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.HeaderTemplate>
@@ -74,6 +73,8 @@
                     </GroupStyle.ContainerStyle>
                 </GroupStyle>
             </DataGrid.GroupStyle>
+            
+            <!-- Kolumny w data gridzie -->
             <DataGrid.Columns>
                 <!--<DataGridCheckBoxColumn ElementStyle="{DynamicResource MetroDataGridCheckBox}"
                                         EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
@@ -97,6 +98,7 @@
                 <DataGridTextColumn Header="{x:Static res:Resources.DoiDataGridHeader}" Binding="{Binding Doi}" IsReadOnly="True" CanUserResize="False"/>
             </DataGrid.Columns>
 
+            <!-- Szczegółowe informacje po rozwinięciu danego wiersza -->
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
                     <DockPanel>
@@ -260,24 +262,20 @@
                                     Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.DownloadArticleToPdf}">
                                     <Image Source="../Assets/Other Icons/pdf.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Button>
-                                <!--<Button Grid.Row="0" Grid.Column="3"
-                                    Background="Transparent"
-                                    Foreground="Transparent"
-                                    BorderThickness="0" BorderBrush="Transparent"
-                                    ToolTip="{x:Static res:Resources.DownloadPublication}"
-                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.DownloadArticleToDocx}">
-                                <Image Source="../Assets/Other Icons/pdf.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Button>-->
+
                                 <controls:ProgressRing Grid.Row="0" Grid.Column="3" 
                                                    Width="60" Foreground="Blue"
-                                                   IsActive="{Binding IsDataLoading}"/>
+                                                   IsActive="{Binding IsDownloadFile}"/>
                             </StackPanel>
                         </Grid>
                     </DockPanel>
                 </DataTemplate>
             </DataGrid.RowDetailsTemplate>
         </DataGrid>
+        
         <controls:ProgressRing IsActive="{Binding IsDataLoading}" />
+        
+        <!-- Stronicowani -->
         <Button x:Name="BtnPrev" 
                 Content="{x:Static res:Resources.PrevBtn}" 
                 Command="{Binding PrevResultPage}" 

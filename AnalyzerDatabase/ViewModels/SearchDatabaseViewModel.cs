@@ -1,44 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
-using System.Runtime.Remoting.Contexts;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using AnalyzerDatabase.Interfaces;
-using AnalyzerDatabase.Models;
-using AnalyzerDatabase.Models.ScienceDirect;
-using AnalyzerDatabase.Models.Scopus;
-using AnalyzerDatabase.Models.Springer;
 using AnalyzerDatabase.View;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
-using MahApps.Metro.Controls;
-using Newtonsoft.Json.Linq;
-using MahApps.Metro.Controls.Dialogs;
 
 namespace AnalyzerDatabase.ViewModels
 {
     public class SearchDatabaseViewModel : ExtendedViewModelBase
     {
+        #region Variables
+
         private readonly IInternetConnectionService _internetConnectionService;
         private readonly IRestService _restService;
-        private ScienceDirectSearchQuery _scienceDirectSearchCollection;
-        private ScopusSearchQuery _scopusSearchCollection;
-        private SpringerSearchQuery _springerSearchCollection;
-
-        private ObservableCollection<ISearchResultsToDisplay> _searchResultsToDisplay;
-        private ObservableCollection<ITotalResultsToDisplay> _totalResultsToDisplay;
 
         public ICollectionView CollectionView { get; set; }
         public ISearchResultsToDisplay DoiAndTitle { get; set; }
+
+        private ObservableCollection<ISearchResultsToDisplay> _searchResultsToDisplay;
+        private ObservableCollection<ITotalResultsToDisplay> _totalResultsToDisplay;
 
         private RelayCommand _searchCommand;
         private RelayCommand _fullScreenDataGrid;
@@ -68,6 +50,8 @@ namespace AnalyzerDatabase.ViewModels
         private static int _startDownScopus = _startUpScopus;
         private static int _startDownSpringer = _startUpSpringer;
 
+        #endregion
+
         #region Constructors
 
         public SearchDatabaseViewModel(IRestService restService, IInternetConnectionService internetConnectionService)
@@ -81,6 +65,7 @@ namespace AnalyzerDatabase.ViewModels
 
         #endregion
 
+        #region RelayCommand
         public RelayCommand SearchCommand
         {
             get
@@ -132,7 +117,9 @@ namespace AnalyzerDatabase.ViewModels
                 return _downloadArticleToDocx ?? (_downloadArticleToDocx = new RelayCommand(DownloadArticleDocx));
             }
         }
+        #endregion
 
+        #region Getters/Setters
         public string QueryTextBox
         {
             get
@@ -317,69 +304,24 @@ namespace AnalyzerDatabase.ViewModels
                 RaisePropertyChanged();
             }
         }
+        #endregion
 
-        public ScienceDirectSearchQuery ScienceDirectSearchCollection
-        {
-            get
-            {
-                return _scienceDirectSearchCollection;
-            }
-            set
-            {
-                if (value != null)
-                {
-                    _scienceDirectSearchCollection = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        public ScopusSearchQuery ScopusSearchCollection
-        {
-            get
-            {
-                return _scopusSearchCollection;
-            }
-            set
-            {
-                if (value != null)
-                {
-                    _scopusSearchCollection = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        public SpringerSearchQuery SpringerSearchCollection
-        {
-            get
-            {
-                return _springerSearchCollection;
-            }
-            set
-            {
-                if (value != null)
-                {
-                    _springerSearchCollection = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
+        #region Private methods
         private void DownloadArticlePdf()
         {
             try
             {
-                IsDataLoading = true;
+                IsDownloadFile = true;
                 _restService.GetArticle(DoiAndTitle.Doi, DoiAndTitle.Title);
             }
             catch (Exception)
             {
                 throw;
+                //TODO: Wystąpił błąd pobierania publikacji
             }
             finally
             {
-                IsDataLoading = false;
+                IsDownloadFile = false;
             }
         }
 
@@ -393,6 +335,7 @@ namespace AnalyzerDatabase.ViewModels
             catch (Exception)
             {
                 throw;
+                //TODO: Wystąpił błąd pobierania publikacji
             }
             finally
             {
@@ -717,5 +660,6 @@ namespace AnalyzerDatabase.ViewModels
                 ShowDialog(GetString("TitleDialogError"), GetString("NoInternet"));
             }
         }
+        #endregion
     }
 }

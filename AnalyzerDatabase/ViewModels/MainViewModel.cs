@@ -8,6 +8,7 @@ namespace AnalyzerDatabase.ViewModels
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
+        #region Variables
 
         private readonly IInternetConnectionService _internetConnectionService;
         private bool _isInternetConnection;
@@ -20,6 +21,9 @@ namespace AnalyzerDatabase.ViewModels
         private RelayCommand _goToSettingsViewCommand;
         private RelayCommand _openHomeWindowCommand;
 
+        #endregion
+
+        #region Constructor
         public MainViewModel(IInternetConnectionService internetConnectionService)
         {
             _internetConnectionService = internetConnectionService;
@@ -32,13 +36,9 @@ namespace AnalyzerDatabase.ViewModels
             CheckInternetConnection();
         }
 
-        private void CheckInternetConnection()
-        {
-            IsInternetConnection = _internetConnectionService.CheckConnectedToInternet();
-            IsVpnConnection = _internetConnectionService.CheckConnectedToInternetVpn();
-        }
+        #endregion
 
-        #region Getters setters
+        #region Getters/setters
 
         public bool IsInternetConnection
         {
@@ -72,8 +72,9 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
+        #endregion
 
-
+        #region RelayCommand
         public RelayCommand OpenSearchDatabaseCommand
         {
             get
@@ -118,9 +119,9 @@ namespace AnalyzerDatabase.ViewModels
         {
             get { return _openHomeWindowCommand ?? (_openHomeWindowCommand = new RelayCommand(OpenHomeWindow)); }
         }
-
         #endregion
 
+        #region Private methods
         private void OpenHomeWindow()
         {
             NavigateTo(ViewModelLocator.Instance.Main);
@@ -145,5 +146,12 @@ namespace AnalyzerDatabase.ViewModels
         {
             //NavigateTo(ViewModelLocator.Instance.About);
         }
+
+        private void CheckInternetConnection()
+        {
+            IsInternetConnection = _internetConnectionService.CheckConnectedToInternet();
+            IsVpnConnection = _internetConnectionService.CheckConnectedToInternetVpn();
+        }
+        #endregion
     }
 }
