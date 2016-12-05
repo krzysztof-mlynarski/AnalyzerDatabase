@@ -28,7 +28,7 @@
 
     <Grid>
         <DataGrid ItemsSource="{Binding CollectionView}"
-                    SelectedItem="{Binding Doi}"
+                      SelectedItem="{Binding DoiAndTitle}"
                       AutoGenerateColumns="False"
                       HorizontalAlignment="Stretch"
                       Margin="0,35,0,0"
@@ -87,7 +87,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="{x:Static res:Resources.TitleDataGridHeader}" Binding="{Binding Title}"  IsReadOnly="True" Width="880">
+                <DataGridTextColumn Header="{x:Static res:Resources.TitleDataGridHeader}" Binding="{Binding Title}"  IsReadOnly="True" Width="850">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
                             <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
@@ -103,7 +103,7 @@
                         <StackPanel>
                             <Image DockPanel.Dock="Left" Source="../Assets/Other Icons/TESTOWY.png" Height="160" Width="120" Margin="10,30,10,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             <TextBlock Text="{x:Static res:Resources.OpenAccessDataGrid}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <!--<TextBlock Text="{Binding OpenAccess}" Foreground="Black" />-->
+                            <TextBlock Text="{Binding OpenAccess}" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </StackPanel>
 
                         <Grid Margin="0,10">
@@ -251,17 +251,27 @@
                                     Foreground="Black"
                                     Text="{Binding Abstract}" />
                             </StackPanel>
-                            <Button Grid.Row="0" Grid.Column="3"
+                            <StackPanel Grid.Column="3" Grid.Row="0">
+                                <Button Grid.Row="0" Grid.Column="3"
                                     Background="Transparent"
                                     Foreground="Transparent"
                                     BorderThickness="0" BorderBrush="Transparent"
                                     ToolTip="{x:Static res:Resources.DownloadPublication}"
                                     Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.DownloadArticleToPdf}">
+                                    <Image Source="../Assets/Other Icons/pdf.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                                <!--<Button Grid.Row="0" Grid.Column="3"
+                                    Background="Transparent"
+                                    Foreground="Transparent"
+                                    BorderThickness="0" BorderBrush="Transparent"
+                                    ToolTip="{x:Static res:Resources.DownloadPublication}"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.DownloadArticleToDocx}">
                                 <Image Source="../Assets/Other Icons/pdf.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Button>
-                            <controls:ProgressRing Grid.Row="0" Grid.Column="3" 
+                            </Button>-->
+                                <controls:ProgressRing Grid.Row="0" Grid.Column="3" 
                                                    Width="60" Foreground="Blue"
                                                    IsActive="{Binding IsDataLoading}"/>
+                            </StackPanel>
                         </Grid>
                     </DockPanel>
                 </DataTemplate>

@@ -32,7 +32,7 @@
                         BorderThickness="2"
                         FontSize="18" 
                         Margin="10,0"
-                        Text="{Binding QueryTextBox}"
+                        Text="{Binding QueryTextBox, UpdateSourceTrigger=PropertyChanged}"
                         controls:TextBoxHelper.Watermark="{x:Static res:Resources.QueryText}"
                         Opacity="0.85" 
                         Width="780" Height="40" 
@@ -137,7 +137,7 @@
                     Command="{Binding OpenFullScreenDataGrid}" 
                     ToolTip="{x:Static res:Resources.ShowMoreDetailsToolTip}"  
                     HorizontalAlignment="Right" VerticalAlignment="Top"
-                    Margin="0,20,10,0"                    >
+                    Margin="0,20,10,0">
                 <Image Source="../Assets/Other Icons/ShowMore.png" Width="32"></Image>
             </Button>
         </Grid>
