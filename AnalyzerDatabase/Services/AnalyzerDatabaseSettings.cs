@@ -6,6 +6,7 @@ namespace AnalyzerDatabase.Services
     [Serializable]
     public class AnalyzerDatabaseSettings
     {
+        #region Variables
         [XmlElement("CurrentLanguage")]
         public string CurrentLanguage { get; set; }
 
@@ -23,5 +24,6 @@ namespace AnalyzerDatabase.Services
 
         [XmlElement("SavingPublicationPath")]
         public string SavingPublicationPath { get; set; }
+        #endregion
     }
 }

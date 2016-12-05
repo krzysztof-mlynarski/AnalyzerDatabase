@@ -4,17 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:converters="clr-namespace:AnalyzerDatabase.Converters"
-             xmlns:viewModel="clr-namespace:AnalyzerDatabase.ViewModels"
-             xmlns:view="clr-namespace:AnalyzerDatabase.View"
-             xmlns:analyzerDatabase="clr-namespace:AnalyzerDatabase"
              xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
              dialog:DialogParticipation.Register="{Binding}"
              xmlns:res="clr-namespace:AnalyzerDatabase.Properties"
+             xmlns:converters="clr-namespace:AnalyzerDatabase.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="800"
              DataContext="{Binding Source={StaticResource Locator}, Path=SearchDatabase}">
 
+    <UserControl.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:NegativeBooleanToVisibilityConverter x:Key="NegativeBooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -32,13 +34,14 @@
                         BorderThickness="2"
                         FontSize="18" 
                         Margin="10,0"
-                        Text="{Binding QueryTextBox}"
+                        Text="{Binding QueryTextBox, UpdateSourceTrigger=PropertyChanged}"
                         controls:TextBoxHelper.Watermark="{x:Static res:Resources.QueryText}"
                         Opacity="0.85" 
                         Width="780" Height="40" 
                         HorizontalAlignment="Center"
                         AcceptsReturn="False"
-                        controls:TextBoxHelper.ClearTextButton="True"/>
+                        controls:TextBoxHelper.ClearTextButton="True">
+            </TextBox>
             <Button x:Name="SearchBtn" HorizontalAlignment="Center" 
                     Content="{x:Static res:Resources.Search}" 
                     Margin="355,90,340,0" Height="35" Width="100" 
@@ -58,10 +61,12 @@
 
         <!--WYSWIETLANIE WYNIKOW WYSZUKIWANIA-->
         <Grid Grid.Row="3">
-            <DataGrid ItemsSource="{Binding Path=collectionView}"
+            <DataGrid x:Name="FirstDataGrid"
+                      ItemsSource="{Binding Path=CollectionView}"
                       AutoGenerateColumns="False"
                       HorizontalAlignment="Center"
                       Margin="20,20,30,35"
+                      Width="700"
                       VerticalAlignment="Top"
                       AlternatingRowBackground="Gainsboro"
                       AlternationCount="2"
@@ -71,6 +76,8 @@
                       CanUserSortColumns="True"
                       FrozenColumnCount="1"
                       Style="{StaticResource AzureDataGrid}">
+
+                <!-- Grupowanie wyników po bazie danych -->
                 <DataGrid.GroupStyle>
                     <GroupStyle>
                         <GroupStyle.HeaderTemplate>
@@ -104,6 +111,8 @@
                         </GroupStyle.ContainerStyle>
                     </GroupStyle>
                 </DataGrid.GroupStyle>
+
+                <!-- Kolumny w data gridzie -->
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="{x:Static res:Resources.AuthorDataGridHeader}" Binding="{Binding Creator}" IsReadOnly="True" CanUserResize="False" Width="130">
                         <DataGridTextColumn.ElementStyle>
@@ -124,17 +133,23 @@
             </DataGrid>
 
             <controls:ProgressRing IsActive="{Binding IsDataLoading}" />
+
+            <!-- Wyświetlanie ilości zanlezionych wyników i w jakim czasie -->
             <Label x:Name="LabelTotalResults" Margin="60,270,505,5" Content="{Binding TotalResults}"/>
+
+            <!-- Okno z rozszerzeniem informacji dot. danego wyniku -->
             <Button x:Name="FullScreenDataGrid" 
-                    Command="{Binding OpenFullScreenDataGrid}" 
+                    Command="{Binding OpenFullScreenDataGrid}"
                     ToolTip="{x:Static res:Resources.ShowMoreDetailsToolTip}"  
                     HorizontalAlignment="Right" VerticalAlignment="Top"
-                    Margin="0,20,10,0"
-                    >
-                <Image Source="../Assets/Other Icons/ShowMore.png" Width="32"></Image>
+                    Margin="0,20,10,0">
+                    <Rectangle Width="32" Height="32" Fill="{DynamicResource BlackBrush}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_window_maximize}"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
             </Button>
         </Grid>
     </Grid>
-
 </UserControl>
 

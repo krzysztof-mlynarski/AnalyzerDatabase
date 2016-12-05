@@ -252,4 +252,32 @@
   <data name="StartOnLogin" xml:space="preserve">
     <value>Startuj z Windowsem</value>
   </data>
+  <data name="DownloadPublication" xml:space="preserve">
+    <value>Pobierz publikację</value>
+  </data>
+  <data name="AboutResult" xml:space="preserve">
+    <value>Około</value>
+    <comment>Do wyświetlania ilości znalezionych wyników</comment>
+  </data>
+  <data name="NoInternet" xml:space="preserve">
+    <value>Brak dostępu do internetu!</value>
+  </data>
+  <data name="NotCriteria" xml:space="preserve">
+    <value>Nie wprowadzono kryteriów do wyszukiwania!</value>
+  </data>
+  <data name="NotSelectedDatabase" xml:space="preserve">
+    <value>Nie została wybrana żadna z baz do przeszukania!</value>
+  </data>
+  <data name="Results" xml:space="preserve">
+    <value>wyników w</value>
+  </data>
+  <data name="Seconds" xml:space="preserve">
+    <value> sekund</value>
+  </data>
+  <data name="TitleDialogError" xml:space="preserve">
+    <value>Błąd!</value>
+  </data>
+  <data name="ErrorDownloadPublication" xml:space="preserve">
+    <value>Wystąpił problem podczas pobierania publikacji, spróbuj ponownie za chwilę.</value>
+  </data>
 </root>

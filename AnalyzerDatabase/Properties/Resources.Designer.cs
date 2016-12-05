@@ -70,6 +70,15 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        public static string AboutResult {
+            get {
+                return ResourceManager.GetString("AboutResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Abstract: .
         /// </summary>
         public static string AbstractDataGrid {
@@ -160,11 +169,29 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download publication.
+        /// </summary>
+        public static string DownloadPublication {
+            get {
+                return ResourceManager.GetString("DownloadPublication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to English.
         /// </summary>
         public static string English {
             get {
                 return ResourceManager.GetString("English", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There was a problem downloading the publication, try again in a moment..
+        /// </summary>
+        public static string ErrorDownloadPublication {
+            get {
+                return ResourceManager.GetString("ErrorDownloadPublication", resourceCulture);
             }
         }
         
@@ -268,6 +295,33 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No access to the internet!.
+        /// </summary>
+        public static string NoInternet {
+            get {
+                return ResourceManager.GetString("NoInternet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You did not enter the search criteria!.
+        /// </summary>
+        public static string NotCriteria {
+            get {
+                return ResourceManager.GetString("NotCriteria", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is not selected, none of the databases to be searched!.
+        /// </summary>
+        public static string NotSelectedDatabase {
+            get {
+                return ResourceManager.GetString("NotSelectedDatabase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open Access.
         /// </summary>
         public static string OpenAccessDataGrid {
@@ -349,6 +403,15 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to results in.
+        /// </summary>
+        public static string Results {
+            get {
+                return ResourceManager.GetString("Results", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
         public static string Search {
@@ -363,6 +426,15 @@ namespace AnalyzerDatabase.Properties {
         public static string SearchMenu {
             get {
                 return ResourceManager.GetString("SearchMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  seconds.
+        /// </summary>
+        public static string Seconds {
+            get {
+                return ResourceManager.GetString("Seconds", resourceCulture);
             }
         }
         
@@ -453,6 +525,15 @@ namespace AnalyzerDatabase.Properties {
         public static string TitleDataGridHeader {
             get {
                 return ResourceManager.GetString("TitleDataGridHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error!.
+        /// </summary>
+        public static string TitleDialogError {
+            get {
+                return ResourceManager.GetString("TitleDialogError", resourceCulture);
             }
         }
         

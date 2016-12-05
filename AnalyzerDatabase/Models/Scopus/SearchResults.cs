@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
+using AnalyzerDatabase.Interfaces;
 using Newtonsoft.Json;
 
 namespace AnalyzerDatabase.Models.Scopus
 {
-    public class SearchResults
+    public class SearchResults : ITotalResultsToDisplay
     {
         [JsonProperty("opensearch:totalResults")]
         public string OpensearchTotalResults { get; set; }
 
         [JsonProperty("opensearch:startIndex")]
-        public string OpensearchStartIndex { get; set; }
+        public string Start { get; set; }
 
         [JsonProperty("opensearch:itemsPerPage")]
         public string OpensearchItemsPerPage { get; set; }
@@ -26,7 +27,7 @@ namespace AnalyzerDatabase.Models.Scopus
         public SearchResults(string opensearchTotalResults, string opensearchStartIndex, string opensearchItemsPerPage, OpensearchQuery opensearchQuery, IList<LinkPaging> link, IList<EntryScopus> entry)
         {
             OpensearchTotalResults = opensearchTotalResults;
-            OpensearchStartIndex = opensearchStartIndex;
+            Start = opensearchStartIndex;
             OpensearchItemsPerPage = opensearchItemsPerPage;
             OpensearchQuery = opensearchQuery;
             Link = link;

@@ -1,11 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using AnalyzerDatabase.Interfaces;
+using Newtonsoft.Json;
 
 namespace AnalyzerDatabase.Models.Springer
 {
-    public class Result
+    public class Result : ITotalResultsToDisplay
     {
         [JsonProperty("total")]
-        public string Total { get; set; }
+        public string OpensearchTotalResults { get; set; }
 
         [JsonProperty("start")]
         public string Start { get; set; }
@@ -15,7 +16,7 @@ namespace AnalyzerDatabase.Models.Springer
 
         public Result(string total, string start, string pageLength)
         {
-            Total = total;
+            OpensearchTotalResults = total;
             Start = start;
             PageLength = pageLength;
         }

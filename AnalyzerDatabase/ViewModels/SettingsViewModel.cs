@@ -10,6 +10,7 @@ namespace AnalyzerDatabase.ViewModels
 {
     public class SettingsViewModel : ExtendedViewModelBase
     {
+        #region Variables
         private string _selectedLanguage;
         private string _selectedAppStyle;
         private string _currentPublicationSavingPath;
@@ -21,7 +22,9 @@ namespace AnalyzerDatabase.ViewModels
         private RelayCommand _openPublicationsDirectory;
         private RelayCommand _openPageDevElsevier;
         private RelayCommand _openPageDevSpringer;
+        #endregion
 
+        #region Constructor
         public SettingsViewModel()
         {
             if (SettingsService.Instance.Settings.CurrentLanguage == "pl-PL")
@@ -42,38 +45,9 @@ namespace AnalyzerDatabase.ViewModels
             StartOnLogin = SettingsService.Instance.Settings.StartOnLogin;
         }
 
-        public string SelectedLanguage
-        {
-            get
-            {
-                return _selectedLanguage;
-            }
-            set
-            {
-                if(_selectedLanguage != null && _selectedLanguage == value)
-                    return;
+        #endregion
 
-                _selectedLanguage = value;
-
-                SelectedLanguageItem(_selectedLanguage);
-
-                RaisePropertyChanged();
-            }
-        }
-
-        private void SelectedLanguageItem(string name)
-        {
-            if (name == this.GetString("Polish"))
-                SettingsService.Instance.Settings.CurrentLanguage = "pl-PL";
-            if (name == this.GetString("English"))
-                SettingsService.Instance.Settings.CurrentLanguage = "en-EN";
-
-            SettingsService.Instance.Save();
-
-            //System.Windows.Forms.Application.Restart();
-            //System.Windows.Application.Current.Shutdown();
-        }
-
+        #region Getters/Setters
         public string SelectedAppStyle
         {
             get
@@ -93,17 +67,23 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
-        public void SelectedAppStyleItem(string style)
+        public string SelectedLanguage
         {
-            //System.Windows.Application.Current.Resources.MergedDictionaries.Add(style);
-            // get the current app style (theme and accent) from the application
-            // you can then use the current theme and custom accent instead set a new theme
-            //   Tuple<AppTheme, Accent> appStyle = ThemeManager.DetectAppStyle(MediaTypeNames.Application.Current);
+            get
+            {
+                return _selectedLanguage;
+            }
+            set
+            {
+                if (_selectedLanguage != null && _selectedLanguage == value)
+                    return;
 
-            // now set the Green accent and dark theme
-            //     ThemeManager.ChangeAppStyle(MediaTypeNames.Application.Current,
-            //                            ThemeManager.GetAccent("Cobalt"),
-            //                            ThemeManager.GetAppTheme("BaseLight")); // or appStyle.Item1
+                _selectedLanguage = value;
+
+                SelectedLanguageItem(_selectedLanguage);
+
+                RaisePropertyChanged();
+            }
         }
 
         public string CurrentPublicationSavingPath
@@ -129,6 +109,71 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
+        public string CurrentScienceDirectAndScopusApiKey
+        {
+            get
+            {
+                return _currentScienceDirectAndScopusApiKey;
+            }
+            set
+            {
+                if (_currentScienceDirectAndScopusApiKey == value)
+                    return;
+
+                _currentScienceDirectAndScopusApiKey = value;
+
+                SettingsService.Instance.Settings.ScienceDirectAndScopusApiKey = _currentScienceDirectAndScopusApiKey;
+                SettingsService.Instance.Save();
+
+                RaisePropertyChanged();
+            }
+        }
+
+        public string CurrentSpringerApiKey
+        {
+            get
+            {
+                return _currentSpringerApiKey;
+            }
+            set
+            {
+                if (_currentSpringerApiKey == value)
+                    return;
+
+                _currentSpringerApiKey = value;
+
+                SettingsService.Instance.Settings.SpringerApiKey = _currentSpringerApiKey;
+                SettingsService.Instance.Save();
+
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool StartOnLogin
+        {
+            get
+            {
+                return _startOnLogin;
+            }
+            set
+            {
+                if (_startOnLogin == value)
+                    return;
+                _startOnLogin = value;
+
+                SettingsService.Instance.Settings.StartOnLogin = _startOnLogin;
+                SettingsService.Instance.Save();
+
+                RegisterInStartup(_startOnLogin);
+
+                RaisePropertyChanged();
+            }
+        }
+
+
+        #endregion
+
+        #region RelayCommand
         public RelayCommand OpenPublicationsDirectory
         {
             get
@@ -158,26 +203,6 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
-        public string CurrentScienceDirectAndScopusApiKey
-        {
-            get
-            {
-                return _currentScienceDirectAndScopusApiKey;
-            }
-            set
-            {
-                if (_currentScienceDirectAndScopusApiKey == value)
-                    return;
-
-                _currentScienceDirectAndScopusApiKey = value;
-
-                SettingsService.Instance.Settings.ScienceDirectAndScopusApiKey = _currentScienceDirectAndScopusApiKey;
-                SettingsService.Instance.Save();
-
-                RaisePropertyChanged();
-            }
-        }
-
         public RelayCommand OpenPageDevElsevier
         {
             get
@@ -193,26 +218,6 @@ namespace AnalyzerDatabase.ViewModels
                         throw;
                     }
                 }));
-            }
-        }
-
-        public string CurrentSpringerApiKey
-        {
-            get
-            {
-                return _currentSpringerApiKey;
-            }
-            set
-            {
-                if (_currentSpringerApiKey == value)
-                    return;
-
-                _currentSpringerApiKey = value;
-
-                SettingsService.Instance.Settings.SpringerApiKey = _currentSpringerApiKey;
-                SettingsService.Instance.Save();
-
-                RaisePropertyChanged();
             }
         }
 
@@ -233,28 +238,9 @@ namespace AnalyzerDatabase.ViewModels
                 }));
             }
         }
+        #endregion
 
-        public bool StartOnLogin
-        {
-            get
-            {
-                return _startOnLogin;
-            }
-            set
-            {
-                if (_startOnLogin == value)
-                    return;
-                _startOnLogin = value;
-
-                SettingsService.Instance.Settings.StartOnLogin = _startOnLogin;
-                SettingsService.Instance.Save();
-
-                RegisterInStartup(_startOnLogin);
-
-                RaisePropertyChanged();
-            }
-        }
-
+        #region Private methods
         private void RegisterInStartup(bool isChecked)
         {
             RegistryKey registryKey = Registry.CurrentUser.OpenSubKey
@@ -269,6 +255,34 @@ namespace AnalyzerDatabase.ViewModels
                 registryKey?.DeleteValue("Analyzer Database");
             }
         }
+
+        private void SelectedAppStyleItem(string style)
+        {
+            //System.Windows.Application.Current.Resources.MergedDictionaries.Add(style);
+            // get the current app style (theme and accent) from the application
+            // you can then use the current theme and custom accent instead set a new theme
+            //   Tuple<AppTheme, Accent> appStyle = ThemeManager.DetectAppStyle(MediaTypeNames.Application.Current);
+
+            // now set the Green accent and dark theme
+            //     ThemeManager.ChangeAppStyle(MediaTypeNames.Application.Current,
+            //                            ThemeManager.GetAccent("Cobalt"),
+            //                            ThemeManager.GetAppTheme("BaseLight")); // or appStyle.Item1
+        }
+
+        private void SelectedLanguageItem(string name)
+        {
+            if (name == this.GetString("Polish"))
+                SettingsService.Instance.Settings.CurrentLanguage = "pl-PL";
+            if (name == this.GetString("English"))
+                SettingsService.Instance.Settings.CurrentLanguage = "en-EN";
+
+            SettingsService.Instance.Save();
+
+            //System.Windows.Forms.Application.Restart();
+            //System.Windows.Application.Current.Shutdown();
+        }
+
+        #endregion
     }
 }
 

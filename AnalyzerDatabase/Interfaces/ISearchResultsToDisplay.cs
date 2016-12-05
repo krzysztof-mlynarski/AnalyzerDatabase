@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using AnalyzerDatabase.Enums;
-using AnalyzerDatabase.Models.Springer;
+﻿using AnalyzerDatabase.Enums;
 
 namespace AnalyzerDatabase.Interfaces
 {
     public interface ISearchResultsToDisplay
     {
+        #region Variables
         string Title { get; set; }
 
         string PublicationName { get; set; }
@@ -38,6 +36,6 @@ namespace AnalyzerDatabase.Interfaces
         string Abstract { get; set; }
 
         SourceDatabase Source { get; set; }
-
+        #endregion
     }
 }
