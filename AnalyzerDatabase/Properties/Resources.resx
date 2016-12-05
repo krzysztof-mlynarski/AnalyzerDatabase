@@ -120,6 +120,10 @@
   <data name="AboutMenu" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="AboutResult" xml:space="preserve">
+    <value>About</value>
+    <comment>Do wyświetlania ilości znalezionych wyników</comment>
+  </data>
   <data name="AbstractDataGrid" xml:space="preserve">
     <value>Abstract: </value>
   </data>
@@ -189,6 +193,15 @@
   <data name="NextBtn" xml:space="preserve">
     <value>Next</value>
   </data>
+  <data name="NoInternet" xml:space="preserve">
+    <value>No access to the internet!</value>
+  </data>
+  <data name="NotCriteria" xml:space="preserve">
+    <value>You did not enter the search criteria!</value>
+  </data>
+  <data name="NotSelectedDatabase" xml:space="preserve">
+    <value>Is not selected, none of the databases to be searched!</value>
+  </data>
   <data name="OpenAccessDataGrid" xml:space="preserve">
     <value>Open Access</value>
   </data>
@@ -216,11 +229,17 @@
   <data name="QueryText" xml:space="preserve">
     <value>Search in database...</value>
   </data>
+  <data name="Results" xml:space="preserve">
+    <value>results in</value>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
   </data>
   <data name="SearchMenu" xml:space="preserve">
     <value>Search</value>
+  </data>
+  <data name="Seconds" xml:space="preserve">
+    <value> seconds</value>
   </data>
   <data name="SelectDatabase" xml:space="preserve">
     <value>Select the database to search:</value>
@@ -251,6 +270,9 @@
   </data>
   <data name="TitleDataGridHeader" xml:space="preserve">
     <value>Title</value>
+  </data>
+  <data name="TitleDialogError" xml:space="preserve">
+    <value>Error!</value>
   </data>
   <data name="VolumeDataGrid" xml:space="preserve">
     <value>Volume: </value>

@@ -73,7 +73,7 @@ namespace AnalyzerDatabase.Services
             AnalyzerDatabaseSettings settings = new AnalyzerDatabaseSettings();
             XmlSerialize<AnalyzerDatabaseSettings>.InitEmptyProperties(settings);
 
-            settings.CurrentLanguage = "en-EN";
+            settings.CurrentLanguage = "pl-PL";
             settings.CurrentStyle = "green.xaml";
             settings.ScienceDirectAndScopusApiKey = "";
             settings.SpringerApiKey = "";

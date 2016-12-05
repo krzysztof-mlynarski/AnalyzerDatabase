@@ -20,6 +20,7 @@ using AnalyzerDatabase.View;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
+using MahApps.Metro.Controls;
 using Newtonsoft.Json.Linq;
 using MahApps.Metro.Controls.Dialogs;
 
@@ -95,7 +96,7 @@ namespace AnalyzerDatabase.ViewModels
                 return _fullScreenDataGrid ?? (_fullScreenDataGrid = new RelayCommand(() =>
                 {
                     var windowFullDataGrid = new FullDataGridView();
-                    windowFullDataGrid.Show();
+                    windowFullDataGrid.ShowDialog();
                 }));
             }
         }
@@ -666,6 +667,10 @@ namespace AnalyzerDatabase.ViewModels
                                 this.TotalResultsToDisplay.Add(e);
                             });
                         }
+                        else
+                        {
+                            ShowDialog(GetString("TitleDialogError"), GetString("NotSelectedDatabase"));
+                        }
 
                         //if (CheckBoxIeeeXplore)
                         //{
@@ -686,7 +691,7 @@ namespace AnalyzerDatabase.ViewModels
                     }
                     catch (Exception)
                     {
-                        MessageBox.Show("Nie zostala wybrana zadna baza");
+                        throw;
                     }
                     finally
                     {
@@ -694,23 +699,22 @@ namespace AnalyzerDatabase.ViewModels
 
                         var stopTime = DateTime.Now;
                         TimeSpan executionTime = stopTime - startTime;
-                        ExecutionTime = "(" + executionTime.TotalSeconds + "s)";
+                        ExecutionTime = "(" + executionTime.TotalSeconds + GetString("Seconds") + ")";
 
                         var allTotalResults = 0;
-                        TotalResultsToDisplay.ToList().ForEach(e => allTotalResults += int.Parse(e.OpensearchTotalResults));
+                        TotalResultsToDisplay.ToList().ForEach(e => allTotalResults += Int32.Parse(e.OpensearchTotalResults));
 
-                        TotalResults = "Około " + allTotalResults + " wyników w " + ExecutionTime;
+                        TotalResults = (GetString("AboutResult") + " " + allTotalResults + " " + GetString("Results") + " " + ExecutionTime);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Brak kryteriów do wyszukiwania!");
-                    //await this.ShowMessageAsync("Nie wprowadziłeś kryteria wyszukiwania");
+                    ShowDialog(GetString("TitleDialogError"), GetString("NotCriteria"));
                 }
             }
             else
             {
-                MessageBox.Show("Brak połączenia z internetem!");
+                ShowDialog(GetString("TitleDialogError"), GetString("NoInternet"));
             }
         }
     }
