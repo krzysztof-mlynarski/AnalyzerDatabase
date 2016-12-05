@@ -1,8 +1,11 @@
 ﻿using System.Reflection;
 using System.Resources;
+using System.Windows;
 using AnalyzerDatabase.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Views;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace AnalyzerDatabase.ViewModels
 {
@@ -49,6 +52,23 @@ namespace AnalyzerDatabase.ViewModels
         public string GetString(string name)
         {
             return _resourceManager.GetString(name, SettingsService.Instance.Culture);
+        }
+
+        public async void ShowDialog(string title, string discription)
+        {
+            MetroWindow metroWindow = Application.Current.MainWindow as MetroWindow;
+
+            await metroWindow.ShowMessageAsync(title, discription);
+        }
+
+        public async void ShowDialogColor(string title, string discription)
+        {
+            MetroWindow metroWindow = Application.Current.MainWindow as MetroWindow;
+
+            if (metroWindow != null)
+                metroWindow.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
+
+            await metroWindow.ShowMessageAsync(title, discription);
         }
     }
 }
