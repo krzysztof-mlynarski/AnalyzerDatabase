@@ -151,7 +151,7 @@
                 </StackPanel>
             </TabItem>
         </TabControl>
-        <Rectangle Width="300" Height="300" Fill="{DynamicResource BlackBrush}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.RowSpan="2" Margin="0,0,10,-298" Grid.Row="1">
+        <Rectangle Grid.Row="0" Width="300" Height="300" Fill="{DynamicResource BlackBrush}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,-150" Grid.RowSpan="3">
             <Rectangle.OpacityMask>
                 <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_cogs}"/>
             </Rectangle.OpacityMask>

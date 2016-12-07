@@ -9,9 +9,6 @@ using AnalyzerDatabase.Models.ScienceDirect;
 using AnalyzerDatabase.Models.Scopus;
 using AnalyzerDatabase.Models.Springer;
 using Microsoft.Win32;
-using Novacode;
-using org.apache.pdfbox.pdmodel;
-using org.apache.pdfbox.util;
 
 namespace AnalyzerDatabase.Services
 {
@@ -304,20 +301,20 @@ namespace AnalyzerDatabase.Services
 
             System.IO.File.WriteAllBytes("ERSN-OpenMC1", byteContent);
 
-            PDDocument doc = null;
-            doc = PDDocument.load(@"C:\Users\Krzysztof Młynarski\Documents\Publications\ERSN-OpenMC1.pdf");
-            PDFTextStripper textStripper = new PDFTextStripper();
-            string strPDFText = textStripper.getText(doc);
-            doc.close();
+            //PDDocument doc = null;
+            //doc = PDDocument.load(@"C:\Users\Krzysztof Młynarski\Documents\Publications\ERSN-OpenMC1.pdf");
+            //PDFTextStripper textStripper = new PDFTextStripper();
+            //string strPDFText = textStripper.getText(doc);
+            //doc.close();
 
-            string fn = @"C:\Users\Krzysztof Młynarski\Documents\Publications\ERSN-OpenMC1.docx";
-            var wordDoc = DocX.Create(fn);
+            //string fn = @"C:\Users\Krzysztof Młynarski\Documents\Publications\ERSN-OpenMC1.docx";
+            //var wordDoc = DocX.Create(fn);
 
-            wordDoc.InsertParagraph(strPDFText);
+            //wordDoc.InsertParagraph(strPDFText);
 
-            wordDoc.Save();
+            //wordDoc.Save();
 
-            System.Diagnostics.Process.Start(fn);
+            //System.Diagnostics.Process.Start(fn);
 
 
 

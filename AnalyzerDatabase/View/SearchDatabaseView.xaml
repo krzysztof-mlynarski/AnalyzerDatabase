@@ -16,7 +16,7 @@
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converters:NegativeBooleanToVisibilityConverter x:Key="NegativeBooleanToVisibilityConverter"/>
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -28,7 +28,7 @@
             <RowDefinition Height="9*"/>
         </Grid.RowDefinitions>
 
-        <Grid Margin="0,50,0,10" Grid.RowSpan="2">
+        <Grid Margin="0,30" Grid.RowSpan="2">
             <TextBox x:Name="QueryTextBox"
                         Background="WhiteSmoke"
                         BorderThickness="2"
@@ -49,7 +49,7 @@
                     IsDefault="True"
                     Command="{Binding SearchCommand}"/>
         </Grid>
-        <Grid Grid.Row="2" Grid.RowSpan="2">
+        <Grid Grid.Row="1" Grid.RowSpan="3" Margin="0,70,0,10">
             <TextBlock Margin="60,-13,505,273" Text="{x:Static res:Resources.SelectDatabase}"/>
             <CheckBox x:Name="CheckBoxScopus" Content="Scopus" IsChecked="{Binding CheckBoxScopus}" HorizontalAlignment="Left" Margin="80,0,0,0" VerticalAlignment="Top" Height="63" Width="160"/>
             <CheckBox x:Name="CheckBoxSpringer" Content="Springer" IsChecked="{Binding CheckBoxSpringer}" HorizontalAlignment="Left" Margin="80,43,0,0" VerticalAlignment="Top" Height="63" Width="160"/>
@@ -60,7 +60,7 @@
         </Grid>
 
         <!--WYSWIETLANIE WYNIKOW WYSZUKIWANIA-->
-        <Grid Grid.Row="3">
+        <Grid Grid.Row="2" Margin="0,90,0,10" Grid.RowSpan="2">
             <DataGrid x:Name="FirstDataGrid"
                       ItemsSource="{Binding Path=CollectionView}"
                       AutoGenerateColumns="False"
@@ -135,7 +135,7 @@
             <controls:ProgressRing IsActive="{Binding IsDataLoading}" />
 
             <!-- Wyświetlanie ilości zanlezionych wyników i w jakim czasie -->
-            <Label x:Name="LabelTotalResults" Margin="60,270,505,5" Content="{Binding TotalResults}"/>
+            <Label x:Name="LabelTotalResults" Margin="60,250,505,5" Content="{Binding TotalResults}"/>
 
             <!-- Okno z rozszerzeniem informacji dot. danego wyniku -->
             <Button x:Name="FullScreenDataGrid" 
@@ -143,11 +143,11 @@
                     ToolTip="{x:Static res:Resources.ShowMoreDetailsToolTip}"  
                     HorizontalAlignment="Right" VerticalAlignment="Top"
                     Margin="0,20,10,0">
-                    <Rectangle Width="32" Height="32" Fill="{DynamicResource BlackBrush}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_window_maximize}"/>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
+                <Rectangle Width="32" Height="32" Fill="{DynamicResource BlackBrush}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_window_maximize}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
             </Button>
         </Grid>
     </Grid>

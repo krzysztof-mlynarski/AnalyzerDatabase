@@ -18,7 +18,7 @@
         ResizeMode="CanMinimize"              
         WindowTransitionsEnabled="False"
         WindowStartupLocation="CenterScreen"              
-        Title="Analyzer Database" Height="875" Width="1024">
+        Title="Analyzer Database" Height="720" Width="1024">
 
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
@@ -32,10 +32,6 @@
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converters:NegativeBooleanToVisibilityConverter x:Key="NegativeBooleanToVisibilityConverter"/>
 
-        <!--<DataTemplate DataType="{x:Type viewModel:MainViewModel}">
-            <view:MainWindow/>
-        </DataTemplate>-->
-        
         <DataTemplate DataType="{x:Type viewModel:SearchDatabaseViewModel}">
             <view:SearchDatabaseView/>
         </DataTemplate>
@@ -71,8 +67,8 @@
                             VerticalAlignment="Stretch" 
                             Width="{Binding ElementName=HomeBtn, Path=ActualWidth}" >
                     <Image Source="../Assets/Menu Icons/Home.png" 
-                           Width="100" 
-                           Margin="0,10,10,10"/>
+                           Margin="24,10,34,10" 
+                           Height="70"/>
                     <TextBlock HorizontalAlignment="Center" 
                                FontSize="17" 
                                Text="{x:Static res:Resources.HomeMenu}" 
@@ -89,7 +85,7 @@
                             VerticalAlignment="Stretch" 
                             Width="{Binding ElementName=SearchBtn, Path=ActualWidth}" >
                     <Image Source="../Assets/Menu Icons/Search.png" 
-                           Width="100" 
+                           Width="70" 
                            Margin="0,10,10,10"/>
                     <TextBlock HorizontalAlignment="Center" 
                                FontSize="17" 
@@ -107,7 +103,7 @@
                             VerticalAlignment="Stretch" 
                             Width="{Binding ElementName=StatisticsBtn, Path=ActualWidth}" >
                     <Image Source="../Assets/Menu Icons/Statistics.png" 
-                           Width="100" 
+                           Width="70" 
                            Margin="0,10,10,10"/>
                     <TextBlock HorizontalAlignment="Center" 
                                FontSize="17" 
@@ -125,7 +121,7 @@
                             VerticalAlignment="Stretch" 
                             Width="{Binding ElementName=SettingsBtn, Path=ActualWidth}" >
                     <Image Source="../Assets/Menu Icons/Settings.png" 
-                           Width="100" 
+                           Width="70" 
                            Margin="0,10,10,10"/>
                     <TextBlock HorizontalAlignment="Center" 
                                FontSize="17" 
@@ -143,7 +139,7 @@
                             VerticalAlignment="Stretch" 
                             Width="{Binding ElementName=AboutBtn, Path=ActualWidth}" >
                     <Image Source="../Assets/Menu Icons/About.png" 
-                           Width="100"
+                           Width="70"
                            Margin="0,10,10,10"/>
                     <TextBlock HorizontalAlignment="Center" 
                                FontSize="17" 
@@ -157,18 +153,18 @@
 
         <StackPanel Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
             <Grid Margin="0,100,0,5">
-                <TextBlock HorizontalAlignment="Center">
-                    <Image Source="../Assets/Logo/AnalyzerDatabaseLogo.png" 
-                           Width="500"
-                           Visibility="{Binding CurrentViewModel, Converter={StaticResource ViewModelBaseToVisibilityConverter}}"/>
-                </TextBlock>
+                <TextBlock HorizontalAlignment="Center"><InlineUIContainer>
+                        <Image Source="../Assets/Logo/AnalyzerDatabaseLogo.png" 
+                            Width="435"
+                            Visibility="{Binding CurrentViewModel, Converter={StaticResource ViewModelBaseToVisibilityConverter}}" Height="239"/>
+                    </InlineUIContainer></TextBlock>
             </Grid>
 
             <!--LOGA BAZ-->
             <StackPanel Height="424">
                 <TextBlock HorizontalAlignment="Center">
                         <Image Source="../Assets/Library Icons/Library1.png"                              
-                               Visibility="{Binding CurrentViewModel, Converter={StaticResource ViewModelBaseToVisibilityConverter}}"/>
+                               Visibility="{Binding CurrentViewModel, Converter={StaticResource ViewModelBaseToVisibilityConverter}}" Height="429" Width="762"/>
                 </TextBlock>
             </StackPanel>
         </StackPanel>
