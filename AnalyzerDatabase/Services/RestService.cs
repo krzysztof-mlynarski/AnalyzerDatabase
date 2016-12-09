@@ -17,15 +17,17 @@ namespace AnalyzerDatabase.Services
         #region Private fields
         private readonly ResourceDictionary _resources = Application.Current.Resources;
         private readonly IDeserializeJsonService _deserializeJsonService;
+        private readonly IStatisticsDataService _statisticsDataService;
         private readonly string _currentPublicationSavingPath;
         private readonly string _currentScienceDirectAndScopusApiKey;
         private readonly string _currentSpringerApiKey;
         #endregion
 
         #region Constructor
-        public RestService(IDeserializeJsonService deserializeJsonService)
+        public RestService(IDeserializeJsonService deserializeJsonService, IStatisticsDataService statisticsDataService)
         {
             _deserializeJsonService = deserializeJsonService;
+            _statisticsDataService = statisticsDataService;
             _currentPublicationSavingPath = SettingsService.Instance.Settings.SavingPublicationPath;
             _currentScienceDirectAndScopusApiKey = SettingsService.Instance.Settings.ScienceDirectAndScopusApiKey;
             _currentSpringerApiKey = SettingsService.Instance.Settings.SpringerApiKey;
@@ -282,6 +284,7 @@ namespace AnalyzerDatabase.Services
                 if (saveFileDialog.ShowDialog() == true)
                 {
                     System.IO.File.WriteAllBytes(saveFileDialog.FileName, byteContent);
+                    _statisticsDataService.IncrementPublicationsDownload();
                 }
 
                 System.Diagnostics.Process.Start(saveFileDialog.FileName);

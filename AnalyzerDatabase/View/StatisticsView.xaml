@@ -6,52 +6,79 @@
              xmlns:local="clr-namespace:AnalyzerDatabase.View"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:chart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="800"
-             d:DataContext="{d:DesignInstance local:StatisticsView}">
+             d:DesignHeight="720" d:DesignWidth="800"
+             DataContext="{Binding Source={StaticResource Locator}, Path=Statistics}">
+            <!--d:DataContext="{d:DesignInstance local:StatisticsView}"-->
     <Grid>
         <TabControl Margin="30,30,0,0">
             <controls:MetroTabItem Header="Ogólne statystki">
                 <Grid Margin="40,50,0,0">
                     <TextBlock Text="Ilość zapytań skierowanych do baz:" FontSize="20" Grid.Column="0"/>
                     <TextBlock Text=""></TextBlock>
-                    <StackPanel Width="200" HorizontalAlignment="Left" Margin="0,36,0,0">
-                        <TextBlock HorizontalAlignment="Right" Text="Science Direct:" FontSize="15"/>
-                        <TextBlock HorizontalAlignment="Right" Text="Scopus:" FontSize="15"/>
-                        <TextBlock HorizontalAlignment="Right" Text="Springer:" FontSize="15"/>
-                        <TextBlock HorizontalAlignment="Right" Text="Web Of Science:" FontSize="15"/>
-                        <TextBlock HorizontalAlignment="Right" Text="IEEE Xplore:" FontSize="15"/>
-                        <TextBlock HorizontalAlignment="Right" Text="Wiley Online Library:" FontSize="15"/>
-                        <TextBlock HorizontalAlignment="Right" FontWeight="Bold" Text="Łącznie:" FontSize="15" TextDecorations="Overline"/>
+                    <StackPanel Width="227" HorizontalAlignment="Left" Margin="0,36,0,0">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock Text="Science Direct:" FontSize="15" />
+                            <TextBlock Text=" "></TextBlock>
+                            <TextBlock Text="{Binding CurrentScienceDirectCount, UpdateSourceTrigger=PropertyChanged}" FontSize="15" Background="Transparent" Width="50"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock HorizontalAlignment="Right" Text="Scopus:" FontSize="15"/>
+                            <TextBlock Text=" "></TextBlock>
+                            <TextBlock Text="{Binding CurrentScopusCount, UpdateSourceTrigger=PropertyChanged}" FontSize="15" Background="Transparent" Width="50"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock HorizontalAlignment="Right" Text="Springer:" FontSize="15"></TextBlock>
+                            <TextBlock Text=" "></TextBlock>
+                            <TextBlock Text="{Binding CurrentSpringerCount, UpdateSourceTrigger=PropertyChanged}" FontSize="15" Background="Transparent" Width="50"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock HorizontalAlignment="Right" Text="Web Of Science:" FontSize="15"/>
+                            <TextBlock Text=" "></TextBlock>
+                            <TextBlock Text="{Binding CurrentWebOfScienceCount, UpdateSourceTrigger=PropertyChanged}" FontSize="15" Background="Transparent" Width="50"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock HorizontalAlignment="Right" Text="IEEE Xplore:" FontSize="15"/>
+                            <TextBlock Text=" "></TextBlock>
+                            <TextBlock Text="{Binding CurrentIeeeXploreCount, UpdateSourceTrigger=PropertyChanged}" FontSize="15" Background="Transparent" Width="50"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock HorizontalAlignment="Right" Text="Wiley Online Library:" FontSize="15"/>
+                            <TextBlock Text=" "></TextBlock>
+                            <TextBlock Text="{Binding CurrentWileyOnlineLibraryCount, UpdateSourceTrigger=PropertyChanged}" FontSize="15" Background="Transparent" Width="50"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock HorizontalAlignment="Right" FontWeight="Bold" Text="Łącznie:" FontSize="15" TextDecorations="Overline"/>
+                            <TextBlock Text=" "/>
+                            <TextBlock Text="{Binding CurrentSumCount, UpdateSourceTrigger=PropertyChanged}" TextDecorations="Overline" FontSize="15" Width="50"/>
+                        </StackPanel>
                     </StackPanel>
 
                     <lvc:PieChart LegendLocation="Right"
-                        Width="400" Height="276"
-                        HorizontalAlignment="Right" 
-                        VerticalAlignment="Top">
-                        <lvc:PieChart.Series>
-                            <lvc:PieSeries Title="Science Direct" Values="3" DataLabels="True" 
-                               LabelPoint="{Binding PointLabel}"/>
-                            <lvc:PieSeries Title="Scopus" Values="4" DataLabels="True" 
-                               LabelPoint="{Binding PointLabel}"/>
-                            <lvc:PieSeries Title="Springer" Values="6" DataLabels="True" 
-                               LabelPoint="{Binding PointLabel}"/>
-                            <lvc:PieSeries Title="Web Of Science" Values="2" DataLabels="True" 
-                               LabelPoint="{Binding PointLabel}"/>
-                            <lvc:PieSeries Title="IEEE Xplore" Values="1" DataLabels="True" 
-                               LabelPoint="{Binding PointLabel}"/>
-                            <lvc:PieSeries Title="Wiley Online Library" Values="5" DataLabels="True" 
-                               LabelPoint="{Binding PointLabel}"/>
-                        </lvc:PieChart.Series>
+                                  Series="{Binding SeriesCollectionSearchCount}"
+                                  Width="400" Height="276"
+                                  HorizontalAlignment="Right" 
+                                  VerticalAlignment="Top">
                     </lvc:PieChart>
 
                     <StackPanel Margin="0,351,397,-100">
-                        <TextBlock Text="Ilość pobranych publikacji:" FontSize="20"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <TextBlock Text="Ilość pobranych publikacji:" FontSize="20"/>
+                            <TextBlock Text=" "></TextBlock>
+                            <TextBlock Text="{Binding CurrentPublicationsDownloadCount, UpdateSourceTrigger=PropertyChanged}" FontSize="20" Width="50"/>
+                        </StackPanel>
                         <TextBlock Text=""></TextBlock>
-                        <TextBlock Text="Ilość znalezionych duplikatów:" FontSize="20"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <TextBlock Text="Ilość znalezionych duplikatów:" FontSize="20"/>
+                            <TextBlock Text=" "></TextBlock>
+                            <TextBlock Text="{Binding CurrentDuplicateCount, UpdateSourceTrigger=PropertyChanged}" FontSize="20" Width="50"/>
+                        </StackPanel>
                     </StackPanel>
 
-                    <lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Bottom" Margin="332,329,37,20">
+                    <lvc:CartesianChart Series="{Binding SeriesCollectionDuplicateAndDownloadCount}" 
+                                        LegendLocation="Bottom" 
+                                        Margin="332,329,37,20">
                         <lvc:CartesianChart.DataTooltip>
                             <lvc:DefaultTooltip SelectionMode="SharedYValues"></lvc:DefaultTooltip>
                         </lvc:CartesianChart.DataTooltip>

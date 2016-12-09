@@ -49,6 +49,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="De.TorstenMandelkow.MetroChart, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ModernUICharts.1.0.2\lib\De.TorstenMandelkow.MetroChart.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
       <Private>True</Private>
@@ -120,6 +124,7 @@
     <Compile Include="Interfaces\IInternetConnectionService.cs" />
     <Compile Include="Interfaces\IRestService.cs" />
     <Compile Include="Interfaces\ISearchResultsToDisplay.cs" />
+    <Compile Include="Interfaces\IStatisticsDataService.cs" />
     <Compile Include="Interfaces\ITotalResultsToDisplay.cs" />
     <Compile Include="Models\IeeeXplore\testowa.cs" />
     <Compile Include="Models\ScienceDirect\Author.cs" />
@@ -145,17 +150,20 @@
     <Compile Include="Models\Springer\SpringerSearchQuery.cs" />
     <Compile Include="Models\Springer\Url.cs" />
     <Compile Include="Models\Springer\Value.cs" />
+    <Compile Include="Models\AnalyzerDatabaseStatistics.cs" />
     <Compile Include="Properties\Resources.pl-PL.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.pl-PL.resx</DependentUpon>
     </Compile>
-    <Compile Include="Services\AnalyzerDatabaseSettings.cs" />
+    <Compile Include="Models\AnalyzerDatabaseSettings.cs" />
     <Compile Include="Services\DeserializeJsonService.cs" />
     <Compile Include="Services\InternetConnectionService.cs" />
     <Compile Include="Services\LocalizationSettingsService.cs" />
+    <Compile Include="Services\LocalizationStatisticsService.cs" />
     <Compile Include="Services\RestService.cs" />
     <Compile Include="Services\SettingsService.cs" />
+    <Compile Include="Services\StatisticsDataService.cs" />
     <Compile Include="Services\XmlService.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\ExtendedViewModelBase.cs" />

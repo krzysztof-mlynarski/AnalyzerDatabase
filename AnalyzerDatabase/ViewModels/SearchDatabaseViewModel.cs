@@ -15,6 +15,7 @@ namespace AnalyzerDatabase.ViewModels
 
         private readonly IInternetConnectionService _internetConnectionService;
         private readonly IRestService _restService;
+        private readonly IStatisticsDataService _statisticsDataService;
 
         public ICollectionView CollectionView { get; set; }
         public ISearchResultsToDisplay DoiAndTitle { get; set; }
@@ -54,10 +55,11 @@ namespace AnalyzerDatabase.ViewModels
 
         #region Constructors
 
-        public SearchDatabaseViewModel(IRestService restService, IInternetConnectionService internetConnectionService)
+        public SearchDatabaseViewModel(IRestService restService, IInternetConnectionService internetConnectionService, IStatisticsDataService statisticsDataService)
         {
             _restService = restService;
             _internetConnectionService = internetConnectionService;
+            _statisticsDataService = statisticsDataService;
             SearchResultsToDisplay = new ObservableCollection<ISearchResultsToDisplay>();
             TotalResultsToDisplay = new ObservableCollection<ITotalResultsToDisplay>();
             CollectionView = CollectionViewSource.GetDefaultView(_searchResultsToDisplay);
@@ -508,6 +510,10 @@ namespace AnalyzerDatabase.ViewModels
                             {
                                 this.TotalResultsToDisplay.Add(e);
                             });
+
+                            _statisticsDataService.IncrementScienceDirect();
+                            _statisticsDataService.IncrementScopus();
+                            _statisticsDataService.IncrementSpringer();
                         }
                         else if (CheckBoxScienceDirect && CheckBoxScopus)
                         {
@@ -527,6 +533,9 @@ namespace AnalyzerDatabase.ViewModels
                             });
 
                             this.TotalResultsToDisplay.Add(obj1.SearchResults);
+
+                            _statisticsDataService.IncrementScienceDirect();
+                            _statisticsDataService.IncrementScopus();
                         }
                         else if (CheckBoxScienceDirect && CheckBoxSpringer)
                         {
@@ -549,6 +558,9 @@ namespace AnalyzerDatabase.ViewModels
                             {
                                 this.TotalResultsToDisplay.Add(e);
                             });
+
+                            _statisticsDataService.IncrementScienceDirect();
+                            _statisticsDataService.IncrementSpringer();
                         }
                         else if (CheckBoxScopus && CheckBoxSpringer)
                         {
@@ -571,6 +583,9 @@ namespace AnalyzerDatabase.ViewModels
                             {
                                 this.TotalResultsToDisplay.Add(e);
                             });
+
+                            _statisticsDataService.IncrementScopus();
+                            _statisticsDataService.IncrementSpringer();
                         }
                         else if (CheckBoxScienceDirect)
                         {
@@ -582,6 +597,8 @@ namespace AnalyzerDatabase.ViewModels
                             });
 
                             this.TotalResultsToDisplay.Add(obj.SearchResults);
+
+                            _statisticsDataService.IncrementScienceDirect();
                         }
                         else if (CheckBoxScopus)
                         {
@@ -593,6 +610,8 @@ namespace AnalyzerDatabase.ViewModels
                             });
 
                             this.TotalResultsToDisplay.Add(obj.SearchResults);
+
+                            _statisticsDataService.IncrementScopus();
                         }
                         else if (CheckBoxSpringer)
                         {
@@ -607,6 +626,8 @@ namespace AnalyzerDatabase.ViewModels
                             {
                                 this.TotalResultsToDisplay.Add(e);
                             });
+
+                            _statisticsDataService.IncrementSpringer();
                         }
                         else
                         {
@@ -629,10 +650,6 @@ namespace AnalyzerDatabase.ViewModels
                         //}
 
                         CollectionView?.GroupDescriptions.Add(new PropertyGroupDescription("Source"));
-                    }
-                    catch (Exception)
-                    {
-                        throw;
                     }
                     finally
                     {

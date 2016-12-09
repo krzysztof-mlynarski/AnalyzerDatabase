@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace AnalyzerDatabase.Services
+namespace AnalyzerDatabase.Models
 {
     [Serializable]
     public class AnalyzerDatabaseSettings

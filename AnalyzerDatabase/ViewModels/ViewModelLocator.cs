@@ -57,13 +57,14 @@ namespace AnalyzerDatabase.ViewModels
                 SimpleIoc.Default.Register<IDeserializeJsonService, DeserializeJsonService>();
                 SimpleIoc.Default.Register<IInternetConnectionService, InternetConnectionService>();
                 SimpleIoc.Default.Register<IRestService, RestService>();
-
+                SimpleIoc.Default.Register<IStatisticsDataService, StatisticsDataService>();
             }
             else
             {
                 SimpleIoc.Default.Register<IDeserializeJsonService, DeserializeJsonService>();
                 SimpleIoc.Default.Register<IInternetConnectionService, InternetConnectionService>();
                 SimpleIoc.Default.Register<IRestService, RestService>();
+                SimpleIoc.Default.Register<IStatisticsDataService, StatisticsDataService>();
             }
         }
 

@@ -25,41 +25,6 @@ namespace AnalyzerDatabase.View
         public StatisticsView()
         {
             InitializeComponent();
-
-            PointLabel = chartPoint =>
-                $"{chartPoint.Y} ({chartPoint.Participation:P})";
-
-
-            SeriesCollection = new SeriesCollection
-            {
-                new RowSeries
-                {
-                    Title = "Duplikaty",
-                    Values = new ChartValues<double> { 150 }
-                }
-            };
-
-            //adding series will update and animate the chart automatically
-            SeriesCollection.Add(new RowSeries
-            {
-                Title = "Publikacje",
-                Values = new ChartValues<double> { 46 }
-            });
-
-            //also adding values updates and animates the chart automatically
-            //SeriesCollection[1].Values.Add(48d);
-
-            //Labels = new[] { "Duplikaty", "Publikacje"};
-            Formatter = value => value.ToString("N");
-
-            DataContext = this;
         }
-
-        public SeriesCollection SeriesCollection { get; set; }
-        public string[] Labels { get; set; }
-        public Func<double, string> Formatter { get; set; }
-
-
-        public Func<ChartPoint, string> PointLabel { get; set; }
     }
 }

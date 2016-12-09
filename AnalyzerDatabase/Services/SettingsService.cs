@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Resources;
 using AnalyzerDatabase.Interfaces;
+using AnalyzerDatabase.Models;
 
 namespace AnalyzerDatabase.Services
 {
