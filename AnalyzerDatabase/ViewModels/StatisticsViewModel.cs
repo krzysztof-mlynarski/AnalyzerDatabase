@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AnalyzerDatabase.ViewModels
 {
-    public class StatisticsViewModel
+    public class StatisticsViewModel : ExtendedViewModelBase
     {
     }
 }

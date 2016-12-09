@@ -1,0 +1,85 @@
+﻿<UserControl x:Class="AnalyzerDatabase.View.StatisticsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AnalyzerDatabase.View"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance local:StatisticsView}">
+    <Grid>
+        <TabControl Margin="30,30,0,0">
+            <controls:MetroTabItem Header="Ogólne statystki">
+                <Grid Margin="40,50,0,0">
+                    <TextBlock Text="Ilość zapytań skierowanych do baz:" FontSize="20" Grid.Column="0"/>
+                    <TextBlock Text=""></TextBlock>
+                    <StackPanel Width="200" HorizontalAlignment="Left" Margin="0,36,0,0">
+                        <TextBlock HorizontalAlignment="Right" Text="Science Direct:" FontSize="15"/>
+                        <TextBlock HorizontalAlignment="Right" Text="Scopus:" FontSize="15"/>
+                        <TextBlock HorizontalAlignment="Right" Text="Springer:" FontSize="15"/>
+                        <TextBlock HorizontalAlignment="Right" Text="Web Of Science:" FontSize="15"/>
+                        <TextBlock HorizontalAlignment="Right" Text="IEEE Xplore:" FontSize="15"/>
+                        <TextBlock HorizontalAlignment="Right" Text="Wiley Online Library:" FontSize="15"/>
+                        <TextBlock HorizontalAlignment="Right" FontWeight="Bold" Text="Łącznie:" FontSize="15" TextDecorations="Overline"/>
+                    </StackPanel>
+
+                    <lvc:PieChart LegendLocation="Right"
+                        Width="400" Height="276"
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Top">
+                        <lvc:PieChart.Series>
+                            <lvc:PieSeries Title="Science Direct" Values="3" DataLabels="True" 
+                               LabelPoint="{Binding PointLabel}"/>
+                            <lvc:PieSeries Title="Scopus" Values="4" DataLabels="True" 
+                               LabelPoint="{Binding PointLabel}"/>
+                            <lvc:PieSeries Title="Springer" Values="6" DataLabels="True" 
+                               LabelPoint="{Binding PointLabel}"/>
+                            <lvc:PieSeries Title="Web Of Science" Values="2" DataLabels="True" 
+                               LabelPoint="{Binding PointLabel}"/>
+                            <lvc:PieSeries Title="IEEE Xplore" Values="1" DataLabels="True" 
+                               LabelPoint="{Binding PointLabel}"/>
+                            <lvc:PieSeries Title="Wiley Online Library" Values="5" DataLabels="True" 
+                               LabelPoint="{Binding PointLabel}"/>
+                        </lvc:PieChart.Series>
+                    </lvc:PieChart>
+
+                    <StackPanel Margin="0,351,397,-100">
+                        <TextBlock Text="Ilość pobranych publikacji:" FontSize="20"/>
+                        <TextBlock Text=""></TextBlock>
+                        <TextBlock Text="Ilość znalezionych duplikatów:" FontSize="20"/>
+                    </StackPanel>
+
+                    <lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Bottom" Margin="332,329,37,20">
+                        <lvc:CartesianChart.DataTooltip>
+                            <lvc:DefaultTooltip SelectionMode="SharedYValues"></lvc:DefaultTooltip>
+                        </lvc:CartesianChart.DataTooltip>
+                    </lvc:CartesianChart>
+                </Grid>
+            </controls:MetroTabItem>
+
+            <controls:MetroTabItem Header="Wg. lat">
+            <Grid>
+                    <!--<lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Left">
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Salesman" Labels="{Binding Labels}"></lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Sold Apps" LabelFormatter="{Binding Formatter}"></lvc:Axis>
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>-->
+                </Grid>
+            </controls:MetroTabItem>
+
+            <controls:MetroTabItem Header="Wg. autorów">
+
+            </controls:MetroTabItem>
+
+            <controls:MetroTabItem Header="Wg. publikacji">
+
+            </controls:MetroTabItem>
+        </TabControl>
+    </Grid>
+</UserControl>
+

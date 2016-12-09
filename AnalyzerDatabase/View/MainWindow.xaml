@@ -35,9 +35,9 @@
         <DataTemplate DataType="{x:Type viewModel:SearchDatabaseViewModel}">
             <view:SearchDatabaseView/>
         </DataTemplate>
-        <!--<DataTemplate DataType="{x:Type viewModel:StatisticsViewModel}">
+        <DataTemplate DataType="{x:Type viewModel:StatisticsViewModel}">
             <view:StatisticsView/>
-        </DataTemplate>-->
+        </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:SettingsViewModel}">
             <view:SettingsView/>
         </DataTemplate>

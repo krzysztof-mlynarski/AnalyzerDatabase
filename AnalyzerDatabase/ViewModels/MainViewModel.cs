@@ -28,7 +28,7 @@ namespace AnalyzerDatabase.ViewModels
         {
             _internetConnectionService = internetConnectionService;
             CurrentViewModel = ViewModelLocator.Instance.SearchDatabase;
-            //CurrentViewModel = ViewModelLocator.Instance.Statistics;
+            CurrentViewModel = ViewModelLocator.Instance.Statistics;
             CurrentViewModel = ViewModelLocator.Instance.Settings;
             //CurrentViewModel = ViewModelLocator.Instance.About;
             CurrentViewModel = null;
@@ -134,7 +134,7 @@ namespace AnalyzerDatabase.ViewModels
 
         private void OpenStatistics()
         {
-            //NavigateTo(ViewModelLocator.Instance.Statistics);
+            NavigateTo(ViewModelLocator.Instance.Statistics);
         }
 
         private void OpenSettings()
