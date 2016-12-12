@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
 using AnalyzerDatabase.Interfaces;
+using AnalyzerDatabase.Messages;
+using AnalyzerDatabase.Models;
 using AnalyzerDatabase.View;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
+using LiveCharts.Helpers;
 
 namespace AnalyzerDatabase.ViewModels
 {
@@ -18,7 +23,7 @@ namespace AnalyzerDatabase.ViewModels
         private readonly IStatisticsDataService _statisticsDataService;
 
         public ICollectionView CollectionView { get; set; }
-        public ISearchResultsToDisplay DoiAndTitle { get; set; }
+        public ISearchResultsToDisplay DoiAndTitleAndAbstract { get; set; }
 
         private ObservableCollection<ISearchResultsToDisplay> _searchResultsToDisplay;
         private ObservableCollection<ITotalResultsToDisplay> _totalResultsToDisplay;
@@ -119,6 +124,7 @@ namespace AnalyzerDatabase.ViewModels
                 return _downloadArticleToDocx ?? (_downloadArticleToDocx = new RelayCommand(DownloadArticleDocx));
             }
         }
+
         #endregion
 
         #region Getters/Setters
@@ -314,7 +320,7 @@ namespace AnalyzerDatabase.ViewModels
             try
             {
                 IsDownloadFile = true;
-                _restService.GetArticle(DoiAndTitle.Doi, DoiAndTitle.Title);
+                _restService.GetArticle(DoiAndTitleAndAbstract.Doi, DoiAndTitleAndAbstract.Title);
             }
             catch (Exception)
             {
@@ -331,7 +337,7 @@ namespace AnalyzerDatabase.ViewModels
             try
             {
                 IsDataLoading = true;
-                _restService.GetArticleDocx(DoiAndTitle.Doi, DoiAndTitle.Title);
+                _restService.GetArticleDocx(DoiAndTitleAndAbstract.Doi, DoiAndTitleAndAbstract.Title);
             }
             catch (Exception)
             {
@@ -341,6 +347,75 @@ namespace AnalyzerDatabase.ViewModels
             {
                 IsDataLoading = false;
             }
+        }
+
+        private decimal DegreeOfCompliance(ISearchResultsToDisplay model)
+        {
+            int result = 0;
+            int word = 0;
+            decimal percentComplete = 0;
+
+            var stringAbstract = model.Abstract;
+            var stringTitle = model.Title;
+            var stringPublicationName = model.PublicationName;
+
+            char[] stringSeparators = 
+            {
+                ' ', ',', '.', '-', '/', '\\', '[', ']', '+', '*', '(', ')', ':', ';', '_', '^', '>', '<', '?', '!', '\"', '\'', '}', '{', '#', '$', '&', '@', '`', '~'
+            };
+
+            string[] queryWord = QueryTextBox.Split(stringSeparators, StringSplitOptions.None);
+            string[] wordsAbstract = stringAbstract?.Split(stringSeparators, StringSplitOptions.None);
+            string[] wordsTitle = stringTitle?.Split(stringSeparators, StringSplitOptions.None);
+            string[] wordsPublicationName = stringPublicationName?.Split(stringSeparators, StringSplitOptions.None);
+
+
+            if (wordsAbstract != null)
+            {
+                foreach (var source in wordsAbstract)
+                {
+                    word += 1;
+                    foreach (var querys in queryWord)
+                    {
+                        if (String.Equals(source, querys, StringComparison.InvariantCultureIgnoreCase))
+                            result += 1;
+                    }
+                }
+
+                percentComplete = (decimal)(100 * result) / word;
+            }
+
+            if (wordsTitle != null)
+            {
+                foreach (var source in wordsTitle)
+                {
+                    word += 1;
+                    foreach (var querys in queryWord)
+                    {
+                        if (String.Equals(source, querys, StringComparison.InvariantCultureIgnoreCase))
+                            result += 1;
+                    }
+                }
+
+                percentComplete += (decimal)(100 * result) / word;
+            }
+
+            if (wordsPublicationName != null)
+            {
+                foreach (var source in wordsPublicationName)
+                {
+                    word += 1;
+                    foreach (var querys in queryWord)
+                    {
+                        if (String.Equals(source, querys, StringComparison.InvariantCultureIgnoreCase))
+                            result += 1;
+                    }
+                }
+
+                percentComplete += (decimal)(100 * result) / word;
+            }
+
+            return percentComplete;
         }
 
         private async void NextPage()
@@ -481,6 +556,7 @@ namespace AnalyzerDatabase.ViewModels
                         startTime = DateTime.Now;
                         IsDataLoading = true;
 
+                        #region ScienceDirect/Scopus/Springer
                         if (CheckBoxScienceDirect && CheckBoxScopus && CheckBoxSpringer)
                         {
                             var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
@@ -490,6 +566,7 @@ namespace AnalyzerDatabase.ViewModels
                             obj.SearchResults.Entry.ToList().ForEach(element =>
                             {
                                 this.SearchResultsToDisplay.Add(element);
+                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
                             });
 
                             this.TotalResultsToDisplay.Add(obj.SearchResults);
@@ -497,6 +574,7 @@ namespace AnalyzerDatabase.ViewModels
                             obj1.SearchResults.Entry.ToList().ForEach(e =>
                             {
                                 this.SearchResultsToDisplay.Add(e);
+                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
                             });
 
                             this.TotalResultsToDisplay.Add(obj1.SearchResults);
@@ -504,6 +582,7 @@ namespace AnalyzerDatabase.ViewModels
                             obj2.Records.ToList().ForEach(e =>
                             {
                                 this.SearchResultsToDisplay.Add(e);
+                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
                             });
 
                             obj2.Result.ToList().ForEach(e =>
@@ -515,6 +594,8 @@ namespace AnalyzerDatabase.ViewModels
                             _statisticsDataService.IncrementScopus();
                             _statisticsDataService.IncrementSpringer();
                         }
+                        #endregion
+                        #region ScienceDirect/Scopus
                         else if (CheckBoxScienceDirect && CheckBoxScopus)
                         {
                             var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
@@ -537,6 +618,8 @@ namespace AnalyzerDatabase.ViewModels
                             _statisticsDataService.IncrementScienceDirect();
                             _statisticsDataService.IncrementScopus();
                         }
+                        #endregion
+                        #region ScienceDirect/Springer
                         else if (CheckBoxScienceDirect && CheckBoxSpringer)
                         {
                             var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
@@ -562,6 +645,8 @@ namespace AnalyzerDatabase.ViewModels
                             _statisticsDataService.IncrementScienceDirect();
                             _statisticsDataService.IncrementSpringer();
                         }
+                        #endregion
+                        #region Scopus/Springer
                         else if (CheckBoxScopus && CheckBoxSpringer)
                         {
                             var obj = await _restService.GetSearchQueryScopus(QueryTextBox);
@@ -587,6 +672,8 @@ namespace AnalyzerDatabase.ViewModels
                             _statisticsDataService.IncrementScopus();
                             _statisticsDataService.IncrementSpringer();
                         }
+                        #endregion
+                        #region ScienceDirect
                         else if (CheckBoxScienceDirect)
                         {
                             var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
@@ -594,12 +681,15 @@ namespace AnalyzerDatabase.ViewModels
                             obj.SearchResults.Entry.ToList().ForEach(element =>
                             {
                                 this.SearchResultsToDisplay.Add(element);
+                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
                             });
 
                             this.TotalResultsToDisplay.Add(obj.SearchResults);
 
                             _statisticsDataService.IncrementScienceDirect();
                         }
+                        #endregion
+                        #region Scopus
                         else if (CheckBoxScopus)
                         {
                             var obj = await _restService.GetSearchQueryScopus(QueryTextBox);
@@ -607,12 +697,17 @@ namespace AnalyzerDatabase.ViewModels
                             obj.SearchResults.Entry.ToList().ForEach(e =>
                             {
                                 this.SearchResultsToDisplay.Add(e);
+                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
                             });
 
                             this.TotalResultsToDisplay.Add(obj.SearchResults);
 
                             _statisticsDataService.IncrementScopus();
+
+
                         }
+                        #endregion
+                        #region Springer
                         else if (CheckBoxSpringer)
                         {
                             var obj = await _restService.GetSearchQuerySpringer(QueryTextBox);
@@ -620,6 +715,7 @@ namespace AnalyzerDatabase.ViewModels
                             obj.Records.ToList().ForEach(e =>
                             {
                                 this.SearchResultsToDisplay.Add(e);
+                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
                             });
 
                             obj.Result.ToList().ForEach(e =>
@@ -629,10 +725,13 @@ namespace AnalyzerDatabase.ViewModels
 
                             _statisticsDataService.IncrementSpringer();
                         }
+                        #endregion
                         else
                         {
                             ShowDialog(GetString("TitleDialogError"), GetString("NotSelectedDatabase"));
                         }
+
+//                        PublicationDateFromDatabasesLabels(SearchResultsToDisplay);
 
                         //if (CheckBoxIeeeXplore)
                         //{
@@ -650,6 +749,10 @@ namespace AnalyzerDatabase.ViewModels
                         //}
 
                         CollectionView?.GroupDescriptions.Add(new PropertyGroupDescription("Source"));
+                        //Messenger.Default.Send<PublicationDateMessageToChart>(new PublicationDateMessageToChart
+                        //{
+                        //    SearchResultsToDisplaysMessage = DoiAndTitleAndAbstract.PublicationDate
+                        //});
                     }
                     finally
                     {
@@ -663,6 +766,7 @@ namespace AnalyzerDatabase.ViewModels
                         TotalResultsToDisplay.ToList().ForEach(e => allTotalResults += Int32.Parse(e.OpensearchTotalResults));
 
                         TotalResults = (GetString("AboutResult") + " " + allTotalResults + " " + GetString("Results") + " " + ExecutionTime);
+                        //DegreeOfCompliance();
                     }
                 }
                 else

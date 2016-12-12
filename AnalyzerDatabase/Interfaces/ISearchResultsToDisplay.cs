@@ -36,6 +36,8 @@ namespace AnalyzerDatabase.Interfaces
         string Abstract { get; set; }
 
         SourceDatabase Source { get; set; }
+
+        decimal PercentComplete { get; set; }
         #endregion
     }
 }

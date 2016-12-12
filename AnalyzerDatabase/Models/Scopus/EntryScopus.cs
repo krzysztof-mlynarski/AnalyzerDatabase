@@ -43,6 +43,7 @@ namespace AnalyzerDatabase.Models.Scopus
         public string PageRange { get; set; }
 
         public SourceDatabase Source { get; set; }
+        public decimal PercentComplete { get; set; }
 
         //not implemented
         public string OpenAccess { get; set; }

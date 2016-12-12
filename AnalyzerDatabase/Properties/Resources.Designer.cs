@@ -88,6 +88,33 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Amount downloaded publications:.
+        /// </summary>
+        public static string AmountDownloadedPublications {
+            get {
+                return ResourceManager.GetString("AmountDownloadedPublications", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Amount found duplicates:.
+        /// </summary>
+        public static string AmountFoundDuplicates {
+            get {
+                return ResourceManager.GetString("AmountFoundDuplicates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Amount inquiries to the database:.
+        /// </summary>
+        public static string AmountInquiries {
+            get {
+                return ResourceManager.GetString("AmountInquiries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Science Direct and Scopus.
         /// </summary>
         public static string ApiScienceAndScopusSettings {
@@ -120,6 +147,33 @@ namespace AnalyzerDatabase.Properties {
         public static string AuthorDataGridHeader {
             get {
                 return ResourceManager.GetString("AuthorDataGridHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By authors.
+        /// </summary>
+        public static string ByAuthors {
+            get {
+                return ResourceManager.GetString("ByAuthors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By publication.
+        /// </summary>
+        public static string ByPublication {
+            get {
+                return ResourceManager.GetString("ByPublication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By year.
+        /// </summary>
+        public static string ByYear {
+            get {
+                return ResourceManager.GetString("ByYear", resourceCulture);
             }
         }
         
@@ -340,6 +394,15 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Overall statistics.
+        /// </summary>
+        public static string OverallStatistics {
+            get {
+                return ResourceManager.GetString("OverallStatistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Page range: .
         /// </summary>
         public static string PageRangeDataGrid {
@@ -507,6 +570,15 @@ namespace AnalyzerDatabase.Properties {
         public static string StyleAppSettings {
             get {
                 return ResourceManager.GetString("StyleAppSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sum:.
+        /// </summary>
+        public static string Sum {
+            get {
+                return ResourceManager.GetString("Sum", resourceCulture);
             }
         }
         

@@ -47,6 +47,7 @@ namespace AnalyzerDatabase.Models.Springer
         public string Abstract { get; set; }
 
         public SourceDatabase Source { get; set; }
+        public decimal PercentComplete { get; set; }
 
         //unused
         public string Pii { get; set; }

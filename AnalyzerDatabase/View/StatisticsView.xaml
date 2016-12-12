@@ -6,16 +6,16 @@
              xmlns:local="clr-namespace:AnalyzerDatabase.View"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:res="clr-namespace:AnalyzerDatabase.Properties"
              xmlns:chart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="800"
              DataContext="{Binding Source={StaticResource Locator}, Path=Statistics}">
-            <!--d:DataContext="{d:DesignInstance local:StatisticsView}"-->
     <Grid>
         <TabControl Margin="30,30,0,0">
-            <controls:MetroTabItem Header="Ogólne statystki">
+            <controls:MetroTabItem Header="{x:Static res:Resources.OverallStatistics}">
                 <Grid Margin="40,50,0,0">
-                    <TextBlock Text="Ilość zapytań skierowanych do baz:" FontSize="20" Grid.Column="0"/>
+                    <TextBlock Text="{x:Static res:Resources.AmountInquiries}" FontSize="20" Grid.Column="0"/>
                     <TextBlock Text=""></TextBlock>
                     <StackPanel Width="227" HorizontalAlignment="Left" Margin="0,36,0,0">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
@@ -49,7 +49,7 @@
                             <TextBlock Text="{Binding CurrentWileyOnlineLibraryCount, UpdateSourceTrigger=PropertyChanged}" FontSize="15" Background="Transparent" Width="50"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <TextBlock HorizontalAlignment="Right" FontWeight="Bold" Text="Łącznie:" FontSize="15" TextDecorations="Overline"/>
+                            <TextBlock HorizontalAlignment="Right" FontWeight="Bold" Text="{x:Static res:Resources.Sum}" FontSize="15" TextDecorations="Overline"/>
                             <TextBlock Text=" "/>
                             <TextBlock Text="{Binding CurrentSumCount, UpdateSourceTrigger=PropertyChanged}" TextDecorations="Overline" FontSize="15" Width="50"/>
                         </StackPanel>
@@ -64,13 +64,13 @@
 
                     <StackPanel Margin="0,351,397,-100">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <TextBlock Text="Ilość pobranych publikacji:" FontSize="20"/>
+                            <TextBlock Text="{x:Static res:Resources.AmountDownloadedPublications}" FontSize="20"/>
                             <TextBlock Text=" "></TextBlock>
                             <TextBlock Text="{Binding CurrentPublicationsDownloadCount, UpdateSourceTrigger=PropertyChanged}" FontSize="20" Width="50"/>
                         </StackPanel>
                         <TextBlock Text=""></TextBlock>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <TextBlock Text="Ilość znalezionych duplikatów:" FontSize="20"/>
+                            <TextBlock Text="{x:Static res:Resources.AmountFoundDuplicates}" FontSize="20"/>
                             <TextBlock Text=" "></TextBlock>
                             <TextBlock Text="{Binding CurrentDuplicateCount, UpdateSourceTrigger=PropertyChanged}" FontSize="20" Width="50"/>
                         </StackPanel>
@@ -79,6 +79,9 @@
                     <lvc:CartesianChart Series="{Binding SeriesCollectionDuplicateAndDownloadCount}" 
                                         LegendLocation="Bottom" 
                                         Margin="332,329,37,20">
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Labels="{Binding Labels}"></lvc:Axis>
+                        </lvc:CartesianChart.AxisY>
                         <lvc:CartesianChart.DataTooltip>
                             <lvc:DefaultTooltip SelectionMode="SharedYValues"></lvc:DefaultTooltip>
                         </lvc:CartesianChart.DataTooltip>
@@ -86,24 +89,24 @@
                 </Grid>
             </controls:MetroTabItem>
 
-            <controls:MetroTabItem Header="Wg. lat">
-            <Grid>
-                    <!--<lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Left">
+            <controls:MetroTabItem Header="{x:Static res:Resources.ByYear}">
+                <Grid>
+                    <lvc:CartesianChart Series="{Binding SeriesCollectionByYear}" LegendLocation="Bottom">
                         <lvc:CartesianChart.AxisX>
-                            <lvc:Axis Title="Salesman" Labels="{Binding Labels}"></lvc:Axis>
+                            <lvc:Axis Title="" Labels="{Binding Labels}"></lvc:Axis>
                         </lvc:CartesianChart.AxisX>
-                        <lvc:CartesianChart.AxisY>
+                        <!--<lvc:CartesianChart.AxisY>
                             <lvc:Axis Title="Sold Apps" LabelFormatter="{Binding Formatter}"></lvc:Axis>
-                        </lvc:CartesianChart.AxisY>
-                    </lvc:CartesianChart>-->
+                        </lvc:CartesianChart.AxisY>-->
+                    </lvc:CartesianChart>
                 </Grid>
             </controls:MetroTabItem>
 
-            <controls:MetroTabItem Header="Wg. autorów">
+            <controls:MetroTabItem Header="{x:Static res:Resources.ByAuthors}">
 
             </controls:MetroTabItem>
 
-            <controls:MetroTabItem Header="Wg. publikacji">
+            <controls:MetroTabItem Header="{x:Static res:Resources.ByPublication}">
 
             </controls:MetroTabItem>
         </TabControl>

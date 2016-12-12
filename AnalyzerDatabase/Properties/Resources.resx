@@ -127,6 +127,15 @@
   <data name="AbstractDataGrid" xml:space="preserve">
     <value>Abstract: </value>
   </data>
+  <data name="AmountDownloadedPublications" xml:space="preserve">
+    <value>Amount downloaded publications:</value>
+  </data>
+  <data name="AmountFoundDuplicates" xml:space="preserve">
+    <value>Amount found duplicates:</value>
+  </data>
+  <data name="AmountInquiries" xml:space="preserve">
+    <value>Amount inquiries to the database:</value>
+  </data>
   <data name="ApiScienceAndScopusSettings" xml:space="preserve">
     <value>Science Direct and Scopus</value>
   </data>
@@ -138,6 +147,15 @@
   </data>
   <data name="AuthorDataGridHeader" xml:space="preserve">
     <value>Author</value>
+  </data>
+  <data name="ByAuthors" xml:space="preserve">
+    <value>By authors</value>
+  </data>
+  <data name="ByPublication" xml:space="preserve">
+    <value>By publication</value>
+  </data>
+  <data name="ByYear" xml:space="preserve">
+    <value>By year</value>
   </data>
   <data name="CobaltColorSettings" xml:space="preserve">
     <value>Cobalt</value>
@@ -211,6 +229,9 @@
   <data name="OpenContainingFolder" xml:space="preserve">
     <value>Open containing folder</value>
   </data>
+  <data name="OverallStatistics" xml:space="preserve">
+    <value>Overall statistics</value>
+  </data>
   <data name="PageRangeDataGrid" xml:space="preserve">
     <value>Page range: </value>
   </data>
@@ -267,6 +288,9 @@
   </data>
   <data name="StyleAppSettings" xml:space="preserve">
     <value>Style application</value>
+  </data>
+  <data name="Sum" xml:space="preserve">
+    <value>Sum:</value>
   </data>
   <data name="TitleDataGrid" xml:space="preserve">
     <value>Title: </value>

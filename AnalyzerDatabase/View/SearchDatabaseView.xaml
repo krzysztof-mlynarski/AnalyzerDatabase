@@ -114,6 +114,7 @@
 
                 <!-- Kolumny w data gridzie -->
                 <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding PercentComplete, StringFormat='{}{0:0.##}%'}"/>
                     <DataGridTextColumn Header="{x:Static res:Resources.AuthorDataGridHeader}" Binding="{Binding Creator}" IsReadOnly="True" CanUserResize="False" Width="130">
                         <DataGridTextColumn.ElementStyle>
                             <Style>

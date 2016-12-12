@@ -280,4 +280,28 @@
   <data name="ErrorDownloadPublication" xml:space="preserve">
     <value>Wystąpił problem podczas pobierania publikacji, spróbuj ponownie za chwilę.</value>
   </data>
+  <data name="AmountDownloadedPublications" xml:space="preserve">
+    <value>Ilość pobranych publikacji:</value>
+  </data>
+  <data name="AmountFoundDuplicates" xml:space="preserve">
+    <value>Ilość znalezionych duplikatów:</value>
+  </data>
+  <data name="AmountInquiries" xml:space="preserve">
+    <value>Ilość zapytań skierowanych do baz:</value>
+  </data>
+  <data name="ByAuthors" xml:space="preserve">
+    <value>Wg. autorów</value>
+  </data>
+  <data name="ByPublication" xml:space="preserve">
+    <value>Wg. publikacji</value>
+  </data>
+  <data name="ByYear" xml:space="preserve">
+    <value>Wg. lat</value>
+  </data>
+  <data name="OverallStatistics" xml:space="preserve">
+    <value>Ogólne statystyki</value>
+  </data>
+  <data name="Sum" xml:space="preserve">
+    <value>Łącznie:</value>
+  </data>
 </root>
