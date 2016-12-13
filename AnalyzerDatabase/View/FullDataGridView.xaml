@@ -20,6 +20,7 @@
     <Window.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converters:NegativeBooleanToVisibilityConverter x:Key="NegativeBooleanToVisibilityConverter"/>
+        <converters:BoolToColorConverter x:Key="BoolToColorConverter"/>
     </Window.Resources>
 
     <Grid>
@@ -36,7 +37,7 @@
                     CanUserResizeColumns="True"
                     CanUserResizeRows="True"
                     CanUserSortColumns="True"
-                    FrozenColumnCount="1"
+                    FrozenColumnCount="2"
                     Style="{StaticResource AzureDataGrid}">
             
             <!-- Grupowanie po danej bazie -->
@@ -76,19 +77,6 @@
             
             <!-- Kolumny w data gridzie -->
             <DataGrid.Columns>
-                <!--<DataGridTemplateColumn>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button x:Name="PrintPayment" Width="25" Height="22" MinHeight="22" Padding="0" BorderThickness="1" Background="Transparent" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.DegreeOfComplianceCommand}">
-                                <Rectangle HorizontalAlignment="Center" Width="15" Height="15" Fill="{DynamicResource BlackBrush}">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_beer}"/>
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
-                            </Button>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>-->
                 <DataGridTextColumn Binding="{Binding PercentComplete, StringFormat='{}{0:0.##}%'}"/>
                 <!--<DataGridCheckBoxColumn ElementStyle="{DynamicResource MetroDataGridCheckBox}"
                                         EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
@@ -101,6 +89,11 @@
                             <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
                         </Style>
                     </DataGridTextColumn.ElementStyle>
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Background" Value="{Binding IsDuplicate, Converter={StaticResource BoolToColorConverter}}"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
                 <DataGridTextColumn Header="{x:Static res:Resources.TitleDataGridHeader}" Binding="{Binding Title}"  IsReadOnly="True" Width="850">
                     <DataGridTextColumn.ElementStyle>
@@ -108,8 +101,19 @@
                             <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
                         </Style>
                     </DataGridTextColumn.ElementStyle>
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Background" Value="{Binding IsDuplicate, Converter={StaticResource BoolToColorConverter}}"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="{x:Static res:Resources.DoiDataGridHeader}" Binding="{Binding Doi}" IsReadOnly="True" CanUserResize="False"/>
+                <DataGridTextColumn Header="{x:Static res:Resources.DoiDataGridHeader}" Binding="{Binding Doi}" IsReadOnly="True" CanUserResize="False">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Background" Value="{Binding IsDuplicate, Converter={StaticResource BoolToColorConverter}}"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
             </DataGrid.Columns>
 
             <!-- Szczegółowe informacje po rozwinięciu danego wiersza -->

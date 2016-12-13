@@ -74,7 +74,7 @@
                       CanUserResizeColumns="True"
                       CanUserResizeRows="True"
                       CanUserSortColumns="True"
-                      FrozenColumnCount="1"
+                      FrozenColumnCount="2"
                       Style="{StaticResource AzureDataGrid}">
 
                 <!-- Grupowanie wyników po bazie danych -->
