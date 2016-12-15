@@ -13,8 +13,6 @@ namespace AnalyzerDatabase.Models.IeeeXplore
         [XmlElement(ElementName = "title")]
         public string Title { get; set; }
 
-        public string PublicationDate { get; set; }
-
         [XmlElement(ElementName = "authors")]
         public string Creator { get; set; }
 
@@ -45,7 +43,7 @@ namespace AnalyzerDatabase.Models.IeeeXplore
         public string IssueIdentifier { get; set; }
 
         [XmlElement(ElementName = "py")]
-        public string Py { get; set; }
+        public string PublicationDate { get; set; }
 
         [XmlElement(ElementName = "spage")]
         public string Spage { get; set; }

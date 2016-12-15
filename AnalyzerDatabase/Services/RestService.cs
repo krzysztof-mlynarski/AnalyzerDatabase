@@ -151,14 +151,14 @@ namespace AnalyzerDatabase.Services
             }
         }
 
-        public async Task<Root> GetSearchQueryIeeeXplore(string query, CancellationTokenSource cts = null)
+        public async Task<IeeeXploreSearchQuery> GetSearchQueryIeeeXplore(string query, CancellationTokenSource cts = null)
         {
             try
             {
                 string url = String.Format(_resources["SearchQueryIeeeXplore"].ToString(), query);
                 string webPageSource = await GetWebPageSource(url, cts);
 
-                return XmlSerialize<Root>.DeserializeXml(webPageSource);
+                return XmlSerialize<IeeeXploreSearchQuery>.DeserializeXml(webPageSource);
             }
             catch (TaskCanceledException ex)
             {
@@ -170,6 +170,24 @@ namespace AnalyzerDatabase.Services
             }
         }
 
+        public async Task<IeeeXploreSearchQuery> GetPreviousOrNextResultIeeeXplore(string query, int start, CancellationTokenSource cts = null)
+        {
+            try
+            {
+                string url = String.Format(_resources["IeeeXplorePreviousOrNextPageResult"].ToString(), query, start);
+                string webPageSource = await GetWebPageSource(url, cts);
+
+                return XmlSerialize<IeeeXploreSearchQuery>.DeserializeXml(webPageSource);
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw ex;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
 
         public async void GetArticle(string doi, string title, CancellationTokenSource cts = null)
         {
@@ -365,8 +383,6 @@ namespace AnalyzerDatabase.Services
 
             return pdfString;
         }
-
-
 
         #endregion
     }

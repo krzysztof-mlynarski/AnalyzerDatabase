@@ -141,7 +141,7 @@
     <Compile Include="Messages\PublicationDateMessageToChart.cs" />
     <Compile Include="Models\IeeeXplore\Controlledterms.cs" />
     <Compile Include="Models\IeeeXplore\Document.cs" />
-    <Compile Include="Models\IeeeXplore\Root.cs" />
+    <Compile Include="Models\IeeeXplore\IeeeXploreSearchQuery.cs" />
     <Compile Include="Models\IeeeXplore\Thesaurusterms.cs" />
     <Compile Include="Models\ScienceDirect\Author.cs" />
     <Compile Include="Models\ScienceDirect\Authors.cs" />

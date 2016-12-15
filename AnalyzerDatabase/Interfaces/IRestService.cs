@@ -32,7 +32,8 @@ namespace AnalyzerDatabase.Interfaces
 
         #region IEEE Xplore
 
-        Task<Root> GetSearchQueryIeeeXplore(string query, CancellationTokenSource cts = null);
+        Task<IeeeXploreSearchQuery> GetSearchQueryIeeeXplore(string query, CancellationTokenSource cts = null);
+        Task<IeeeXploreSearchQuery> GetPreviousOrNextResultIeeeXplore(string query, int start, CancellationTokenSource cts = null);
 
         #endregion
 

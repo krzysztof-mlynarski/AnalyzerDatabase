@@ -142,8 +142,8 @@
                                     <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_image}"/>
                                 </Rectangle.OpacityMask>
                             </Rectangle>
-                            <TextBlock Text="{x:Static res:Resources.OpenAccessDataGrid}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <TextBlock Text="{Binding OpenAccess}" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <!--<TextBlock Text="{x:Static res:Resources.OpenAccessDataGrid}" VerticalAlignment="Center" HorizontalAlignment="Center" />-->
+                            <!--<TextBlock Text="{Binding OpenAccess}" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
                         </StackPanel>
 
                         <Grid Margin="0,10">

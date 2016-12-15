@@ -51,12 +51,12 @@
         </Grid>
         <Grid Grid.Row="1" Grid.RowSpan="3" Margin="0,70,0,10">
             <TextBlock Margin="60,-13,505,273" Text="{x:Static res:Resources.SelectDatabase}"/>
-            <CheckBox x:Name="CheckBoxScopus" Content="Scopus" IsChecked="{Binding CheckBoxScopus}" HorizontalAlignment="Left" Margin="80,0,0,0" VerticalAlignment="Top" Height="63" Width="160"/>
-            <CheckBox x:Name="CheckBoxSpringer" Content="Springer" IsChecked="{Binding CheckBoxSpringer}" HorizontalAlignment="Left" Margin="80,43,0,0" VerticalAlignment="Top" Height="63" Width="160"/>
-            <CheckBox x:Name="CheckBoxWiley" Content="Wiley Online Library" IsChecked="{Binding CheckBoxWiley}" HorizontalAlignment="Left" Margin="330,0,0,0" Width="160" Height="63" VerticalAlignment="Top"/>
-            <CheckBox x:Name="CheckBoxScienceDirect" Content="Science Direct" IsChecked="{Binding CheckBoxScienceDirect}" HorizontalAlignment="Left" Margin="330,43,0,0" Width="160" Height="63" VerticalAlignment="Top"/>
-            <CheckBox x:Name="CheckBoxWebOfScience" Content="Web Of Science" IsChecked="{Binding CheckBoxWebOfScience}" HorizontalAlignment="Left" Margin="590,0,0,0" Width="160" Height="63"  VerticalAlignment="Top"/>
-            <CheckBox x:Name="CheckBoxIeeeXplore" Content="IEEE Xplore" IsChecked="{Binding CheckBoxIeeeXplore}" HorizontalAlignment="Left" Margin="590,43,0,0" Width="160" Height="63" VerticalAlignment="Top"/>
+            <CheckBox x:Name="CheckBoxScienceDirect" Content="Science Direct" IsChecked="{Binding CheckBoxScienceDirect}" HorizontalAlignment="Left" Margin="100,0,0,0" VerticalAlignment="Top" Height="63" Width="160"/>
+            <CheckBox x:Name="CheckGroupDescriptions" Content="Group after the name of the database" IsChecked="{Binding IsGroupDescriptions}" HorizontalAlignment="Left" Margin="100,42,0,0" VerticalAlignment="Top" Height="63" Width="240"/>
+            <CheckBox x:Name="CheckBoxScopus" Content="Scopus" IsChecked="{Binding CheckBoxScopus}" HorizontalAlignment="Left" Margin="280,0,0,0" Width="160" Height="63" VerticalAlignment="Top"/>
+            <!--<CheckBox x:Name="CheckBoxScienceDirect" Content="Science Direct" IsChecked="{Binding CheckBoxScienceDirect}" HorizontalAlignment="Left" Margin="330,43,0,0" Width="160" Height="63" VerticalAlignment="Top"/>-->
+            <CheckBox x:Name="CheckBoxSpringer" Content="Springer" IsChecked="{Binding CheckBoxSpringer}" HorizontalAlignment="Left" Margin="420,0,0,0" Width="160" Height="63"  VerticalAlignment="Top"/>
+            <CheckBox x:Name="CheckBoxIeeeXplore" Content="IEEE Xplore" IsChecked="{Binding CheckBoxIeeeXplore}" HorizontalAlignment="Left" Margin="580,0,0,0" Width="160" Height="63" VerticalAlignment="Top"/>
         </Grid>
 
         <!--WYSWIETLANIE WYNIKOW WYSZUKIWANIA-->
@@ -150,7 +150,7 @@
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Button>
-            
+
             <!-- Export DataGrida do pliku .csv -->
             <Button x:Name="DataGridToCsv" 
                     Command="{Binding DataGridToCsvExport}"

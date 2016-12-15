@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Serialization;
+using AnalyzerDatabase.Interfaces;
 
 namespace AnalyzerDatabase.Models.IeeeXplore
 {
     [XmlRoot(ElementName = "root")]
-    public class Root
+    public class IeeeXploreSearchQuery : ITotalResultsToDisplay
     {
         [XmlElement(ElementName = "totalfound")]
-        public string Totalfound { get; set; }
+        public string OpensearchTotalResults { get; set; }
 
         [XmlElement(ElementName = "totalsearched")]
         public string Totalsearched { get; set; }
