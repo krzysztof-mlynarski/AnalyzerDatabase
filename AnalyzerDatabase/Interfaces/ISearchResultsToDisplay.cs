@@ -38,6 +38,8 @@ namespace AnalyzerDatabase.Interfaces
         SourceDatabase Source { get; set; }
 
         decimal PercentComplete { get; set; }
+
+        bool IsDuplicate { get; set; }
         #endregion
     }
 }

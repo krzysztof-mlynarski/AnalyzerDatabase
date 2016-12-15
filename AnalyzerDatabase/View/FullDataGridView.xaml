@@ -21,6 +21,7 @@
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converters:NegativeBooleanToVisibilityConverter x:Key="NegativeBooleanToVisibilityConverter"/>
         <converters:BoolToColorConverter x:Key="BoolToColorConverter"/>
+        <converters:GroupsToTotalConverter x:Key="GroupsToTotalConverter"/>
     </Window.Resources>
 
     <Grid>
@@ -38,6 +39,7 @@
                     CanUserResizeRows="True"
                     CanUserSortColumns="True"
                     FrozenColumnCount="2"
+                    
                     Style="{StaticResource AzureDataGrid}">
             
             <!-- Grupowanie po danej bazie -->
@@ -58,9 +60,10 @@
                                         <Expander IsExpanded="True">
                                             <Expander.Header>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding Path=Name}"></TextBlock>
-                                                    <TextBlock Text=" "></TextBlock>
-                                                    <TextBlock Text="{Binding Path=ItemCount}"></TextBlock>
+                                                    <TextBlock Text="{Binding Path=Name}"/>
+                                                    <TextBlock Text=" "/>
+                                                    <TextBlock Text="{Binding Path=ItemCount}"/>
+                                                    <!--<TextBlock Text="{Binding Path=ItemCount, Converter={StaticResource GroupsToTotalConverter}}"/>-->
                                                 </StackPanel>
                                             </Expander.Header>
                                             <Expander.Content>
@@ -77,7 +80,13 @@
             
             <!-- Kolumny w data gridzie -->
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding PercentComplete, StringFormat='{}{0:0.##}%'}"/>
+                <DataGridTextColumn Header="%" Binding="{Binding PercentComplete, StringFormat='{}{0:0.##}%'}" IsReadOnly="True" CanUserResize="False">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Background" Value="{Binding IsDuplicate, Converter={StaticResource BoolToColorConverter}}"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
                 <!--<DataGridCheckBoxColumn ElementStyle="{DynamicResource MetroDataGridCheckBox}"
                                         EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
                                         CanUserResize="False"

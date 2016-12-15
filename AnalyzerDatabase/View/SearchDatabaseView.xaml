@@ -66,7 +66,7 @@
                       AutoGenerateColumns="False"
                       HorizontalAlignment="Center"
                       Margin="20,20,30,35"
-                      Width="700"
+                      Width="750"
                       VerticalAlignment="Top"
                       AlternatingRowBackground="Gainsboro"
                       AlternationCount="2"
@@ -74,7 +74,7 @@
                       CanUserResizeColumns="True"
                       CanUserResizeRows="True"
                       CanUserSortColumns="True"
-                      FrozenColumnCount="2"
+                      FrozenColumnCount="4"
                       Style="{StaticResource AzureDataGrid}">
 
                 <!-- Grupowanie wyników po bazie danych -->
@@ -114,7 +114,7 @@
 
                 <!-- Kolumny w data gridzie -->
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding PercentComplete, StringFormat='{}{0:0.##}%'}"/>
+                    <DataGridTextColumn Header="%" Binding="{Binding PercentComplete, StringFormat='{}{0:0.##}%'}" IsReadOnly="True" CanUserResize="False"/>
                     <DataGridTextColumn Header="{x:Static res:Resources.AuthorDataGridHeader}" Binding="{Binding Creator}" IsReadOnly="True" CanUserResize="False" Width="130">
                         <DataGridTextColumn.ElementStyle>
                             <Style>
@@ -122,7 +122,7 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="{x:Static res:Resources.TitleDataGridHeader}" Binding="{Binding Title}"  IsReadOnly="True" Width="400">
+                    <DataGridTextColumn Header="{x:Static res:Resources.TitleDataGridHeader}" Binding="{Binding Title}"  IsReadOnly="True" Width="330">
                         <DataGridTextColumn.ElementStyle>
                             <Style>
                                 <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
@@ -147,6 +147,19 @@
                 <Rectangle Width="32" Height="32" Fill="{DynamicResource BlackBrush}">
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_window_maximize}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+            
+            <!-- Export DataGrida do pliku .csv -->
+            <Button x:Name="DataGridToCsv" 
+                    Command="{Binding DataGridToCsvExport}"
+                    ToolTip="{x:Static res:Resources.ShowMoreDetailsToolTip}"  
+                    HorizontalAlignment="Right" VerticalAlignment="Top"
+                    Margin="0,70,10,0">
+                <Rectangle Width="32" Height="32" Fill="{DynamicResource BlackBrush}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_office_excel}"/>
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Button>
