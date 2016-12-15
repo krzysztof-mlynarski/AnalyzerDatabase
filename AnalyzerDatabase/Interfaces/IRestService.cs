@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using AnalyzerDatabase.Models.IeeeXplore;
 using AnalyzerDatabase.Models.ScienceDirect;
 using AnalyzerDatabase.Models.Scopus;
 using AnalyzerDatabase.Models.Springer;
@@ -31,7 +32,7 @@ namespace AnalyzerDatabase.Interfaces
 
         #region IEEE Xplore
 
-        //Task<IeeeXploreSearchQuery> GetSearchQueryIeeeXplore(string query, CancellationTokenSource cts = null);
+        Task<Root> GetSearchQueryIeeeXplore(string query, CancellationTokenSource cts = null);
 
         #endregion
 

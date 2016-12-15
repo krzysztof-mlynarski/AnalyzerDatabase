@@ -40,6 +40,8 @@ namespace AnalyzerDatabase.Interfaces
         decimal PercentComplete { get; set; }
 
         bool IsDuplicate { get; set; }
+
+        string Year { get; set; }
         #endregion
     }
 }

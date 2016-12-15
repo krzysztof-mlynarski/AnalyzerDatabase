@@ -45,6 +45,7 @@ namespace AnalyzerDatabase.Models.Scopus
         public SourceDatabase Source { get; set; }
         public decimal PercentComplete { get; set; }
         public bool IsDuplicate { get; set; }
+        public string Year { get; set; }
 
         //not implemented
         public string OpenAccess { get; set; }

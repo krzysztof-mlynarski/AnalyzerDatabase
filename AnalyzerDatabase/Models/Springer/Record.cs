@@ -49,6 +49,7 @@ namespace AnalyzerDatabase.Models.Springer
         public SourceDatabase Source { get; set; }
         public decimal PercentComplete { get; set; }
         public bool IsDuplicate { get; set; }
+        public string Year { get; set; }
 
         //unused
         public string Pii { get; set; }

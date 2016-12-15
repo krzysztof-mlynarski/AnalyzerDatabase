@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using AnalyzerDatabase.Interfaces;
+using AnalyzerDatabase.Models.IeeeXplore;
 using AnalyzerDatabase.Models.ScienceDirect;
 using AnalyzerDatabase.Models.Scopus;
 using AnalyzerDatabase.Models.Springer;
@@ -149,6 +150,26 @@ namespace AnalyzerDatabase.Services
                 return null;
             }
         }
+
+        public async Task<Root> GetSearchQueryIeeeXplore(string query, CancellationTokenSource cts = null)
+        {
+            try
+            {
+                string url = String.Format(_resources["SearchQueryIeeeXplore"].ToString(), query);
+                string webPageSource = await GetWebPageSource(url, cts);
+
+                return XmlSerialize<Root>.DeserializeXml(webPageSource);
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw ex;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
 
         public async void GetArticle(string doi, string title, CancellationTokenSource cts = null)
         {
@@ -344,6 +365,9 @@ namespace AnalyzerDatabase.Services
 
             return pdfString;
         }
+
+
+
         #endregion
     }
 }

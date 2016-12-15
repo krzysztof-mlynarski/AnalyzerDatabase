@@ -6,8 +6,10 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Data;
 using System.Windows.Forms;
+using AnalyzerDatabase.Enums;
 using AnalyzerDatabase.Interfaces;
 using AnalyzerDatabase.Messages;
 using AnalyzerDatabase.Models;
@@ -51,9 +53,6 @@ namespace AnalyzerDatabase.ViewModels
         private string _queryTextBox;
         private string _executionTime;
         private string _totalResults;
-        private string _scienceDirectTotal;
-        private string _scopusTotal;
-        private string _springerTotal;
 
         private bool _isDataLoading;
         private bool _isDownloadFile = false;
@@ -195,22 +194,6 @@ namespace AnalyzerDatabase.ViewModels
                 if (_executionTime != value)
                 {
                     _executionTime = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        public string ScienceDirectTotal
-        {
-            get
-            {
-                return _scienceDirectTotal;
-            }
-            set
-            {
-                if (_scienceDirectTotal != value)
-                {
-                    _scienceDirectTotal = value;
                     RaisePropertyChanged();
                 }
             }
@@ -391,51 +374,18 @@ namespace AnalyzerDatabase.ViewModels
 
         private void ExportDataGridToCsv()
         {
-            //var csv = new CsvWriter();
-            //csv.WriteRecords(records);
-            WriteDataTableToCSV();
-        }
-
-        private static void WriteDataTableToCSV()
-        {
-            #region WriteDataTableToCSV
-
-            //var table = new DataTable();
-            //table.Columns.Add("Name");
-            //table.Columns.Add("Age");
-            //table.Rows.Add("Kent", 33);
-            //table.Rows.Add("Belinda", 34);
-            //table.Rows.Add("Tempany", 8);
-            //table.Rows.Add("Xak", 0);
-
-            //using (var stringWriter = new StringWriter())
-            //{
-            //    using (var writer = new CsvWriter(stringWriter))
-            //    {
-            //        using (var streamWriter = new StreamWriter("Output.csv"))
-            //        {
-            //            table.WriteCsv(writer);
-            //        }
-
-            //    }
-
-            //}
-
-
             using (var streamWriter = new StreamWriter("TESTOWY.csv"))
-            using (var writer = new CsvWriter(streamWriter))
             {
-                writer.ForceDelimit = true;
+                using (var writer = new CsvWriter(streamWriter))
+                {
+                    writer.ForceDelimit = true;
 
-                writer.WriteRecord("Name", "Age");
-                writer.WriteRecord("Kent", "33");
-                writer.WriteRecord("Belinda", "34");
-                writer.WriteRecord("Tempany", "8");
-
-                Console.WriteLine("{0} records written", writer.RecordNumber);
+                    writer.WriteRecord("Name", "Age");
+                    writer.WriteRecord("Kent", "33");
+                    writer.WriteRecord("Belinda", "34");
+                    writer.WriteRecord("Tempany", "8");
+                }
             }
-
-            #endregion
         }
 
         private decimal DegreeOfCompliance(ISearchResultsToDisplay model)
@@ -543,6 +493,19 @@ namespace AnalyzerDatabase.ViewModels
             }
 
             return isDuplicate;
+        }
+
+        private string RegexYear(ISearchResultsToDisplay model)
+        {
+            string year = "";
+
+            var regex = model.PublicationDate;
+            var pattern = "[0-9]{4}";
+            Regex re1 = new Regex(pattern, RegexOptions.IgnoreCase);
+            Match m1 = re1.Match(regex);
+            year = m1.ToString();
+
+            return year;
         }
 
         private async void NextPage()
@@ -693,6 +656,7 @@ namespace AnalyzerDatabase.ViewModels
                             obj.SearchResults.Entry.ToList().ForEach(element =>
                             {
                                 this.SearchResultsToDisplay.Add(element);
+                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
                                 this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
                                 this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
                             });
@@ -702,6 +666,7 @@ namespace AnalyzerDatabase.ViewModels
                             obj1.SearchResults.Entry.ToList().ForEach(element =>
                             {
                                 this.SearchResultsToDisplay.Add(element);
+                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
                                 this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
                                 this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
                             });
@@ -711,6 +676,7 @@ namespace AnalyzerDatabase.ViewModels
                             obj2.Records.ToList().ForEach(element =>
                             {
                                 this.SearchResultsToDisplay.Add(element);
+                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
                                 this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
                                 this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
                             });
@@ -734,6 +700,7 @@ namespace AnalyzerDatabase.ViewModels
                             obj.SearchResults.Entry.ToList().ForEach(element =>
                             {
                                 this.SearchResultsToDisplay.Add(element);
+                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
                                 this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
                                 this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
                             });
@@ -743,6 +710,7 @@ namespace AnalyzerDatabase.ViewModels
                             obj1.SearchResults.Entry.ToList().ForEach(element =>
                             {
                                 this.SearchResultsToDisplay.Add(element);
+                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
                                 this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
                                 this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
                             });
@@ -762,6 +730,7 @@ namespace AnalyzerDatabase.ViewModels
                             obj.SearchResults.Entry.ToList().ForEach(element =>
                             {
                                 this.SearchResultsToDisplay.Add(element);
+                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
                                 this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
                                 this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
                             });
@@ -771,6 +740,7 @@ namespace AnalyzerDatabase.ViewModels
                             obj1.Records.ToList().ForEach(element =>
                             {
                                 this.SearchResultsToDisplay.Add(element);
+                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
                                 this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
                                 this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
                             });
@@ -793,6 +763,7 @@ namespace AnalyzerDatabase.ViewModels
                             obj.SearchResults.Entry.ToList().ForEach(element =>
                             {
                                 this.SearchResultsToDisplay.Add(element);
+                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
                                 this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
                                 this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
                             });
@@ -802,6 +773,7 @@ namespace AnalyzerDatabase.ViewModels
                             obj1.Records.ToList().ForEach(element =>
                             {
                                 this.SearchResultsToDisplay.Add(element);
+                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
                                 this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
                                 this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
                             });
@@ -823,6 +795,7 @@ namespace AnalyzerDatabase.ViewModels
                             obj.SearchResults.Entry.ToList().ForEach(element =>
                             {
                                 this.SearchResultsToDisplay.Add(element);
+                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
                                 this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
                                 this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
                             });
@@ -840,6 +813,7 @@ namespace AnalyzerDatabase.ViewModels
                             obj.SearchResults.Entry.ToList().ForEach(element =>
                             {
                                 this.SearchResultsToDisplay.Add(element);
+                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
                                 this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
                                 this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
                             });
@@ -857,6 +831,7 @@ namespace AnalyzerDatabase.ViewModels
                             obj.Records.ToList().ForEach(element =>
                             {
                                 this.SearchResultsToDisplay.Add(element);
+                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
                                 this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
                                 this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
                             });
@@ -869,17 +844,22 @@ namespace AnalyzerDatabase.ViewModels
                             _statisticsDataService.IncrementSpringer();
                         }
                         #endregion
+                        else if (CheckBoxIeeeXplore)
+                        {
+                            var obj = await _restService.GetSearchQueryIeeeXplore(QueryTextBox);
+
+                            obj.Document.ToList().ForEach(element =>
+                            {
+                                this.SearchResultsToDisplay.Add(element);
+                                this.SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
+                            });
+                        }
                         else
                         {
                             ShowDialog(GetString("TitleDialogError"), GetString("NotSelectedDatabase"));
                         }
 
 //                        PublicationDateFromDatabasesLabels(SearchResultsToDisplay);
-
-                        //if (CheckBoxIeeeXplore)
-                        //{
-                        //    //TODO:
-                        //}
 
                         //if (CheckBoxWebOfScience)
                         //{

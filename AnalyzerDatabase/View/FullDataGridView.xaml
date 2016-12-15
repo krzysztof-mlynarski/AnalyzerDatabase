@@ -104,12 +104,19 @@
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="{x:Static res:Resources.TitleDataGridHeader}" Binding="{Binding Title}"  IsReadOnly="True" Width="850">
+                <DataGridTextColumn Header="{x:Static res:Resources.TitleDataGridHeader}" Binding="{Binding Title}"  IsReadOnly="True" Width="800">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
                             <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
                         </Style>
                     </DataGridTextColumn.ElementStyle>
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Background" Value="{Binding IsDuplicate, Converter={StaticResource BoolToColorConverter}}"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="ROK" Binding="{Binding Year}" IsReadOnly="True" CanUserResize="False">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="{x:Type DataGridCell}">
                             <Setter Property="Background" Value="{Binding IsDuplicate, Converter={StaticResource BoolToColorConverter}}"/>
@@ -130,7 +137,11 @@
                 <DataTemplate>
                     <DockPanel>
                         <StackPanel>
-                            <Image DockPanel.Dock="Left" Source="../Assets/Other Icons/TESTOWY.png" Height="160" Width="120" Margin="10,30,10,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <Rectangle DockPanel.Dock="Left" Width="120" Height="160" Fill="{DynamicResource BlackBrush}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,30,10,0">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_image}"/>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
                             <TextBlock Text="{x:Static res:Resources.OpenAccessDataGrid}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             <TextBlock Text="{Binding OpenAccess}" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </StackPanel>
@@ -159,11 +170,6 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <!--<TextBlock Text="{x:Static res:Resources.PublicationNameDataGrid}" 
-                                       FontWeight="Bold"
-                                       Foreground="Black" 
-                                       FontSize="20" 
-                                       HorizontalAlignment="Right"/>-->
                             <TextBlock Grid.Row="0" Grid.Column="1"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"

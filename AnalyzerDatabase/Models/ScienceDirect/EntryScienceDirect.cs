@@ -49,6 +49,7 @@ namespace AnalyzerDatabase.Models.ScienceDirect
         public SourceDatabase Source { get; set; }
         public decimal PercentComplete { get; set; }
         public bool IsDuplicate { get; set; }
+        public string Year { get; set; }
 
         //unused
         public string Isbn { get; set; }

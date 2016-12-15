@@ -38,6 +38,15 @@ namespace AnalyzerDatabase.Services
             }
         }
 
+        public static T DeserializeXml(string xmlString)
+        {
+            using (var inputStream = new StringReader(xmlString))
+            {
+                var deserializer = new XmlSerializer(typeof(T));
+                return (T)deserializer.Deserialize(inputStream);
+            }
+        }
+
         public static void InitEmptyProperties(object objectToCheck)
         {
             Type type = objectToCheck.GetType();
