@@ -2,25 +2,17 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Data;
-using System.Windows.Forms;
 using AnalyzerDatabase.Enums;
 using AnalyzerDatabase.Interfaces;
-using AnalyzerDatabase.Messages;
-using AnalyzerDatabase.Models;
-using AnalyzerDatabase.Models.IeeeXplore;
-using AnalyzerDatabase.Models.ScienceDirect;
+using AnalyzerDatabase.Services;
 using AnalyzerDatabase.View;
+using CsvHelper;
 using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
-using LiveCharts.Helpers;
-using KBCsv;
-using DataGrid = System.Windows.Controls.DataGrid;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
 
 namespace AnalyzerDatabase.ViewModels
@@ -42,6 +34,7 @@ namespace AnalyzerDatabase.ViewModels
         private List<string> _doiList = new List<string>();
         private readonly List<string> _doiListCopy = new List<string>();
 
+        private readonly string _currentPublicationSavingPath;
 
         private RelayCommand _searchCommand;
         private RelayCommand _fullScreenDataGrid;
@@ -84,6 +77,7 @@ namespace AnalyzerDatabase.ViewModels
             _restService = restService;
             _internetConnectionService = internetConnectionService;
             _statisticsDataService = statisticsDataService;
+            _currentPublicationSavingPath = SettingsService.Instance.Settings.SavingPublicationPath;
             SearchResultsToDisplay = new ObservableCollection<ISearchResultsToDisplay>();
             TotalResultsToDisplay = new ObservableCollection<ITotalResultsToDisplay>();
             CollectionView = CollectionViewSource.GetDefaultView(_searchResultsToDisplay);
@@ -391,17 +385,49 @@ namespace AnalyzerDatabase.ViewModels
 
         private void ExportDataGridToCsv()
         {
-            using (var streamWriter = new StreamWriter("TESTOWY.csv"))
+            SaveFileDialog saveFileDialog = new SaveFileDialog
             {
-                using (var writer = new CsvWriter(streamWriter))
-                {
-                    writer.ForceDelimit = true;
+                Filter = "CSV (*.csv)|*.csv",
+                FileName = "DataGrid_" + QueryTextBox + "_" + DateTime.Today.DayOfWeek,
+                InitialDirectory = _currentPublicationSavingPath
+            };
 
-                    writer.WriteRecord("Name", "Age");
-                    writer.WriteRecord("Kent", "33");
-                    writer.WriteRecord("Belinda", "34");
-                    writer.WriteRecord("Tempany", "8");
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                using (var streamWriter = File.CreateText(saveFileDialog.FileName))
+                {
+                    var writer = new CsvWriter(streamWriter);
+                    writer.Configuration.Delimiter = ";";
+                    //writer.WriteRecords(SearchResultsToDisplay);
+
+                    foreach (var item in SearchResultsToDisplay)
+                    {
+                        writer.WriteField(item.PercentComplete);
+                        writer.WriteField(item.Creator);
+                        writer.WriteField(item.Title);
+                        writer.WriteField(item.Year);
+                        writer.WriteField(item.Doi);
+                        writer.WriteField(item.Abstract);
+                        writer.NextRecord();
+                    }
                 }
+            }
+
+            //TODO: dialog pytajacy czy otworzyc plik
+            System.Diagnostics.Process.Start(saveFileDialog.FileName);
+        }
+
+        private void ImportCsvToDataGrid()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "CSV (*.csv)|*.csv",
+                InitialDirectory = _currentPublicationSavingPath,
+                RestoreDirectory = true
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
             }
         }
 
