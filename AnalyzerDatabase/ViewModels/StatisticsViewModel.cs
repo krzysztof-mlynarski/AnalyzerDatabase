@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using AnalyzerDatabase.Interfaces;
-using AnalyzerDatabase.Messages;
-using AnalyzerDatabase.Services;
+﻿using AnalyzerDatabase.Services;
 using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
 using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
@@ -39,7 +27,6 @@ namespace AnalyzerDatabase.ViewModels
         public SeriesCollection SeriesCollectionByYear { get; set; }
 
         public string[] Labels { get; set; }
-        public Func<double, string> Formatter { get; set; }
 
         #endregion
 
@@ -131,17 +118,17 @@ namespace AnalyzerDatabase.ViewModels
         {
             IsVisibility = true;
 
-            int size1 = StatisticsDataService.Instance._listYearAmount.Count;
+            int size1 = StatisticsDataService.Instance.ListYearAmount.Count;
 
             for (int i = 0; i < size1; i++)
             {
                 SeriesCollectionByYear.Add(new ColumnSeries
                 {
-                    Title = StatisticsDataService.Instance._listYear[i],
+                    Title = StatisticsDataService.Instance.ListYear[i],
                     DataLabels = true
                 });
                 SeriesCollectionByYear[i].Values = new ChartValues<ObservableValue>();
-                var val = StatisticsDataService.Instance._listYearAmount[i];
+                var val = StatisticsDataService.Instance.ListYearAmount[i];
                 SeriesCollectionByYear[i].Values.Add(new ObservableValue(val));
             }
         }

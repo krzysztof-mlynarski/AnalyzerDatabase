@@ -3,7 +3,6 @@ using System.Resources;
 using System.Windows;
 using AnalyzerDatabase.Services;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Views;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 

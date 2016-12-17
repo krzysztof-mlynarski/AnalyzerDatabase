@@ -12,8 +12,8 @@ namespace AnalyzerDatabase.Services
     public class StatisticsDataService : IStatisticsDataService
     {
         private AnalyzerDatabaseStatistics _analyzerDatabaseStatistics;
-        public List<string> _listYear = new List<string>();
-        public List<int> _listYearAmount = new List<int>();
+        public readonly List<string> ListYear = new List<string>();
+        public readonly List<int> ListYearAmount = new List<int>();
 
         private static StatisticsDataService _instance;
 
@@ -95,20 +95,20 @@ namespace AnalyzerDatabase.Services
             model.ForEach(x =>
             {
                 year = x.Year;
-                if (!_listYear.Any())
+                if (!ListYear.Any())
                 {
-                    _listYear.Add(year);
-                    _listYearAmount.Add(1);
+                    ListYear.Add(year);
+                    ListYearAmount.Add(1);
                 }
                 else
                 {
                     bool found = false;
 
-                    for (int i = 0; i < _listYear.Count; i++)
+                    for (int i = 0; i < ListYear.Count; i++)
                     {
-                        if (_listYear[i] == year)
+                        if (ListYear[i] == year)
                         {
-                            _listYearAmount[i]++;
+                            ListYearAmount[i]++;
                             found = true;
                             break;
                         }
@@ -116,8 +116,8 @@ namespace AnalyzerDatabase.Services
 
                     if (!found)
                     {
-                        _listYear.Add(year);
-                        _listYearAmount.Add(1);
+                        ListYear.Add(year);
+                        ListYearAmount.Add(1);
                     }
                 }
             });

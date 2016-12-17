@@ -8,12 +8,10 @@ using System.Text.RegularExpressions;
 using System.Windows.Data;
 using AnalyzerDatabase.Enums;
 using AnalyzerDatabase.Interfaces;
-using AnalyzerDatabase.Models.ScienceDirect;
 using AnalyzerDatabase.Services;
 using AnalyzerDatabase.View;
 using CsvHelper;
 using GalaSoft.MvvmLight.Command;
-using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
 
 namespace AnalyzerDatabase.ViewModels
@@ -42,7 +40,6 @@ namespace AnalyzerDatabase.ViewModels
         private RelayCommand _nextResultPage;
         private RelayCommand _prevResultPage;
         private RelayCommand _downloadArticleToPdf;
-        private RelayCommand _downloadArticleToDocx;
         private RelayCommand _dataGridToCsvExport;
 
         private string _queryTextBox;
@@ -126,14 +123,6 @@ namespace AnalyzerDatabase.ViewModels
             get
             {
                 return _downloadArticleToPdf ?? (_downloadArticleToPdf = new RelayCommand(DownloadArticlePdf));
-            }
-        }
-
-        public RelayCommand DownloadArticleToDocx
-        {
-            get
-            {
-                return _downloadArticleToDocx ?? (_downloadArticleToDocx = new RelayCommand(DownloadArticleDocx));
             }
         }
 
@@ -339,23 +328,6 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
-        private void DownloadArticleDocx()
-        {
-            try
-            {
-                IsDataLoading = true;
-                _restService.GetArticleDocx(DoiAndTitleAndAbstract.Doi, DoiAndTitleAndAbstract.Title);
-            }
-            catch (Exception)
-            {
-                ShowDialog(GetString("TitleDialogError"), GetString("ErrorDownloadPublication"));
-            }
-            finally
-            {
-                IsDataLoading = false;
-            }
-        }
-
         private void ExportDataGridToCsv()
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog
@@ -389,32 +361,6 @@ namespace AnalyzerDatabase.ViewModels
             //TODO: dialog pytajacy czy otworzyc plik
             System.Diagnostics.Process.Start(saveFileDialog.FileName);
         }
-
-        //private void ImportCsvToDataGrid()
-        //{
-        //    OpenFileDialog openFileDialog = new OpenFileDialog
-        //    {
-        //        Filter = "CSV (*.csv)|*.csv",
-        //        InitialDirectory = _currentPublicationSavingPath,
-        //        RestoreDirectory = true
-        //    };
-
-        //    if (openFileDialog.ShowDialog() == true)
-        //    {
-        //        string fileName = openFileDialog.FileName;
-        //        using (var streamReader = File.OpenText(fileName))
-        //        {
-        //            var reader = new CsvReader(streamReader);
-
-        //            Map(m => m.Entry).ConvertUsing(row =>
-        //            {
-        //                var oc = new ObservableCollection<ISearchResultsToDisplay>();
-        //                var item = row.GetField<>(1);
-        //                oc.Add(item);
-        //            });
-        //        }
-        //    }
-        //}
 
         private decimal DegreeOfCompliance(ISearchResultsToDisplay model)
         {
