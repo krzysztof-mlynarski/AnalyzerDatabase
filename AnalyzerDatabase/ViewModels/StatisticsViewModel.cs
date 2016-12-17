@@ -4,8 +4,14 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using AnalyzerDatabase.Interfaces;
+using AnalyzerDatabase.Messages;
 using AnalyzerDatabase.Services;
+using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
@@ -19,19 +25,21 @@ namespace AnalyzerDatabase.ViewModels
         private int _currentScienceDirectCount;
         private int _currentScopusCount;
         private int _currentSpringerCount;
-        private int _currentWebOfScienceCount;
         private int _currentIeeeXploreCount;
-        private int _currentWileyOnlineLibraryCount;
         private int _currentDuplicateCount;
         private int _currentPublicationsDownloadCount;
         private int _currentSumCount;
 
+        private bool _isVisibility = false;
+
+        private RelayCommand _refreshData;
+
         public SeriesCollection SeriesCollectionSearchCount { get; set; }
         public SeriesCollection SeriesCollectionDuplicateAndDownloadCount { get; set; }
+        public SeriesCollection SeriesCollectionByYear { get; set; }
 
         public string[] Labels { get; set; }
         public Func<double, string> Formatter { get; set; }
-        public Func<ChartPoint, string> PointLabel { get; set; }
 
         #endregion
 
@@ -42,9 +50,7 @@ namespace AnalyzerDatabase.ViewModels
             CurrentScienceDirectCount = StatisticsDataService.Instance.GetStatistics.ScienceDirectCount;
             CurrentScopusCount = StatisticsDataService.Instance.GetStatistics.ScopusCount;
             CurrentSpringerCount = StatisticsDataService.Instance.GetStatistics.SpringerCount;
-            CurrentWebOfScienceCount = StatisticsDataService.Instance.GetStatistics.WebOfScienceCount;
             CurrentIeeeXploreCount = StatisticsDataService.Instance.GetStatistics.IeeeXploreCount;
-            CurrentWileyOnlineLibraryCount = StatisticsDataService.Instance.GetStatistics.WileyOnlineLibraryCount;
             CurrentDuplicateCount = StatisticsDataService.Instance.GetStatistics.DuplicateCount;
             CurrentPublicationsDownloadCount = StatisticsDataService.Instance.GetStatistics.PublicationsDownloadCount;
             CurrentSumCount = StatisticsDataService.Instance.GetStatistics.SumCount;
@@ -81,28 +87,10 @@ namespace AnalyzerDatabase.ViewModels
                 },
                 new PieSeries
                 {
-                    Title = "Web Of Science",
-                    Values = new ChartValues<ObservableValue>
-                    {
-                        new ObservableValue(CurrentWebOfScienceCount)
-                    },
-                    DataLabels = true
-                },
-                new PieSeries
-                {
                     Title = "IEEE Xplore",
                     Values = new ChartValues<ObservableValue>
                     {
                         new ObservableValue(CurrentIeeeXploreCount)
-                    },
-                    DataLabels = true
-                },
-                new PieSeries
-                {
-                    Title = "Wiley Online Library",
-                    Values = new ChartValues<ObservableValue>
-                    {
-                        new ObservableValue(CurrentWileyOnlineLibraryCount)
                     },
                     DataLabels = true
                 }
@@ -114,18 +102,57 @@ namespace AnalyzerDatabase.ViewModels
                 new RowSeries
                 {
                     Title = "Publikacje",
-                    Values = new ChartValues<double> { CurrentPublicationsDownloadCount }
+                    Values = new ChartValues<ObservableValue>
+                    {
+                        new ObservableValue(CurrentPublicationsDownloadCount)
+                    },
+                    DataLabels = true
                 },
                 new RowSeries
                 {
                     Title = "Duplikaty",
-                    Values = new ChartValues<double> { CurrentDuplicateCount }
+                    Values = new ChartValues<ObservableValue>
+                    {
+                        new ObservableValue(CurrentDuplicateCount)
+                    },
+                    DataLabels = true
                 }
             };
+
+            Labels = new[] {"Publikacje", "Duplikaty"};
             #endregion
+
+            SeriesCollectionByYear = new SeriesCollection();
         }
 
         #endregion
+
+        private void SeriesCollectionYear()
+        {
+            IsVisibility = true;
+
+            int size1 = StatisticsDataService.Instance._listYearAmount.Count;
+
+            for (int i = 0; i < size1; i++)
+            {
+                SeriesCollectionByYear.Add(new ColumnSeries
+                {
+                    Title = StatisticsDataService.Instance._listYear[i],
+                    DataLabels = true
+                });
+                SeriesCollectionByYear[i].Values = new ChartValues<ObservableValue>();
+                var val = StatisticsDataService.Instance._listYearAmount[i];
+                SeriesCollectionByYear[i].Values.Add(new ObservableValue(val));
+            }
+        }
+
+        public RelayCommand RefreshData
+        {
+            get
+            {
+                return _refreshData ?? (_refreshData = new RelayCommand(SeriesCollectionYear));
+            }
+        }
 
         #region Getters/Setters
         public int CurrentScienceDirectCount
@@ -188,26 +215,6 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
-        public int CurrentWebOfScienceCount
-        {
-            get
-            {
-                return _currentWebOfScienceCount;
-            }
-            set
-            {
-                if (_currentWebOfScienceCount == value)
-                    return;
-
-                _currentWebOfScienceCount = value;
-
-                StatisticsDataService.Instance.GetStatistics.WebOfScienceCount = _currentWebOfScienceCount;
-                StatisticsDataService.Instance.SaveStatistics();
-
-                RaisePropertyChanged();
-            }
-        }
-
         public int CurrentIeeeXploreCount
         {
             get
@@ -222,26 +229,6 @@ namespace AnalyzerDatabase.ViewModels
                 _currentIeeeXploreCount = value;
 
                 StatisticsDataService.Instance.GetStatistics.IeeeXploreCount = _currentIeeeXploreCount;
-                StatisticsDataService.Instance.SaveStatistics();
-
-                RaisePropertyChanged();
-            }
-        }
-
-        public int CurrentWileyOnlineLibraryCount
-        {
-            get
-            {
-                return _currentWileyOnlineLibraryCount;
-            }
-            set
-            {
-                if (_currentWileyOnlineLibraryCount == value)
-                    return;
-
-                _currentWileyOnlineLibraryCount = value;
-
-                StatisticsDataService.Instance.GetStatistics.WileyOnlineLibraryCount = _currentWileyOnlineLibraryCount;
                 StatisticsDataService.Instance.SaveStatistics();
 
                 RaisePropertyChanged();
@@ -308,13 +295,25 @@ namespace AnalyzerDatabase.ViewModels
                 RaisePropertyChanged();
             }
         }
+
+        public bool IsVisibility
+        {
+            get
+            {
+                return _isVisibility;
+            }
+            set
+            {
+                _isVisibility = value;
+                RaisePropertyChanged();
+            }
+        }
         #endregion
 
         #region Private methods
         private void SumCount()
         {
-            _currentSumCount = CurrentScienceDirectCount + CurrentScopusCount + CurrentSpringerCount +
-                               CurrentWebOfScienceCount + CurrentIeeeXploreCount + CurrentWileyOnlineLibraryCount;
+            _currentSumCount = CurrentScienceDirectCount + CurrentScopusCount + CurrentSpringerCount + CurrentIeeeXploreCount;
 
             StatisticsDataService.Instance.GetStatistics.SumCount = _currentSumCount;
             StatisticsDataService.Instance.SaveStatistics();

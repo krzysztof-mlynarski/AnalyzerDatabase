@@ -7,9 +7,15 @@
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:res="clr-namespace:AnalyzerDatabase.Properties"
+             xmlns:converters="clr-namespace:AnalyzerDatabase.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="800"
              DataContext="{Binding Source={StaticResource Locator}, Path=Statistics}">
+    
+    <UserControl.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+    
     <Grid>
         <TabControl Margin="30,30,0,0">
             <controls:MetroTabItem Header="{x:Static res:Resources.OverallStatistics}">
@@ -33,19 +39,9 @@
                             <TextBlock Text="{Binding CurrentSpringerCount, UpdateSourceTrigger=PropertyChanged}" FontSize="15" Background="Transparent" Width="50"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <TextBlock HorizontalAlignment="Right" Text="Web Of Science:" FontSize="15"/>
-                            <TextBlock Text=" "></TextBlock>
-                            <TextBlock Text="{Binding CurrentWebOfScienceCount, UpdateSourceTrigger=PropertyChanged}" FontSize="15" Background="Transparent" Width="50"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                             <TextBlock HorizontalAlignment="Right" Text="IEEE Xplore:" FontSize="15"/>
                             <TextBlock Text=" "></TextBlock>
                             <TextBlock Text="{Binding CurrentIeeeXploreCount, UpdateSourceTrigger=PropertyChanged}" FontSize="15" Background="Transparent" Width="50"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <TextBlock HorizontalAlignment="Right" Text="Wiley Online Library:" FontSize="15"/>
-                            <TextBlock Text=" "></TextBlock>
-                            <TextBlock Text="{Binding CurrentWileyOnlineLibraryCount, UpdateSourceTrigger=PropertyChanged}" FontSize="15" Background="Transparent" Width="50"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                             <TextBlock HorizontalAlignment="Right" FontWeight="Bold" Text="{x:Static res:Resources.Sum}" FontSize="15" TextDecorations="Overline"/>
@@ -90,22 +86,21 @@
 
             <controls:MetroTabItem Header="{x:Static res:Resources.ByYear}">
                 <Grid>
-                    <lvc:CartesianChart Series="{Binding SeriesCollectionByYear}" LegendLocation="Bottom">
+                    <Button Width="60" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top"
+                            Content="REFRESH"
+                            Command="{Binding RefreshData}"/>
+                    <lvc:CartesianChart Series="{Binding SeriesCollectionByYear}" 
+                                        LegendLocation="Bottom" 
+                                        Margin="10,66,10,47"
+                                        Visibility="{Binding IsVisibility}">
                         <lvc:CartesianChart.AxisX>
-                            <lvc:Axis Title="" Labels="{Binding Labels}"></lvc:Axis>
+                                    <lvc:Axis Title="Lata" Labels=" " Visibility="Collapsed"></lvc:Axis>
                         </lvc:CartesianChart.AxisX>
-                        <!--<lvc:CartesianChart.AxisY>
-                            <lvc:Axis Title="Sold Apps" LabelFormatter="{Binding Formatter}"></lvc:Axis>
-                        </lvc:CartesianChart.AxisY>-->
                     </lvc:CartesianChart>
                 </Grid>
             </controls:MetroTabItem>
 
             <controls:MetroTabItem Header="{x:Static res:Resources.ByAuthors}">
-
-            </controls:MetroTabItem>
-
-            <controls:MetroTabItem Header="{x:Static res:Resources.ByPublication}">
 
             </controls:MetroTabItem>
         </TabControl>

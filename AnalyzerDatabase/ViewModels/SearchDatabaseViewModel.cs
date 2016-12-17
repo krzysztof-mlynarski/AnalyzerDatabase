@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Data;
 using AnalyzerDatabase.Enums;
 using AnalyzerDatabase.Interfaces;
+using AnalyzerDatabase.Models.ScienceDirect;
 using AnalyzerDatabase.Services;
 using AnalyzerDatabase.View;
 using CsvHelper;
@@ -54,9 +55,7 @@ namespace AnalyzerDatabase.ViewModels
 
         private bool _checkBoxScopus = true;
         private bool _checkBoxSpringer = true;
-        private bool _checkBoxWiley /*= true*/;
         private bool _checkBoxScienceDirect = true;
-        private bool _checkBoxWebOfScience /*= true*/;
         private bool _checkBoxIeeeXplore = true;
 
         private static int _startUpScienceDirect = 0;
@@ -256,19 +255,6 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
-        public bool CheckBoxWiley
-        {
-            get
-            {
-                return _checkBoxWiley;
-            }
-            set
-            {
-                _checkBoxWiley = value;
-                RaisePropertyChanged();
-            }
-        }
-
         public bool CheckBoxScienceDirect
         {
             get
@@ -278,19 +264,6 @@ namespace AnalyzerDatabase.ViewModels
             set
             {
                 _checkBoxScienceDirect = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public bool CheckBoxWebOfScience
-        {
-            get
-            {
-                return _checkBoxWebOfScience;
-            }
-            set
-            {
-                _checkBoxWebOfScience = value;
                 RaisePropertyChanged();
             }
         }
@@ -417,19 +390,31 @@ namespace AnalyzerDatabase.ViewModels
             System.Diagnostics.Process.Start(saveFileDialog.FileName);
         }
 
-        private void ImportCsvToDataGrid()
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog
-            {
-                Filter = "CSV (*.csv)|*.csv",
-                InitialDirectory = _currentPublicationSavingPath,
-                RestoreDirectory = true
-            };
+        //private void ImportCsvToDataGrid()
+        //{
+        //    OpenFileDialog openFileDialog = new OpenFileDialog
+        //    {
+        //        Filter = "CSV (*.csv)|*.csv",
+        //        InitialDirectory = _currentPublicationSavingPath,
+        //        RestoreDirectory = true
+        //    };
 
-            if (openFileDialog.ShowDialog() == true)
-            {
-            }
-        }
+        //    if (openFileDialog.ShowDialog() == true)
+        //    {
+        //        string fileName = openFileDialog.FileName;
+        //        using (var streamReader = File.OpenText(fileName))
+        //        {
+        //            var reader = new CsvReader(streamReader);
+
+        //            Map(m => m.Entry).ConvertUsing(row =>
+        //            {
+        //                var oc = new ObservableCollection<ISearchResultsToDisplay>();
+        //                var item = row.GetField<>(1);
+        //                oc.Add(item);
+        //            });
+        //        }
+        //    }
+        //}
 
         private decimal DegreeOfCompliance(ISearchResultsToDisplay model)
         {
@@ -977,27 +962,12 @@ namespace AnalyzerDatabase.ViewModels
                         }
                         #endregion
 
-                        //                        PublicationDateFromDatabasesLabels(SearchResultsToDisplay);
-
-                        //if (CheckBoxWebOfScience)
-                        //{
-                        //    //TODO:
-                        //}
-
-                        //if (CheckBoxWiley)
-                        //{
-                        //    //TODO:
-                        //}
+                        StatisticsDataService.Instance.PublicationDateFromDatabasesLabels(this.SearchResultsToDisplay);
 
                         if (IsGroupDescriptions)
                         {
                             CollectionView?.GroupDescriptions.Add(new PropertyGroupDescription("Source"));
                         }
-
-                        //Messenger.Default.Send<PublicationDateMessageToChart>(new PublicationDateMessageToChart
-                        //{
-                        //    SearchResultsToDisplaysMessage = DoiAndTitleAndAbstract.PublicationDate
-                        //});
                     }
                     finally
                     {

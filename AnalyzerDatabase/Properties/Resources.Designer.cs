@@ -250,6 +250,15 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Export data to a .csv file.
+        /// </summary>
+        public static string ExportToCsv {
+            get {
+                return ResourceManager.GetString("ExportToCsv", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Get API Key for Science Direct and Scopus databases.
         /// </summary>
         public static string GetApiKeyElsevier {
@@ -273,6 +282,15 @@ namespace AnalyzerDatabase.Properties {
         public static string GreenColorSettings {
             get {
                 return ResourceManager.GetString("GreenColorSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Group after the name of the database.
+        /// </summary>
+        public static string GroupDatabase {
+            get {
+                return ResourceManager.GetString("GroupDatabase", resourceCulture);
             }
         }
         

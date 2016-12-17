@@ -181,6 +181,9 @@
   <data name="ErrorDownloadPublication" xml:space="preserve">
     <value>There was a problem downloading the publication, try again in a moment.</value>
   </data>
+  <data name="ExportToCsv" xml:space="preserve">
+    <value>Export data to a .csv file</value>
+  </data>
   <data name="GetApiKeyElsevier" xml:space="preserve">
     <value>Get API Key for Science Direct and Scopus databases</value>
   </data>
@@ -189,6 +192,9 @@
   </data>
   <data name="GreenColorSettings" xml:space="preserve">
     <value>Green</value>
+  </data>
+  <data name="GroupDatabase" xml:space="preserve">
+    <value>Group after the name of the database</value>
   </data>
   <data name="HomeMenu" xml:space="preserve">
     <value>Home</value>

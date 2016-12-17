@@ -304,4 +304,10 @@
   <data name="Sum" xml:space="preserve">
     <value>Łącznie:</value>
   </data>
+  <data name="ExportToCsv" xml:space="preserve">
+    <value>Eksportuj dane do pliku .csv</value>
+  </data>
+  <data name="GroupDatabase" xml:space="preserve">
+    <value>Grupuj wyniki po nazwie bazy</value>
+  </data>
 </root>

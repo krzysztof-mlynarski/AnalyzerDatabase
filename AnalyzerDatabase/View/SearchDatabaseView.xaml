@@ -52,7 +52,7 @@
         <Grid Grid.Row="1" Grid.RowSpan="3" Margin="0,70,0,10">
             <TextBlock Margin="60,-13,505,273" Text="{x:Static res:Resources.SelectDatabase}"/>
             <CheckBox x:Name="CheckBoxScienceDirect" Content="Science Direct" IsChecked="{Binding CheckBoxScienceDirect}" HorizontalAlignment="Left" Margin="100,0,0,0" VerticalAlignment="Top" Height="63" Width="160"/>
-            <CheckBox x:Name="CheckGroupDescriptions" Content="Group after the name of the database" IsChecked="{Binding IsGroupDescriptions}" HorizontalAlignment="Left" Margin="100,42,0,0" VerticalAlignment="Top" Height="63" Width="240"/>
+            <CheckBox x:Name="CheckGroupDescriptions" Content="{x:Static res:Resources.GroupDatabase}" IsChecked="{Binding IsGroupDescriptions}" HorizontalAlignment="Left" Margin="100,42,0,0" VerticalAlignment="Top" Height="63" Width="240"/>
             <CheckBox x:Name="CheckBoxScopus" Content="Scopus" IsChecked="{Binding CheckBoxScopus}" HorizontalAlignment="Left" Margin="280,0,0,0" Width="160" Height="63" VerticalAlignment="Top"/>
             <!--<CheckBox x:Name="CheckBoxScienceDirect" Content="Science Direct" IsChecked="{Binding CheckBoxScienceDirect}" HorizontalAlignment="Left" Margin="330,43,0,0" Width="160" Height="63" VerticalAlignment="Top"/>-->
             <CheckBox x:Name="CheckBoxSpringer" Content="Springer" IsChecked="{Binding CheckBoxSpringer}" HorizontalAlignment="Left" Margin="420,0,0,0" Width="160" Height="63"  VerticalAlignment="Top"/>
@@ -154,7 +154,7 @@
             <!-- Export DataGrida do pliku .csv -->
             <Button x:Name="DataGridToCsv" 
                     Command="{Binding DataGridToCsvExport}"
-                    ToolTip="{x:Static res:Resources.ShowMoreDetailsToolTip}"  
+                    ToolTip="{x:Static res:Resources.ExportToCsv}"  
                     HorizontalAlignment="Right" VerticalAlignment="Top"
                     Margin="0,70,10,0">
                 <Rectangle Width="32" Height="32" Fill="{DynamicResource BlackBrush}">

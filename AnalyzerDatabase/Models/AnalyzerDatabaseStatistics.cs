@@ -13,14 +13,8 @@ namespace AnalyzerDatabase.Models
         [XmlElement("SpringerCount")]
         public int SpringerCount { get; set; }
 
-        [XmlElement("WebOfScienceCount")]
-        public int WebOfScienceCount { get; set; }
-
         [XmlElement("IeeeXploreCount")]
         public int IeeeXploreCount { get; set; }
-
-        [XmlElement("WileyOnlineLibraryCount")]
-        public int WileyOnlineLibraryCount { get; set; }
 
         [XmlElement("DuplicateCount")]
         public int DuplicateCount { get; set; }

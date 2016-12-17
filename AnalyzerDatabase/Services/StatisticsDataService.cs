@@ -1,12 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text.RegularExpressions;
 using AnalyzerDatabase.Interfaces;
 using AnalyzerDatabase.Models;
+using LiveCharts.Helpers;
 
 namespace AnalyzerDatabase.Services
 {
     public class StatisticsDataService : IStatisticsDataService
     {
         private AnalyzerDatabaseStatistics _analyzerDatabaseStatistics;
+        public List<string> _listYear = new List<string>();
+        public List<int> _listYearAmount = new List<int>();
 
         private static StatisticsDataService _instance;
 
@@ -66,9 +73,7 @@ namespace AnalyzerDatabase.Services
             statistics.ScienceDirectCount = 0;
             statistics.ScopusCount = 0;
             statistics.SpringerCount = 0;
-            statistics.WebOfScienceCount = 0;
             statistics.IeeeXploreCount = 0;
-            statistics.WileyOnlineLibraryCount = 0;
             statistics.DuplicateCount = 0;
             statistics.PublicationsDownloadCount = 0;
             statistics.SumCount = 0;
@@ -81,6 +86,41 @@ namespace AnalyzerDatabase.Services
             XmlSerialize<AnalyzerDatabaseStatistics>.Serialize(statistics, LocalizationStatisticsService.AnalyzerDatabaseStatisticsPath);
 
             return statistics;
+        }
+
+        public void PublicationDateFromDatabasesLabels(ObservableCollection<ISearchResultsToDisplay> model)
+        {
+            string year = "";
+
+            model.ForEach(x =>
+            {
+                year = x.Year;
+                if (!_listYear.Any())
+                {
+                    _listYear.Add(year);
+                    _listYearAmount.Add(1);
+                }
+                else
+                {
+                    bool found = false;
+
+                    for (int i = 0; i < _listYear.Count; i++)
+                    {
+                        if (_listYear[i] == year)
+                        {
+                            _listYearAmount[i]++;
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found)
+                    {
+                        _listYear.Add(year);
+                        _listYearAmount.Add(1);
+                    }
+                }
+            });
         }
 
         public void IncrementScienceDirect()
@@ -104,24 +144,10 @@ namespace AnalyzerDatabase.Services
             SaveStatistics();
         }
 
-        public void IncrementWebOfScience()
-        {
-            AnalyzerDatabaseStatistics statistics = GetStatistics;
-            statistics.WebOfScienceCount++;
-            SaveStatistics();
-        }
-
         public void IncrementIeeeXplore()
         {
             AnalyzerDatabaseStatistics statistics = GetStatistics;
             statistics.IeeeXploreCount++;
-            SaveStatistics();
-        }
-
-        public void IncrementWileyOnlineLibrary()
-        {
-            AnalyzerDatabaseStatistics statistics = GetStatistics;
-            statistics.WileyOnlineLibraryCount++;
             SaveStatistics();
         }
 

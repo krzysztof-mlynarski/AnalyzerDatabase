@@ -130,7 +130,6 @@
     <Compile Include="Interfaces\ISearchResultsToDisplay.cs" />
     <Compile Include="Interfaces\IStatisticsDataService.cs" />
     <Compile Include="Interfaces\ITotalResultsToDisplay.cs" />
-    <Compile Include="Messages\PublicationDateMessageToChart.cs" />
     <Compile Include="Models\IeeeXplore\Controlledterms.cs" />
     <Compile Include="Models\IeeeXplore\Document.cs" />
     <Compile Include="Models\IeeeXplore\IeeeXploreSearchQuery.cs" />

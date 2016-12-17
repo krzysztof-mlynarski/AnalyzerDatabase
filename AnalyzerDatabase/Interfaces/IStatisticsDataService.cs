@@ -7,9 +7,7 @@ namespace AnalyzerDatabase.Interfaces
         void IncrementScienceDirect();
         void IncrementScopus();
         void IncrementSpringer();
-        void IncrementWebOfScience();
         void IncrementIeeeXplore();
-        void IncrementWileyOnlineLibrary();
         void IncrementDuplicate();
         void IncrementPublicationsDownload();
     }
