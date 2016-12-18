@@ -1,8 +1,16 @@
-﻿using AnalyzerDatabase.Services;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using AnalyzerDatabase.Services;
 using GalaSoft.MvvmLight.Command;
 using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
+using LiveCharts.Wpf.Charts.Base;
+using Microsoft.Win32;
 
 namespace AnalyzerDatabase.ViewModels
 {
@@ -18,9 +26,14 @@ namespace AnalyzerDatabase.ViewModels
         private int _currentPublicationsDownloadCount;
         private int _currentSumCount;
 
+        private string _queryTextBox;
+
         private bool _isVisibility = false;
 
         private RelayCommand _refreshData;
+        private RelayCommand _refreshOverallData;
+        private RelayCommand _exportChartToImageCommand;
+        private RelayCommand _searchCommand;
 
         public SeriesCollection SeriesCollectionSearchCount { get; set; }
         public SeriesCollection SeriesCollectionDuplicateAndDownloadCount { get; set; }
@@ -114,25 +127,7 @@ namespace AnalyzerDatabase.ViewModels
 
         #endregion
 
-        private void SeriesCollectionYear()
-        {
-            IsVisibility = true;
-
-            int size1 = StatisticsDataService.Instance.ListYearAmount.Count;
-
-            for (int i = 0; i < size1; i++)
-            {
-                SeriesCollectionByYear.Add(new ColumnSeries
-                {
-                    Title = StatisticsDataService.Instance.ListYear[i],
-                    DataLabels = true
-                });
-                SeriesCollectionByYear[i].Values = new ChartValues<ObservableValue>();
-                var val = StatisticsDataService.Instance.ListYearAmount[i];
-                SeriesCollectionByYear[i].Values.Add(new ObservableValue(val));
-            }
-        }
-
+        #region RelayCommand
         public RelayCommand RefreshData
         {
             get
@@ -140,6 +135,32 @@ namespace AnalyzerDatabase.ViewModels
                 return _refreshData ?? (_refreshData = new RelayCommand(SeriesCollectionYear));
             }
         }
+
+        public RelayCommand RefreshOverallData
+        {
+            get
+            {
+                return _refreshOverallData ?? (_refreshOverallData = new RelayCommand(SeriesCollectionSearchCount1));
+            }
+        }
+
+        public RelayCommand ExportChartToImageCommand
+        {
+            get
+            {
+                return _exportChartToImageCommand ?? (_exportChartToImageCommand = new RelayCommand(ExportChartToImage));
+            }
+        }
+
+        public RelayCommand SearchCommand
+        {
+            get
+            {
+                return _searchCommand ?? (_searchCommand = new RelayCommand(TextBoxSearch));
+            }
+        }
+
+        #endregion
 
         #region Getters/Setters
         public int CurrentScienceDirectCount
@@ -295,6 +316,22 @@ namespace AnalyzerDatabase.ViewModels
                 RaisePropertyChanged();
             }
         }
+
+        public string QueryTextBox
+        {
+            get
+            {
+                return _queryTextBox;
+            }
+            set
+            {
+                if (_queryTextBox != value)
+                {
+                    _queryTextBox = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
         #endregion
 
         #region Private methods
@@ -304,6 +341,171 @@ namespace AnalyzerDatabase.ViewModels
 
             StatisticsDataService.Instance.GetStatistics.SumCount = _currentSumCount;
             StatisticsDataService.Instance.SaveStatistics();
+        }
+
+        private void ExportChartToImage()
+        {
+            //if (SeriesCollectionByYear == null)
+            //{
+            //    MessageBox.Show("there is nothing to export");
+            //}
+            //else
+            //{
+            //    Rect bounds = VisualTreeHelper.GetDescendantBounds(SeriesCollectionByYear);
+
+            //    RenderTargetBitmap renderBitmap = new RenderTargetBitmap(
+            //        (int)bounds.Width, (int)bounds.Height, 96, 96, PixelFormats.Pbgra32);
+
+            //    DrawingVisual isolatedVisual = new DrawingVisual();
+            //    using (DrawingContext drawing = isolatedVisual.RenderOpen())
+            //    {
+            //        drawing.DrawRectangle(Brushes.White, null, new Rect(new Point(), bounds.Size));
+            //        drawing.DrawRectangle(new VisualBrush(SeriesCollectionByYear), null, new Rect(
+            //            new Point(), bounds.Size));
+            //    }
+
+            //    renderBitmap.Render(isolatedVisual);
+
+            //    SaveFileDialog ulozObr = new SaveFileDialog
+            //    {
+            //        FileName = "Graf",
+            //        DefaultExt = "png"
+            //    };
+
+            //    bool? result = ulozObr.ShowDialog();
+            //    if (result == true)
+            //    {
+            //        string obrCesta = ulozObr.FileName;
+
+            //        using (FileStream outStream = new FileStream(obrCesta, FileMode.Create))
+            //        {
+            //            PngBitmapEncoder encoder = new PngBitmapEncoder();
+            //            encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
+            //            encoder.Save(outStream);
+            //        }
+            //    }
+            //}
+        }
+
+        private void TextBoxSearch()
+        {
+            if (!String.IsNullOrEmpty(QueryTextBox))
+            {
+                string records = null;
+                double val = 0;
+
+                for (int i = 0; i < StatisticsDataService.Instance.ListYear.Count; i++)
+                {
+                    for (int j = 0; j < StatisticsDataService.Instance.ListYearAmount.Count; j++)
+                    {
+                        var item1 = StatisticsDataService.Instance.ListYear[j];
+                        var item2 = StatisticsDataService.Instance.ListYearAmount[j];
+                        if (QueryTextBox.Equals(item1))
+                        {
+                            records = item1;
+                            val = item2;
+                            break;
+                        }
+                    }
+                }
+
+                SeriesCollectionByYear.Clear();
+
+                SeriesCollectionByYear.Add(new ColumnSeries
+                {
+                    Title = records,
+                    DataLabels = true
+                });
+                SeriesCollectionByYear[0].Values = new ChartValues<ObservableValue>
+                {
+                    new ObservableValue(val)
+                };
+            }
+        }
+
+        private void SeriesCollectionSearchCount1()
+        {
+            SeriesCollectionSearchCount.Clear();
+            SeriesCollectionDuplicateAndDownloadCount.Clear();
+
+            SeriesCollectionSearchCount.Add(new PieSeries
+            {
+                Title = "ScienceDirect",
+                Values = new ChartValues<ObservableValue>
+                {
+                    new ObservableValue(CurrentScienceDirectCount)
+                },
+                DataLabels = true
+            });
+
+            SeriesCollectionSearchCount.Add(new PieSeries
+            {
+                Title = "Scopus",
+                Values = new ChartValues<ObservableValue>
+                {
+                    new ObservableValue(CurrentScopusCount)
+                },
+                DataLabels = true
+            });
+
+            SeriesCollectionSearchCount.Add(new PieSeries
+            {
+                Title = "Springer",
+                Values = new ChartValues<ObservableValue>
+                {
+                    new ObservableValue(CurrentSpringerCount)
+                },
+                DataLabels = true
+            });
+
+            SeriesCollectionSearchCount.Add(new PieSeries
+            {
+                Title = "IEEE Xplore",
+                Values = new ChartValues<ObservableValue>
+                {
+                    new ObservableValue(CurrentIeeeXploreCount)
+                },
+                DataLabels = true
+            });
+
+            SeriesCollectionDuplicateAndDownloadCount.Add(new RowSeries
+            {
+                Title = "Publikacje",
+                Values = new ChartValues<ObservableValue>
+                {
+                    new ObservableValue(CurrentPublicationsDownloadCount)
+                },
+                DataLabels = true
+            });
+
+            SeriesCollectionDuplicateAndDownloadCount.Add(new RowSeries
+            {
+                Title = "Duplikaty",
+                Values = new ChartValues<ObservableValue>
+                {
+                    new ObservableValue(CurrentDuplicateCount)
+                },
+                DataLabels = true
+            });
+        }
+
+        private void SeriesCollectionYear()
+        {
+            QueryTextBox = null;
+            SeriesCollectionByYear.Clear();
+            int size1 = StatisticsDataService.Instance.ListYearAmount.Count;
+
+            for (int i = 0; i < size1; i++)
+            {
+                SeriesCollectionByYear.Add(new ColumnSeries
+                {
+                    Title = StatisticsDataService.Instance.ListYear[i],
+                    DataLabels = true
+                });
+                SeriesCollectionByYear[i].Values = new ChartValues<ObservableValue>();
+                var val = StatisticsDataService.Instance.ListYearAmount[i];
+                SeriesCollectionByYear[i].Values.Add(new ObservableValue(val));
+            }
         }
         #endregion
     }
