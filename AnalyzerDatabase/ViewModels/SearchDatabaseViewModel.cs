@@ -209,11 +209,8 @@ namespace AnalyzerDatabase.ViewModels
             }
             set
             {
-                if (_isDownloadFile != value)
-                {
-                    _isDownloadFile = value;
-                    RaisePropertyChanged();
-                }
+                _isDownloadFile = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -226,7 +223,6 @@ namespace AnalyzerDatabase.ViewModels
             set
             {
                 _checkBoxScopus = value;
-                //if(_checkBoxScopus) test.Add("CheckBoxSc");
                 RaisePropertyChanged();
             }
         }

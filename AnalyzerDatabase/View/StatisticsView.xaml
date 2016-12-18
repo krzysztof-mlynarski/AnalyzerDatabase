@@ -155,10 +155,10 @@
                             <lvc:DefaultTooltip SelectionMode="OnlySender"/>
                         </lvc:CartesianChart.DataTooltip>
                         <lvc:CartesianChart.AxisX>
-                            <lvc:Axis Title="Lata" Labels=" " Visibility="Collapsed" FontSize="20"/>
+                            <lvc:Axis Title="Lata" Labels=" " Visibility="Collapsed" FontSize="20" Foreground="Black"/>
                         </lvc:CartesianChart.AxisX>
                         <lvc:CartesianChart.AxisY>
-                            <lvc:Axis Title="Ilość wystąpień z danego roku" FontSize="20"/>
+                            <lvc:Axis Title="Ilość wystąpień z danego roku" Foreground="Black" FontSize="20"/>
                         </lvc:CartesianChart.AxisY>
                     </lvc:CartesianChart>
                 </Grid>

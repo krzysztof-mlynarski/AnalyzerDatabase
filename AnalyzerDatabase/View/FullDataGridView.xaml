@@ -84,6 +84,7 @@
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="{x:Type DataGridCell}">
                             <Setter Property="Background" Value="{Binding IsDuplicate, Converter={StaticResource BoolToColorConverter}}"/>
+                            <Setter Property="BorderThickness" Value="0"/>
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
@@ -101,6 +102,7 @@
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="{x:Type DataGridCell}">
                             <Setter Property="Background" Value="{Binding IsDuplicate, Converter={StaticResource BoolToColorConverter}}"/>
+                            <Setter Property="BorderThickness" Value="0"/>
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
@@ -113,6 +115,7 @@
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="{x:Type DataGridCell}">
                             <Setter Property="Background" Value="{Binding IsDuplicate, Converter={StaticResource BoolToColorConverter}}"/>
+                            <Setter Property="BorderThickness" Value="0"/>
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
@@ -120,6 +123,7 @@
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="{x:Type DataGridCell}">
                             <Setter Property="Background" Value="{Binding IsDuplicate, Converter={StaticResource BoolToColorConverter}}"/>
+                            <Setter Property="BorderThickness" Value="0"/>
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
@@ -127,6 +131,7 @@
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="{x:Type DataGridCell}">
                             <Setter Property="Background" Value="{Binding IsDuplicate, Converter={StaticResource BoolToColorConverter}}"/>
+                            <Setter Property="BorderThickness" Value="0"/>
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
@@ -334,7 +339,7 @@
 
                                 <controls:ProgressRing Grid.Row="0" Grid.Column="3" 
                                                    Width="60" Foreground="Blue"
-                                                   IsActive="{Binding IsDownloadFile}"/>
+                                                   IsActive="{Binding IsDownloadFile, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
                         </Grid>
                     </DockPanel>
