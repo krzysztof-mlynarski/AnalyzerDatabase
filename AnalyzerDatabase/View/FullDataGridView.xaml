@@ -336,10 +336,9 @@
                                             </Rectangle.OpacityMask>
                                         </Rectangle>
                                 </Button>
-
-                                <controls:ProgressRing Grid.Row="0" Grid.Column="3" 
-                                                   Width="60" Foreground="Blue"
-                                                   IsActive="{Binding IsDownloadFile, UpdateSourceTrigger=PropertyChanged}"/>
+                                
+                                <controls:MetroProgressBar Foreground="Blue" IsIndeterminate="True" Visibility="{Binding IsDownloadFile, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                    
                             </StackPanel>
                         </Grid>
                     </DockPanel>

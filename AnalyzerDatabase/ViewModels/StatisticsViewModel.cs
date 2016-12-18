@@ -32,7 +32,7 @@ namespace AnalyzerDatabase.ViewModels
 
         private RelayCommand _refreshData;
         private RelayCommand _refreshOverallData;
-        private RelayCommand _exportChartToImageCommand;
+        private RelayCommand<object> _exportChartToImageCommand;
         private RelayCommand _searchCommand;
 
         public SeriesCollection SeriesCollectionSearchCount { get; set; }
@@ -144,11 +144,11 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
-        public RelayCommand ExportChartToImageCommand
+        public RelayCommand<object> ExportChartToImageCommand
         {
             get
             {
-                return _exportChartToImageCommand ?? (_exportChartToImageCommand = new RelayCommand(ExportChartToImage));
+                return _exportChartToImageCommand ?? (_exportChartToImageCommand = new RelayCommand<object>(ExportChartToImage));
             }
         }
 
@@ -332,6 +332,7 @@ namespace AnalyzerDatabase.ViewModels
                 }
             }
         }
+
         #endregion
 
         #region Private methods
@@ -343,48 +344,49 @@ namespace AnalyzerDatabase.ViewModels
             StatisticsDataService.Instance.SaveStatistics();
         }
 
-        private void ExportChartToImage()
+        private void ExportChartToImage(object param)
         {
-            //if (SeriesCollectionByYear == null)
-            //{
-            //    MessageBox.Show("there is nothing to export");
-            //}
-            //else
-            //{
-            //    Rect bounds = VisualTreeHelper.GetDescendantBounds(SeriesCollectionByYear);
+            var ChartByYear = param as CartesianChart;
+            if (ChartByYear == null)
+            {
+                ShowDialog("ERROR", "There is nothing to export");
+            }
+            else
+            {
+                Rect bounds = VisualTreeHelper.GetDescendantBounds(ChartByYear);
 
-            //    RenderTargetBitmap renderBitmap = new RenderTargetBitmap(
-            //        (int)bounds.Width, (int)bounds.Height, 96, 96, PixelFormats.Pbgra32);
+                RenderTargetBitmap renderBitmap = new RenderTargetBitmap(
+                    (int)bounds.Width, (int)bounds.Height, 96, 96, PixelFormats.Pbgra32);
 
-            //    DrawingVisual isolatedVisual = new DrawingVisual();
-            //    using (DrawingContext drawing = isolatedVisual.RenderOpen())
-            //    {
-            //        drawing.DrawRectangle(Brushes.White, null, new Rect(new Point(), bounds.Size));
-            //        drawing.DrawRectangle(new VisualBrush(SeriesCollectionByYear), null, new Rect(
-            //            new Point(), bounds.Size));
-            //    }
+                DrawingVisual isolatedVisual = new DrawingVisual();
+                using (DrawingContext drawing = isolatedVisual.RenderOpen())
+                {
+                    drawing.DrawRectangle(Brushes.White, null, new Rect(new Point(), bounds.Size));
+                    drawing.DrawRectangle(new VisualBrush(ChartByYear), null, new Rect(
+                        new Point(), bounds.Size));
+                }
 
-            //    renderBitmap.Render(isolatedVisual);
+                renderBitmap.Render(isolatedVisual);
 
-            //    SaveFileDialog ulozObr = new SaveFileDialog
-            //    {
-            //        FileName = "Graf",
-            //        DefaultExt = "png"
-            //    };
+                SaveFileDialog saveFileDialog = new SaveFileDialog
+                {
+                    FileName = "Chart by year_" + DateTime.Today.DayOfWeek,
+                    DefaultExt = "png"
+                };
 
-            //    bool? result = ulozObr.ShowDialog();
-            //    if (result == true)
-            //    {
-            //        string obrCesta = ulozObr.FileName;
+                bool? result = saveFileDialog.ShowDialog();
+                if (result == true)
+                {
+                    string obrCesta = saveFileDialog.FileName;
 
-            //        using (FileStream outStream = new FileStream(obrCesta, FileMode.Create))
-            //        {
-            //            PngBitmapEncoder encoder = new PngBitmapEncoder();
-            //            encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
-            //            encoder.Save(outStream);
-            //        }
-            //    }
-            //}
+                    using (FileStream outStream = new FileStream(obrCesta, FileMode.Create))
+                    {
+                        PngBitmapEncoder encoder = new PngBitmapEncoder();
+                        encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
+                        encoder.Save(outStream);
+                    }
+                }
+            }
         }
 
         private void TextBoxSearch()

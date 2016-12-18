@@ -47,7 +47,7 @@ namespace AnalyzerDatabase.ViewModels
         private string _totalResults;
 
         private bool _isDataLoading;
-        private bool _isDownloadFile = false;
+        private bool _isDownloadFile;
         private bool _isGroupDescriptions = true;
 
         private bool _checkBoxScopus = true;
@@ -486,6 +486,7 @@ namespace AnalyzerDatabase.ViewModels
             if (isInternet || isInternetVpn)
             {
                 SearchResultsToDisplay.Clear();
+                _doiList.Clear();
                 CollectionView?.GroupDescriptions.Clear();
 
                 if (!string.IsNullOrEmpty(QueryTextBox))
@@ -571,6 +572,7 @@ namespace AnalyzerDatabase.ViewModels
             if (isInternet || isInternetVpn)
             {
                 SearchResultsToDisplay.Clear();
+                _doiList.Clear();
                 CollectionView?.GroupDescriptions.Clear();
 
                 if (!string.IsNullOrEmpty(QueryTextBox))

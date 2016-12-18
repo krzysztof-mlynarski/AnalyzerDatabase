@@ -106,10 +106,12 @@
                             </Rectangle.OpacityMask>
                         </Rectangle>
                     </Button>
+
                     <Button HorizontalAlignment="Left" VerticalAlignment="Top"
                             Margin="50,10,0,0"
                             ToolTip=""
-                            Command="{Binding ExportChartToImageCommand}">
+                            Command="{Binding ExportChartToImageCommand}"
+                            CommandParameter="{Binding ElementName=ChartByYear}">
                         <Rectangle Width="32" Height="32" Fill="{DynamicResource BlackBrush}">
                             <Rectangle.OpacityMask>
                                 <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_image_export}"/>
@@ -148,7 +150,8 @@
                         </Rectangle>
                     </Button>
 
-                    <lvc:CartesianChart Series="{Binding SeriesCollectionByYear}" 
+                    <lvc:CartesianChart x:Name="ChartByYear"
+                                        Series="{Binding SeriesCollectionByYear}" 
                                         LegendLocation="Bottom" 
                                         Margin="10,66,10,47">
                         <lvc:CartesianChart.DataTooltip>
