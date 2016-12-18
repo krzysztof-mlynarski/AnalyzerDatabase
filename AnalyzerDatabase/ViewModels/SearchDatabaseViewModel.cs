@@ -662,6 +662,7 @@ namespace AnalyzerDatabase.ViewModels
             if (isInternet || isInternetVpn)
             {
                 SearchResultsToDisplay.Clear();
+                _doiList.Clear();
                 CollectionView?.GroupDescriptions.Clear();
 
                 if (!string.IsNullOrEmpty(QueryTextBox))
