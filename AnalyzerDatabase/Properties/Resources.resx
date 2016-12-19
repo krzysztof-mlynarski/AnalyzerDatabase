@@ -298,6 +298,12 @@
   <data name="SettingsMenu" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="ShowFullListWithData" xml:space="preserve">
+    <value>Show the full list of existing data</value>
+  </data>
+  <data name="ShowGroupsResults" xml:space="preserve">
+    <value>Show groups of 25 results</value>
+  </data>
   <data name="ShowMoreDetailsToolTip" xml:space="preserve">
     <value>Show more details</value>
   </data>

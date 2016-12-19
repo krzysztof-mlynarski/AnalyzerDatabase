@@ -331,4 +331,10 @@
   <data name="Year" xml:space="preserve">
     <value>Lata</value>
   </data>
+  <data name="ShowFullListWithData" xml:space="preserve">
+    <value>Pokaż pełną listę z dotychczasowymi danymi</value>
+  </data>
+  <data name="ShowGroupsResults" xml:space="preserve">
+    <value>Pokaż widok z grupami po 25 rezultatów</value>
+  </data>
 </root>

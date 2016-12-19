@@ -601,6 +601,24 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show the full list of existing data.
+        /// </summary>
+        public static string ShowFullListWithData {
+            get {
+                return ResourceManager.GetString("ShowFullListWithData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show groups of 25 results.
+        /// </summary>
+        public static string ShowGroupsResults {
+            get {
+                return ResourceManager.GetString("ShowGroupsResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show more details.
         /// </summary>
         public static string ShowMoreDetailsToolTip {

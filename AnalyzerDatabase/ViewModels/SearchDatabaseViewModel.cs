@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Data;
 using AnalyzerDatabase.Enums;
 using AnalyzerDatabase.Interfaces;
@@ -25,9 +26,11 @@ namespace AnalyzerDatabase.ViewModels
         private readonly IStatisticsDataService _statisticsDataService;
 
         public ICollectionView CollectionView { get; set; }
+        public ICollectionView CollectionViewAll { get; set; }
         public ISearchResultsToDisplay DoiAndTitleAndAbstract { get; set; }
 
         private ObservableCollection<ISearchResultsToDisplay> _searchResultsToDisplay;
+        private ObservableCollection<ISearchResultsToDisplay> _searchResultsToDisplayAll;
         private ObservableCollection<ITotalResultsToDisplay> _totalResultsToDisplay;
 
         private List<string> _doiList = new List<string>();
@@ -41,6 +44,7 @@ namespace AnalyzerDatabase.ViewModels
         private RelayCommand _prevResultPage;
         private RelayCommand _downloadArticleToPdf;
         private RelayCommand _dataGridToCsvExport;
+        private RelayCommand _fullResultsListCommand;
 
         private string _queryTextBox;
         private string _executionTime;
@@ -49,6 +53,8 @@ namespace AnalyzerDatabase.ViewModels
         private bool _isDataLoading;
         private bool _isDownloadFile;
         private bool _isGroupDescriptions = true;
+        private bool _fullResultsList;
+        private bool _dataGridResults = true;
 
         private bool _checkBoxScopus = true;
         private bool _checkBoxSpringer = true;
@@ -75,7 +81,9 @@ namespace AnalyzerDatabase.ViewModels
             _statisticsDataService = statisticsDataService;
             _currentPublicationSavingPath = SettingsService.Instance.Settings.SavingPublicationPath;
             SearchResultsToDisplay = new ObservableCollection<ISearchResultsToDisplay>();
+            SearchResultsToDisplayAll = new ObservableCollection<ISearchResultsToDisplay>();
             TotalResultsToDisplay = new ObservableCollection<ITotalResultsToDisplay>();
+            CollectionViewAll = CollectionViewSource.GetDefaultView(_searchResultsToDisplayAll);
             CollectionView = CollectionViewSource.GetDefaultView(_searchResultsToDisplay);
         }
 
@@ -134,6 +142,27 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
+        public RelayCommand FullResultsListCommand
+        {
+            get
+            {
+                return _fullResultsListCommand ?? (_fullResultsListCommand = new RelayCommand(() =>
+                {
+                    if (FullResultsList)
+                    {
+                        FullResultsList = false;
+                        DataGridResults = true;
+                    }
+                    else
+                    {
+                        DataGridResults = false;
+                        FullResultsList = true;
+                    }
+
+                }));
+            }
+        }
+
         #endregion
 
         #region Getters/Setters
@@ -164,22 +193,6 @@ namespace AnalyzerDatabase.ViewModels
                 if (_totalResults != value)
                 {
                     _totalResults = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        public string ExecutionTime
-        {
-            get
-            {
-                return _executionTime;
-            }
-            set
-            {
-                if (_executionTime != value)
-                {
-                    _executionTime = value;
                     RaisePropertyChanged();
                 }
             }
@@ -279,7 +292,33 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
-        public ObservableCollection<ISearchResultsToDisplay> SearchResultsToDisplay
+        public bool FullResultsList
+        {
+            get
+            {
+                return _fullResultsList;
+            }
+            set
+            {
+                _fullResultsList = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool DataGridResults
+        {
+            get
+            {
+                return _dataGridResults;
+            }
+            set
+            {
+                _dataGridResults = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private ObservableCollection<ISearchResultsToDisplay> SearchResultsToDisplay
         {
             get
             {
@@ -292,7 +331,20 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
-        public ObservableCollection<ITotalResultsToDisplay> TotalResultsToDisplay
+        private ObservableCollection<ISearchResultsToDisplay> SearchResultsToDisplayAll
+        {
+            get
+            {
+                return _searchResultsToDisplayAll;
+            }
+            set
+            {
+                _searchResultsToDisplayAll = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private ObservableCollection<ITotalResultsToDisplay> TotalResultsToDisplay
         {
             get
             {
@@ -329,7 +381,7 @@ namespace AnalyzerDatabase.ViewModels
             SaveFileDialog saveFileDialog = new SaveFileDialog
             {
                 Filter = "CSV (*.csv)|*.csv",
-                FileName = "DataGrid_" + QueryTextBox + "_" + DateTime.Today.DayOfWeek,
+                FileName = "DataGrid_" + QueryTextBox + "_" + DateTime.Now.ToString("yyyy_hh_mm_ss"),
                 InitialDirectory = _currentPublicationSavingPath
             };
 
@@ -339,7 +391,6 @@ namespace AnalyzerDatabase.ViewModels
                 {
                     var writer = new CsvWriter(streamWriter);
                     writer.Configuration.Delimiter = ";";
-                    //writer.WriteRecords(SearchResultsToDisplay);
 
                     foreach (var item in SearchResultsToDisplay)
                     {
@@ -351,11 +402,10 @@ namespace AnalyzerDatabase.ViewModels
                         writer.WriteField(item.Abstract);
                         writer.NextRecord();
                     }
-                }
+                }            
+                //TODO: dialog pytajacy czy otworzyc plik
+                System.Diagnostics.Process.Start(saveFileDialog.FileName);
             }
-
-            //TODO: dialog pytajacy czy otworzyc plik
-            System.Diagnostics.Process.Start(saveFileDialog.FileName);
         }
 
         private decimal DegreeOfCompliance(ISearchResultsToDisplay model)
@@ -488,6 +538,7 @@ namespace AnalyzerDatabase.ViewModels
                 SearchResultsToDisplay.Clear();
                 _doiList.Clear();
                 CollectionView?.GroupDescriptions.Clear();
+                CollectionViewAll?.GroupDescriptions.Clear();
 
                 if (!string.IsNullOrEmpty(QueryTextBox))
                 {
@@ -559,6 +610,16 @@ namespace AnalyzerDatabase.ViewModels
                     finally
                     {
                         IsDataLoading = false;
+
+                        if (SearchResultsToDisplay != null)
+                        {
+                            foreach (var item in SearchResultsToDisplay)
+                            {
+                                SearchResultsToDisplayAll.Add(item);
+                            }
+
+                            //CollectionViewAll?.GroupDescriptions.Add(new PropertyGroupDescription("Source"));
+                        }
                     }
                 }
             }
@@ -660,8 +721,10 @@ namespace AnalyzerDatabase.ViewModels
             if (isInternet || isInternetVpn)
             {
                 SearchResultsToDisplay.Clear();
+                SearchResultsToDisplayAll.Clear();;
                 _doiList.Clear();
                 CollectionView?.GroupDescriptions.Clear();
+                CollectionViewAll?.GroupDescriptions.Clear();
 
                 if (!string.IsNullOrEmpty(QueryTextBox))
                 {
@@ -920,12 +983,21 @@ namespace AnalyzerDatabase.ViewModels
 
                         var stopTime = DateTime.Now;
                         TimeSpan executionTime = stopTime - startTime;
-                        ExecutionTime = "(" + executionTime.TotalSeconds + GetString("Seconds") + ")";
+                        _executionTime = "(" + executionTime.TotalSeconds + GetString("Seconds") + ")";
 
                         var allTotalResults = 0;
                         TotalResultsToDisplay.ToList().ForEach(e => allTotalResults += Int32.Parse(e.OpensearchTotalResults));
 
-                        TotalResults = (GetString("AboutResult") + " " + allTotalResults + " " + GetString("Results") + " " + ExecutionTime);
+                        TotalResults = (GetString("AboutResult") + " " + allTotalResults + " " + GetString("Results") + " " + _executionTime);
+
+                        if (SearchResultsToDisplay != null)
+                        {
+                            foreach (var item in SearchResultsToDisplay)
+                            {
+                                SearchResultsToDisplayAll.Add(item);
+                            }
+                            //CollectionViewAll?.GroupDescriptions.Add(new PropertyGroupDescription("Source"));
+                        }
                     }
                 }
                 else
