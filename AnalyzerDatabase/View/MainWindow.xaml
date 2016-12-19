@@ -17,7 +17,8 @@
         ShowMaxRestoreButton="False"    
         ResizeMode="CanMinimize"              
         WindowTransitionsEnabled="False"
-        WindowStartupLocation="CenterScreen"              
+        WindowStartupLocation="CenterScreen"
+        Icon="../AnalyzerDatabaseIcon2.ico"
         Title="Analyzer Database" Height="720" Width="1024">
 
     <controls:MetroWindow.RightWindowCommands>

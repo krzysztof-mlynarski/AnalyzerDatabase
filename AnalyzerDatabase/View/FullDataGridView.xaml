@@ -15,7 +15,8 @@
         ResizeMode="CanResizeWithGrip"    
         WindowState="Maximized"
         WindowTransitionsEnabled="False"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Icon="../AnalyzerDatabaseIcon2.ico">
 
     <Window.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
