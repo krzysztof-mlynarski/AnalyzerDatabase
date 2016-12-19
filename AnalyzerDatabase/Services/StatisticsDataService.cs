@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text.RegularExpressions;
 using AnalyzerDatabase.Interfaces;
 using AnalyzerDatabase.Models;
 using LiveCharts.Helpers;
@@ -61,7 +60,7 @@ namespace AnalyzerDatabase.Services
             }
             catch (Exception)
             {
-                return this.EmptyStatistics();
+                return EmptyStatistics();
             }
         }
 
@@ -90,7 +89,7 @@ namespace AnalyzerDatabase.Services
 
         public void PublicationDateFromDatabasesLabels(ObservableCollection<ISearchResultsToDisplay> model)
         {
-            string year = "";
+            string year;
 
             model.ForEach(x =>
             {

@@ -193,11 +193,11 @@ namespace AnalyzerDatabase.ViewModels
                 {
                     FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
                     folderBrowserDialog.SelectedPath = AppDomain.CurrentDomain.BaseDirectory;
-                    folderBrowserDialog.Description = this.GetString("PickFolderWithPublication");
+                    folderBrowserDialog.Description = GetString("PickFolderWithPublication");
 
                     if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
                     {
-                        this.CurrentPublicationSavingPath = folderBrowserDialog.SelectedPath;
+                        CurrentPublicationSavingPath = folderBrowserDialog.SelectedPath;
                     }
                 }));
             }
@@ -209,14 +209,7 @@ namespace AnalyzerDatabase.ViewModels
             {
                 return _openPageDevElsevier ?? (_openPageDevElsevier = new RelayCommand(() =>
                 {
-                    try
-                    {
-                        System.Diagnostics.Process.Start("https://dev.elsevier.com/user/login");
-                    }
-                    catch
-                    {
-                        throw;
-                    }
+                    Process.Start("https://dev.elsevier.com/user/login");
                 }));
             }
         }
@@ -227,14 +220,7 @@ namespace AnalyzerDatabase.ViewModels
             {
                 return _openPageDevSpringer ?? (_openPageDevSpringer = new RelayCommand(() =>
                 {
-                    try
-                    {
-                        System.Diagnostics.Process.Start("https://dev.springer.com/login");
-                    }
-                    catch
-                    {
-                        throw;
-                    }
+                    Process.Start("https://dev.springer.com/login");
                 }));
             }
         }
@@ -271,9 +257,9 @@ namespace AnalyzerDatabase.ViewModels
 
         private void SelectedLanguageItem(string name)
         {
-            if (name == this.GetString("Polish"))
+            if (name == GetString("Polish"))
                 SettingsService.Instance.Settings.CurrentLanguage = "pl-PL";
-            if (name == this.GetString("English"))
+            if (name == GetString("English"))
                 SettingsService.Instance.Settings.CurrentLanguage = "en-EN";
 
             SettingsService.Instance.Save();

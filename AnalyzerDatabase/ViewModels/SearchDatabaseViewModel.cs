@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using AnalyzerDatabase.Enums;
 using AnalyzerDatabase.Interfaces;
@@ -177,7 +176,7 @@ namespace AnalyzerDatabase.ViewModels
                 if (_queryTextBox != value)
                 {
                     _queryTextBox = value;
-                    RaisePropertyChanged("QueryTextBox");
+                    RaisePropertyChanged();
                 }
             }
         }
@@ -318,7 +317,7 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
-        public ObservableCollection<ISearchResultsToDisplay> SearchResultsToDisplay
+        private ObservableCollection<ISearchResultsToDisplay> SearchResultsToDisplay
         {
             get
             {
@@ -327,7 +326,7 @@ namespace AnalyzerDatabase.ViewModels
             set
             {
                 _searchResultsToDisplay = value;
-                this.RaisePropertyChanged();
+                RaisePropertyChanged();
             }
         }
 
@@ -517,13 +516,11 @@ namespace AnalyzerDatabase.ViewModels
 
         private string RegexYear(ISearchResultsToDisplay model)
         {
-            string year = "";
-
             var regex = model.PublicationDate;
             var pattern = "[0-9]{4}";
             Regex re1 = new Regex(pattern, RegexOptions.IgnoreCase);
             Match m1 = re1.Match(regex);
-            year = m1.ToString();
+            var year = m1.ToString();
 
             return year;
         }
@@ -549,63 +546,106 @@ namespace AnalyzerDatabase.ViewModels
                         if (CheckBoxScienceDirect)
                         {
                             _startUpScienceDirect += 25;
-                            var obj = await _restService.GetPreviousOrNextResultScienceDirect(QueryTextBox, _startUpScienceDirect);
-                            obj.SearchResults.Entry.ToList().ForEach(element =>
-                            {
-                                this.SearchResultsToDisplay.Add(element);
-                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
+                            _startDownScienceDirect += 25;
 
-                            });
+                            var obj = await _restService.GetPreviousOrNextResultScienceDirect(QueryTextBox, _startUpScienceDirect);
+                            if (obj != null)
+                            {
+                                obj.SearchResults.Entry.ToList().ForEach(element =>
+                                {
+                                    SearchResultsToDisplay.Add(element);
+                                    SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
+                                    SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
+                                    SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
+                                });
+                            }
+                            else
+                            {
+                                _startUpScienceDirect -= 25;
+                            }
                         }
 
                         if (CheckBoxScopus)
                         {
                             _startUpScopus += 25;
+                            _startDownScopus += 25;
+
                             var obj = await _restService.GetPreviousOrNextResultScopus(QueryTextBox, _startUpScopus);
-                            obj.SearchResults.Entry.ToList().ForEach(element =>
+                            if (obj != null)
                             {
-                                this.SearchResultsToDisplay.Add(element);
-                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
-                            });
+                                obj.SearchResults.Entry.ToList().ForEach(element =>
+                                {
+                                    SearchResultsToDisplay.Add(element);
+                                    SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
+                                    SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
+                                    SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
+                                });
+                            }
+                            else
+                            {
+                                _startUpScopus -= 25;
+                            }
+
                         }
 
                         if (CheckBoxSpringer)
                         {
-                            _startUpSpringer += 1;
-                            var obj = await _restService.GetPreviousOrNextResultSpringer(QueryTextBox, _startUpSpringer);
-                            obj.Records.ToList().ForEach(element =>
-                            {
-                                this.SearchResultsToDisplay.Add(element);
-                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
+                            _startUpSpringer += 25;
+                            _startDownSpringer += 25;
 
-                            });
+                            var obj = await _restService.GetPreviousOrNextResultSpringer(QueryTextBox, _startUpSpringer);
+                            if (obj != null)
+                            {
+                                obj.Records.ToList().ForEach(element =>
+                                {
+                                    var x = CompareDoi(element);
+
+                                    if (!x)
+                                    {
+                                        SearchResultsToDisplay.Add(element);
+                                        SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
+                                        SearchResultsToDisplay.Last().IsDuplicate = false;
+                                        SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                _startUpSpringer -= 25;
+                            }
+
                         }
 
                         if (CheckBoxIeeeXplore)
                         {
-                            _startUpIeeeXplore += 1;
+                            _startUpIeeeXplore += 25;
+                            _startDownIeeeXplore += 25;
+
                             var obj = await _restService.GetPreviousOrNextResultIeeeXplore(QueryTextBox, _startUpIeeeXplore);
-                            obj.Document.ToList().ForEach(element =>
+                            if (obj != null)
                             {
-                                this.SearchResultsToDisplay.Add(element);
-                                this.SearchResultsToDisplay.Last().Year = element.PublicationDate;
-                                this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
-                            });
+                                obj.Document.ToList().ForEach(element =>
+                                {
+                                    var x = CompareDoi(element);
+
+                                    if (!x)
+                                    {
+                                        SearchResultsToDisplay.Add(element);
+                                        SearchResultsToDisplay.Last().Year = element.PublicationDate;
+                                        SearchResultsToDisplay.Last().IsDuplicate = false;
+                                        SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
+                                        SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                _startUpIeeeXplore -= 25;
+                            }
+
                         }
 
                         CollectionView?.GroupDescriptions.Add(new PropertyGroupDescription("Source"));
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
                     }
                     finally
                     {
@@ -645,65 +685,77 @@ namespace AnalyzerDatabase.ViewModels
                         if (CheckBoxScienceDirect)
                         {
                             _startDownScienceDirect -= 25;
-                            var obj = await _restService.GetPreviousOrNextResultScienceDirect(QueryTextBox, _startDownScienceDirect);
-                            obj.SearchResults.Entry.ToList().ForEach(element =>
-                            {
-                                this.SearchResultsToDisplay.Add(element);
-                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
+                            _startUpScienceDirect -= 25;
 
-                            });
+                            if (_startDownScienceDirect >= 0)
+                            {
+                                var obj = await _restService.GetPreviousOrNextResultScienceDirect(QueryTextBox, _startDownScienceDirect);
+                                obj?.SearchResults.Entry.ToList().ForEach(element =>
+                                {
+                                    SearchResultsToDisplay.Add(element);
+                                    SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
+                                    SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
+                                    SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
+                                });
+                            }
                         }
 
                         if (CheckBoxScopus)
                         {
                             _startDownScopus -= 25;
-                            var obj = await _restService.GetPreviousOrNextResultScopus(QueryTextBox, _startDownScopus);
-                            obj.SearchResults.Entry.ToList().ForEach(element =>
-                            {
-                                this.SearchResultsToDisplay.Add(element);
-                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
+                            _startUpScopus -= 25;
 
-                            });
+                            if (_startDownScopus >= 0)
+                            {
+                                var obj = await _restService.GetPreviousOrNextResultScopus(QueryTextBox, _startDownScopus);
+                                obj?.SearchResults.Entry.ToList().ForEach(element =>
+                                {
+                                    SearchResultsToDisplay.Add(element);
+                                    SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
+                                    SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
+                                    SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
+                                });
+                            }
                         }
 
                         if (CheckBoxSpringer)
                         {
-                            _startDownSpringer -= 1;
-                            var obj = await _restService.GetPreviousOrNextResultSpringer(QueryTextBox, _startDownSpringer);
-                            obj.Records.ToList().ForEach(element =>
-                            {
-                                this.SearchResultsToDisplay.Add(element);
-                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
+                            _startDownSpringer -= 25;
+                            _startUpSpringer -= 25;
 
-                            });
+                            if (_startDownSpringer >= 1)
+                            {
+                                var obj = await _restService.GetPreviousOrNextResultSpringer(QueryTextBox, _startDownSpringer);
+                                obj?.Records.ToList().ForEach(element =>
+                                {
+                                    SearchResultsToDisplay.Add(element);
+                                    SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
+                                    SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
+                                    SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
+                                });
+                            }
                         }
 
                         if (CheckBoxIeeeXplore)
                         {
-                            _startDownIeeeXplore -= 1;
-                            var obj =
-                                await _restService.GetPreviousOrNextResultIeeeXplore(QueryTextBox, _startDownIeeeXplore);
-                            obj.Document.ToList().ForEach(element =>
+                            _startDownIeeeXplore -= 25;
+                            _startUpIeeeXplore -= 25;
+
+                            if (_startDownIeeeXplore >= 1)
                             {
-                                this.SearchResultsToDisplay.Add(element);
-                                this.SearchResultsToDisplay.Last().Year = element.PublicationDate;
-                                this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
-                            });
+                                var obj = await _restService.GetPreviousOrNextResultIeeeXplore(QueryTextBox, _startDownIeeeXplore);
+                                obj?.Document.ToList().ForEach(element =>
+                                {
+                                    SearchResultsToDisplay.Add(element);
+                                    SearchResultsToDisplay.Last().Year = element.PublicationDate;
+                                    SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
+                                    SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
+                                    SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
+                                });
+                            }
                         }
 
                         CollectionView?.GroupDescriptions.Add(new PropertyGroupDescription("Source"));
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
                     }
                     finally
                     {
@@ -721,7 +773,8 @@ namespace AnalyzerDatabase.ViewModels
             if (isInternet || isInternetVpn)
             {
                 SearchResultsToDisplay.Clear();
-                SearchResultsToDisplayAll.Clear();;
+                SearchResultsToDisplayAll.Clear();
+                TotalResultsToDisplay.Clear();
                 _doiList.Clear();
                 CollectionView?.GroupDescriptions.Clear();
                 CollectionViewAll?.GroupDescriptions.Clear();
@@ -742,46 +795,46 @@ namespace AnalyzerDatabase.ViewModels
                             var obj2 = await _restService.GetSearchQuerySpringer(QueryTextBox);
                             var obj3 = await _restService.GetSearchQueryIeeeXplore(QueryTextBox);
 
-                            obj.SearchResults.Entry.ToList().ForEach(element =>
+                            obj?.SearchResults.Entry.ToList().ForEach(element =>
                             {
-                                this.SearchResultsToDisplay.Add(element);
-                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Add(element);
+                                SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
                             });
 
-                            this.TotalResultsToDisplay.Add(obj.SearchResults);
+                            TotalResultsToDisplay.Add(obj?.SearchResults);
 
-                            obj1.SearchResults.Entry.ToList().ForEach(element =>
+                            obj1?.SearchResults.Entry.ToList().ForEach(element =>
                             {
-                                this.SearchResultsToDisplay.Add(element);
-                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Add(element);
+                                SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
                             });
 
-                            this.TotalResultsToDisplay.Add(obj1.SearchResults);
+                            TotalResultsToDisplay.Add(obj1?.SearchResults);
 
-                            obj2.Records.ToList().ForEach(element =>
+                            obj2?.Records.ToList().ForEach(element =>
                             {
-                                this.SearchResultsToDisplay.Add(element);
-                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Add(element);
+                                SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
                             });
 
-                            obj2.Result.ToList().ForEach(element =>
+                            obj2?.Result.ToList().ForEach(element =>
                             {
-                                this.TotalResultsToDisplay.Add(element);
+                                TotalResultsToDisplay.Add(element);
                             });
 
-                            obj3.Document.ToList().ForEach(element =>
+                            obj3?.Document.ToList().ForEach(element =>
                             {
-                                this.SearchResultsToDisplay.Add(element);
-                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
+                                SearchResultsToDisplay.Add(element);
+                                SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
                             });
 
                             //TODO: łączna ilość wyników
@@ -799,25 +852,25 @@ namespace AnalyzerDatabase.ViewModels
                             var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
                             var obj1 = await _restService.GetSearchQueryScopus(QueryTextBox);
 
-                            obj.SearchResults.Entry.ToList().ForEach(element =>
+                            obj?.SearchResults.Entry.ToList().ForEach(element =>
                             {
-                                this.SearchResultsToDisplay.Add(element);
-                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Add(element);
+                                SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
                             });
 
-                            this.TotalResultsToDisplay.Add(obj.SearchResults);
+                            TotalResultsToDisplay.Add(obj?.SearchResults);
 
-                            obj1.SearchResults.Entry.ToList().ForEach(element =>
+                            obj1?.SearchResults.Entry.ToList().ForEach(element =>
                             {
-                                this.SearchResultsToDisplay.Add(element);
-                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Add(element);
+                                SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
                             });
 
-                            this.TotalResultsToDisplay.Add(obj1.SearchResults);
+                            TotalResultsToDisplay.Add(obj1?.SearchResults);
 
                             _statisticsDataService.IncrementScienceDirect();
                             _statisticsDataService.IncrementScopus();
@@ -829,27 +882,27 @@ namespace AnalyzerDatabase.ViewModels
                             var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
                             var obj1 = await _restService.GetSearchQuerySpringer(QueryTextBox);
 
-                            obj.SearchResults.Entry.ToList().ForEach(element =>
+                            obj?.SearchResults.Entry.ToList().ForEach(element =>
                             {
-                                this.SearchResultsToDisplay.Add(element);
-                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Add(element);
+                                SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
                             });
 
-                            this.TotalResultsToDisplay.Add(obj.SearchResults);
+                            TotalResultsToDisplay.Add(obj?.SearchResults);
 
-                            obj1.Records.ToList().ForEach(element =>
+                            obj1?.Records.ToList().ForEach(element =>
                             {
-                                this.SearchResultsToDisplay.Add(element);
-                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Add(element);
+                                SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
                             });
 
-                            obj1.Result.ToList().ForEach(element =>
+                            obj1?.Result.ToList().ForEach(element =>
                             {
-                                this.TotalResultsToDisplay.Add(element);
+                                TotalResultsToDisplay.Add(element);
                             });
 
                             _statisticsDataService.IncrementScienceDirect();
@@ -862,27 +915,27 @@ namespace AnalyzerDatabase.ViewModels
                             var obj = await _restService.GetSearchQueryScopus(QueryTextBox);
                             var obj1 = await _restService.GetSearchQuerySpringer(QueryTextBox);
 
-                            obj.SearchResults.Entry.ToList().ForEach(element =>
+                            obj?.SearchResults.Entry.ToList().ForEach(element =>
                             {
-                                this.SearchResultsToDisplay.Add(element);
-                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Add(element);
+                                SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
                             });
 
-                            this.TotalResultsToDisplay.Add(obj.SearchResults);
+                            TotalResultsToDisplay.Add(obj?.SearchResults);
 
-                            obj1.Records.ToList().ForEach(element =>
+                            obj1?.Records.ToList().ForEach(element =>
                             {
-                                this.SearchResultsToDisplay.Add(element);
-                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Add(element);
+                                SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
                             });
 
-                            obj1.Result.ToList().ForEach(element =>
+                            obj1?.Result.ToList().ForEach(element =>
                             {
-                                this.TotalResultsToDisplay.Add(element);
+                                TotalResultsToDisplay.Add(element);
                             });
 
                             _statisticsDataService.IncrementScopus();
@@ -894,15 +947,15 @@ namespace AnalyzerDatabase.ViewModels
                         {
                             var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
 
-                            obj.SearchResults.Entry.ToList().ForEach(element =>
+                            obj?.SearchResults.Entry.ToList().ForEach(element =>
                             {
-                                this.SearchResultsToDisplay.Add(element);
-                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Add(element);
+                                SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
                             });
 
-                            this.TotalResultsToDisplay.Add(obj.SearchResults);
+                            TotalResultsToDisplay.Add(obj?.SearchResults);
 
                             _statisticsDataService.IncrementScienceDirect();
                         }
@@ -912,15 +965,15 @@ namespace AnalyzerDatabase.ViewModels
                         {
                             var obj = await _restService.GetSearchQueryScopus(QueryTextBox);
 
-                            obj.SearchResults.Entry.ToList().ForEach(element =>
+                            obj?.SearchResults.Entry.ToList().ForEach(element =>
                             {
-                                this.SearchResultsToDisplay.Add(element);
-                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Add(element);
+                                SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
                             });
 
-                            this.TotalResultsToDisplay.Add(obj.SearchResults);
+                            TotalResultsToDisplay.Add(obj?.SearchResults);
 
                             _statisticsDataService.IncrementScopus();
                         }
@@ -930,17 +983,17 @@ namespace AnalyzerDatabase.ViewModels
                         {
                             var obj = await _restService.GetSearchQuerySpringer(QueryTextBox);
 
-                            obj.Records.ToList().ForEach(element =>
+                            obj?.Records.ToList().ForEach(element =>
                             {
-                                this.SearchResultsToDisplay.Add(element);
-                                this.SearchResultsToDisplay.Last().Year = RegexYear(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Add(element);
+                                SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
                             });
 
-                            obj.Result.ToList().ForEach(e =>
+                            obj?.Result.ToList().ForEach(e =>
                             {
-                                this.TotalResultsToDisplay.Add(e);
+                                TotalResultsToDisplay.Add(e);
                             });
 
                             _statisticsDataService.IncrementSpringer();
@@ -951,13 +1004,13 @@ namespace AnalyzerDatabase.ViewModels
                         {
                             var obj = await _restService.GetSearchQueryIeeeXplore(QueryTextBox);
 
-                            obj.Document.ToList().ForEach(element =>
+                            obj?.Document.ToList().ForEach(element =>
                             {
-                                this.SearchResultsToDisplay.Add(element);
-                                this.SearchResultsToDisplay.Last().Year = element.PublicationDate;
-                                this.SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(this.SearchResultsToDisplay.Last());
-                                this.SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
+                                SearchResultsToDisplay.Add(element);
+                                SearchResultsToDisplay.Last().Year = element.PublicationDate;
+                                SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
+                                SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
                             });
 
                             //TODO: łączna ilość wyników
@@ -970,7 +1023,7 @@ namespace AnalyzerDatabase.ViewModels
                         }
                         #endregion
 
-                        StatisticsDataService.Instance.PublicationDateFromDatabasesLabels(this.SearchResultsToDisplay);
+                        StatisticsDataService.Instance.PublicationDateFromDatabasesLabels(SearchResultsToDisplay);
 
                         if (IsGroupDescriptions)
                         {

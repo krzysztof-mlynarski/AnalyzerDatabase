@@ -23,10 +23,9 @@ namespace AnalyzerDatabase.ViewModels
         private int _currentDuplicateCount;
         private int _currentPublicationsDownloadCount;
         private int _currentSumCount;
+        private readonly string _currentPublicationSavingPath;
 
         private string _queryTextBox;
-
-        private bool _isVisibility = false;
 
         private RelayCommand _refreshData;
         private RelayCommand _refreshOverallData;
@@ -53,6 +52,7 @@ namespace AnalyzerDatabase.ViewModels
             CurrentDuplicateCount = StatisticsDataService.Instance.GetStatistics.DuplicateCount;
             CurrentPublicationsDownloadCount = StatisticsDataService.Instance.GetStatistics.PublicationsDownloadCount;
             CurrentSumCount = StatisticsDataService.Instance.GetStatistics.SumCount;
+            _currentPublicationSavingPath = SettingsService.Instance.Settings.SavingPublicationPath;
 
             #region SeriesCollectionSearchCount
             SeriesCollectionSearchCount = new SeriesCollection
@@ -304,19 +304,6 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
-        public bool IsVisibility
-        {
-            get
-            {
-                return _isVisibility;
-            }
-            set
-            {
-                _isVisibility = value;
-                RaisePropertyChanged();
-            }
-        }
-
         public string QueryTextBox
         {
             get
@@ -390,8 +377,9 @@ namespace AnalyzerDatabase.ViewModels
 
             SaveFileDialog saveFileDialog = new SaveFileDialog
             {
+                Filter = "PNG (*.png)|*.png",
                 FileName = "ChartData_" + DateTime.Now.ToString("yyyy_hh_mm_ss"),
-                DefaultExt = "png"
+                InitialDirectory = _currentPublicationSavingPath
             };
 
             bool? result = saveFileDialog.ShowDialog();

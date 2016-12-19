@@ -195,7 +195,7 @@ namespace AnalyzerDatabase.Services
             {
                 string url = String.Format(_resources["DownloadArticleFromScienceDirectToPdf"].ToString(), doi,
                     _currentScienceDirectAndScopusApiKey);
-                var webPageSourcePdf = await GetWebPageSourcePdf(url, title, cts);
+                await GetWebPageSourcePdf(url, title, cts);
             }
             catch (TaskCanceledException ex)
             {
@@ -209,7 +209,7 @@ namespace AnalyzerDatabase.Services
             {
                 string url = String.Format(_resources["DownloadArticleFromScienceDirectToPdf"].ToString(), doi,
                     _currentScienceDirectAndScopusApiKey);
-                string webPageSourcePdf = await GetWebPageSourceDocx(url, title, cts);
+                await GetWebPageSourceDocx(url, title, cts);
             }
             catch (TaskCanceledException ex)
             {
@@ -245,7 +245,7 @@ namespace AnalyzerDatabase.Services
 
         private async Task<string> DecodeResponseContent(HttpResponseMessage response)
         {
-            string jsonString = "";
+            string jsonString;
             byte[] byteContent = await response.Content.ReadAsByteArrayAsync();
 
             try
