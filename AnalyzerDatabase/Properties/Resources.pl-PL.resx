@@ -310,4 +310,25 @@
   <data name="GroupDatabase" xml:space="preserve">
     <value>Grupuj wyniki po nazwie bazy</value>
   </data>
+  <data name="CountYear" xml:space="preserve">
+    <value>Ilość wystąpień danego roku</value>
+  </data>
+  <data name="ExportToPng" xml:space="preserve">
+    <value>Eksportuj wykres do .png</value>
+  </data>
+  <data name="ExportToPng1" xml:space="preserve">
+    <value>Eksportuj wykres nr 1 do .png</value>
+  </data>
+  <data name="ExportToPng2" xml:space="preserve">
+    <value>Eksportuje wykres nr 2 do .png</value>
+  </data>
+  <data name="FilterData" xml:space="preserve">
+    <value>Filtruj</value>
+  </data>
+  <data name="RefreshData" xml:space="preserve">
+    <value>Odswież</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Lata</value>
+  </data>
 </root>

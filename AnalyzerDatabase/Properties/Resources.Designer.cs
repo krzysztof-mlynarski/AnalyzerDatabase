@@ -196,6 +196,15 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The number of occurrences of a given year.
+        /// </summary>
+        public static string CountYear {
+            get {
+                return ResourceManager.GetString("CountYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Default location to save the publication.
         /// </summary>
         public static string DefaultSavingLocationSettings {
@@ -255,6 +264,42 @@ namespace AnalyzerDatabase.Properties {
         public static string ExportToCsv {
             get {
                 return ResourceManager.GetString("ExportToCsv", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export chart to .png.
+        /// </summary>
+        public static string ExportToPng {
+            get {
+                return ResourceManager.GetString("ExportToPng", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export chart number 1 to .png.
+        /// </summary>
+        public static string ExportToPng1 {
+            get {
+                return ResourceManager.GetString("ExportToPng1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export chart number 2 to .png.
+        /// </summary>
+        public static string ExportToPng2 {
+            get {
+                return ResourceManager.GetString("ExportToPng2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter.
+        /// </summary>
+        public static string FilterData {
+            get {
+                return ResourceManager.GetString("FilterData", resourceCulture);
             }
         }
         
@@ -484,6 +529,15 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Refresh.
+        /// </summary>
+        public static string RefreshData {
+            get {
+                return ResourceManager.GetString("RefreshData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to results in.
         /// </summary>
         public static string Results {
@@ -633,6 +687,15 @@ namespace AnalyzerDatabase.Properties {
         public static string VolumeDataGrid {
             get {
                 return ResourceManager.GetString("VolumeDataGrid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Year.
+        /// </summary>
+        public static string Year {
+            get {
+                return ResourceManager.GetString("Year", resourceCulture);
             }
         }
     }

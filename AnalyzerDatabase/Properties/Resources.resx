@@ -163,6 +163,9 @@
   <data name="ConfigApiKeySettings" xml:space="preserve">
     <value>Configuration API Key</value>
   </data>
+  <data name="CountYear" xml:space="preserve">
+    <value>The number of occurrences of a given year</value>
+  </data>
   <data name="DefaultSavingLocationSettings" xml:space="preserve">
     <value>Default location to save the publication</value>
   </data>
@@ -183,6 +186,18 @@
   </data>
   <data name="ExportToCsv" xml:space="preserve">
     <value>Export data to a .csv file</value>
+  </data>
+  <data name="ExportToPng" xml:space="preserve">
+    <value>Export chart to .png</value>
+  </data>
+  <data name="ExportToPng1" xml:space="preserve">
+    <value>Export chart number 1 to .png</value>
+  </data>
+  <data name="ExportToPng2" xml:space="preserve">
+    <value>Export chart number 2 to .png</value>
+  </data>
+  <data name="FilterData" xml:space="preserve">
+    <value>Filter</value>
   </data>
   <data name="GetApiKeyElsevier" xml:space="preserve">
     <value>Get API Key for Science Direct and Scopus databases</value>
@@ -259,6 +274,9 @@
   <data name="QueryText" xml:space="preserve">
     <value>Search in database...</value>
   </data>
+  <data name="RefreshData" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
   <data name="Results" xml:space="preserve">
     <value>results in</value>
   </data>
@@ -309,5 +327,8 @@
   </data>
   <data name="VolumeDataGrid" xml:space="preserve">
     <value>Volume: </value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Year</value>
   </data>
 </root>
