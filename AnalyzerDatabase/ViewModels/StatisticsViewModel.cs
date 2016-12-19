@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -9,7 +8,6 @@ using GalaSoft.MvvmLight.Command;
 using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
-using LiveCharts.Wpf.Charts.Base;
 using Microsoft.Win32;
 
 namespace AnalyzerDatabase.ViewModels
@@ -40,6 +38,7 @@ namespace AnalyzerDatabase.ViewModels
         public SeriesCollection SeriesCollectionByYear { get; set; }
 
         public string[] Labels { get; set; }
+        public Func<double, string> Formatter { get; set; }
 
         #endregion
 
@@ -123,6 +122,7 @@ namespace AnalyzerDatabase.ViewModels
             #endregion
 
             SeriesCollectionByYear = new SeriesCollection();
+            Formatter = value => value.ToString("N");
         }
 
         #endregion
@@ -346,45 +346,64 @@ namespace AnalyzerDatabase.ViewModels
 
         private void ExportChartToImage(object param)
         {
-            var ChartByYear = param as CartesianChart;
-            if (ChartByYear == null)
+            var chartOverall = param as PieChart;
+            var chartOverallOrYear = param as CartesianChart;
+
+            if (chartOverall != null || chartOverallOrYear != null)
             {
+                ExportToImage(chartOverallOrYear, chartOverall);
+                chartOverall = null;
+                chartOverallOrYear = null;
+            }
+            else
                 ShowDialog("ERROR", "There is nothing to export");
+        }
+
+        private void ExportToImage(CartesianChart valueCartesianChart, PieChart valuePieChart)
+        {
+            var chartOverall = valuePieChart;
+            var chartOverallOrYear = valueCartesianChart;
+            Visual chart;
+
+            if (chartOverall == null)
+            {
+                chart = chartOverallOrYear;
             }
             else
             {
-                Rect bounds = VisualTreeHelper.GetDescendantBounds(ChartByYear);
+                chart = chartOverall;
+            }
 
-                RenderTargetBitmap renderBitmap = new RenderTargetBitmap(
-                    (int)bounds.Width, (int)bounds.Height, 96, 96, PixelFormats.Pbgra32);
+            Rect bounds = VisualTreeHelper.GetDescendantBounds(chart);
 
-                DrawingVisual isolatedVisual = new DrawingVisual();
-                using (DrawingContext drawing = isolatedVisual.RenderOpen())
+            RenderTargetBitmap renderBitmap = new RenderTargetBitmap(
+                (int)bounds.Width, (int)bounds.Height, 96, 96, PixelFormats.Pbgra32);
+
+            DrawingVisual isolatedVisual = new DrawingVisual();
+            using (DrawingContext drawing = isolatedVisual.RenderOpen())
+            {
+                drawing.DrawRectangle(Brushes.White, null, new Rect(new Point(), bounds.Size));
+                drawing.DrawRectangle(new VisualBrush(chart), null, new Rect(new Point(), bounds.Size));
+            }
+
+            renderBitmap.Render(isolatedVisual);
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                FileName = "ChartData_" + DateTime.Now.ToString("yyyy_hh_mm_ss"),
+                DefaultExt = "png"
+            };
+
+            bool? result = saveFileDialog.ShowDialog();
+            if (result == true)
+            {
+                string fileName = saveFileDialog.FileName;
+
+                using (FileStream outStream = new FileStream(fileName, FileMode.Create))
                 {
-                    drawing.DrawRectangle(Brushes.White, null, new Rect(new Point(), bounds.Size));
-                    drawing.DrawRectangle(new VisualBrush(ChartByYear), null, new Rect(
-                        new Point(), bounds.Size));
-                }
-
-                renderBitmap.Render(isolatedVisual);
-
-                SaveFileDialog saveFileDialog = new SaveFileDialog
-                {
-                    FileName = "Chart by year_" + DateTime.Today.DayOfWeek,
-                    DefaultExt = "png"
-                };
-
-                bool? result = saveFileDialog.ShowDialog();
-                if (result == true)
-                {
-                    string obrCesta = saveFileDialog.FileName;
-
-                    using (FileStream outStream = new FileStream(obrCesta, FileMode.Create))
-                    {
-                        PngBitmapEncoder encoder = new PngBitmapEncoder();
-                        encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
-                        encoder.Save(outStream);
-                    }
+                    PngBitmapEncoder encoder = new PngBitmapEncoder();
+                    encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
+                    encoder.Save(outStream);
                 }
             }
         }
