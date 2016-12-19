@@ -318,7 +318,7 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
-        private ObservableCollection<ISearchResultsToDisplay> SearchResultsToDisplay
+        public ObservableCollection<ISearchResultsToDisplay> SearchResultsToDisplay
         {
             get
             {
@@ -392,9 +392,9 @@ namespace AnalyzerDatabase.ViewModels
                     var writer = new CsvWriter(streamWriter);
                     writer.Configuration.Delimiter = ";";
 
-                    foreach (var item in SearchResultsToDisplay)
+                    foreach (var item in SearchResultsToDisplayAll)
                     {
-                        writer.WriteField(item.PercentComplete);
+                        //writer.WriteField(item.PercentComplete);
                         writer.WriteField(item.Creator);
                         writer.WriteField(item.Title);
                         writer.WriteField(item.Year);

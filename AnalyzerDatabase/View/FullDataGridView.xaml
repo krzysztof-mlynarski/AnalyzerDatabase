@@ -669,7 +669,7 @@
                 Width="35" Height="35" Margin="10,5,0,0"
                 ToolTip="{x:Static res:Resources.ShowFullListWithData}" 
                 Command="{Binding FullResultsListCommand}"
-                IsEnabled="{Binding FullResultsList, Converter={StaticResource NegativeBooleanToVisibilityConverter}}"
+                Visibility="{Binding FullResultsList, Converter={StaticResource NegativeBooleanToVisibilityConverter}}"
                 HorizontalAlignment="Left" VerticalAlignment="Top">
             <Rectangle Width="24" Height="24" Fill="{DynamicResource BlackBrush}">
                 <Rectangle.OpacityMask>
@@ -679,10 +679,10 @@
         </Button>
 
         <Button x:Name="BackToDataGridResults"
-                Width="35" Height="35" Margin="50,5,0,0"
+                Width="35" Height="35" Margin="10,5,0,0"
                 ToolTip="{x:Static res:Resources.ShowGroupsResults}" 
                 Command="{Binding FullResultsListCommand}"
-                IsEnabled="{Binding FullResultsList, Converter={StaticResource BooleanToVisibilityConverter}}"
+                Visibility="{Binding FullResultsList, Converter={StaticResource BooleanToVisibilityConverter}}"
                 HorizontalAlignment="Left" VerticalAlignment="Top">
             <Rectangle Width="24" Height="24" Fill="{DynamicResource BlackBrush}">
                 <Rectangle.OpacityMask>
@@ -691,6 +691,18 @@
             </Rectangle>
         </Button>
 
-
+        <!-- Export DataGrida do pliku .csv -->
+        <Button x:Name="DataGridToCsv" 
+                    Command="{Binding DataGridToCsvExport}"
+                    ToolTip="{x:Static res:Resources.ExportToCsv}"
+                    Visibility="{Binding FullResultsList, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    HorizontalAlignment="Left" VerticalAlignment="Top"
+                    Margin="50,5,0,0" Height="35" Width="35">
+            <Rectangle Width="24" Height="24" Fill="{DynamicResource BlackBrush}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_office_excel}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
     </Grid>
 </controls:MetroWindow>
