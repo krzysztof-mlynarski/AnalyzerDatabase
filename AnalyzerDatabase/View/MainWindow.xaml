@@ -155,21 +155,41 @@
             <Grid Margin="0,100,0,5">
                 <TextBlock HorizontalAlignment="Center"><InlineUIContainer>
                         <Image Source="../Assets/Logo/AnalyzerDatabaseLogo.png" 
-                            Width="435"
-                            Visibility="{Binding CurrentViewModel, Converter={StaticResource ViewModelBaseToVisibilityConverter}}" Height="239"/>
+                            Width="501"
+                            Visibility="{Binding CurrentViewModel, Converter={StaticResource ViewModelBaseToVisibilityConverter}}" Height="275"/>
                     </InlineUIContainer></TextBlock>
             </Grid>
 
             <!--LOGA BAZ-->
             <StackPanel Height="424">
-                <TextBlock HorizontalAlignment="Center">
+                <Grid>
+                    <Image Source="../Assets/Library Icons/Scopus.png" 
+                           Width="300"
+                           Margin="50,75,508,-75"    
+                           Visibility="{Binding CurrentViewModel, Converter={StaticResource ViewModelBaseToVisibilityConverter}}"/>
+                    <Image Source="../Assets/Library Icons/Springer.png" 
+                           Width="300"
+                           Margin="410,75,148,-75"
+                           Visibility="{Binding CurrentViewModel, Converter={StaticResource ViewModelBaseToVisibilityConverter}}"/>
+                    <Image Source="../Assets/Library Icons/ScienceDirect.png" 
+                           Width="300"
+                           Margin="520,185,38,-185"
+                           Visibility="{Binding CurrentViewModel, Converter={StaticResource ViewModelBaseToVisibilityConverter}}"/>
+                    <Image Source="../Assets/Library Icons/IEEE Xplore.png" 
+                           Width="300"
+                           Margin="150,185,408,-185"
+                           Visibility="{Binding CurrentViewModel, Converter={StaticResource ViewModelBaseToVisibilityConverter}}"/>
+
+                </Grid>
+
+                <!--<TextBlock HorizontalAlignment="Center">
                         <Image Source="../Assets/Library Icons/Library1.png"                              
                                Visibility="{Binding CurrentViewModel, Converter={StaticResource ViewModelBaseToVisibilityConverter}}" Height="429" Width="762"/>
-                </TextBlock>
+                </TextBlock>-->
             </StackPanel>
         </StackPanel>
         <Grid Grid.Row="1" Grid.Column="1">
-            <Image Source="../Assets/Other Icons/NetworkConnect.png"
+            <!--<Image Source="../Assets/Other Icons/NetworkConnect.png"
                    Visibility="{Binding IsInternetConnection, Converter={StaticResource BooleanToVisibilityConverter}}"
                    ToolTip="Internet Connection"                   
                    Width="25" Margin="793,0,40,0"/>
@@ -184,7 +204,7 @@
             <Image Source="../Assets/Other Icons/VpnDisconnect.png"
                    Visibility="{Binding IsVpnConnection, Converter={StaticResource NegativeBooleanToVisibilityConverter}}"
                    ToolTip="VPN Connection"
-                   Width="25" Margin="823,0,10,0"/>
+                   Width="25" Margin="823,0,10,0"/>-->
 
         </Grid>
     </Grid>

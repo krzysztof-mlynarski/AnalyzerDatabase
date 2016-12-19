@@ -294,17 +294,12 @@
     <Resource Include="Assets\Library Icons\ScienceDirect.png" />
     <Resource Include="Assets\Library Icons\Scopus.png" />
     <Resource Include="Assets\Library Icons\Springer.png" />
-    <Resource Include="Assets\Library Icons\Web of Science.png" />
-    <Resource Include="Assets\Library Icons\Wiley Online Library.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Menu Icons\Statistics.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Logo\AnalyzerDatabaseLogo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Library Icons\Library1.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Other Icons\Network.png" />
@@ -315,15 +310,6 @@
     <Resource Include="Assets\Other Icons\NetworkDisconnect.png" />
     <Resource Include="Assets\Other Icons\VpnConnect.png" />
     <Resource Include="Assets\Other Icons\VpnDisconnect.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Other Icons\TESTOWY.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Other Icons\pdf.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Other Icons\ShowMore.png" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
