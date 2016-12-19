@@ -189,13 +189,13 @@ namespace AnalyzerDatabase.Services
             }
         }
 
-        public async void GetArticle(string doi, string title, CancellationTokenSource cts = null)
+        public async Task<string> GetArticle(string doi, string title, CancellationTokenSource cts = null)
         {
             try
             {
                 string url = String.Format(_resources["DownloadArticleFromScienceDirectToPdf"].ToString(), doi,
                     _currentScienceDirectAndScopusApiKey);
-                await GetWebPageSourcePdf(url, title, cts);
+                return await GetWebPageSourcePdf(url, title, cts);
             }
             catch (TaskCanceledException ex)
             {

@@ -358,12 +358,12 @@ namespace AnalyzerDatabase.ViewModels
         #endregion
 
         #region Private methods
-        private void DownloadArticlePdf()
+        private async void DownloadArticlePdf()
         {
             try
             {
                 IsDownloadFile = true;
-                _restService.GetArticle(DoiAndTitleAndAbstract.Doi, DoiAndTitleAndAbstract.Title);
+                await _restService.GetArticle(DoiAndTitleAndAbstract.Doi, DoiAndTitleAndAbstract.Title);
             }
             catch (Exception)
             {
@@ -785,8 +785,7 @@ namespace AnalyzerDatabase.ViewModels
                                 SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
                             });
 
-                            //TODO: łączna ilość wyników
-                            //this.TotalResultsToDisplay.Add(obj3.OpensearchTotalResults);
+                            TotalResultsToDisplay.Add(obj3);
 
                             _statisticsDataService.IncrementScienceDirect();
                             _statisticsDataService.IncrementScopus();
@@ -816,8 +815,7 @@ namespace AnalyzerDatabase.ViewModels
                                 SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
                             });
 
-                            //TODO: łączna ilość wyników
-                            //this.TotalResultsToDisplay.Add(obj2.OpensearchTotalResults);
+                            TotalResultsToDisplay.Add(obj2);
 
                             _statisticsDataService.IncrementScienceDirect();
                             _statisticsDataService.IncrementScopus();
@@ -849,8 +847,7 @@ namespace AnalyzerDatabase.ViewModels
                                 SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
                             });
 
-                            //TODO: łączna ilość wyników
-                            //this.TotalResultsToDisplay.Add(obj2.OpensearchTotalResults);
+                            TotalResultsToDisplay.Add(obj2);
 
                             _statisticsDataService.IncrementScienceDirect();
                             _statisticsDataService.IncrementSpringer();
@@ -937,8 +934,7 @@ namespace AnalyzerDatabase.ViewModels
                                 SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
                             });
 
-                            //TODO: łączna ilość wyników
-                            //this.TotalResultsToDisplay.Add(obj1.OpensearchTotalResults);
+                            TotalResultsToDisplay.Add(obj1);
 
                             _statisticsDataService.IncrementScienceDirect();
                             _statisticsDataService.IncrementIeeeXplore();
@@ -994,8 +990,7 @@ namespace AnalyzerDatabase.ViewModels
                                 SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
                             });
 
-                            //TODO: łączna ilość wyników
-                            //this.TotalResultsToDisplay.Add(obj1.OpensearchTotalResults);
+                            TotalResultsToDisplay.Add(obj1);
 
                             _statisticsDataService.IncrementScopus();
                             _statisticsDataService.IncrementIeeeXplore();
@@ -1021,8 +1016,7 @@ namespace AnalyzerDatabase.ViewModels
                                 SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
                             });
 
-                            //TODO: łączna ilość wyników
-                            //this.TotalResultsToDisplay.Add(obj1.OpensearchTotalResults);
+                            TotalResultsToDisplay.Add(obj1);
 
                             _statisticsDataService.IncrementSpringer();
                             _statisticsDataService.IncrementIeeeXplore();
@@ -1093,7 +1087,7 @@ namespace AnalyzerDatabase.ViewModels
                                 SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
                             });
 
-                            //TODO: łączna ilość wyników
+                            TotalResultsToDisplay.Add(obj);
 
                             _statisticsDataService.IncrementIeeeXplore();
                         }

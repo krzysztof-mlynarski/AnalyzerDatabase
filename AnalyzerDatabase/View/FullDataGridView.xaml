@@ -340,7 +340,7 @@
                                     </Rectangle>
                                 </Button>
 
-                                <controls:MetroProgressBar Foreground="Blue" IsIndeterminate="True" Visibility="{Binding IsDownloadFile, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                <controls:MetroProgressBar Foreground="Blue" IsIndeterminate="True" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.IsDownloadFile, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
                             </StackPanel>
                         </Grid>
