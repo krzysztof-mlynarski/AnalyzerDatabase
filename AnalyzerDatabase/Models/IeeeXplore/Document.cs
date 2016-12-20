@@ -77,6 +77,7 @@ namespace AnalyzerDatabase.Models.IeeeXplore
         public string Doi { get; set; }
 
         public string Pii { get; set; }
+        public string Eid { get; set; }
 
         [XmlElement(ElementName = "publicationId")]
         public string PublicationId { get; set; }

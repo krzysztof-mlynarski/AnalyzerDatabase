@@ -23,6 +23,10 @@ namespace AnalyzerDatabase.Interfaces
 
         string Pii { get; set; }
 
+        string Eid { get; set; }
+
+        string Arnumber { get; set; }
+
         string Issn { get; set; }
 
         string Isbn { get; set; }

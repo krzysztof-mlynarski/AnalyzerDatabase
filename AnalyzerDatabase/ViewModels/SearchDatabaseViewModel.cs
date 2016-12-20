@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -44,6 +45,8 @@ namespace AnalyzerDatabase.ViewModels
         private RelayCommand _downloadArticleToPdf;
         private RelayCommand _dataGridToCsvExport;
         private RelayCommand _fullResultsListCommand;
+        private RelayCommand _openPageWithDoi;
+        private RelayCommand _openPageWithPublication;
 
         private string _queryTextBox;
         private string _executionTime;
@@ -162,6 +165,52 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
+        public RelayCommand OpenPageWithDoi
+        {
+            get
+            {
+                return _openPageWithDoi ?? (_openPageWithDoi = new RelayCommand(() =>
+                {
+
+                    Process.Start("http://dx.doi.org/" + DoiAndTitleAndAbstract.Doi);
+                }));
+            }
+        }
+
+        public RelayCommand OpenPageWithPublication
+        {
+            get
+            {
+                return _openPageWithPublication ?? (_openPageWithPublication = new RelayCommand(() =>
+                {
+                    var source = DoiAndTitleAndAbstract.Source;
+
+                    if (source == SourceDatabase.ScienceDirect)
+                    {
+                        Process.Start("http://www.sciencedirect.com/science/article/pii/" + DoiAndTitleAndAbstract.Pii);
+                    }
+                    else if (source == SourceDatabase.Scopus)
+                    {
+                        var scopusId = DoiAndTitleAndAbstract.Identifier;
+
+                        var pattern = "[0-9]{11}";
+                        Regex re1 = new Regex(pattern, RegexOptions.IgnoreCase);
+                        Match m1 = re1.Match(scopusId);
+                        scopusId = m1.ToString();
+
+                        Process.Start("https://www.scopus.com/inward/record.uri?partnerID=HzOxMe3b&scp=" + scopusId + "&origin=inward");
+                    }
+                    else if (source == SourceDatabase.Springer)
+                    {
+                        Process.Start("http://dx.doi.org/" + DoiAndTitleAndAbstract.Doi);
+                    }
+                    else if(source == SourceDatabase.IeeeXplore)
+                    {
+                        Process.Start("http://ieeexplore.ieee.org/document/" + DoiAndTitleAndAbstract.Arnumber);
+                    }
+                }));
+            }
+        }
         #endregion
 
         #region Getters/Setters

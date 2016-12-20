@@ -41,8 +41,7 @@
                     CanUserResizeColumns="True"
                     CanUserResizeRows="True"
                     CanUserSortColumns="True"
-                    FrozenColumnCount="2"
-                    
+                    FrozenColumnCount="2"                   
                     Style="{StaticResource AzureDataGrid}">
 
             <!-- Grupowanie po danej bazie -->
@@ -178,15 +177,28 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <TextBlock Grid.Row="0" Grid.Column="1"
+                            <Button Grid.Column="1" Grid.Row="0"
+                                    HorizontalAlignment="Center"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    Foreground="Black"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    FontStyle="Normal"
+                                    FontSize="11"
+                                    Width="Auto" Height="Auto"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.OpenPageWithPublication}">
+                                <TextBlock Grid.Row="0" Grid.Column="1"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        TextWrapping="Wrap"
                                        TextAlignment="Center"
                                        FontSize="26"
-                                       Foreground="Black"
+                                       Foreground="Blue"
                                        FontWeight="ExtraBold"
-                                       Text="{Binding PublicationName}"/>
+                                       Text="{Binding Title}"
+                                       TextDecorations="Underline"/>
+                            </Button>
 
                             <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
                                 <Rectangle Width="15" Height="15" Fill="{DynamicResource BlackBrush}">
@@ -195,7 +207,7 @@
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
                                 <TextBlock Text=" "></TextBlock>
-                                <TextBlock Text="{x:Static res:Resources.TitleDataGrid}"
+                                <TextBlock Text="{x:Static res:Resources.PublicationNameDataGrid}"
                                         Grid.Row="2" Grid.Column="0" 
                                         FontWeight="Bold" 
                                         Foreground="Black" 
@@ -204,7 +216,7 @@
                             <TextBlock Grid.Row="2" Grid.Column="1"
                                         FontWeight="Bold"
                                         Foreground="Black"
-                                        Text="{Binding Title}"/>
+                                        Text="{Binding PublicationName}"/>
 
                             <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
                                 <Rectangle Grid.Column="0" Grid.Row="3" Width="15" Height="15" Fill="{DynamicResource BlackBrush}">
@@ -288,14 +300,25 @@
                                        Foreground="Black"
                                        Text="{Binding Isbn}" />
 
-                            <TextBlock Text="{x:Static res:Resources.DoiDataGrid}" 
+                            <TextBlock Text="{x:Static res:Resources.DoiDataGrid}"
+                                       VerticalAlignment="Center"
                                        Grid.Row="10" Grid.Column="0" 
                                        FontWeight="Bold" 
                                        Foreground="Black" 
                                        HorizontalAlignment="Right"/>
-                            <TextBlock Grid.Column="1" Grid.Row="10" 
-                                       Foreground="Black"
-                                       Text="{Binding Doi}" />
+                            <Button Grid.Column="1" Grid.Row="10"
+                                    HorizontalAlignment="Left"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    Foreground="Black"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    FontStyle="Normal"
+                                    FontSize="11"
+                                    Width="Auto" Height="Auto"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.OpenPageWithDoi}">
+                                <TextBlock Text="{Binding Doi}" TextDecorations="Underline" Foreground="Blue"/>
+                            </Button>
 
                             <TextBlock Text="{x:Static res:Resources.PiiDataGrid}" 
                                        Grid.Row="11" Grid.Column="0"
@@ -460,15 +483,28 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <TextBlock Grid.Row="0" Grid.Column="1"
+                            <Button Grid.Column="1" Grid.Row="0"
+                                    HorizontalAlignment="Center"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    Foreground="Black"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    FontStyle="Normal"
+                                    FontSize="11"
+                                    Width="Auto" Height="Auto"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.OpenPageWithPublication}">
+                                <TextBlock Grid.Row="0" Grid.Column="1"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        TextWrapping="Wrap"
                                        TextAlignment="Center"
                                        FontSize="26"
-                                       Foreground="Black"
+                                       Foreground="Blue"
                                        FontWeight="ExtraBold"
-                                       Text="{Binding PublicationName}"/>
+                                       Text="{Binding Title}"
+                                       TextDecorations="Underline"/>
+                            </Button>
 
                             <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
                                 <Rectangle Width="15" Height="15" Fill="{DynamicResource BlackBrush}">
@@ -477,7 +513,7 @@
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
                                 <TextBlock Text=" "></TextBlock>
-                                <TextBlock Text="{x:Static res:Resources.TitleDataGrid}"
+                                <TextBlock Text="{x:Static res:Resources.PublicationNameDataGrid}"
                                         Grid.Row="2" Grid.Column="0" 
                                         FontWeight="Bold" 
                                         Foreground="Black" 
@@ -486,7 +522,7 @@
                             <TextBlock Grid.Row="2" Grid.Column="1"
                                         FontWeight="Bold"
                                         Foreground="Black"
-                                        Text="{Binding Title}"/>
+                                        Text="{Binding PublicationName}"/>
 
                             <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
                                 <Rectangle Grid.Column="0" Grid.Row="3" Width="15" Height="15" Fill="{DynamicResource BlackBrush}">
@@ -575,9 +611,19 @@
                                        FontWeight="Bold" 
                                        Foreground="Black" 
                                        HorizontalAlignment="Right"/>
-                            <TextBlock Grid.Column="1" Grid.Row="10" 
-                                       Foreground="Black"
-                                       Text="{Binding Doi}" />
+                            <Button Grid.Column="1" Grid.Row="10"
+                                    HorizontalAlignment="Left"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    Foreground="Black"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    FontStyle="Normal"
+                                    FontSize="11"
+                                    Width="Auto" Height="Auto"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.OpenPageWithDoi}">
+                                <TextBlock Text="{Binding Doi}" TextDecorations="Underline" Foreground="Blue"/>
+                            </Button>
 
                             <TextBlock Text="{x:Static res:Resources.PiiDataGrid}" 
                                        Grid.Row="11" Grid.Column="0"
@@ -622,7 +668,7 @@
                                     </Rectangle>
                                 </Button>
 
-                                <controls:MetroProgressBar Foreground="Blue" IsIndeterminate="True" Visibility="{Binding IsDownloadFile, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                <controls:MetroProgressBar Foreground="Blue" IsIndeterminate="True" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.IsDownloadFile, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
                             </StackPanel>
                         </Grid>

@@ -33,6 +33,11 @@ namespace AnalyzerDatabase.Models.Scopus
         [JsonProperty("pii")]
         public string Pii { get; set; }
 
+        [JsonProperty("eid")]
+        public string Eid { get; set; }
+
+        public string Arnumber { get; set; }
+
         [JsonProperty("prism:issn")]
         public string Issn { get; set; }
 
@@ -63,9 +68,6 @@ namespace AnalyzerDatabase.Models.Scopus
 
         [JsonProperty("prism:url")]
         public string PrismUrl { get; set; }
-
-        [JsonProperty("eid")]
-        public string Eid { get; set; }
 
         [JsonProperty("prism:eIssn")]
         public string PrismEIssn { get; set; }

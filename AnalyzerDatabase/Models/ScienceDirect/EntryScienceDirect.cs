@@ -34,6 +34,11 @@ namespace AnalyzerDatabase.Models.ScienceDirect
         [JsonProperty("pii")]
         public string Pii { get; set; }
 
+        [JsonProperty("eid")]
+        public string Eid { get; set; }
+
+        public string Arnumber { get; set; }
+
         [JsonProperty("prism:issn")]
         public string Issn { get; set; }
 
@@ -62,9 +67,6 @@ namespace AnalyzerDatabase.Models.ScienceDirect
 
         [JsonProperty("link")]
         public IList<LinkArticle> Link { get; set; }
-
-        [JsonProperty("eid")]
-        public string Eid { get; set; }
 
         [JsonProperty("prism:url")]
         public string PrismUrl { get; set; }

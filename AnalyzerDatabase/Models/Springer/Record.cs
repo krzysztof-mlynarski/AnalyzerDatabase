@@ -53,6 +53,8 @@ namespace AnalyzerDatabase.Models.Springer
 
         //unused
         public string Pii { get; set; }
+        public string Eid { get; set; }
+        public string Arnumber { get; set; }
         public string Issn { get; set; }
 
 
