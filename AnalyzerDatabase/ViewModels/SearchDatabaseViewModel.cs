@@ -814,11 +814,13 @@ namespace AnalyzerDatabase.ViewModels
 
                             obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
 
-                            TotalResultsToDisplay.Add(obj?.SearchResults);
+                            if (obj != null)
+                                TotalResultsToDisplay.Add(obj.SearchResults);
 
                             obj1?.SearchResults.Entry.ToList().ForEach(SearchHelper);
 
-                            TotalResultsToDisplay.Add(obj1?.SearchResults);
+                            if (obj1 != null)
+                                TotalResultsToDisplay.Add(obj1.SearchResults);
 
                             obj2?.Records.ToList().ForEach(SearchHelper);
 
@@ -834,7 +836,8 @@ namespace AnalyzerDatabase.ViewModels
                                 SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
                             });
 
-                            TotalResultsToDisplay.Add(obj3);
+                            if(obj3 != null)
+                                TotalResultsToDisplay.Add(obj3);
 
                             _statisticsDataService.IncrementScienceDirect();
                             _statisticsDataService.IncrementScopus();
@@ -842,6 +845,7 @@ namespace AnalyzerDatabase.ViewModels
                             _statisticsDataService.IncrementIeeeXplore();
                         }
                         #endregion
+
                         #region ScienceDirect/Scopus/IeeeXplore
                         else if (CheckBoxScienceDirect && CheckBoxScopus && CheckBoxIeeeXplore)
                         {
@@ -851,11 +855,13 @@ namespace AnalyzerDatabase.ViewModels
 
                             obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
 
-                            TotalResultsToDisplay.Add(obj?.SearchResults);
+                            if (obj != null)
+                                TotalResultsToDisplay.Add(obj?.SearchResults);
 
                             obj1?.SearchResults.Entry.ToList().ForEach(SearchHelper);
 
-                            TotalResultsToDisplay.Add(obj1?.SearchResults);
+                            if (obj1 != null)
+                                TotalResultsToDisplay.Add(obj1?.SearchResults);
 
                             obj2?.Document.ToList().ForEach(element =>
                             {
@@ -864,13 +870,15 @@ namespace AnalyzerDatabase.ViewModels
                                 SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
                             });
 
-                            TotalResultsToDisplay.Add(obj2);
+                            if(obj2 != null)
+                                TotalResultsToDisplay.Add(obj2);
 
                             _statisticsDataService.IncrementScienceDirect();
                             _statisticsDataService.IncrementScopus();
                             _statisticsDataService.IncrementIeeeXplore();
                         }
                         #endregion
+
                         #region ScienceDirect/Springer/IeeeXplore
                         else if (CheckBoxScienceDirect && CheckBoxSpringer && CheckBoxIeeeXplore)
                         {
@@ -880,7 +888,8 @@ namespace AnalyzerDatabase.ViewModels
 
                             obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
 
-                            TotalResultsToDisplay.Add(obj?.SearchResults);
+                            if (obj != null)
+                                TotalResultsToDisplay.Add(obj?.SearchResults);
 
                             obj1?.Records.ToList().ForEach(SearchHelper);
 
@@ -896,66 +905,48 @@ namespace AnalyzerDatabase.ViewModels
                                 SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
                             });
 
-                            TotalResultsToDisplay.Add(obj2);
+                            if(obj2 != null)
+                                TotalResultsToDisplay.Add(obj2);
 
                             _statisticsDataService.IncrementScienceDirect();
                             _statisticsDataService.IncrementSpringer();
                             _statisticsDataService.IncrementIeeeXplore();
                         }
                         #endregion
+
                         #region ScienceDirect/Scopus
                         else if (CheckBoxScienceDirect && CheckBoxScopus)
                         {
                             var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
                             var obj1 = await _restService.GetSearchQueryScopus(QueryTextBox);
 
-                            obj?.SearchResults.Entry.ToList().ForEach(element =>
-                            {
-                                SearchResultsToDisplay.Add(element);
-                                SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
-                                SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
-                                SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
-                            });
+                            obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
 
-                            TotalResultsToDisplay.Add(obj?.SearchResults);
+                            if (obj != null)
+                                TotalResultsToDisplay.Add(obj.SearchResults);
 
-                            obj1?.SearchResults.Entry.ToList().ForEach(element =>
-                            {
-                                SearchResultsToDisplay.Add(element);
-                                SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
-                                SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
-                                SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
-                            });
+                            obj1?.SearchResults.Entry.ToList().ForEach(SearchHelper);
 
-                            TotalResultsToDisplay.Add(obj1?.SearchResults);
+                            if (obj1 != null)
+                                TotalResultsToDisplay.Add(obj1.SearchResults);
 
                             _statisticsDataService.IncrementScienceDirect();
                             _statisticsDataService.IncrementScopus();
                         }
                         #endregion
+
                         #region ScienceDirect/Springer
                         else if (CheckBoxScienceDirect && CheckBoxSpringer)
                         {
                             var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
                             var obj1 = await _restService.GetSearchQuerySpringer(QueryTextBox);
 
-                            obj?.SearchResults.Entry.ToList().ForEach(element =>
-                            {
-                                SearchResultsToDisplay.Add(element);
-                                SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
-                                SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
-                                SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
-                            });
+                            obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
 
-                            TotalResultsToDisplay.Add(obj?.SearchResults);
+                            if (obj != null)
+                                TotalResultsToDisplay.Add(obj.SearchResults);
 
-                            obj1?.Records.ToList().ForEach(element =>
-                            {
-                                SearchResultsToDisplay.Add(element);
-                                SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
-                                SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
-                                SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
-                            });
+                            obj1?.Records.ToList().ForEach(SearchHelper);
 
                             obj1?.Result.ToList().ForEach(element =>
                             {
@@ -966,6 +957,7 @@ namespace AnalyzerDatabase.ViewModels
                             _statisticsDataService.IncrementSpringer();
                         }
                         #endregion
+
                         #region ScienceDirect/IeeeXplore
                         else if (CheckBoxScienceDirect && CheckBoxIeeeXplore)
                         {
@@ -974,7 +966,8 @@ namespace AnalyzerDatabase.ViewModels
 
                             obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
 
-                            TotalResultsToDisplay.Add(obj?.SearchResults);
+                            if (obj != null)
+                                TotalResultsToDisplay.Add(obj?.SearchResults);
 
                             obj1?.Document.ToList().ForEach(element =>
                             {
@@ -983,35 +976,26 @@ namespace AnalyzerDatabase.ViewModels
                                 SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
                             });
 
-                            TotalResultsToDisplay.Add(obj1);
+                            if(obj1 != null)
+                                TotalResultsToDisplay.Add(obj1);
 
                             _statisticsDataService.IncrementScienceDirect();
                             _statisticsDataService.IncrementIeeeXplore();
                         }
                         #endregion
+
                         #region Scopus/Springer
                         else if (CheckBoxScopus && CheckBoxSpringer)
                         {
                             var obj = await _restService.GetSearchQueryScopus(QueryTextBox);
                             var obj1 = await _restService.GetSearchQuerySpringer(QueryTextBox);
 
-                            obj?.SearchResults.Entry.ToList().ForEach(element =>
-                            {
-                                SearchResultsToDisplay.Add(element);
-                                SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
-                                SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
-                                SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
-                            });
+                            obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
 
-                            TotalResultsToDisplay.Add(obj?.SearchResults);
+                            if (obj != null)
+                                TotalResultsToDisplay.Add(obj?.SearchResults);
 
-                            obj1?.Records.ToList().ForEach(element =>
-                            {
-                                SearchResultsToDisplay.Add(element);
-                                SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
-                                SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
-                                SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
-                            });
+                            obj1?.Records.ToList().ForEach(SearchHelper);
 
                             obj1?.Result.ToList().ForEach(element =>
                             {
@@ -1022,6 +1006,7 @@ namespace AnalyzerDatabase.ViewModels
                             _statisticsDataService.IncrementSpringer();
                         }
                         #endregion
+
                         #region Scopus/IeeeXplore
                         else if (CheckBoxScopus && CheckBoxIeeeXplore)
                         {
@@ -1030,7 +1015,8 @@ namespace AnalyzerDatabase.ViewModels
 
                             obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
 
-                            TotalResultsToDisplay.Add(obj?.SearchResults);
+                            if (obj != null)
+                                TotalResultsToDisplay.Add(obj?.SearchResults);
 
                             obj1?.Document.ToList().ForEach(element =>
                             {
@@ -1039,12 +1025,14 @@ namespace AnalyzerDatabase.ViewModels
                                 SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
                             });
 
-                            TotalResultsToDisplay.Add(obj1);
+                            if(obj1 != null)
+                                TotalResultsToDisplay.Add(obj1);
 
                             _statisticsDataService.IncrementScopus();
                             _statisticsDataService.IncrementIeeeXplore();
                         }
                         #endregion
+
                         #region Springer/IeeeXplore
                         else if (CheckBoxSpringer && CheckBoxIeeeXplore)
                         {
@@ -1065,12 +1053,14 @@ namespace AnalyzerDatabase.ViewModels
                                 SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
                             });
 
-                            TotalResultsToDisplay.Add(obj1);
+                            if(obj1 != null)
+                                TotalResultsToDisplay.Add(obj1);
 
                             _statisticsDataService.IncrementSpringer();
                             _statisticsDataService.IncrementIeeeXplore();
                         }
                         #endregion
+
                         #region ScienceDirect
                         else if (CheckBoxScienceDirect)
                         {
@@ -1078,41 +1068,33 @@ namespace AnalyzerDatabase.ViewModels
 
                             obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
 
-                            TotalResultsToDisplay.Add(obj?.SearchResults);
+                            if(obj != null)
+                                TotalResultsToDisplay.Add(obj.SearchResults);
 
                             _statisticsDataService.IncrementScienceDirect();
                         }
                         #endregion
+
                         #region Scopus
                         else if (CheckBoxScopus)
                         {
                             var obj = await _restService.GetSearchQueryScopus(QueryTextBox);
 
-                            obj?.SearchResults.Entry.ToList().ForEach(element =>
-                            {
-                                SearchResultsToDisplay.Add(element);
-                                SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
-                                SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
-                                SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
-                            });
+                            obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
 
-                            TotalResultsToDisplay.Add(obj?.SearchResults);
+                            if (obj != null)
+                                TotalResultsToDisplay.Add(obj?.SearchResults);
 
                             _statisticsDataService.IncrementScopus();
                         }
                         #endregion
+
                         #region Springer
                         else if (CheckBoxSpringer)
                         {
                             var obj = await _restService.GetSearchQuerySpringer(QueryTextBox);
 
-                            obj?.Records.ToList().ForEach(element =>
-                            {
-                                SearchResultsToDisplay.Add(element);
-                                SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
-                                SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
-                                SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
-                            });
+                            obj?.Records.ToList().ForEach(SearchHelper);
 
                             obj?.Result.ToList().ForEach(e =>
                             {
@@ -1122,6 +1104,7 @@ namespace AnalyzerDatabase.ViewModels
                             _statisticsDataService.IncrementSpringer();
                         }
                         #endregion
+
                         #region IeeeXplore
                         else if (CheckBoxIeeeXplore)
                         {
@@ -1136,7 +1119,8 @@ namespace AnalyzerDatabase.ViewModels
                                 SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
                             });
 
-                            TotalResultsToDisplay.Add(obj);
+                            if(obj != null)
+                                TotalResultsToDisplay.Add(obj);
 
                             _statisticsDataService.IncrementIeeeXplore();
                         }
@@ -1162,7 +1146,8 @@ namespace AnalyzerDatabase.ViewModels
                         _executionTime = "(" + executionTime.TotalSeconds + GetString("Seconds") + ")";
 
                         var allTotalResults = 0;
-                        TotalResultsToDisplay.ToList().ForEach(e => allTotalResults += Int32.Parse(e.OpensearchTotalResults));
+
+                        TotalResultsToDisplay?.ToList().ForEach(e => allTotalResults += Int32.Parse(e.OpensearchTotalResults));
 
                         TotalResults = (GetString("AboutResult") + " " + allTotalResults + " " + GetString("Results") + " " + _executionTime);
 
@@ -1187,6 +1172,8 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
+        #endregion
+
         #region Helper
         private void SearchHelper(ISearchResultsToDisplay element)
         {
@@ -1204,8 +1191,6 @@ namespace AnalyzerDatabase.ViewModels
                 SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
             }
         }
-        #endregion
-
         #endregion
     }
 }
