@@ -39,8 +39,6 @@ namespace AnalyzerDatabase.ViewModels
         private List<string> _doiList = new List<string>();
         private readonly List<string> _doiListCopy = new List<string>();
 
-        private readonly string _currentPublicationSavingPath;
-
         private RelayCommand _searchCommand;
         private RelayCommand _fullScreenDataGrid;
         private RelayCommand _nextResultPage;
@@ -84,7 +82,6 @@ namespace AnalyzerDatabase.ViewModels
             _restService = restService;
             _internetConnectionService = internetConnectionService;
             _statisticsDataService = statisticsDataService;
-            _currentPublicationSavingPath = SettingsService.Instance.Settings.SavingPublicationPath;
             SearchResultsToDisplay = new ObservableCollection<ISearchResultsToDisplay>();
             SearchResultsToDisplayAll = new ObservableCollection<ISearchResultsToDisplay>();
             TotalResultsToDisplay = new ObservableCollection<ITotalResultsToDisplay>();
@@ -150,7 +147,10 @@ namespace AnalyzerDatabase.ViewModels
         {
             get
             {
-                return _dataGridToCsvExport ?? (_dataGridToCsvExport = new RelayCommand(ExportDataGridToCsv));
+                return _dataGridToCsvExport ?? (_dataGridToCsvExport = new RelayCommand(() =>
+                {
+                    ExportDataToCsv.Instance.ExportDataGridToCsv(SearchResultsToDisplay, QueryTextBox);
+                }));
             }
         }
 
@@ -432,40 +432,6 @@ namespace AnalyzerDatabase.ViewModels
             finally
             {
                 IsDownloadFile = false;
-            }
-        }
-
-        private async void ExportDataGridToCsv()
-        {
-            SaveFileDialog saveFileDialog = new SaveFileDialog
-            {
-                Filter = "CSV (*.csv)|*.csv",
-                FileName = "DataGrid_" + QueryTextBox + "_" + DateTime.Now.ToString("yyyy_hh_mm_ss"),
-                InitialDirectory = _currentPublicationSavingPath
-            };
-
-            if (saveFileDialog.ShowDialog() == true)
-            {
-                using (var streamWriter = File.CreateText(saveFileDialog.FileName))
-                {
-                    var writer = new CsvWriter(streamWriter);
-                    writer.Configuration.Delimiter = ";";
-
-                    foreach (var item in SearchResultsToDisplayAll)
-                    {
-                        //writer.WriteField(item.PercentComplete);
-                        writer.WriteField(item.Creator);
-                        writer.WriteField(item.Title);
-                        writer.WriteField(item.Year);
-                        writer.WriteField(item.Doi);
-                        writer.WriteField(item.Abstract);
-                        writer.NextRecord();
-                    }
-                }
-
-                //TODO: jezyki
-                if (await ConfirmationDialog("Potwierdź", "Czy otworzyc wyeksportowany plik?"))
-                    Process.Start(saveFileDialog.FileName);
             }
         }
 

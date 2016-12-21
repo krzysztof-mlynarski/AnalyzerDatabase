@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using AnalyzerDatabase.Interfaces;
 using AnalyzerDatabase.ViewModels;
 using CsvHelper;
 using Microsoft.Win32;
@@ -124,6 +126,40 @@ namespace AnalyzerDatabase.Services
                         //TODO: jezyki
                         writer.WriteField(StatisticsDataService.Instance.ListYear[i]);
                         writer.WriteField(StatisticsDataService.Instance.ListYearAmount[i]);
+                        writer.NextRecord();
+                    }
+                }
+
+                //TODO: jezyki
+                if (await ConfirmationDialog("Potwierdź", "Czy otworzyc wyeksportowany plik?"))
+                    Process.Start(saveFileDialog.FileName);
+            }
+        }
+
+        public async void ExportDataGridToCsv(ObservableCollection<ISearchResultsToDisplay> model, string query)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "CSV (*.csv)|*.csv",
+                FileName = "DataGrid_" + query + "_" + DateTime.Now.ToString("yyyy_hh_mm_ss"),
+                InitialDirectory = _currentPublicationSavingPath
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                using (var streamWriter = File.CreateText(saveFileDialog.FileName))
+                {
+                    var writer = new CsvWriter(streamWriter);
+                    writer.Configuration.Delimiter = ";";
+
+                    foreach (var item in model)
+                    {
+                        //writer.WriteField(item.PercentComplete);
+                        writer.WriteField(item.Creator);
+                        writer.WriteField(item.Title);
+                        writer.WriteField(item.Year);
+                        writer.WriteField(item.Doi);
+                        writer.WriteField(item.Abstract);
                         writer.NextRecord();
                     }
                 }
