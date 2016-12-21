@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -38,6 +39,7 @@ namespace AnalyzerDatabase.ViewModels
         public SeriesCollection SeriesCollectionByYear { get; set; }
 
         public string[] Labels { get; set; }
+        public string[] LabelsYear { get; set; }
         public Func<double, string> Formatter { get; set; }
 
         #endregion
@@ -99,18 +101,22 @@ namespace AnalyzerDatabase.ViewModels
             #region SeriesCollectionDuplicateAndDownloadCount
             SeriesCollectionDuplicateAndDownloadCount = new SeriesCollection
             {
-                new RowSeries
+                new PieSeries
                 {
+                    //TODO: jezyki
                     Title = "Publikacje",
+                    Fill = Brushes.Green,
                     Values = new ChartValues<ObservableValue>
                     {
                         new ObservableValue(CurrentPublicationsDownloadCount)
                     },
                     DataLabels = true
                 },
-                new RowSeries
+                new PieSeries
                 {
+                    //TODO: jezyki
                     Title = "Duplikaty",
+                    Fill = Brushes.OrangeRed,
                     Values = new ChartValues<ObservableValue>
                     {
                         new ObservableValue(CurrentDuplicateCount)
@@ -119,11 +125,14 @@ namespace AnalyzerDatabase.ViewModels
                 }
             };
 
+            //TODO: jezyki
             Labels = new[] {"Publikacje", "Duplikaty"};
             #endregion
 
             SeriesCollectionByYear = new SeriesCollection();
-            Formatter = value => value.ToString("N");
+            LabelsYear = new string[StatisticsDataService.Instance.ListYear.Count];
+
+            //Formatter = value => value.ToString("N");
         }
 
         #endregion
@@ -509,17 +518,19 @@ namespace AnalyzerDatabase.ViewModels
             QueryTextBox = null;
             SeriesCollectionByYear.Clear();
             int size1 = StatisticsDataService.Instance.ListYearAmount.Count;
+            LabelsYear = new string[StatisticsDataService.Instance.ListYear.Count];
 
             for (int i = 0; i < size1; i++)
             {
                 SeriesCollectionByYear.Add(new ColumnSeries
                 {
                     Title = StatisticsDataService.Instance.ListYear[i],
-                    DataLabels = true
+                    DataLabels = true                
                 });
                 SeriesCollectionByYear[i].Values = new ChartValues<ObservableValue>();
                 var val = StatisticsDataService.Instance.ListYearAmount[i];
                 SeriesCollectionByYear[i].Values.Add(new ObservableValue(val));
+                LabelsYear[i] = StatisticsDataService.Instance.ListYear[i];
             }
         }
         #endregion

@@ -89,25 +89,27 @@ namespace AnalyzerDatabase.Services
 
         public void PublicationDateFromDatabasesLabels(ObservableCollection<ISearchResultsToDisplay> model)
         {
-            string year;
+            int year;
+            List<int> listYear1 = new List<int>();
+            List<int> listYearAmount1 = new List<int>();
 
             model.ForEach(x =>
             {
-                year = x.Year;
-                if (!ListYear.Any())
+                year = Int32.Parse(x.Year);
+                if (!listYear1.Any())
                 {
-                    ListYear.Add(year);
-                    ListYearAmount.Add(1);
+                    listYear1.Add(year);
+                    listYearAmount1.Add(1);
                 }
                 else
                 {
                     bool found = false;
 
-                    for (int i = 0; i < ListYear.Count; i++)
+                    for (int i = 0; i < listYear1.Count; i++)
                     {
-                        if (ListYear[i] == year)
+                        if (listYear1[i] == year)
                         {
-                            ListYearAmount[i]++;
+                            listYearAmount1[i]++;
                             found = true;
                             break;
                         }
@@ -115,11 +117,25 @@ namespace AnalyzerDatabase.Services
 
                     if (!found)
                     {
-                        ListYear.Add(year);
-                        ListYearAmount.Add(1);
+                        listYear1.Add(year);
+                        listYearAmount1.Add(1);
                     }
                 }
             });
+
+            List<int> indices = new List<int>(Enumerable.Range(0, listYear1.Count));
+
+            indices.Sort((x, y) => listYear1[x] - listYear1[y]);
+
+            for (int i = 0; i < indices.Count; i++)
+            {
+                var index = indices[i];
+                var item1 = listYear1[index];
+                var item2 = listYearAmount1[index];
+                ListYear.Add(item1.ToString());
+                ListYearAmount.Add(item2);
+                Console.WriteLine($"{listYear1[index]} = {listYearAmount1[index]}");
+            }
         }
 
         public void IncrementScienceDirect()
