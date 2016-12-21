@@ -2,10 +2,13 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using AnalyzerDatabase.Services;
+using CsvHelper;
 using GalaSoft.MvvmLight.Command;
 using LiveCharts;
 using LiveCharts.Defaults;
@@ -33,6 +36,9 @@ namespace AnalyzerDatabase.ViewModels
         private RelayCommand _refreshOverallData;
         private RelayCommand<object> _exportChartToImageCommand;
         private RelayCommand _searchCommand;
+        private RelayCommand _exportChartDataToCsvCommand1;
+        private RelayCommand _exportChartDataToCsvCommand2;
+        private RelayCommand _exportChartDataToCsvCommand3;
 
         public SeriesCollection SeriesCollectionSearchCount { get; set; }
         public SeriesCollection SeriesCollectionDuplicateAndDownloadCount { get; set; }
@@ -167,6 +173,37 @@ namespace AnalyzerDatabase.ViewModels
             get
             {
                 return _searchCommand ?? (_searchCommand = new RelayCommand(TextBoxSearch));
+            }
+        }
+
+        public RelayCommand ExportChartDataToCsvCommand1
+        {
+            get
+            {
+                return _exportChartDataToCsvCommand1 ?? (_exportChartDataToCsvCommand1 = new RelayCommand(() =>
+                {
+                    ExportDataToCsv.Instance.ExportChartDataToCsv1();
+                }));
+            }
+        }
+        public RelayCommand ExportChartDataToCsvCommand2
+        {
+            get
+            {
+                return _exportChartDataToCsvCommand2 ?? (_exportChartDataToCsvCommand2 = new RelayCommand(() =>
+                {
+                    ExportDataToCsv.Instance.ExportChartDataToCsv2();
+                }));
+            }
+        }
+        public RelayCommand ExportChartDataToCsvCommand3
+        {
+            get
+            {
+                return _exportChartDataToCsvCommand3 ?? (_exportChartDataToCsvCommand3 = new RelayCommand(() =>
+                {
+                    ExportDataToCsv.Instance.ExportChartDataToCsv3();      
+                }));
             }
         }
 

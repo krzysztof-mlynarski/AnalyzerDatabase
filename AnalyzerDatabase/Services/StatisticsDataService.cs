@@ -134,7 +134,7 @@ namespace AnalyzerDatabase.Services
                 var item2 = listYearAmount1[index];
                 ListYear.Add(item1.ToString());
                 ListYearAmount.Add(item2);
-                Console.WriteLine($"{listYear1[index]} = {listYearAmount1[index]}");
+                //Console.WriteLine($"{listYear1[index]} = {listYearAmount1[index]}");
             }
         }
 

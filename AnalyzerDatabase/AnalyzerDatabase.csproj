@@ -169,6 +169,7 @@
     </Compile>
     <Compile Include="Models\AnalyzerDatabaseSettings.cs" />
     <Compile Include="Services\DeserializeJsonService.cs" />
+    <Compile Include="Services\ExportDataToCsv.cs" />
     <Compile Include="Services\InternetConnectionService.cs" />
     <Compile Include="Services\LocalizationSettingsService.cs" />
     <Compile Include="Services\LocalizationStatisticsService.cs" />

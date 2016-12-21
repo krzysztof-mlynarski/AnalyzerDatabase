@@ -337,4 +337,10 @@
   <data name="ShowGroupsResults" xml:space="preserve">
     <value>Pokaż widok z grupami po 25 rezultatów</value>
   </data>
+  <data name="ExportToCsv1" xml:space="preserve">
+    <value>Eksportuj dane wykresu nr 1 do .csv</value>
+  </data>
+  <data name="ExportToCsv2" xml:space="preserve">
+    <value>Eksportuj dane wykresu nr 2 do .csv</value>
+  </data>
 </root>

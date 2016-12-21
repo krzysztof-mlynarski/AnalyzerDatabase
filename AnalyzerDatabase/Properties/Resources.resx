@@ -187,6 +187,12 @@
   <data name="ExportToCsv" xml:space="preserve">
     <value>Export data to a .csv file</value>
   </data>
+  <data name="ExportToCsv1" xml:space="preserve">
+    <value>Export chart data number 1 to .csv</value>
+  </data>
+  <data name="ExportToCsv2" xml:space="preserve">
+    <value>Export chart data number 2 to .csv</value>
+  </data>
   <data name="ExportToPng" xml:space="preserve">
     <value>Export chart to .png</value>
   </data>

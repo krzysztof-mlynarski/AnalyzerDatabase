@@ -268,6 +268,24 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Export chart data number 1 to .csv.
+        /// </summary>
+        public static string ExportToCsv1 {
+            get {
+                return ResourceManager.GetString("ExportToCsv1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export chart data number 2 to .csv.
+        /// </summary>
+        public static string ExportToCsv2 {
+            get {
+                return ResourceManager.GetString("ExportToCsv2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Export chart to .png.
         /// </summary>
         public static string ExportToPng {

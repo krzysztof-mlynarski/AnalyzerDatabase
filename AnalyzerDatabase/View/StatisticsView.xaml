@@ -7,7 +7,7 @@
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:res="clr-namespace:AnalyzerDatabase.Properties"
              mc:Ignorable="d" 
-             d:DesignHeight="720" d:DesignWidth="800"
+             d:DesignHeight="720" d:DesignWidth="900"
              DataContext="{Binding Source={StaticResource Locator}, Path=Statistics}">
 
     <UserControl.Resources>
@@ -28,8 +28,9 @@
                         </Rectangle>
                     </Button>
 
+                    <!-- Eksport wykresu nr 1 -->
                     <Button HorizontalAlignment="Left" VerticalAlignment="Top"
-                            Margin="12,-40,0,0"
+                            Margin="667,-40,0,0"
                             ToolTip="{x:Static res:Resources.ExportToPng1}"
                             Command="{Binding ExportChartToImageCommand}"
                             CommandParameter="{Binding ElementName=ChartOverall}" Width="60">
@@ -41,7 +42,20 @@
                     </Button>
 
                     <Button HorizontalAlignment="Left" VerticalAlignment="Top"
-                            Margin="80,-40,0,0"
+                            Margin="732,-40,0,0"
+                            ToolTip="{x:Static res:Resources.ExportToCsv1}"
+                            Command="{Binding ExportChartDataToCsvCommand1}"
+                            CommandParameter="{Binding ElementName=ChartOverall}">
+                        <Rectangle Width="32" Height="32" Fill="{DynamicResource BlackBrush}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_office_excel}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
+
+                    <!-- Eksport wykresu nr 2 -->
+                    <Button HorizontalAlignment="Left" VerticalAlignment="Top"
+                            Margin="667,276,0,0"
                             ToolTip="{x:Static res:Resources.ExportToPng2}"
                             Command="{Binding ExportChartToImageCommand}"
                             CommandParameter="{Binding ElementName=ChartOverall2}">
@@ -52,8 +66,20 @@
                         </Rectangle>
                     </Button>
 
-                    <TextBlock Text="{x:Static res:Resources.AmountInquiries}" FontSize="20" Grid.Column="0" Margin="0,36,0,0"/>
-                    <TextBlock Text=""></TextBlock>
+                    <Button HorizontalAlignment="Left" VerticalAlignment="Top"
+                            Margin="732,276,0,0"
+                            ToolTip="{x:Static res:Resources.ExportToCsv2}"
+                            Command="{Binding ExportChartDataToCsvCommand2}"
+                            CommandParameter="{Binding ElementName=ChartOverall}">
+                        <Rectangle Width="32" Height="32" Fill="{DynamicResource BlackBrush}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_office_excel}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
+
+                    <TextBlock Text="{x:Static res:Resources.AmountInquiries}" FontSize="20" Grid.Column="0" Margin="0,36,492,417"/>
+                    <!--<TextBlock Text="" Margin="0,136,432,0"></TextBlock>-->
                     <StackPanel Width="267" HorizontalAlignment="Left" Margin="0,66,0,0">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                             <TextBlock Text="Science Direct:" FontSize="15" />
@@ -141,14 +167,26 @@
                         </Rectangle>
                     </Button>
 
+                    <Button HorizontalAlignment="Left" VerticalAlignment="Top"
+                            Margin="117,10,0,0"
+                            ToolTip="{x:Static res:Resources.ExportToCsv}"
+                            Command="{Binding ExportChartDataToCsvCommand3}"
+                            CommandParameter="{Binding ElementName=ChartOverall}">
+                        <Rectangle Width="32" Height="32" Fill="{DynamicResource BlackBrush}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_office_excel}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
+
                     <TextBox Text="{Binding QueryTextBox, UpdateSourceTrigger=PropertyChanged}" 
                              Width="102" Height="44" 
-                             Margin="117,10,0,0" 
+                             Margin="167,10,0,0" 
                              FontSize="22"
                              VerticalAlignment="Top" HorizontalAlignment="Left"
                              controls:TextBoxHelper.Watermark="{x:Static res:Resources.FilterData}"/>
-                    
-                    <Button Margin="227,10,0,0"
+
+                    <Button Margin="277,10,0,0"
                             HorizontalAlignment="Left" VerticalAlignment="Top" 
                             Command="{Binding SearchCommand}">
                         <Rectangle Width="32" Height="32" Fill="{DynamicResource BlackBrush}">
@@ -157,9 +195,9 @@
                             </Rectangle.OpacityMask>
                         </Rectangle>
                     </Button>
-                    
-                    <Button Margin="188,11,0,0"
-                            Width="30" Height="41.8"
+
+                    <Button Margin="238,11,0,0"
+                            Width="30" Height="42"
                             HorizontalAlignment="Left" VerticalAlignment="Top" 
                             BorderThickness="0"
                             Foreground="Transparent"
