@@ -79,11 +79,6 @@ namespace AnalyzerDatabase.Services
             }
             catch (Exception)
             {
-                Messenger.Default.Send(new ExceptionToSettingsMessage
-                {
-                    Exception = ViewModelLocator.Instance.Settings,
-                    Source = "Science Direct",
-                });
                 return null;
             }
         }
@@ -127,11 +122,6 @@ namespace AnalyzerDatabase.Services
             }
             catch (Exception)
             {
-                Messenger.Default.Send(new ExceptionToSettingsMessage
-                {
-                    Exception = ViewModelLocator.Instance.Settings,
-                    Source = "Scopus",
-                });
                 return null;
             }
         }
@@ -175,11 +165,6 @@ namespace AnalyzerDatabase.Services
             }
             catch (Exception)
             {
-                Messenger.Default.Send(new ExceptionToSettingsMessage
-                {
-                    Exception = ViewModelLocator.Instance.Settings,
-                    Source = "Springer",
-                });
                 return null;
             }
         }
@@ -223,11 +208,6 @@ namespace AnalyzerDatabase.Services
             }
             catch (Exception)
             {
-                Messenger.Default.Send(new ExceptionToSettingsMessage
-                {
-                    Exception = ViewModelLocator.Instance.Settings,
-                    Source = "IEEE Xplore",
-                });
                 return null;
             }
         }

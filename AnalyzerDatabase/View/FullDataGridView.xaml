@@ -682,6 +682,7 @@
         <!-- Stronicowanie -->
         <Button x:Name="BtnPrev"
                 Margin="325,5,400,0" Width="35" Height="35"
+                IsEnabled="{Binding IsDataLoading, Converter={StaticResource NegativeBooleanToVisibilityConverter}}"
                 Command="{Binding PrevResultPage}"
                 ToolTip="{x:Static res:Resources.PrevBtn}"
                 Visibility="{Binding FullResultsList, Converter={StaticResource NegativeBooleanToVisibilityConverter}}"
@@ -700,7 +701,8 @@
         <Button x:Name="BtnNext" 
                 Width="35" Height="35" Margin="400,5,325,0"
                 ToolTip="{x:Static res:Resources.NextBtn}" 
-                Command="{Binding NextResultPage}" 
+                Command="{Binding NextResultPage}"
+                IsEnabled="{Binding IsDataLoading, Converter={StaticResource NegativeBooleanToVisibilityConverter}}"
                 Visibility="{Binding FullResultsList, Converter={StaticResource NegativeBooleanToVisibilityConverter}}"
                 HorizontalAlignment="Center" VerticalAlignment="Top">
             <Rectangle Width="17" Height="17" Fill="{DynamicResource BlackBrush}">

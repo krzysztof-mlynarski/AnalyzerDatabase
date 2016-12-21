@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Data;
+using System.Windows.Input;
 using AnalyzerDatabase.Enums;
 using AnalyzerDatabase.Interfaces;
 using AnalyzerDatabase.Messengers;
@@ -898,6 +899,41 @@ namespace AnalyzerDatabase.ViewModels
                         else if (CheckBoxScienceDirect && CheckBoxSpringer && CheckBoxIeeeXplore)
                         {
                             var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
+                            var obj1 = await _restService.GetSearchQuerySpringer(QueryTextBox);
+                            var obj2 = await _restService.GetSearchQueryIeeeXplore(QueryTextBox);
+
+                            obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
+
+                            if (obj != null)
+                                TotalResultsToDisplay.Add(obj.SearchResults);
+
+                            obj1?.Records.ToList().ForEach(SearchHelper);
+
+                            obj1?.Result.ToList().ForEach(element =>
+                            {
+                                TotalResultsToDisplay.Add(element);
+                            });
+
+                            obj2?.Document.ToList().ForEach(element =>
+                            {
+                                SearchResultsToDisplay.Add(element);
+                                SearchHelper(null);
+                                SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
+                            });
+
+                            if (obj2 != null)
+                                TotalResultsToDisplay.Add(obj2);
+
+                            _statisticsDataService.IncrementScienceDirect();
+                            _statisticsDataService.IncrementSpringer();
+                            _statisticsDataService.IncrementIeeeXplore();
+                        }
+                        #endregion
+
+                        #region Scopus/Springer/IeeeXplore
+                        else if (CheckBoxScopus && CheckBoxSpringer && CheckBoxIeeeXplore)
+                        {
+                            var obj = await _restService.GetSearchQueryScopus(QueryTextBox);
                             var obj1 = await _restService.GetSearchQuerySpringer(QueryTextBox);
                             var obj2 = await _restService.GetSearchQueryIeeeXplore(QueryTextBox);
 
