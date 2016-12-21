@@ -1,5 +1,8 @@
 ﻿using AnalyzerDatabase.Interfaces;
+using AnalyzerDatabase.Messengers;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace AnalyzerDatabase.ViewModels
 {
@@ -9,6 +12,7 @@ namespace AnalyzerDatabase.ViewModels
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
         #region Variables
+        private ViewModelBase Page { get; set; }
 
         private readonly IInternetConnectionService _internetConnectionService;
         private bool _isInternetConnection;
@@ -34,6 +38,21 @@ namespace AnalyzerDatabase.ViewModels
             CurrentViewModel = null;
 
             CheckInternetConnection();
+
+            Messenger.Default.Register<ExceptionToSettingsMessage>(this, HandleMessage);
+        }
+
+        #endregion
+
+        #region Message
+
+        private async void HandleMessage(ExceptionToSettingsMessage message)
+        {
+            Page = message.Exception;
+            var source = message.Source;
+
+            if (await ExceptionDialog("ERROR - " + source, "Wystąpił problem komunikacji z bazą.\nSprawdź w ustawieniach czy posiadasz wpisany klucz API dla tej bazy!"))
+                NavigateTo(Page);
         }
 
         #endregion

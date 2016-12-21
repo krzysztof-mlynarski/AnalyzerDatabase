@@ -40,7 +40,6 @@ namespace AnalyzerDatabase.Interfaces
         #region Other methods
 
         Task<string> GetArticle(string doi, string title, CancellationTokenSource cts = null);
-        void GetArticleDocx(string doi, string title, CancellationTokenSource cts = null);
 
         #endregion
     }

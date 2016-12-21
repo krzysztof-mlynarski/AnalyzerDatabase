@@ -1,5 +1,6 @@
 ﻿using AnalyzerDatabase.Interfaces;
 using AnalyzerDatabase.Services;
+using AnalyzerDatabase.View;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using MahApps.Metro.Controls.Dialogs;

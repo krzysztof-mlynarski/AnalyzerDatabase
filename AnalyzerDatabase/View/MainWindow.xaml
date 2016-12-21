@@ -23,7 +23,7 @@
 
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
-            <Button Content="Settings" 
+            <Button Content="{x:Static res:Resources.SettingsMenu}" 
                     Command="{Binding GoToSettingsViewCommand}"/>
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Media;
@@ -343,10 +344,11 @@ namespace AnalyzerDatabase.ViewModels
                 chartOverallOrYear = null;
             }
             else
+                //TODO: jezyki
                 ShowDialog("ERROR", "There is nothing to export");
         }
 
-        private void ExportToImage(CartesianChart valueCartesianChart, PieChart valuePieChart)
+        private async void ExportToImage(CartesianChart valueCartesianChart, PieChart valuePieChart)
         {
             var chartOverall = valuePieChart;
             var chartOverallOrYear = valueCartesianChart;
@@ -393,6 +395,10 @@ namespace AnalyzerDatabase.ViewModels
                     encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
                     encoder.Save(outStream);
                 }
+
+                //TODO: jezyki
+                if (await ConfirmationDialog("Potwierdź", "Czy otworzyc wyeksportowany plik?"))
+                    Process.Start(saveFileDialog.FileName);
             }
         }
 

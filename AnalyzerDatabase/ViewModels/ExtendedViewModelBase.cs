@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Resources;
+using System.Threading.Tasks;
 using System.Windows;
 using AnalyzerDatabase.Services;
 using GalaSoft.MvvmLight;
@@ -12,8 +13,9 @@ namespace AnalyzerDatabase.ViewModels
     {
         private ViewModelBase _currentViewModel;
         private readonly ResourceManager _resourceManager;
+        private readonly MetroWindow _metroWindow = Application.Current.MainWindow as MetroWindow;
 
-        public ExtendedViewModelBase()
+        protected ExtendedViewModelBase()
         {
             _resourceManager = new ResourceManager("AnalyzerDatabase.Properties.Resources", Assembly.GetExecutingAssembly());
         }
@@ -29,45 +31,68 @@ namespace AnalyzerDatabase.ViewModels
                 if(_currentViewModel == value)
                     return;
                 _currentViewModel = value;
-                RaisePropertyChanged("CurrentViewModel");
+                RaisePropertyChanged();
             }
         }
 
-        public virtual void OnLoad()
+        private void OnLoad()
         {
             CurrentViewModel = null;
         }
 
-        public virtual void NavigateTo(ViewModelBase viewModelBase)
+        protected void NavigateTo(ViewModelBase viewModelBase)
         {
             CurrentViewModel = viewModelBase;
             var extendedViewModel = viewModelBase as ExtendedViewModelBase;
-            if (extendedViewModel != null)
-            {
-                extendedViewModel.OnLoad();
-            }
+            extendedViewModel?.OnLoad();
         }
 
-        public string GetString(string name)
+        protected string GetString(string name)
         {
             return _resourceManager.GetString(name, SettingsService.Instance.Culture);
         }
 
-        public async void ShowDialog(string title, string discription)
+        protected async void ShowDialog(string title, string discription)
         {
-            MetroWindow metroWindow = Application.Current.MainWindow as MetroWindow;
-
-            await metroWindow.ShowMessageAsync(title, discription);
+            await _metroWindow.ShowMessageAsync(title, discription);
         }
 
         public async void ShowDialogColor(string title, string discription)
         {
-            MetroWindow metroWindow = Application.Current.MainWindow as MetroWindow;
+            if (_metroWindow != null)
+                _metroWindow.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
 
-            if (metroWindow != null)
-                metroWindow.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
+            await _metroWindow.ShowMessageAsync(title, discription);
+        }
 
-            await metroWindow.ShowMessageAsync(title, discription);
+        protected async Task<bool> ConfirmationDialog(string title, string description)
+        {
+            MetroDialogSettings settings = new MetroDialogSettings()
+            {
+                //TODO: ustawic pobiernaie dla danego jezyka
+                AffirmativeButtonText = "Tak",
+                NegativeButtonText = "Nie",
+                AnimateShow = true,
+                ColorScheme = MetroDialogColorScheme.Theme
+            };
+
+            MessageDialogResult result = await _metroWindow.ShowMessageAsync(title, description, MessageDialogStyle.AffirmativeAndNegative, settings);
+            return result == MessageDialogResult.Affirmative;
+        }
+
+        protected async Task<bool> ExceptionDialog(string title, string description)
+        {
+            MetroDialogSettings settings = new MetroDialogSettings()
+            {
+                //TODO: ustawic pobiernaie dla danego jezyka
+                AffirmativeButtonText = "Settings",
+                NegativeButtonText = "OK",
+                AnimateShow = true,
+                ColorScheme = MetroDialogColorScheme.Theme
+            };
+
+            MessageDialogResult result = await _metroWindow.ShowMessageAsync(title, description, MessageDialogStyle.AffirmativeAndNegative, settings);
+            return result == MessageDialogResult.Affirmative;
         }
     }
 }
