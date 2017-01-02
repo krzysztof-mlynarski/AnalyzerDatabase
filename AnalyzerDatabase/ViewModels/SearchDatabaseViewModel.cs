@@ -848,6 +848,36 @@ namespace AnalyzerDatabase.ViewModels
                         }
                         #endregion
 
+                        #region ScienceDirect/Scopus/Springer
+                        else if (CheckBoxScienceDirect && CheckBoxScopus && CheckBoxSpringer)
+                        {
+                            var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
+                            var obj1 = await _restService.GetSearchQueryScopus(QueryTextBox);
+                            var obj2 = await _restService.GetSearchQuerySpringer(QueryTextBox);
+
+                            obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
+
+                            if (obj != null)
+                                TotalResultsToDisplay.Add(obj.SearchResults);
+
+                            obj1?.SearchResults.Entry.ToList().ForEach(SearchHelper);
+
+                            if (obj1 != null)
+                                TotalResultsToDisplay.Add(obj1.SearchResults);
+
+                            obj2?.Records.ToList().ForEach(SearchHelper);
+
+                            obj2?.Result.ToList().ForEach(element =>
+                            {
+                                TotalResultsToDisplay.Add(element);
+                            });
+
+                            _statisticsDataService.IncrementScienceDirect();
+                            _statisticsDataService.IncrementScopus();
+                            _statisticsDataService.IncrementSpringer();
+                        }
+                        #endregion
+
                         #region ScienceDirect/Scopus/IeeeXplore
 
                         else if (CheckBoxScienceDirect && CheckBoxScopus && CheckBoxIeeeXplore)
