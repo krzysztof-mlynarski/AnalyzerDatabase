@@ -35,6 +35,7 @@ namespace AnalyzerDatabase.ViewModels
         private ObservableCollection<ISearchResultsToDisplay> _searchResultsToDisplay;
         private ObservableCollection<ISearchResultsToDisplay> _searchResultsToDisplayAll;
         private ObservableCollection<ITotalResultsToDisplay> _totalResultsToDisplay;
+        //private ObservableCollection<ICreatorDataToDisplay> _creatorDataToDisplay;
 
         private List<string> _doiList = new List<string>();
         private readonly List<string> _doiListCopy = new List<string>();
@@ -88,15 +89,15 @@ namespace AnalyzerDatabase.ViewModels
             CollectionViewAll = CollectionViewSource.GetDefaultView(_searchResultsToDisplayAll);
             CollectionView = CollectionViewSource.GetDefaultView(_searchResultsToDisplay);
 
-            Messenger.Default.Register<ExceptionToSettingsMessage>(this, HandleMessage);
+            //Messenger.Default.Register<ExceptionToSettingsMessage>(this, HandleMessage);
         }
 
         #endregion
 
-        private async void HandleMessage(ExceptionToSettingsMessage message)
-        {
+        //private async void HandleMessage(ExceptionToSettingsMessage message)
+        //{
 
-        }
+        //}
 
         #region RelayCommand
         public RelayCommand SearchCommand
@@ -414,6 +415,19 @@ namespace AnalyzerDatabase.ViewModels
                 RaisePropertyChanged();
             }
         }
+
+        //private ObservableCollection<ICreatorDataToDisplay> CreatorDataToDisplay
+        //{
+        //    get
+        //    {
+        //        return _creatorDataToDisplay;
+        //    }
+        //    set
+        //    {
+        //        _creatorDataToDisplay = value;
+        //        RaisePropertyChanged();
+        //    }
+        //}
         #endregion
 
         #region Private methods
@@ -661,6 +675,10 @@ namespace AnalyzerDatabase.ViewModels
 
                         }
 
+                        StatisticsDataService.Instance.PublicationDateFromDatabasesLabels(SearchResultsToDisplay, false, true, false);
+                        StatisticsDataService.Instance.PublicationByMagazines(SearchResultsToDisplay, false, true, false);
+                        StatisticsDataService.Instance.PublicationsAuthors(SearchResultsToDisplay);
+
                         CollectionView?.GroupDescriptions.Add(new PropertyGroupDescription("Source"));
                     }
                     finally
@@ -750,6 +768,10 @@ namespace AnalyzerDatabase.ViewModels
                                 });
                             }
                         }
+
+                        StatisticsDataService.Instance.PublicationDateFromDatabasesLabels(SearchResultsToDisplay, false, false, true);
+                        StatisticsDataService.Instance.PublicationByMagazines(SearchResultsToDisplay, false, false, true);
+                        StatisticsDataService.Instance.PublicationsAuthors(SearchResultsToDisplay);
 
                         CollectionView?.GroupDescriptions.Add(new PropertyGroupDescription("Source"));
                     }
@@ -1159,7 +1181,9 @@ namespace AnalyzerDatabase.ViewModels
 
                         #endregion
 
-                        StatisticsDataService.Instance.PublicationDateFromDatabasesLabels(SearchResultsToDisplay);
+                        StatisticsDataService.Instance.PublicationDateFromDatabasesLabels(SearchResultsToDisplay, true, false, false);
+                        StatisticsDataService.Instance.PublicationByMagazines(SearchResultsToDisplay, true, false, false);
+                        //StatisticsDataService.Instance.PublicationsAuthors(SearchResultsToDisplay);
 
                         if (IsGroupDescriptions)
                         {
@@ -1224,6 +1248,19 @@ namespace AnalyzerDatabase.ViewModels
                 SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
             }
         }
+
+        //private void CreatorHelper(ICreatorDataToDisplay element)
+        //{
+        //    if (element != null)
+        //    {
+        //        CreatorDataToDisplay.Add(element);
+        //    }
+        //    else
+        //    {
+                
+        //    }
+        //}
+        
         #endregion
     }
 }

@@ -136,6 +136,99 @@ namespace AnalyzerDatabase.Services
             }
         }
 
+        public async void ExportChartDataToCsv3_1()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "CSV (*.csv)|*.csv",
+                FileName = "ChartData_" + DateTime.Now.ToString("yyyy_hh_mm_ss"),
+                InitialDirectory = _currentPublicationSavingPath
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                using (var streamWriter = File.CreateText(saveFileDialog.FileName))
+                {
+                    var writer = new CsvWriter(streamWriter);
+                    writer.Configuration.Delimiter = ";";
+
+                    for (int i = 0; i < StatisticsDataService.Instance.ListYearFull.Count; i++)
+                    {
+                        //TODO: jezyki
+                        writer.WriteField(StatisticsDataService.Instance.ListYearFull[i]);
+                        writer.WriteField(StatisticsDataService.Instance.ListYearAmountFull[i]);
+                        writer.NextRecord();
+                    }
+                }
+
+                //TODO: jezyki
+                if (await ConfirmationDialog("Potwierdź", "Czy otworzyc wyeksportowany plik?"))
+                    Process.Start(saveFileDialog.FileName);
+            }
+        }
+
+        public async void ExportChartDataToCsv4()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "CSV (*.csv)|*.csv",
+                FileName = "ChartDataMagazine_" + DateTime.Now.ToString("yyyy_hh_mm_ss"),
+                InitialDirectory = _currentPublicationSavingPath
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                using (var streamWriter = File.CreateText(saveFileDialog.FileName))
+                {
+                    var writer = new CsvWriter(streamWriter);
+                    writer.Configuration.Delimiter = ";";
+
+                    for (int i = 0; i < StatisticsDataService.Instance.ListMagazine.Count; i++)
+                    {
+                        //TODO: jezyki
+                        writer.WriteField(StatisticsDataService.Instance.ListMagazine[i]);
+                        writer.WriteField(StatisticsDataService.Instance.ListMagazineAmount[i]);
+                        writer.NextRecord();
+                    }
+                }
+
+                //TODO: jezyki
+                if (await ConfirmationDialog("Potwierdź", "Czy otworzyc wyeksportowany plik?"))
+                    Process.Start(saveFileDialog.FileName);
+            }
+        }
+
+        public async void ExportChartDataToCsv4_1()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "CSV (*.csv)|*.csv",
+                FileName = "ChartDataMagazine_" + DateTime.Now.ToString("yyyy_hh_mm_ss"),
+                InitialDirectory = _currentPublicationSavingPath
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                using (var streamWriter = File.CreateText(saveFileDialog.FileName))
+                {
+                    var writer = new CsvWriter(streamWriter);
+                    writer.Configuration.Delimiter = ";";
+
+                    for (int i = 0; i < StatisticsDataService.Instance.ListMagazineFull.Count; i++)
+                    {
+                        //TODO: jezyki
+                        writer.WriteField(StatisticsDataService.Instance.ListMagazineFull[i]);
+                        writer.WriteField(StatisticsDataService.Instance.ListMagazineAmountFull[i]);
+                        writer.NextRecord();
+                    }
+                }
+
+                //TODO: jezyki
+                if (await ConfirmationDialog("Potwierdź", "Czy otworzyc wyeksportowany plik?"))
+                    Process.Start(saveFileDialog.FileName);
+            }
+        }
+         
         public async void ExportDataGridToCsv(ObservableCollection<ISearchResultsToDisplay> model, string query)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog

@@ -1,14 +1,12 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using AnalyzerDatabase.Models;
 using AnalyzerDatabase.Services;
-using CsvHelper;
 using GalaSoft.MvvmLight.Command;
 using LiveCharts;
 using LiveCharts.Defaults;
@@ -30,22 +28,84 @@ namespace AnalyzerDatabase.ViewModels
         private int _currentSumCount;
         private readonly string _currentPublicationSavingPath;
 
+        private bool _isDataOverallEmpty = true;
+        private bool _isDataByYearEmpty = true;
+        private bool _isDataByAuthorEmpty = true;
+        private bool _isDataByMagazineEmpty = true;
+
+        private bool _chartDataOverall1Loading;
+        private bool _dataGridOverall1Loading;
+
+        private bool _chartDataOverall2Loading;
+        private bool _dataGridOverall2Loading;
+
+        private bool _chartDataByYearLoading;
+        private bool _dataGridByYearLoading;
+        private bool _chartDataByYearFullLoading;
+        private bool _dataGridByYearFullLoading;
+
+        private bool _chartDataByAuthorLoading;
+        private bool _dataGridByAuthorLoading;
+
+        private bool _chartDataLoading; //Magazine
+        private bool _dataGridLoading;
+        private bool _chartDataByMagazineFullLoading;
+        private bool _dataGridByMagazineFullLoading;
+
         private string _queryTextBox;
 
-        private RelayCommand _refreshData;
-        private RelayCommand _refreshOverallData;
+        private int _valueLabelRotation;
+        private int _valueFontSize;
+
+        private RelayCommand _refreshDataOverall1;
+        private RelayCommand _refreshDataGridOverall1;
+
+        private RelayCommand _refreshDataOverall2;
+        private RelayCommand _refreshDataGridOverall2;
+
+        private RelayCommand _refreshDataByYear;
+        private RelayCommand _refreshDataByYearFull;
+        private RelayCommand _refreshDataGridByYear;
+        private RelayCommand _refreshDataGridByYearFull;
+
+        private RelayCommand _refreshDataByAuthor;
+        private RelayCommand _refreshDataGridByAuthor;
+
+        private RelayCommand _refreshDataByMagazine;
+        private RelayCommand _refreshDataGridByMagazine;
+        private RelayCommand _refreshDataByMagazineFull;
+        private RelayCommand _refreshDataGridByMagazineFull;
+       
         private RelayCommand<object> _exportChartToImageCommand;
         private RelayCommand _searchCommand;
         private RelayCommand _exportChartDataToCsvCommand1;
         private RelayCommand _exportChartDataToCsvCommand2;
         private RelayCommand _exportChartDataToCsvCommand3;
+        private RelayCommand _exportChartDataToCsvCommand3_1;
+        private RelayCommand _exportChartDataToCsvCommand4;
+        private RelayCommand _exportChartDataToCsvCommand4_1;
 
-        public SeriesCollection SeriesCollectionSearchCount { get; set; }
-        public SeriesCollection SeriesCollectionDuplicateAndDownloadCount { get; set; }
-        public SeriesCollection SeriesCollectionByYear { get; set; }
+        private SeriesCollection _seriesCollectionSearchCount;
+        private SeriesCollection _seriesCollectionDuplicateAndDownloadCount;
+        private SeriesCollection _seriesCollectionByYear;
+        private SeriesCollection _seriesCollectionByYearFull;
+        private SeriesCollection _seriesCollectionByAuthor;
+        private SeriesCollection _seriesCollectionByMagazine;
+        private SeriesCollection _seriesCollectionByMagazineFull;
 
-        public string[] Labels { get; set; }
-        public string[] LabelsYear { get; set; }
+        private ObservableCollection<OverallStatistics> _overallStatisticsObservableCollection;
+        private ObservableCollection<OverallStatistics2> _overallStatistics2ObservableCollection;
+        private ObservableCollection<ByYear> _dataByYearObservableCollection;
+        private ObservableCollection<ByYear> _dataByYearObservableCollectionFull;
+        private ObservableCollection<ByAuthor> _dataByAuthorObservableCollection;
+        private ObservableCollection<ByMagazine> _dataByMagazineObservableCollection;
+        private ObservableCollection<ByMagazine> _dataByMagazineObservableCollectionFull;
+
+        private string[] _labelsYear;
+        private string[] _labelsYearFull;
+        private string[] _labelsMagazine;
+        private string[] _labelsAuthor;
+
         public Func<double, string> Formatter { get; set; }
 
         #endregion
@@ -63,48 +123,8 @@ namespace AnalyzerDatabase.ViewModels
             CurrentSumCount = StatisticsDataService.Instance.GetStatistics.SumCount;
             _currentPublicationSavingPath = SettingsService.Instance.Settings.SavingPublicationPath;
 
-            #region SeriesCollectionSearchCount
-            SeriesCollectionSearchCount = new SeriesCollection
-            {
-                new PieSeries
-                {
-                    Title = "ScienceDirect",
-                    Values = new ChartValues<ObservableValue>
-                    {
-                        new ObservableValue(CurrentScienceDirectCount)
-                    },
-                    DataLabels = true
-                },
-                new PieSeries
-                {
-                    Title = "Scopus",
-                    Values = new ChartValues<ObservableValue>
-                    {
-                        new ObservableValue(CurrentScopusCount)
-                    },
-                    DataLabels = true
-                },
-                new PieSeries
-                {
-                    Title = "Springer",
-                    Values = new ChartValues<ObservableValue>
-                    {
-                        new ObservableValue(CurrentSpringerCount)
-                    },
-                    DataLabels = true
-                },
-                new PieSeries
-                {
-                    Title = "IEEE Xplore",
-                    Values = new ChartValues<ObservableValue>
-                    {
-                        new ObservableValue(CurrentIeeeXploreCount)
-                    },
-                    DataLabels = true
-                }
-            };
-            #endregion
-            #region SeriesCollectionDuplicateAndDownloadCount
+            SeriesCollectionSearchCount = new SeriesCollection();
+            #region SeriesCollectionDuplicateAndDownload
             SeriesCollectionDuplicateAndDownloadCount = new SeriesCollection
             {
                 new PieSeries
@@ -130,36 +150,124 @@ namespace AnalyzerDatabase.ViewModels
                     DataLabels = true
                 }
             };
-
-            //TODO: jezyki
-            Labels = new[] {"Publikacje", "Duplikaty"};
             #endregion
-
             SeriesCollectionByYear = new SeriesCollection();
-            LabelsYear = new string[StatisticsDataService.Instance.ListYear.Count];
+            SeriesCollectionByYearFull = new SeriesCollection();
+            SeriesCollectionByAuthor = new SeriesCollection();
+            SeriesCollectionByMagazine = new SeriesCollection();
+            SeriesCollectionByMagazineFull = new SeriesCollection();
 
-            //Formatter = value => value.ToString("N");
+            OverallStatisticsObservableCollection = new ObservableCollection<OverallStatistics>();
+            OverallStatistics2ObservableCollection = new ObservableCollection<OverallStatistics2>();
+            DataByYearObservableCollection = new ObservableCollection<ByYear>();
+            DataByYearObservableCollectionFull = new ObservableCollection<ByYear>();
+            DataByAuthorObservableCollection = new ObservableCollection<ByAuthor>();
+            DataByMagazineObservableCollection = new ObservableCollection<ByMagazine>();
+            DataByMagazineObservableCollectionFull = new ObservableCollection<ByMagazine>();
         }
 
         #endregion
 
         #region RelayCommand
-        public RelayCommand RefreshData
+
+        public RelayCommand RefreshDataOverall1
         {
             get
             {
-                return _refreshData ?? (_refreshData = new RelayCommand(SeriesCollectionYear));
+                return _refreshDataOverall1 ?? (_refreshDataOverall1 = new RelayCommand(FillSeriesCollectionSearchCount));
             }
         }
-
-        public RelayCommand RefreshOverallData
+        public RelayCommand RefreshDataGridOverall1
         {
             get
             {
-                return _refreshOverallData ?? (_refreshOverallData = new RelayCommand(SeriesCollectionSearchCount1));
+                return _refreshDataGridOverall1 ?? (_refreshDataGridOverall1 = new RelayCommand(FillDataGridSearchCount));
             }
         }
-
+        public RelayCommand RefreshDataOverall2
+        {
+            get
+            {
+                return _refreshDataOverall2 ?? (_refreshDataOverall2 = new RelayCommand(FillSeriesCollectionDuplicateAndDownloadCount));
+            }
+        }
+        public RelayCommand RefreshDataGridOverall2
+        {
+            get
+            {
+                return _refreshDataGridOverall2 ?? (_refreshDataGridOverall2 = new RelayCommand(FillDataGridDuplicateAndDownloadCount));
+            }
+        }
+        public RelayCommand RefreshDataByYear
+        {
+            get
+            {
+                return _refreshDataByYear ?? (_refreshDataByYear = new RelayCommand(FillSeriesCollectionYear));
+            }
+        }
+        public RelayCommand RefreshDataByYearFull
+        {
+            get
+            {
+                return _refreshDataByYearFull ?? (_refreshDataByYearFull = new RelayCommand(FillSeriesCollectionYearFull));
+            }
+        }    
+        public RelayCommand RefreshDataGridByYear
+        {
+            get
+            {
+                return _refreshDataGridByYear ?? (_refreshDataGridByYear = new RelayCommand(FillDataGridByYear));
+            }
+        }
+        public RelayCommand RefreshDataGridByYearFull
+        {
+            get
+            {
+                return _refreshDataGridByYearFull ?? (_refreshDataGridByYearFull = new RelayCommand(FillDataGridByYearFull));
+            }
+        }
+        public RelayCommand RefreshDataByAuthor
+        {
+            get
+            {
+                return _refreshDataByAuthor ?? (_refreshDataByAuthor = new RelayCommand(FillSeriesCollectionByAuthor));
+            }
+        }
+        public RelayCommand RefreshDataGridByAuthor
+        {
+            get
+            {
+                return _refreshDataGridByAuthor ?? (_refreshDataGridByAuthor = new RelayCommand(FillDataGridByAuthor));
+            }
+        }
+        public RelayCommand RefreshDataByMagazineChart
+        {
+            get
+            {
+                return _refreshDataByMagazine ?? (_refreshDataByMagazine = new RelayCommand(FillSeriesCollectionMagazine));
+            }
+        }
+        public RelayCommand RefreshDataByMagazineChartFull
+        {
+            get
+            {
+                return _refreshDataByMagazineFull ?? (_refreshDataByMagazineFull = new RelayCommand(FillSeriesCollectionByMagazineFull));
+            }
+        }
+        public RelayCommand RefreshDataByMagazineDataGrid
+        {
+            get
+            {
+                return _refreshDataGridByMagazine ?? (_refreshDataGridByMagazine = new RelayCommand(FillDataGridByMagazine));
+            }
+        }
+        public RelayCommand RefreshDataByMagazineDataGridFull
+        {
+            get
+            {
+                return _refreshDataGridByMagazineFull ?? (_refreshDataGridByMagazineFull = new RelayCommand(FillDataGridByMagazineFull));
+            }
+        }
         public RelayCommand<object> ExportChartToImageCommand
         {
             get
@@ -167,7 +275,6 @@ namespace AnalyzerDatabase.ViewModels
                 return _exportChartToImageCommand ?? (_exportChartToImageCommand = new RelayCommand<object>(ExportChartToImage));
             }
         }
-
         public RelayCommand SearchCommand
         {
             get
@@ -175,7 +282,6 @@ namespace AnalyzerDatabase.ViewModels
                 return _searchCommand ?? (_searchCommand = new RelayCommand(TextBoxSearch));
             }
         }
-
         public RelayCommand ExportChartDataToCsvCommand1
         {
             get
@@ -206,6 +312,36 @@ namespace AnalyzerDatabase.ViewModels
                 }));
             }
         }
+        public RelayCommand ExportChartDataToCsvCommand3_1
+        {
+            get
+            {
+                return _exportChartDataToCsvCommand3_1 ?? (_exportChartDataToCsvCommand3_1 = new RelayCommand(() =>
+                {
+                    ExportDataToCsv.Instance.ExportChartDataToCsv3_1();
+                }));
+            }
+        }
+        public RelayCommand ExportChartDataToCsvCommand4
+        {
+            get
+            {
+                return _exportChartDataToCsvCommand4 ?? (_exportChartDataToCsvCommand4 = new RelayCommand(() =>
+                {
+                    ExportDataToCsv.Instance.ExportChartDataToCsv4();
+                }));
+            }
+        }
+        public RelayCommand ExportChartDataToCsvCommand4_1
+        {
+            get
+            {
+                return _exportChartDataToCsvCommand4_1 ?? (_exportChartDataToCsvCommand4_1 = new RelayCommand(() =>
+                {
+                    ExportDataToCsv.Instance.ExportChartDataToCsv4_1();
+                }));
+            }
+        }
 
         #endregion
 
@@ -229,7 +365,7 @@ namespace AnalyzerDatabase.ViewModels
                 RaisePropertyChanged();
             }
         }
-
+        
         public int CurrentScopusCount
         {
             get
@@ -367,6 +503,499 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
+        public bool IsDataOverallEmpty
+        {
+            get
+            {
+                return _isDataOverallEmpty;
+            }
+            set
+            {
+                _isDataOverallEmpty = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool IsDataByYearEmpty
+        {
+            get
+            {
+                return _isDataByYearEmpty;
+            }
+            set
+            {
+                _isDataByYearEmpty = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool IsDataByAuthorEmpty
+        {
+            get
+            {
+                return _isDataByAuthorEmpty;
+            }
+            set
+            {
+                _isDataByAuthorEmpty = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool IsDataByMagazineEmpty
+        {
+            get
+            {
+                return _isDataByMagazineEmpty;
+            }
+            set
+            {
+                _isDataByMagazineEmpty = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool ChartDataOverall1Loading
+        {
+            get
+            {
+                return _chartDataOverall1Loading;
+            }
+            set
+            {
+                _chartDataOverall1Loading = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool DataGridOverall1Loading
+        {
+            get
+            {
+                return _dataGridOverall1Loading;
+            }
+            set
+            {
+                _dataGridOverall1Loading = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool ChartDataOverall2Loading
+        {
+            get
+            {
+                return _chartDataOverall2Loading;
+            }
+            set
+            {
+                _chartDataOverall2Loading = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool DataGridOverall2Loading
+        {
+            get
+            {
+                return _dataGridOverall2Loading;
+            }
+            set
+            {
+                _dataGridOverall2Loading = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool ChartDataByYearLoading
+        {
+            get
+            {
+                return _chartDataByYearLoading;
+            }
+            set
+            {
+                _chartDataByYearLoading = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool ChartDataByYearFullLoading
+        {
+            get
+            {
+                return _chartDataByYearFullLoading;
+            }
+            set
+            {
+                _chartDataByYearFullLoading = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool DataGridByYearLoading
+        {
+            get
+            {
+                return _dataGridByYearLoading;
+            }
+            set
+            {
+                _dataGridByYearLoading = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool DataGridByYearFullLoading
+        {
+            get
+            {
+                return _dataGridByYearFullLoading;
+            }
+            set
+            {
+                _dataGridByYearFullLoading = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool ChartDataByAuthorLoading
+        {
+            get
+            {
+                return _chartDataByAuthorLoading;
+            }
+            set
+            {
+                _chartDataByAuthorLoading = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool DataGridByAuthorLoading
+        {
+            get
+            {
+                return _dataGridByAuthorLoading;
+            }
+            set
+            {
+                _dataGridByAuthorLoading = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool ChartDataLoading
+        {
+            get
+            {
+                return _chartDataLoading;
+            }
+            set
+            {
+                _chartDataLoading = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool DataGridLoading
+        {
+            get
+            {
+                return _dataGridLoading;
+            }
+            set
+            {
+                _dataGridLoading = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool ChartDataByMagazineFullLoading
+        {
+            get
+            {
+                return _chartDataByMagazineFullLoading;
+            }
+            set
+            {
+                _chartDataByMagazineFullLoading = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool DataGridByMagazineFullLoading
+        {
+            get
+            {
+                return _dataGridByMagazineFullLoading;
+            }
+            set
+            {
+                _dataGridByMagazineFullLoading = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public string[] LabelsYear
+        {
+            get
+            {
+                return _labelsYear;
+            }
+            set
+            {
+                _labelsYear = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public string[] LabelsYearFull
+        {
+            get
+            {
+                return _labelsYearFull;
+            }
+            set
+            {
+                _labelsYearFull = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public string[] LabelsMagazine
+        {
+            get
+            {
+                return _labelsMagazine;
+            }
+            set
+            {
+                _labelsMagazine = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public string[] LabelsAuthor
+        {
+            get
+            {
+                return _labelsAuthor;
+            }
+            set
+            {
+                _labelsAuthor = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public SeriesCollection SeriesCollectionSearchCount
+        {
+            get
+            {
+                return _seriesCollectionSearchCount;
+            }
+            set
+            {
+                _seriesCollectionSearchCount = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public SeriesCollection SeriesCollectionDuplicateAndDownloadCount
+        {
+            get
+            {
+                return _seriesCollectionDuplicateAndDownloadCount;
+            }
+            set
+            {
+                _seriesCollectionDuplicateAndDownloadCount = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public SeriesCollection SeriesCollectionByYear
+        {
+            get
+            {
+                return _seriesCollectionByYear;
+            }
+            set
+            {
+                _seriesCollectionByYear = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public SeriesCollection SeriesCollectionByYearFull
+        {
+            get
+            {
+                return _seriesCollectionByYearFull;
+            }
+            set
+            {
+                _seriesCollectionByYearFull = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public SeriesCollection SeriesCollectionByAuthor
+        {
+            get
+            {
+                return _seriesCollectionByAuthor;
+            }
+            set
+            {
+                _seriesCollectionByAuthor = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public SeriesCollection SeriesCollectionByMagazine
+        {
+            get
+            {
+                return _seriesCollectionByMagazine;
+            }
+            set
+            {
+                _seriesCollectionByMagazine = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public SeriesCollection SeriesCollectionByMagazineFull
+        {
+            get
+            {
+                return _seriesCollectionByMagazineFull;
+            }
+            set
+            {
+                _seriesCollectionByMagazineFull = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public ObservableCollection<OverallStatistics> OverallStatisticsObservableCollection
+        {
+            get
+            {
+                return _overallStatisticsObservableCollection;
+            }
+            set
+            {
+                _overallStatisticsObservableCollection = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public ObservableCollection<OverallStatistics2> OverallStatistics2ObservableCollection
+        {
+            get
+            {
+                return _overallStatistics2ObservableCollection;
+            }
+            set
+            {
+                _overallStatistics2ObservableCollection = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public ObservableCollection<ByYear> DataByYearObservableCollection
+        {
+            get
+            {
+                return _dataByYearObservableCollection;
+            }
+            set
+            {
+                _dataByYearObservableCollection = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public ObservableCollection<ByYear> DataByYearObservableCollectionFull
+        {
+            get
+            {
+                return _dataByYearObservableCollectionFull;
+            }
+            set
+            {
+                _dataByYearObservableCollectionFull = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public ObservableCollection<ByAuthor> DataByAuthorObservableCollection
+        {
+            get
+            {
+                return _dataByAuthorObservableCollection;
+            }
+            set
+            {
+                _dataByAuthorObservableCollection = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public ObservableCollection<ByMagazine> DataByMagazineObservableCollection
+        {
+            get
+            {
+                return _dataByMagazineObservableCollection;
+            }
+            set
+            {
+                _dataByMagazineObservableCollection = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public ObservableCollection<ByMagazine> DataByMagazineObservableCollectionFull
+        {
+            get
+            {
+                return _dataByMagazineObservableCollectionFull;
+            }
+            set
+            {
+                _dataByMagazineObservableCollectionFull = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public int ValueLabelRotation
+        {
+            get
+            {
+                return _valueLabelRotation;
+            }
+            set
+            {
+                _valueLabelRotation = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public int ValueFontSize
+        {
+            get
+            {
+                return _valueFontSize;
+            }
+            set
+            {
+                _valueFontSize = value;
+                RaisePropertyChanged();
+            }
+        }
         #endregion
 
         #region Private methods
@@ -484,90 +1113,295 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
-        private void SeriesCollectionSearchCount1()
+        private void FillSeriesCollectionSearchCount()
         {
-            SeriesCollectionSearchCount.Clear();
-            SeriesCollectionDuplicateAndDownloadCount.Clear();
+            IsDataOverallEmpty = false;
+            ChartDataOverall1Loading = true;
+            DataGridOverall1Loading = false;
 
+            SeriesCollectionSearchCount.Clear();
+            
             SeriesCollectionSearchCount.Add(new PieSeries
             {
                 Title = "ScienceDirect",
-                Values = new ChartValues<ObservableValue>
-                {
-                    new ObservableValue(CurrentScienceDirectCount)
-                },
                 DataLabels = true
             });
+            SeriesCollectionSearchCount[0].Values = new ChartValues<ObservableValue>
+            {
+                new ObservableValue(CurrentScienceDirectCount)
+            };
 
             SeriesCollectionSearchCount.Add(new PieSeries
             {
                 Title = "Scopus",
-                Values = new ChartValues<ObservableValue>
-                {
-                    new ObservableValue(CurrentScopusCount)
-                },
                 DataLabels = true
             });
+            SeriesCollectionSearchCount[1].Values = new ChartValues<ObservableValue>
+            {
+                new ObservableValue(CurrentScopusCount)
+            };
 
             SeriesCollectionSearchCount.Add(new PieSeries
             {
                 Title = "Springer",
-                Values = new ChartValues<ObservableValue>
-                {
-                    new ObservableValue(CurrentSpringerCount)
-                },
                 DataLabels = true
             });
+            SeriesCollectionSearchCount[2].Values = new ChartValues<ObservableValue>
+            {
+                new ObservableValue(CurrentSpringerCount)
+            };
 
             SeriesCollectionSearchCount.Add(new PieSeries
             {
                 Title = "IEEE Xplore",
-                Values = new ChartValues<ObservableValue>
-                {
-                    new ObservableValue(CurrentIeeeXploreCount)
-                },
                 DataLabels = true
             });
-
-            SeriesCollectionDuplicateAndDownloadCount.Add(new RowSeries
+            SeriesCollectionSearchCount[3].Values = new ChartValues<ObservableValue>
             {
-                Title = "Publikacje",
-                Values = new ChartValues<ObservableValue>
-                {
-                    new ObservableValue(CurrentPublicationsDownloadCount)
-                },
-                DataLabels = true
-            });
-
-            SeriesCollectionDuplicateAndDownloadCount.Add(new RowSeries
-            {
-                Title = "Duplikaty",
-                Values = new ChartValues<ObservableValue>
-                {
-                    new ObservableValue(CurrentDuplicateCount)
-                },
-                DataLabels = true
-            });
+                new ObservableValue(CurrentIeeeXploreCount)
+            };
         }
 
-        private void SeriesCollectionYear()
+        private void FillDataGridSearchCount()
+        {
+            IsDataOverallEmpty = false;
+            ChartDataOverall1Loading = false;
+            DataGridOverall1Loading = true;
+
+            OverallStatisticsObservableCollection.Clear();
+
+            OverallStatisticsObservableCollection.Add(new OverallStatistics("Science Direct", StatisticsDataService.Instance.GetStatistics.ScienceDirectCount));
+            OverallStatisticsObservableCollection.Add(new OverallStatistics("Scopus", StatisticsDataService.Instance.GetStatistics.ScopusCount));
+            OverallStatisticsObservableCollection.Add(new OverallStatistics("Springer", StatisticsDataService.Instance.GetStatistics.SpringerCount));
+            OverallStatisticsObservableCollection.Add(new OverallStatistics("IEEE Xplore", StatisticsDataService.Instance.GetStatistics.IeeeXploreCount));
+        }
+
+        private void FillSeriesCollectionDuplicateAndDownloadCount()
+        {
+            IsDataOverallEmpty = false;
+            ChartDataOverall2Loading = true;
+            DataGridOverall2Loading = false;
+
+            //SeriesCollectionDuplicateAndDownloadCount.Clear();
+
+            //SeriesCollectionDuplicateAndDownloadCount.Add(new RowSeries
+            //{
+            //    //TODO: jezyki
+            //    Title = "Publikacje",
+            //    Fill = Brushes.Green,
+            //    DataLabels = true
+            //});
+            //SeriesCollectionDuplicateAndDownloadCount[0].Values = new ChartValues<ObservableValue>
+            //{
+            //    new ObservableValue(CurrentPublicationsDownloadCount)
+            //};
+
+            //SeriesCollectionDuplicateAndDownloadCount.Add(new RowSeries
+            //{
+            //    //TODO: jezyki
+            //    Title = "Duplikaty",
+            //    Fill = Brushes.OrangeRed,
+            //    DataLabels = true
+            //});
+            //SeriesCollectionDuplicateAndDownloadCount[1].Values = new ChartValues<ObservableValue>
+            //{
+            //    new ObservableValue(CurrentDuplicateCount)
+            //}; 
+        }
+
+        private void FillDataGridDuplicateAndDownloadCount()
+        {
+            IsDataOverallEmpty = false;
+            ChartDataOverall2Loading = false;
+            DataGridOverall2Loading = true;
+
+            OverallStatistics2ObservableCollection.Clear();
+
+            //TODO: jezyki
+            OverallStatistics2ObservableCollection.Add(new OverallStatistics2("Publikacje", StatisticsDataService.Instance.GetStatistics.PublicationsDownloadCount));
+            OverallStatistics2ObservableCollection.Add(new OverallStatistics2("Duplikaty", StatisticsDataService.Instance.GetStatistics.DuplicateCount));
+        }
+
+        private void FillSeriesCollectionYear()
         {
             QueryTextBox = null;
-            SeriesCollectionByYear.Clear();
-            int size1 = StatisticsDataService.Instance.ListYearAmount.Count;
+            IsDataByYearEmpty = false;
+            ChartDataByYearLoading = true;
+            ChartDataByYearFullLoading = false;
+            DataGridByYearLoading = false;
+            DataGridByYearFullLoading = false;
+
             LabelsYear = new string[StatisticsDataService.Instance.ListYear.Count];
 
-            for (int i = 0; i < size1; i++)
+            var columnSeries = new ColumnSeries
             {
-                SeriesCollectionByYear.Add(new ColumnSeries
-                {
-                    Title = StatisticsDataService.Instance.ListYear[i],
-                    DataLabels = true                
-                });
-                SeriesCollectionByYear[i].Values = new ChartValues<ObservableValue>();
-                var val = StatisticsDataService.Instance.ListYearAmount[i];
-                SeriesCollectionByYear[i].Values.Add(new ObservableValue(val));
+                //TODO: 
+                Title = "Wystąpił",
+                Values = new ChartValues<int>(),
+                DataLabels = true
+            };
+
+            for (int i = 0; i < StatisticsDataService.Instance.ListYear.Count; i++)
+            {
+                columnSeries.Values.Add(StatisticsDataService.Instance.ListYearAmount[i]);
                 LabelsYear[i] = StatisticsDataService.Instance.ListYear[i];
+            }
+
+            SeriesCollectionByYear = new SeriesCollection {columnSeries};
+        }
+
+        private void FillSeriesCollectionYearFull()
+        {
+            IsDataByYearEmpty = false;
+            ChartDataByYearLoading = false;
+            ChartDataByYearFullLoading = true;
+            DataGridByYearLoading = false;
+            DataGridByYearFullLoading = false;
+
+            LabelsYearFull = new string[StatisticsDataService.Instance.ListYearFull.Count];
+
+            var columnSeries2 = new ColumnSeries
+            {
+                //TODO: 
+                Title = "Wystąpił",
+                Values = new ChartValues<int>(),
+                DataLabels = true
+            };
+
+            for (int i = 0; i < StatisticsDataService.Instance.ListYearFull.Count; i++)
+            {
+                columnSeries2.Values.Add(StatisticsDataService.Instance.ListYearAmountFull[i]);
+                LabelsYearFull[i] = StatisticsDataService.Instance.ListYearFull[i];
+            }
+
+            if (StatisticsDataService.Instance.ListYearFull.Count >= 30)
+                ValueLabelRotation = 20;
+            if (StatisticsDataService.Instance.ListYearFull.Count >= 34)
+                ValueFontSize = 9;
+
+            SeriesCollectionByYearFull = new SeriesCollection { columnSeries2 };
+        }
+
+        private void FillDataGridByYear()
+        {
+            IsDataByYearEmpty = false;
+            ChartDataByYearLoading = false;
+            ChartDataByYearFullLoading = false;
+            DataGridByYearLoading = true;
+            DataGridByYearFullLoading = false;
+
+            DataByYearObservableCollection.Clear();
+
+            for (int i = 0; i < StatisticsDataService.Instance.ListYear.Count; i++)
+            {
+                var year = StatisticsDataService.Instance.ListYear[i];
+                var amount = StatisticsDataService.Instance.ListYearAmount[i];
+                DataByYearObservableCollection.Add(new ByYear(year, amount));
+            }
+        }
+
+        private void FillDataGridByYearFull()
+        {
+            IsDataByYearEmpty = false;
+            ChartDataByYearLoading = false;
+            ChartDataByYearFullLoading = false;
+            DataGridByYearLoading = false;
+            DataGridByYearFullLoading = true;
+
+            DataByYearObservableCollectionFull.Clear();
+
+            for (int i = 0; i < StatisticsDataService.Instance.ListYearFull.Count; i++)
+            {
+                var year = StatisticsDataService.Instance.ListYearFull[i];
+                var amount = StatisticsDataService.Instance.ListYearAmountFull[i];
+                DataByYearObservableCollectionFull.Add(new ByYear(year, amount));
+            }
+        }
+
+        private void FillSeriesCollectionByAuthor()
+        {
+            IsDataByAuthorEmpty = false;
+            ChartDataByAuthorLoading = true;
+            DataGridByAuthorLoading = false;
+        }
+
+        private void FillDataGridByAuthor()
+        {
+            IsDataByAuthorEmpty = false;
+            ChartDataByAuthorLoading = false;
+            DataGridByAuthorLoading = true;
+        }
+
+        private void FillSeriesCollectionMagazine()
+        {
+            IsDataByMagazineEmpty = false;
+            ChartDataLoading = true;
+            DataGridLoading = false;
+            ChartDataByMagazineFullLoading = false;
+            DataGridByMagazineFullLoading = false; 
+                  
+            SeriesCollectionByMagazine.Clear();
+            //LabelsMagazine = new string[StatisticsDataService.Instance.ListMagazine.Count];
+
+            for (int i = 0; i < StatisticsDataService.Instance.ListMagazineAmount.Count; i++)
+            {
+                SeriesCollectionByMagazine.Add(new ColumnSeries
+                {
+                        Title = StatisticsDataService.Instance.ListMagazine[i],
+                        Fill = Brushes.CornflowerBlue,
+                        DataLabels =  true
+                });
+                SeriesCollectionByMagazine[i].Values = new ChartValues<ObservableValue>();
+                var val = StatisticsDataService.Instance.ListMagazineAmount[i];
+                SeriesCollectionByMagazine[i].Values.Add(new ObservableValue(val));
+                //LabelsMagazine[i] = StatisticsDataService.Instance.ListMagazine[i];
+            }
+        }
+
+        private void FillSeriesCollectionByMagazineFull()
+        {
+            IsDataByMagazineEmpty = false;
+            ChartDataByMagazineFullLoading = true;
+            ChartDataLoading = false;
+            DataGridByMagazineFullLoading = false;
+            DataGridLoading = false;
+
+
+        }
+
+        private void FillDataGridByMagazine()
+        {
+            IsDataByMagazineEmpty = false;
+            ChartDataLoading = false;
+            DataGridLoading = true;
+            ChartDataByMagazineFullLoading = false;
+            DataGridByMagazineFullLoading = false;
+
+            DataByMagazineObservableCollection.Clear();
+            
+            for (int i = 0; i < StatisticsDataService.Instance.ListMagazine.Count; i++)
+            {
+                var name = StatisticsDataService.Instance.ListMagazine[i];
+                var amount = StatisticsDataService.Instance.ListMagazineAmount[i];
+                DataByMagazineObservableCollection.Add(new ByMagazine(name, amount));
+            }
+        }
+
+        private void FillDataGridByMagazineFull()
+        {
+            IsDataByMagazineEmpty = false;
+            ChartDataByMagazineFullLoading = false;
+            ChartDataLoading = false;
+            DataGridByMagazineFullLoading = true;
+            DataGridLoading = false;
+
+            DataByMagazineObservableCollectionFull.Clear();
+
+            for (int i = 0; i < StatisticsDataService.Instance.ListMagazineFull.Count; i++)
+            {
+                var name = StatisticsDataService.Instance.ListMagazineFull[i];
+                var amount = StatisticsDataService.Instance.ListMagazineAmountFull[i];
+                DataByMagazineObservableCollectionFull.Add(new ByMagazine(name, amount));
             }
         }
         #endregion

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Forms;
 using AnalyzerDatabase.Interfaces;
 using AnalyzerDatabase.Models;
 using LiveCharts.Helpers;
@@ -12,7 +14,19 @@ namespace AnalyzerDatabase.Services
     {
         private AnalyzerDatabaseStatistics _analyzerDatabaseStatistics;
         public readonly List<string> ListYear = new List<string>();
+        public readonly List<string> ListYearFull = new List<string>();
         public readonly List<int> ListYearAmount = new List<int>();
+        public readonly List<int> ListYearAmountFull = new List<int>();
+        public readonly List<string> ListMagazine = new List<string>();
+        public readonly List<int> ListMagazineAmount = new List<int>();
+        public readonly List<string> ListMagazineFull = new List<string>();
+        public readonly List<int> ListMagazineAmountFull = new List<int>();
+
+        private List<int> _listYear1 = new List<int>();
+        private List<int> _listYearAmount1 = new List<int>();
+
+        private List<int> _listYearFull = new List<int>();
+        private List<int> _listYearAmountFull = new List<int>();
 
         private static StatisticsDataService _instance;
 
@@ -87,55 +101,80 @@ namespace AnalyzerDatabase.Services
             return statistics;
         }
 
-        public void PublicationDateFromDatabasesLabels(ObservableCollection<ISearchResultsToDisplay> model)
+        public void PublicationDateFromDatabasesLabels(ObservableCollection<ISearchResultsToDisplay> model, bool isNewQuery, bool isNextPage, bool isPrevPage)
         {
-            int year;
-            List<int> listYear1 = new List<int>();
-            List<int> listYearAmount1 = new List<int>();
-
-            model.ForEach(x =>
+            if (isNewQuery)
             {
-                year = Int32.Parse(x.Year);
-                if (!listYear1.Any())
-                {
-                    listYear1.Add(year);
-                    listYearAmount1.Add(1);
-                }
-                else
-                {
-                    bool found = false;
+                ListYear.Clear();
+                ListYearAmount.Clear();
+                
+                _listYear1.Clear();
+                _listYearAmount1.Clear();
 
-                    for (int i = 0; i < listYear1.Count; i++)
-                    {
-                        if (listYear1[i] == year)
-                        {
-                            listYearAmount1[i]++;
-                            found = true;
-                            break;
-                        }
-                    }
+                _listYearFull.Clear();
+                _listYearAmountFull.Clear();
 
-                    if (!found)
-                    {
-                        listYear1.Add(year);
-                        listYearAmount1.Add(1);
-                    }
-                }
-            });
+                ListYearFull.Clear();
+                ListYearAmountFull.Clear();
 
-            List<int> indices = new List<int>(Enumerable.Range(0, listYear1.Count));
-
-            indices.Sort((x, y) => listYear1[x] - listYear1[y]);
-
-            for (int i = 0; i < indices.Count; i++)
-            {
-                var index = indices[i];
-                var item1 = listYear1[index];
-                var item2 = listYearAmount1[index];
-                ListYear.Add(item1.ToString());
-                ListYearAmount.Add(item2);
-                //Console.WriteLine($"{listYear1[index]} = {listYearAmount1[index]}");
+                DataByYearHelper(model, true, false, false);
             }
+            if(isNextPage)
+            {
+                ListYear.Clear();
+                ListYearAmount.Clear();
+
+                ListYearFull.Clear();
+                ListYearAmountFull.Clear();
+
+                _listYear1.Clear();
+                _listYearAmount1.Clear();
+
+                DataByYearHelper(model, false, true, false);
+            }
+            if (isPrevPage)
+            {
+                ListYear.Clear();
+                ListYearAmount.Clear();
+
+                _listYear1.Clear();
+                _listYearAmount1.Clear();
+
+                DataByYearHelper(model, false, false, true);
+            }
+        }
+
+        public void PublicationByMagazines(ObservableCollection<ISearchResultsToDisplay> model, bool isNewQuery, bool isNextPage, bool isPrevPage)
+        {
+            if (isNewQuery)
+            {
+                ListMagazine.Clear();
+                ListMagazineAmount.Clear();
+
+                ListMagazineFull.Clear();
+                ListMagazineAmountFull.Clear();
+
+                DataByMagazineHelper(model, true, false, false);
+            }
+            if (isNextPage)
+            {
+                ListMagazine.Clear();
+                ListMagazineAmount.Clear();
+
+                DataByMagazineHelper(model, false, true, false);
+            }
+            if (isPrevPage)
+            {
+                ListMagazine.Clear();
+                ListMagazineAmount.Clear();
+
+                DataByMagazineHelper(model, false, false, true);
+            }
+        }
+
+        public void PublicationsAuthors(ObservableCollection<ISearchResultsToDisplay> model)
+        {
+            //TODO:
         }
 
         public void IncrementScienceDirect()
@@ -179,5 +218,167 @@ namespace AnalyzerDatabase.Services
             statistics.PublicationsDownloadCount++;
             SaveStatistics();
         }
+
+        #region Helpers
+        private void DataByYearHelper(ObservableCollection<ISearchResultsToDisplay> model, bool isNewQuery, bool isNextPage, bool isPrevPage)
+        {
+            int year;
+
+            model.ForEach(x =>
+            {
+                year = Int32.Parse(x.Year);
+                if (!_listYear1.Any())
+                {
+                    _listYear1.Add(year);
+                    _listYearAmount1.Add(1);
+
+                    if (!_listYearFull.Any())
+                    {
+                        _listYearFull.Add(year);
+                        _listYearAmountFull.Add(1);
+                    }
+                }
+                else
+                {
+                    bool found = false;
+                    bool found2 = false;
+
+                    if (isNewQuery || isNextPage || isPrevPage)
+                    {
+                        for (int i = 0; i < _listYear1.Count; i++)
+                        {
+                            if (_listYear1[i] == year)
+                            {
+                                _listYearAmount1[i]++;
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if (!found)
+                        {
+                            _listYear1.Add(year);
+                            _listYearAmount1.Add(1);
+                        }
+                    }
+                    if (isNewQuery || isNextPage)
+                    {
+                        for (int i = 0; i < _listYearFull.Count; i++)
+                        {
+                            if (_listYearFull[i] == year)
+                            {
+                                _listYearAmountFull[i]++;
+                                found2 = true;
+                                break;
+                            }
+                        }
+
+                        if (!found2)
+                        {
+                            _listYearFull.Add(year);
+                            _listYearAmountFull.Add(1);
+                        }
+                    }
+                }
+            });
+
+            if (isNewQuery || isNextPage || isPrevPage)
+            {
+                List<int> indices = new List<int>(Enumerable.Range(0, _listYear1.Count));
+                indices.Sort((x, y) => _listYear1[x] - _listYear1[y]);
+
+
+                for (int i = 0; i < indices.Count; i++)
+                {
+                    var index = indices[i];
+                    var item1 = _listYear1[index];
+                    var item2 = _listYearAmount1[index];
+
+                    ListYear.Add(item1.ToString());
+                    ListYearAmount.Add(item2);
+                    //Console.WriteLine($"{listYear1[index]} = {listYearAmount1[index]}");
+                }
+
+                if (isNewQuery || isNextPage)
+                {
+                    List<int> indices2 = new List<int>(Enumerable.Range(0, _listYearFull.Count));
+                    indices2.Sort((x, y) => _listYearFull[x] - _listYearFull[y]);
+
+                    for (int i = 0; i < indices2.Count; i++)
+                    {
+                        var index = indices2[i];
+                        var item1 = _listYearFull[index];
+                        var item2 = _listYearAmountFull[index];
+
+                        ListYearFull.Add(item1.ToString());
+                        ListYearAmountFull.Add(item2);
+                    }
+                }
+            }
+        }
+
+        private void DataByMagazineHelper(ObservableCollection<ISearchResultsToDisplay> model, bool isNewQuery, bool isNextPage, bool isPrevPage)
+        {
+            string magazine;
+
+            model.ForEach(x =>
+            {
+                magazine = x.PublicationName;
+                if (!ListMagazine.Any())
+                {
+                    ListMagazine.Add(magazine);
+                    ListMagazineAmount.Add(1);
+
+                    if (!ListMagazineFull.Any())
+                    {
+                        ListMagazineFull.Add(magazine);
+                        ListMagazineAmountFull.Add(1);
+                    }
+                }
+                else
+                {
+                    bool found = false;
+                    bool found2 = false;
+
+                    if (isNewQuery || isNextPage || isPrevPage)
+                    {
+                        for (int i = 0; i < ListMagazine.Count; i++)
+                        {
+                            if (ListMagazine[i] == magazine)
+                            {
+                                ListMagazineAmount[i]++;
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if (!found)
+                        {
+                            ListMagazine.Add(magazine);
+                            ListMagazineAmount.Add(1);
+                        }
+                    }
+                    if (isNewQuery || isNextPage)
+                    {
+                        for (int i = 0; i < ListMagazineFull.Count; i++)
+                        {
+                            if (ListMagazineFull[i] == magazine)
+                            {
+                                ListMagazineAmountFull[i]++;
+                                found2 = true;
+                                break;
+                            }
+                        }
+
+                        if (!found2)
+                        {
+                            ListMagazineFull.Add(magazine);
+                            ListMagazineAmountFull.Add(1);
+                        }
+                    }
+                }
+            });
+        }
+        #endregion
     }
 }
