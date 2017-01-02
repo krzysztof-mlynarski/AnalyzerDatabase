@@ -69,8 +69,7 @@ namespace AnalyzerDatabase.Services
                     writer.NextRecord();
                 }
 
-                //TODO: jezyki
-                if (await ConfirmationDialog("Potwierdź", "Czy otworzyc wyeksportowany plik?"))
+                if (await ConfirmationDialog(GetString("Confirm"), GetString("OpenExportFile")))
                     Process.Start(saveFileDialog.FileName);
             }
         }
@@ -90,17 +89,15 @@ namespace AnalyzerDatabase.Services
                 {
                     var writer = new CsvWriter(streamWriter);
                     writer.Configuration.Delimiter = ";";
-                    //TODO: jezyki
-                    writer.WriteField("Download");
+                    writer.WriteField(GetString("Downloads"));
                     writer.WriteField(_currentPublicationsDownloadCount);
                     writer.NextRecord();
-                    writer.WriteField("Duplicate");
+                    writer.WriteField(GetString("Duplicates"));
                     writer.WriteField(_currentDuplicateCount);
                     writer.NextRecord();
                 }
 
-                //TODO: jezyki
-                if (await ConfirmationDialog("Potwierdź", "Czy otworzyc wyeksportowany plik?"))
+                if (await ConfirmationDialog(GetString("Confirm"), GetString("OpenExportFile")))
                     Process.Start(saveFileDialog.FileName);
             }
         }
@@ -123,15 +120,13 @@ namespace AnalyzerDatabase.Services
 
                     for (int i = 0; i < StatisticsDataService.Instance.ListYear.Count; i++)
                     {
-                        //TODO: jezyki
                         writer.WriteField(StatisticsDataService.Instance.ListYear[i]);
                         writer.WriteField(StatisticsDataService.Instance.ListYearAmount[i]);
                         writer.NextRecord();
                     }
                 }
 
-                //TODO: jezyki
-                if (await ConfirmationDialog("Potwierdź", "Czy otworzyc wyeksportowany plik?"))
+                if (await ConfirmationDialog(GetString("Confirm"), GetString("OpenExportFile")))
                     Process.Start(saveFileDialog.FileName);
             }
         }
@@ -154,15 +149,13 @@ namespace AnalyzerDatabase.Services
 
                     for (int i = 0; i < StatisticsDataService.Instance.ListYearFull.Count; i++)
                     {
-                        //TODO: jezyki
                         writer.WriteField(StatisticsDataService.Instance.ListYearFull[i]);
                         writer.WriteField(StatisticsDataService.Instance.ListYearAmountFull[i]);
                         writer.NextRecord();
                     }
                 }
 
-                //TODO: jezyki
-                if (await ConfirmationDialog("Potwierdź", "Czy otworzyc wyeksportowany plik?"))
+                if (await ConfirmationDialog(GetString("Confirm"), GetString("OpenExportFile")))
                     Process.Start(saveFileDialog.FileName);
             }
         }
@@ -185,15 +178,13 @@ namespace AnalyzerDatabase.Services
 
                     for (int i = 0; i < StatisticsDataService.Instance.ListMagazine.Count; i++)
                     {
-                        //TODO: jezyki
                         writer.WriteField(StatisticsDataService.Instance.ListMagazine[i]);
                         writer.WriteField(StatisticsDataService.Instance.ListMagazineAmount[i]);
                         writer.NextRecord();
                     }
                 }
 
-                //TODO: jezyki
-                if (await ConfirmationDialog("Potwierdź", "Czy otworzyc wyeksportowany plik?"))
+                if (await ConfirmationDialog(GetString("Confirm"), GetString("OpenExportFile")))
                     Process.Start(saveFileDialog.FileName);
             }
         }
@@ -216,15 +207,13 @@ namespace AnalyzerDatabase.Services
 
                     for (int i = 0; i < StatisticsDataService.Instance.ListMagazineFull.Count; i++)
                     {
-                        //TODO: jezyki
                         writer.WriteField(StatisticsDataService.Instance.ListMagazineFull[i]);
                         writer.WriteField(StatisticsDataService.Instance.ListMagazineAmountFull[i]);
                         writer.NextRecord();
                     }
                 }
 
-                //TODO: jezyki
-                if (await ConfirmationDialog("Potwierdź", "Czy otworzyc wyeksportowany plik?"))
+                if (await ConfirmationDialog(GetString("Confirm"), GetString("OpenExportFile")))
                     Process.Start(saveFileDialog.FileName);
             }
         }
@@ -257,8 +246,7 @@ namespace AnalyzerDatabase.Services
                     }
                 }
 
-                //TODO: jezyki
-                if (await ConfirmationDialog("Potwierdź", "Czy otworzyc wyeksportowany plik?"))
+                if (await ConfirmationDialog(GetString("Confirm"), GetString("OpenExportFile")))
                     Process.Start(saveFileDialog.FileName);
             }
         }

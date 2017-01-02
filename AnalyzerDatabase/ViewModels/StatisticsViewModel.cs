@@ -129,8 +129,7 @@ namespace AnalyzerDatabase.ViewModels
             {
                 new PieSeries
                 {
-                    //TODO: jezyki
-                    Title = "Publikacje",
+                    Title = GetString("Publications"),
                     Fill = Brushes.Green,
                     Values = new ChartValues<ObservableValue>
                     {
@@ -140,8 +139,7 @@ namespace AnalyzerDatabase.ViewModels
                 },
                 new PieSeries
                 {
-                    //TODO: jezyki
-                    Title = "Duplikaty",
+                    Title = GetString("Duplicate"),
                     Fill = Brushes.OrangeRed,
                     Values = new ChartValues<ObservableValue>
                     {
@@ -1019,8 +1017,7 @@ namespace AnalyzerDatabase.ViewModels
                 chartOverallOrYear = null;
             }
             else
-                //TODO: jezyki
-                ShowDialog("ERROR", "There is nothing to export");
+                ShowDialog(GetString("Error"), GetString("NoDataToExport"));
         }
 
         private async void ExportToImage(CartesianChart valueCartesianChart, PieChart valuePieChart)
@@ -1071,8 +1068,7 @@ namespace AnalyzerDatabase.ViewModels
                     encoder.Save(outStream);
                 }
 
-                //TODO: jezyki
-                if (await ConfirmationDialog("Potwierdź", "Czy otworzyc wyeksportowany plik?"))
+                if (await ConfirmationDialog(GetString("Confirm"), GetString("OpenExportFile")))
                     Process.Start(saveFileDialog.FileName);
             }
         }
@@ -1181,32 +1177,6 @@ namespace AnalyzerDatabase.ViewModels
             IsDataOverallEmpty = false;
             ChartDataOverall2Loading = true;
             DataGridOverall2Loading = false;
-
-            //SeriesCollectionDuplicateAndDownloadCount.Clear();
-
-            //SeriesCollectionDuplicateAndDownloadCount.Add(new RowSeries
-            //{
-            //    //TODO: jezyki
-            //    Title = "Publikacje",
-            //    Fill = Brushes.Green,
-            //    DataLabels = true
-            //});
-            //SeriesCollectionDuplicateAndDownloadCount[0].Values = new ChartValues<ObservableValue>
-            //{
-            //    new ObservableValue(CurrentPublicationsDownloadCount)
-            //};
-
-            //SeriesCollectionDuplicateAndDownloadCount.Add(new RowSeries
-            //{
-            //    //TODO: jezyki
-            //    Title = "Duplikaty",
-            //    Fill = Brushes.OrangeRed,
-            //    DataLabels = true
-            //});
-            //SeriesCollectionDuplicateAndDownloadCount[1].Values = new ChartValues<ObservableValue>
-            //{
-            //    new ObservableValue(CurrentDuplicateCount)
-            //}; 
         }
 
         private void FillDataGridDuplicateAndDownloadCount()
@@ -1217,9 +1187,8 @@ namespace AnalyzerDatabase.ViewModels
 
             OverallStatistics2ObservableCollection.Clear();
 
-            //TODO: jezyki
-            OverallStatistics2ObservableCollection.Add(new OverallStatistics2("Publikacje", StatisticsDataService.Instance.GetStatistics.PublicationsDownloadCount));
-            OverallStatistics2ObservableCollection.Add(new OverallStatistics2("Duplikaty", StatisticsDataService.Instance.GetStatistics.DuplicateCount));
+            OverallStatistics2ObservableCollection.Add(new OverallStatistics2(GetString("Publications"), StatisticsDataService.Instance.GetStatistics.PublicationsDownloadCount));
+            OverallStatistics2ObservableCollection.Add(new OverallStatistics2(GetString("Duplicate"), StatisticsDataService.Instance.GetStatistics.DuplicateCount));
         }
 
         private void FillSeriesCollectionYear()
@@ -1235,8 +1204,7 @@ namespace AnalyzerDatabase.ViewModels
 
             var columnSeries = new ColumnSeries
             {
-                //TODO: 
-                Title = "Wystąpił",
+                Title = GetString("Occurred"),
                 Values = new ChartValues<int>(),
                 DataLabels = true
             };
@@ -1262,8 +1230,7 @@ namespace AnalyzerDatabase.ViewModels
 
             var columnSeries2 = new ColumnSeries
             {
-                //TODO: 
-                Title = "Wystąpił",
+                Title = GetString("Occurred"),
                 Values = new ChartValues<int>(),
                 DataLabels = true
             };

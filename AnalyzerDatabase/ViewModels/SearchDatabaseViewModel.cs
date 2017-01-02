@@ -65,6 +65,8 @@ namespace AnalyzerDatabase.ViewModels
         private bool _checkBoxScienceDirect = true;
         private bool _checkBoxIeeeXplore = true;
 
+        private bool _isDataEmpty = true;
+
         private static int _startUpScienceDirect;
         private static int _startUpScopus;
         private static int _startUpSpringer = 1;
@@ -373,6 +375,19 @@ namespace AnalyzerDatabase.ViewModels
             set
             {
                 _dataGridResults = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool IsDataEmpty
+        {
+            get
+            {
+                return _isDataEmpty;
+            }
+            set
+            {
+                _isDataEmpty = value;
                 RaisePropertyChanged();
             }
         }
@@ -804,6 +819,7 @@ namespace AnalyzerDatabase.ViewModels
                     {
                         startTime = DateTime.Now;
                         IsDataLoading = true;
+                        IsDataEmpty = false;
 
                         #region ScienceDirect/Scopus/Springer/IeeeXplore
 
@@ -1227,7 +1243,7 @@ namespace AnalyzerDatabase.ViewModels
                     finally
                     {
                         IsDataLoading = false;
-
+                        
                         var stopTime = DateTime.Now;
                         TimeSpan executionTime = stopTime - startTime;
                         _executionTime = "(" + executionTime.TotalSeconds + GetString("Seconds") + ")";
@@ -1237,6 +1253,9 @@ namespace AnalyzerDatabase.ViewModels
                         TotalResultsToDisplay?.ToList().ForEach(e => allTotalResults += Int32.Parse(e.OpensearchTotalResults));
 
                         TotalResults = (GetString("AboutResult") + " " + allTotalResults + " " + GetString("Results") + " " + _executionTime);
+
+                        if(SearchResultsToDisplay == null)
+                            IsDataEmpty = true;
 
                         if (SearchResultsToDisplay != null)
                         {

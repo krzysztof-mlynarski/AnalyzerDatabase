@@ -61,6 +61,11 @@
 
         <!--WYSWIETLANIE WYNIKOW WYSZUKIWANIA-->
         <Grid Grid.Row="2" Margin="0,90,0,10" Grid.RowSpan="2">
+            <TextBlock Text="{x:Static res:Resources.NoDataToDisplayInDataGrid}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="20"
+                               Visibility="{Binding IsDataEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             <DataGrid x:Name="FirstDataGrid"
                       ItemsSource="{Binding Path=CollectionView}"
                       AutoGenerateColumns="False"

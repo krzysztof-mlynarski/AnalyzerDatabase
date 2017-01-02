@@ -17,7 +17,7 @@ namespace AnalyzerDatabase
     /// </summary>
     public partial class App : Application
     {
-        //private CultureInfo cultureOverride = new CultureInfo("pl-PL");
+        //private CultureInfo cultureOverride = new CultureInfo("en-EN");
         //public App()
         //{
         //    if (Debugger.IsAttached == true && cultureOverride != null)

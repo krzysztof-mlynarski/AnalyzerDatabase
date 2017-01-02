@@ -26,6 +26,11 @@
     </Window.Resources>
 
     <Grid>
+        <TextBlock Text="{x:Static res:Resources.NoDataToDisplayInDataGrid}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="20"
+                               Visibility="{Binding IsDataEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"/>
         <!-- Extended DataGrid -->
         <DataGrid x:Name="ExtendedDataGrid"
                     ItemsSource="{Binding CollectionView}"

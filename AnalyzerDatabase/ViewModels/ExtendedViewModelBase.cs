@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Globalization;
+using System.Reflection;
 using System.Resources;
 using System.Threading.Tasks;
 using System.Windows;
@@ -49,7 +50,7 @@ namespace AnalyzerDatabase.ViewModels
 
         protected string GetString(string name)
         {
-            return _resourceManager.GetString(name, SettingsService.Instance.Culture);
+            return _resourceManager.GetString(name, CultureInfo.CurrentCulture);
         }
 
         protected async void ShowDialog(string title, string discription)
@@ -69,9 +70,8 @@ namespace AnalyzerDatabase.ViewModels
         {
             MetroDialogSettings settings = new MetroDialogSettings()
             {
-                //TODO: ustawic pobiernaie dla danego jezyka
-                AffirmativeButtonText = "Tak",
-                NegativeButtonText = "Nie",
+                AffirmativeButtonText = GetString("Yes"),
+                NegativeButtonText = GetString("No"),
                 AnimateShow = true,
                 ColorScheme = MetroDialogColorScheme.Theme
             };
@@ -84,9 +84,8 @@ namespace AnalyzerDatabase.ViewModels
         {
             MetroDialogSettings settings = new MetroDialogSettings()
             {
-                //TODO: ustawic pobiernaie dla danego jezyka
-                AffirmativeButtonText = "Settings",
-                NegativeButtonText = "OK",
+                AffirmativeButtonText = GetString("Settings"),
+                NegativeButtonText = GetString("OK"),
                 AnimateShow = true,
                 ColorScheme = MetroDialogColorScheme.Theme
             };

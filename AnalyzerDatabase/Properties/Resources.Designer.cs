@@ -88,6 +88,15 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Amount.
+        /// </summary>
+        public static string Amount {
+            get {
+                return ResourceManager.GetString("Amount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Amount downloaded publications:.
         /// </summary>
         public static string AmountDownloadedPublications {
@@ -160,6 +169,15 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to By magazine.
+        /// </summary>
+        public static string ByMagazine {
+            get {
+                return ResourceManager.GetString("ByMagazine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to By publication.
         /// </summary>
         public static string ByPublication {
@@ -196,11 +214,29 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirm.
+        /// </summary>
+        public static string Confirm {
+            get {
+                return ResourceManager.GetString("Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The number of occurrences of a given year.
         /// </summary>
         public static string CountYear {
             get {
                 return ResourceManager.GetString("CountYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Database.
+        /// </summary>
+        public static string Database {
+            get {
+                return ResourceManager.GetString("Database", resourceCulture);
             }
         }
         
@@ -241,6 +277,33 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Downloads.
+        /// </summary>
+        public static string Downloads {
+            get {
+                return ResourceManager.GetString("Downloads", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duplicate.
+        /// </summary>
+        public static string Duplicate {
+            get {
+                return ResourceManager.GetString("Duplicate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duplicates.
+        /// </summary>
+        public static string Duplicates {
+            get {
+                return ResourceManager.GetString("Duplicates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to English.
         /// </summary>
         public static string English {
@@ -250,11 +313,29 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        public static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There was a problem downloading the publication, try again in a moment..
         /// </summary>
         public static string ErrorDownloadPublication {
             get {
                 return ResourceManager.GetString("ErrorDownloadPublication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export data from a full review to a .csv file.
+        /// </summary>
+        public static string ExportFullDataGrid {
+            get {
+                return ResourceManager.GetString("ExportFullDataGrid", resourceCulture);
             }
         }
         
@@ -421,11 +502,65 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Magazine.
+        /// </summary>
+        public static string Magazine {
+            get {
+                return ResourceManager.GetString("Magazine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Next.
         /// </summary>
         public static string NextBtn {
             get {
                 return ResourceManager.GetString("NextBtn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        public static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No data to display, select the graph or table of data!.
+        /// </summary>
+        public static string NoDataToDisplay {
+            get {
+                return ResourceManager.GetString("NoDataToDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No data to display, enter a search query!.
+        /// </summary>
+        public static string NoDataToDisplayInDataGrid {
+            get {
+                return ResourceManager.GetString("NoDataToDisplayInDataGrid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is no data to export!.
+        /// </summary>
+        public static string NoDataToExport {
+            get {
+                return ResourceManager.GetString("NoDataToExport", resourceCulture);
             }
         }
         
@@ -457,6 +592,24 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Occured:.
+        /// </summary>
+        public static string Occurred {
+            get {
+                return ResourceManager.GetString("Occurred", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        public static string OK {
+            get {
+                return ResourceManager.GetString("OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open Access.
         /// </summary>
         public static string OpenAccessDataGrid {
@@ -471,6 +624,15 @@ namespace AnalyzerDatabase.Properties {
         public static string OpenContainingFolder {
             get {
                 return ResourceManager.GetString("OpenContainingFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to open the exported file?.
+        /// </summary>
+        public static string OpenExportFile {
+            get {
+                return ResourceManager.GetString("OpenExportFile", resourceCulture);
             }
         }
         
@@ -534,6 +696,15 @@ namespace AnalyzerDatabase.Properties {
         public static string PublicationNameDataGrid {
             get {
                 return ResourceManager.GetString("PublicationNameDataGrid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Publications.
+        /// </summary>
+        public static string Publications {
+            get {
+                return ResourceManager.GetString("Publications", resourceCulture);
             }
         }
         
@@ -612,9 +783,72 @@ namespace AnalyzerDatabase.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
+        public static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
         public static string SettingsMenu {
             get {
                 return ResourceManager.GetString("SettingsMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show chart for the page in the search engine.
+        /// </summary>
+        public static string ShowChart {
+            get {
+                return ResourceManager.GetString("ShowChart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to See chart for full review.
+        /// </summary>
+        public static string ShowChartFull {
+            get {
+                return ResourceManager.GetString("ShowChartFull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show graph the amount of appeals to the bases.
+        /// </summary>
+        public static string ShowChartOverall1 {
+            get {
+                return ResourceManager.GetString("ShowChartOverall1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show graph number of downloads / duplicate.
+        /// </summary>
+        public static string ShowChartOverall2 {
+            get {
+                return ResourceManager.GetString("ShowChartOverall2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to See details in the table for the page in the search engine.
+        /// </summary>
+        public static string ShowDataInTable {
+            get {
+                return ResourceManager.GetString("ShowDataInTable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to See details in the table of the full review.
+        /// </summary>
+        public static string ShowDataInTableFull {
+            get {
+                return ResourceManager.GetString("ShowDataInTableFull", resourceCulture);
             }
         }
         
@@ -732,6 +966,24 @@ namespace AnalyzerDatabase.Properties {
         public static string Year {
             get {
                 return ResourceManager.GetString("Year", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Year.
+        /// </summary>
+        public static string YearRok {
+            get {
+                return ResourceManager.GetString("YearRok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        public static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
     }
