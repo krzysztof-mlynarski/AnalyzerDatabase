@@ -7,12 +7,6 @@ namespace AnalyzerDatabase.Models
     public class AnalyzerDatabaseSettings
     {
         #region Variables
-        [XmlElement("CurrentLanguage")]
-        public string CurrentLanguage { get; set; }
-
-        [XmlElement("CurrentStyle")]
-        public string CurrentStyle { get; set; }
-
         [XmlElement("ScienceDirectAndScopusApiKey")]
         public string ScienceDirectAndScopusApiKey { get; set; }
 

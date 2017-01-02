@@ -3,7 +3,6 @@ using System.Reflection;
 using System.Resources;
 using System.Threading.Tasks;
 using System.Windows;
-using AnalyzerDatabase.Services;
 using GalaSoft.MvvmLight;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -12,14 +11,24 @@ namespace AnalyzerDatabase.ViewModels
 {
     public class ExtendedViewModelBase : ViewModelBase
     {
+        #region Variables
+
         private ViewModelBase _currentViewModel;
         private readonly ResourceManager _resourceManager;
         private readonly MetroWindow _metroWindow = Application.Current.MainWindow as MetroWindow;
+
+        #endregion
+
+        #region Construtors
 
         protected ExtendedViewModelBase()
         {
             _resourceManager = new ResourceManager("AnalyzerDatabase.Properties.Resources", Assembly.GetExecutingAssembly());
         }
+
+        #endregion
+
+        #region Getters/Setters
 
         public ViewModelBase CurrentViewModel
         {
@@ -35,6 +44,10 @@ namespace AnalyzerDatabase.ViewModels
                 RaisePropertyChanged();
             }
         }
+
+        #endregion
+
+        #region Private/Protected Method
 
         private void OnLoad()
         {
@@ -93,5 +106,7 @@ namespace AnalyzerDatabase.ViewModels
             MessageDialogResult result = await _metroWindow.ShowMessageAsync(title, description, MessageDialogStyle.AffirmativeAndNegative, settings);
             return result == MessageDialogResult.Affirmative;
         }
+
+        #endregion
     }
 }

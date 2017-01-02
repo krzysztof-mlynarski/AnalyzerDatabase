@@ -1,10 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using AnalyzerDatabase.Enums;
 using AnalyzerDatabase.Interfaces;
-using AnalyzerDatabase.Models.Springer;
 using LiveCharts.Helpers;
 using Newtonsoft.Json;
 
@@ -12,6 +8,7 @@ namespace AnalyzerDatabase.Models.ScienceDirect
 {
     public class EntryScienceDirect : ISearchResultsToDisplay
     {
+        #region Variables
         [JsonProperty("dc:title")]
         public string Title { get; set; }
 
@@ -93,7 +90,9 @@ namespace AnalyzerDatabase.Models.ScienceDirect
 
         [JsonProperty("authors")]
         public Authors Authors { get; set; }
+        #endregion
 
+        #region Constructors
         public EntryScienceDirect(string fa, IList<LinkArticle> link, string dcIdentifier, string eid, string prismUrl, string dcTitle, string dcCreator, string prismPublicationName, string prismIssn, string prismVolume, string prismIssueIdentifier, IList<PrismCoverDate> prismCoverDate, string prismCoverDisplayDate, string prismStartingPage, string prismEndingPage, string prismDoi, string openaccess, bool openaccessArticle, bool openArchiveArticle, string openaccessUserLicense, string pii, Authors authors, string prismTeaser)
         {
             Fa = fa;
@@ -121,14 +120,16 @@ namespace AnalyzerDatabase.Models.ScienceDirect
             Abstract = prismTeaser;
             Source = SourceDatabase.ScienceDirect;
         }
+        #endregion
 
+        #region Public methods
         public List<string> GetCreator()
         {
             var list = new List<string>();
             Authors?.Author.ForEach(x => list.Add(x.GivenName + " " + x.Surname));
 
             return list;
-
         }
+        #endregion
     }
 }

@@ -4,6 +4,7 @@ namespace AnalyzerDatabase.Models
 {
     public class AnalyzerDatabaseStatistics
     {
+        #region Variables
         [XmlElement("ScienceDirectCount")]
         public int ScienceDirectCount { get; set; }
 
@@ -24,5 +25,6 @@ namespace AnalyzerDatabase.Models
 
         [XmlElement("SumCount")]
         public int SumCount { get; set; }
+        #endregion
     }
 }

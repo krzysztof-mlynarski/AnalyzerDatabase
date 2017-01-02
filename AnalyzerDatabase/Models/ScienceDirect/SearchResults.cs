@@ -6,6 +6,7 @@ namespace AnalyzerDatabase.Models.ScienceDirect
 {
     public class SearchResults : ITotalResultsToDisplay
     {
+        #region Variables
         [JsonProperty("opensearch:totalResults")]
         public string OpensearchTotalResults { get; set; }
 
@@ -23,7 +24,9 @@ namespace AnalyzerDatabase.Models.ScienceDirect
 
         [JsonProperty("entry")]
         public IList<EntryScienceDirect> Entry { get; set; }
+        #endregion
 
+        #region Constructors
         public SearchResults(string opensearchTotalResults, string opensearchStartIndex, string opensearchItemsPerPage, OpensearchQuery opensearchQuery, IList<LinkPaging> link, IList<EntryScienceDirect> entry)
         {
             OpensearchTotalResults = opensearchTotalResults;
@@ -33,5 +36,6 @@ namespace AnalyzerDatabase.Models.ScienceDirect
             Link = link;
             Entry = entry;
         }
+        #endregion
     }
 }

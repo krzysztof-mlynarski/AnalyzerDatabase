@@ -7,6 +7,7 @@ namespace AnalyzerDatabase.Models.IeeeXplore
     [XmlRoot(ElementName = "root")]
     public class IeeeXploreSearchQuery : ITotalResultsToDisplay
     {
+        #region Variables
         [XmlElement(ElementName = "totalfound")]
         public string OpensearchTotalResults { get; set; }
 
@@ -15,5 +16,6 @@ namespace AnalyzerDatabase.Models.IeeeXplore
 
         [XmlElement(ElementName = "document")]
         public List<Document> Document { get; set; }
+        #endregion
     }
 }

@@ -11,8 +11,6 @@ namespace AnalyzerDatabase.ViewModels
     public class SettingsViewModel : ExtendedViewModelBase
     {
         #region Variables
-        private string _selectedLanguage;
-        private string _selectedAppStyle;
         private string _currentPublicationSavingPath;
         private string _currentScienceDirectAndScopusApiKey;
         private string _currentSpringerApiKey;
@@ -24,21 +22,9 @@ namespace AnalyzerDatabase.ViewModels
         private RelayCommand _openPageDevSpringer;
         #endregion
 
-        #region Constructor
+        #region Constructors
         public SettingsViewModel()
         {
-            if (SettingsService.Instance.Settings.CurrentLanguage == "pl-PL")
-                SelectedLanguage = GetString("Polish");
-            if (SettingsService.Instance.Settings.CurrentLanguage == "en-EN")
-                SelectedLanguage = GetString("English");
-
-            if (SettingsService.Instance.Settings.CurrentStyle == "cobalt.xaml")
-                SelectedAppStyle = GetString("Cobalt");
-            if (SettingsService.Instance.Settings.CurrentStyle == "green.xaml")
-                SelectedAppStyle = GetString("Green");
-            if (SettingsService.Instance.Settings.CurrentStyle == "indigo.xaml")
-                SelectedAppStyle = GetString("Indygo");
-
             CurrentPublicationSavingPath = SettingsService.Instance.Settings.SavingPublicationPath;
             CurrentScienceDirectAndScopusApiKey = SettingsService.Instance.Settings.ScienceDirectAndScopusApiKey;
             CurrentSpringerApiKey = SettingsService.Instance.Settings.SpringerApiKey;
@@ -48,44 +34,6 @@ namespace AnalyzerDatabase.ViewModels
         #endregion
 
         #region Getters/Setters
-        public string SelectedAppStyle
-        {
-            get
-            {
-                return _selectedAppStyle;
-            }
-            set
-            {
-                if (_selectedAppStyle != null && _selectedAppStyle == value)
-                    return;
-
-                _selectedAppStyle = value;
-
-                SelectedAppStyleItem(_selectedAppStyle);
-
-                RaisePropertyChanged();
-            }
-        }
-
-        public string SelectedLanguage
-        {
-            get
-            {
-                return _selectedLanguage;
-            }
-            set
-            {
-                if (_selectedLanguage != null && _selectedLanguage == value)
-                    return;
-
-                _selectedLanguage = value;
-
-                SelectedLanguageItem(_selectedLanguage);
-
-                RaisePropertyChanged();
-            }
-        }
-
         public string CurrentPublicationSavingPath
         {
             get
@@ -170,7 +118,6 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
-
         #endregion
 
         #region RelayCommand
@@ -191,9 +138,11 @@ namespace AnalyzerDatabase.ViewModels
             {
                 return _openDirectoryFilePicker ?? (_openDirectoryFilePicker = new RelayCommand(() =>
                 {
-                    FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
-                    folderBrowserDialog.SelectedPath = AppDomain.CurrentDomain.BaseDirectory;
-                    folderBrowserDialog.Description = GetString("PickFolderWithPublication");
+                    FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog
+                    {
+                        SelectedPath = AppDomain.CurrentDomain.BaseDirectory,
+                        Description = GetString("PickFolderWithPublication")
+                    };
 
                     if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
                     {
@@ -229,8 +178,7 @@ namespace AnalyzerDatabase.ViewModels
         #region Private methods
         private void RegisterInStartup(bool isChecked)
         {
-            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey
-                    ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 
             if (isChecked)
             {
@@ -240,32 +188,6 @@ namespace AnalyzerDatabase.ViewModels
             {
                 registryKey?.DeleteValue("Analyzer Database");
             }
-        }
-
-        private void SelectedAppStyleItem(string style)
-        {
-            //System.Windows.Application.Current.Resources.MergedDictionaries.Add(style);
-            // get the current app style (theme and accent) from the application
-            // you can then use the current theme and custom accent instead set a new theme
-            //   Tuple<AppTheme, Accent> appStyle = ThemeManager.DetectAppStyle(MediaTypeNames.Application.Current);
-
-            // now set the Green accent and dark theme
-            //     ThemeManager.ChangeAppStyle(MediaTypeNames.Application.Current,
-            //                            ThemeManager.GetAccent("Cobalt"),
-            //                            ThemeManager.GetAppTheme("BaseLight")); // or appStyle.Item1
-        }
-
-        private void SelectedLanguageItem(string name)
-        {
-            if (name == GetString("Polish"))
-                SettingsService.Instance.Settings.CurrentLanguage = "pl-PL";
-            if (name == GetString("English"))
-                SettingsService.Instance.Settings.CurrentLanguage = "en-EN";
-
-            SettingsService.Instance.Save();
-
-            //System.Windows.Forms.Application.Restart();
-            //System.Windows.Application.Current.Shutdown();
         }
 
         #endregion

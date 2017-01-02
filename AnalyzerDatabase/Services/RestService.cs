@@ -18,7 +18,7 @@ namespace AnalyzerDatabase.Services
 {
     public class RestService : IRestService
     {
-        #region Private fields
+        #region Variables
         private readonly ResourceDictionary _resources = Application.Current.Resources;
         private readonly IDeserializeJsonService _deserializeJsonService;
         private readonly IStatisticsDataService _statisticsDataService;
@@ -220,22 +220,10 @@ namespace AnalyzerDatabase.Services
 
                 return await GetWebPageSourcePdf(url, title, cts);
             }
-            catch (TaskCanceledException)
+            catch
             {
-                throw;
+                throw new NotImplementedException();
             }
-            catch (Exception)
-            {
-                Messenger.Default.Send(new ExceptionToSettingsMessage
-                {
-                    Exception = ViewModelLocator.Instance.FullDataGrid
-                });
-                //TODO:
-
-                //ShowDialog(GetString("TitleDialogError"), GetString("ErrorDownloadPublication"));
-                throw;
-            }
-
         }
 
         #endregion

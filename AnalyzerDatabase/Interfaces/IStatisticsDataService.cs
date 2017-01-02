@@ -1,6 +1,4 @@
-﻿using AnalyzerDatabase.Models;
-
-namespace AnalyzerDatabase.Interfaces
+﻿namespace AnalyzerDatabase.Interfaces
 {
     public interface IStatisticsDataService
     {

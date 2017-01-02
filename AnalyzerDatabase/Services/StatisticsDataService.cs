@@ -10,27 +10,31 @@ namespace AnalyzerDatabase.Services
 {
     public class StatisticsDataService : IStatisticsDataService
     {
+        #region Variables
         private AnalyzerDatabaseStatistics _analyzerDatabaseStatistics;
+
         public readonly List<string> ListYear = new List<string>();
-        public readonly List<string> ListYearFull = new List<string>();
         public readonly List<int> ListYearAmount = new List<int>();
+        private List<int> _listYear1 = new List<int>();
+        private List<int> _listYearAmount1 = new List<int>();
+
+        public readonly List<string> ListYearFull = new List<string>();
         public readonly List<int> ListYearAmountFull = new List<int>();
+        private List<int> _listYearFull = new List<int>();
+        private List<int> _listYearAmountFull = new List<int>();
+
         public readonly List<string> ListMagazine = new List<string>();
         public readonly List<int> ListMagazineAmount = new List<int>();
         public readonly List<string> ListMagazineFull = new List<string>();
         public readonly List<int> ListMagazineAmountFull = new List<int>();
 
-        private List<int> _listYear1 = new List<int>();
-        private List<int> _listYearAmount1 = new List<int>();
-
-        private List<int> _listYearFull = new List<int>();
-        private List<int> _listYearAmountFull = new List<int>();
-
         public readonly List<string> ListAuthor = new List<string>();
         public readonly List<int> ListAuthorAmount = new List<int>();
         public readonly List<string> ListAuthorFull = new List<string>();
         public readonly List<int> ListAuthorAmountFull = new List<int>();
+        #endregion
 
+        #region Singleton
         private static StatisticsDataService _instance;
 
         public static StatisticsDataService Instance
@@ -44,7 +48,9 @@ namespace AnalyzerDatabase.Services
         public StatisticsDataService()
         {
         }
+        #endregion
 
+        #region Public methods
         public void SaveStatistics()
         {
             XmlSerialize<AnalyzerDatabaseStatistics>.Serialize(_analyzerDatabaseStatistics, LocalizationStatisticsService.AnalyzerDatabaseStatisticsPath);
@@ -56,52 +62,6 @@ namespace AnalyzerDatabase.Services
             {
                 return _analyzerDatabaseStatistics = LoadStatistics();
             }
-        }
-
-        private AnalyzerDatabaseStatistics LoadStatistics()
-        {
-            try
-            {
-                AnalyzerDatabaseStatistics statistics;
-                if (ZetaLongPaths.ZlpIOHelper.FileExists(LocalizationStatisticsService.AnalyzerDatabaseStatisticsPath))
-                {
-                    statistics = XmlSerialize<AnalyzerDatabaseStatistics>.Deserialize(
-                        LocalizationStatisticsService.AnalyzerDatabaseStatisticsPath);
-                }
-                else
-                {
-                    statistics = EmptyStatistics();
-                }
-
-                return statistics;
-            }
-            catch (Exception)
-            {
-                return EmptyStatistics();
-            }
-        }
-
-        private AnalyzerDatabaseStatistics EmptyStatistics()
-        {
-            AnalyzerDatabaseStatistics statistics = new AnalyzerDatabaseStatistics();
-            XmlSerialize<AnalyzerDatabaseStatistics>.InitEmptyProperties(statistics);
-
-            statistics.ScienceDirectCount = 0;
-            statistics.ScopusCount = 0;
-            statistics.SpringerCount = 0;
-            statistics.IeeeXploreCount = 0;
-            statistics.DuplicateCount = 0;
-            statistics.PublicationsDownloadCount = 0;
-            statistics.SumCount = 0;
-
-            if (!ZetaLongPaths.ZlpIOHelper.DirectoryExists(LocalizationStatisticsService.ProgramDataApplicationDirectory))
-            {
-                ZetaLongPaths.ZlpIOHelper.CreateDirectory(LocalizationStatisticsService.ProgramDataApplicationDirectory);
-            }
-
-            XmlSerialize<AnalyzerDatabaseStatistics>.Serialize(statistics, LocalizationStatisticsService.AnalyzerDatabaseStatisticsPath);
-
-            return statistics;
         }
 
         public void PublicationDateFromDatabasesLabels(ObservableCollection<ISearchResultsToDisplay> model, bool isNewQuery, bool isNextPage, bool isPrevPage)
@@ -244,6 +204,55 @@ namespace AnalyzerDatabase.Services
             statistics.PublicationsDownloadCount++;
             SaveStatistics();
         }
+        #endregion
+
+        #region Private methods
+        private AnalyzerDatabaseStatistics LoadStatistics()
+        {
+            try
+            {
+                AnalyzerDatabaseStatistics statistics;
+                if (ZetaLongPaths.ZlpIOHelper.FileExists(LocalizationStatisticsService.AnalyzerDatabaseStatisticsPath))
+                {
+                    statistics = XmlSerialize<AnalyzerDatabaseStatistics>.Deserialize(
+                        LocalizationStatisticsService.AnalyzerDatabaseStatisticsPath);
+                }
+                else
+                {
+                    statistics = EmptyStatistics();
+                }
+
+                return statistics;
+            }
+            catch (Exception)
+            {
+                return EmptyStatistics();
+            }
+        }
+
+        private AnalyzerDatabaseStatistics EmptyStatistics()
+        {
+            AnalyzerDatabaseStatistics statistics = new AnalyzerDatabaseStatistics();
+            XmlSerialize<AnalyzerDatabaseStatistics>.InitEmptyProperties(statistics);
+
+            statistics.ScienceDirectCount = 0;
+            statistics.ScopusCount = 0;
+            statistics.SpringerCount = 0;
+            statistics.IeeeXploreCount = 0;
+            statistics.DuplicateCount = 0;
+            statistics.PublicationsDownloadCount = 0;
+            statistics.SumCount = 0;
+
+            if (!ZetaLongPaths.ZlpIOHelper.DirectoryExists(LocalizationStatisticsService.ProgramDataApplicationDirectory))
+            {
+                ZetaLongPaths.ZlpIOHelper.CreateDirectory(LocalizationStatisticsService.ProgramDataApplicationDirectory);
+            }
+
+            XmlSerialize<AnalyzerDatabaseStatistics>.Serialize(statistics, LocalizationStatisticsService.AnalyzerDatabaseStatisticsPath);
+
+            return statistics;
+        }
+        #endregion
 
         #region Helpers
         private void DataByYearHelper(ObservableCollection<ISearchResultsToDisplay> model, bool isNewQuery, bool isNextPage, bool isPrevPage)

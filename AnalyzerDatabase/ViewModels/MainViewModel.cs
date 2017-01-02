@@ -27,7 +27,7 @@ namespace AnalyzerDatabase.ViewModels
 
         #endregion
 
-        #region Constructor
+        #region Constructors
         public MainViewModel(IInternetConnectionService internetConnectionService)
         {
             _internetConnectionService = internetConnectionService;
@@ -51,7 +51,7 @@ namespace AnalyzerDatabase.ViewModels
             Page = message.Exception;
             var source = message.Source;
 
-            if (await ExceptionDialog("ERROR - " + source, "Wystąpił problem komunikacji z bazą.\nSprawdź w ustawieniach czy posiadasz wpisany klucz API dla tej bazy!"))
+            if (await ExceptionDialog(GetString("Error") + " - " + source, GetString("ConnectionFailed") + "\n" + GetString("CheckApiKey")))
                 NavigateTo(Page);
         }
 

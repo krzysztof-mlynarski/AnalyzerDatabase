@@ -442,4 +442,13 @@
   <data name="NameAuthor" xml:space="preserve">
     <value>Name and surname</value>
   </data>
+  <data name="CheckApiKey" xml:space="preserve">
+    <value>Check the settings that you have typed API key for this database!</value>
+  </data>
+  <data name="ConnectionFailed" xml:space="preserve">
+    <value>There was a problem communicating with the database.</value>
+  </data>
+  <data name="ReceivedResultsTitleWindow" xml:space="preserve">
+    <value>Received results</value>
+  </data>
 </root>

@@ -8,6 +8,7 @@ namespace AnalyzerDatabase.Services
 {
     public static class XmlSerialize<T>
     {
+        #region Public methods
         public static void Serialize(T source, string fileName, bool emptyNamespace = false)
         {
             using (Stream outputStream = new FileStream(fileName, FileMode.Create))
@@ -70,6 +71,6 @@ namespace AnalyzerDatabase.Services
                 pi.SetValue(objectToCheck, newVal, null);
             }
         }
-
+        #endregion
     }
 }

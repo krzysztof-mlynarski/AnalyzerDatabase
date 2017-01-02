@@ -1,14 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using AnalyzerDatabase.Enums;
 using AnalyzerDatabase.Interfaces;
-using AnalyzerDatabase.Models.Springer;
 using Newtonsoft.Json;
 
 namespace AnalyzerDatabase.Models.Scopus
 {
     public class EntryScopus : ISearchResultsToDisplay
     {
+        #region Variables
         [JsonProperty("dc:title")]
         public string Title { get; set; }
 
@@ -20,8 +19,6 @@ namespace AnalyzerDatabase.Models.Scopus
 
         [JsonProperty("dc:creator")]
         public string Creator { get; set; }
-
-        //public IList<Creator> Creators { get; set; }
 
         [JsonProperty("prism:volume")]
         public string Volume { get; set; }
@@ -53,16 +50,12 @@ namespace AnalyzerDatabase.Models.Scopus
         public decimal PercentComplete { get; set; }
         public bool IsDuplicate { get; set; }
         public string Year { get; set; }
-        public List<string> GetCreator()
-        {
-            return new List<string> {Creator};
-        }
+
 
         //not implemented
         public string OpenAccess { get; set; }
 
         public string Abstract { get; set; }
-
 
 
         //JsonProperty
@@ -104,7 +97,16 @@ namespace AnalyzerDatabase.Models.Scopus
 
         [JsonProperty("article-number")]
         public string ArticleNumber { get; set; }
+        #endregion
 
+        #region Public methods
+        public List<string> GetCreator()
+        {
+            return new List<string> { Creator };
+        }
+        #endregion
+
+        #region Constructors
         public EntryScopus(string fa, IList<LinkArticle> link, string prismUrl, string dcIdentifier, string eid, string dcTitle, string dcCreator, string prismPublicationName, string prismIssn, string prismEIssn, string prismVolume, string prismPageRange, string prismCoverDate, string prismCoverDisplayDate, string prismDoi, string pii, string citedbyCount, IList<Affiliation> affiliation, string prismAggregationType, string subtype, string subtypeDescription, string sourceId, string prismIssueIdentifier, string prismIsbn, string articleNumber)
         {
             Fa = fa;
@@ -134,5 +136,6 @@ namespace AnalyzerDatabase.Models.Scopus
             ArticleNumber = articleNumber;
             Source = SourceDatabase.Scopus;
         }
+        #endregion
     }
 }

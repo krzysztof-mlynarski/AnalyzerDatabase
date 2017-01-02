@@ -196,6 +196,15 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check the settings that you have typed API key for this database!.
+        /// </summary>
+        public static string CheckApiKey {
+            get {
+                return ResourceManager.GetString("CheckApiKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cobalt.
         /// </summary>
         public static string CobaltColorSettings {
@@ -219,6 +228,15 @@ namespace AnalyzerDatabase.Properties {
         public static string Confirm {
             get {
                 return ResourceManager.GetString("Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There was a problem communicating with the database..
+        /// </summary>
+        public static string ConnectionFailed {
+            get {
+                return ResourceManager.GetString("ConnectionFailed", resourceCulture);
             }
         }
         
@@ -723,6 +741,15 @@ namespace AnalyzerDatabase.Properties {
         public static string QueryText {
             get {
                 return ResourceManager.GetString("QueryText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Received results.
+        /// </summary>
+        public static string ReceivedResultsTitleWindow {
+            get {
+                return ResourceManager.GetString("ReceivedResultsTitleWindow", resourceCulture);
             }
         }
         

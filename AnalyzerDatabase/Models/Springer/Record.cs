@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using AnalyzerDatabase.Enums;
 using AnalyzerDatabase.Interfaces;
 using LiveCharts.Helpers;
@@ -10,6 +8,7 @@ namespace AnalyzerDatabase.Models.Springer
 {
     public class Record : ISearchResultsToDisplay
     {
+        #region Variables
         [JsonProperty("title")]
         public string Title { get; set; }
 
@@ -76,7 +75,9 @@ namespace AnalyzerDatabase.Models.Springer
 
         [JsonProperty("genre")]
         public string Genre { get; set; }
+        #endregion
 
+        #region Constructors
         public Record(string identifier, IList<Url> url, string title, IList<Creator> creators, string publicationName, string openaccess, string doi, string printIsbn, string electronicIsbn, string isbn, string publisher, string publicationDate, string volume, string number, string startingPage, string copyright, string genre, string @abstract)
         {
             Identifier = identifier;
@@ -99,7 +100,9 @@ namespace AnalyzerDatabase.Models.Springer
             Abstract = @abstract;
             Source = SourceDatabase.Springer;
         }
+        #endregion
 
+        #region Public methods
         public List<string> GetCreator()
         {
             var list = new List<string>();
@@ -107,5 +110,6 @@ namespace AnalyzerDatabase.Models.Springer
 
             return list;
         }
+        #endregion
     }
 }

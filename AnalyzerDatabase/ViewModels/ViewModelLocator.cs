@@ -1,6 +1,5 @@
 ﻿using AnalyzerDatabase.Interfaces;
 using AnalyzerDatabase.Services;
-using AnalyzerDatabase.View;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using MahApps.Metro.Controls.Dialogs;
@@ -24,9 +23,7 @@ namespace AnalyzerDatabase.ViewModels
         {
             get
             {
-                if (_instance == null)
-                    _instance = new ViewModelLocator();
-                return _instance;
+                return _instance ?? (_instance = new ViewModelLocator());
             }
         }
 
@@ -43,15 +40,6 @@ namespace AnalyzerDatabase.ViewModels
             SimpleIoc.Default.Register<AboutViewModel>();
 
             SimpleIoc.Default.Register<FullDataGridViewModel>();
-
-            // if (ViewModelBase.IsInDesignModeStatic)
-            // {
-            //      SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
-            // }
-            // else
-            // {
-            //      SimpleIoc.Default.Register<IDataService, DataService>();
-            // }
 
             if (ViewModelBase.IsInDesignModeStatic)
             {

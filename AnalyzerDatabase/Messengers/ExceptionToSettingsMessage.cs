@@ -1,6 +1,4 @@
-﻿using AnalyzerDatabase.Enums;
-using AnalyzerDatabase.ViewModels;
-using GalaSoft.MvvmLight.Messaging;
+﻿using AnalyzerDatabase.ViewModels;
 
 namespace AnalyzerDatabase.Messengers
 {

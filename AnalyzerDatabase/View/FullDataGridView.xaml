@@ -7,7 +7,7 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:res="clr-namespace:AnalyzerDatabase.Properties"
         mc:Ignorable="d"
-        Title="Received results"
+        Title="{x:Static res:Resources.ReceivedResultsTitleWindow}"
         DataContext="{Binding Source={StaticResource Locator}, Path=SearchDatabase}"
                       
         BorderThickness="0" 
@@ -22,15 +22,16 @@
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converters:NegativeBooleanToVisibilityConverter x:Key="NegativeBooleanToVisibilityConverter"/>
         <converters:BoolToColorConverter x:Key="BoolToColorConverter"/>
-        <converters:GroupsToTotalConverter x:Key="GroupsToTotalConverter"/>
     </Window.Resources>
 
     <Grid>
+        <!-- Informacja o braku danych do wyświetlenia -->
         <TextBlock Text="{x:Static res:Resources.NoDataToDisplayInDataGrid}"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontSize="20"
-                               Visibility="{Binding IsDataEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="20"
+                   Visibility="{Binding IsDataEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        
         <!-- Extended DataGrid -->
         <DataGrid x:Name="ExtendedDataGrid"
                     ItemsSource="{Binding CollectionView}"
@@ -193,16 +194,15 @@
                                     FontSize="11"
                                     Width="Auto" Height="Auto"
                                     Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.OpenPageWithPublication}">
-                                <TextBlock Grid.Row="0" Grid.Column="1"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       TextWrapping="Wrap"
-                                       TextAlignment="Center"
-                                       FontSize="26"
-                                       Foreground="Blue"
-                                       FontWeight="ExtraBold"
-                                       Text="{Binding Title}"
-                                       TextDecorations="Underline"/>
+                                <TextBlock Text="{Binding Title}"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           TextWrapping="Wrap"
+                                           TextAlignment="Center"
+                                           FontSize="26"
+                                           Foreground="Blue"
+                                           FontWeight="ExtraBold"
+                                           TextDecorations="Underline"/>
                             </Button>
 
                             <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
@@ -213,45 +213,42 @@
                                 </Rectangle>
                                 <TextBlock Text=" "></TextBlock>
                                 <TextBlock Text="{x:Static res:Resources.PublicationNameDataGrid}"
-                                        Grid.Row="2" Grid.Column="0" 
-                                        FontWeight="Bold" 
-                                        Foreground="Black" 
-                                        HorizontalAlignment="Right"/>
+                                           FontWeight="Bold" 
+                                           Foreground="Black" 
+                                           HorizontalAlignment="Right"/>
                             </StackPanel>
-                            <TextBlock Grid.Row="2" Grid.Column="1"
-                                        FontWeight="Bold"
-                                        Foreground="Black"
-                                        Text="{Binding PublicationName}"/>
+                            <TextBlock Text="{Binding PublicationName}"
+                                       Grid.Row="2" Grid.Column="1"
+                                       FontWeight="Bold"
+                                       Foreground="Black"/>
 
                             <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
-                                <Rectangle Grid.Column="0" Grid.Row="3" Width="15" Height="15" Fill="{DynamicResource BlackBrush}">
+                                <Rectangle Width="15" Height="15" Fill="{DynamicResource BlackBrush}">
                                     <Rectangle.OpacityMask>
                                         <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_calendar_day}"/>
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
                                 <TextBlock Text=" "></TextBlock>
-                                <TextBlock Text="{x:Static res:Resources.PublicationDateDataGrid}" 
-                                            Grid.Row="3" Grid.Column="0"
-                                            FontWeight="Bold" 
-                                            Foreground="Black" 
-                                            HorizontalAlignment="Right"/>
+                                <TextBlock Text="{x:Static res:Resources.PublicationDateDataGrid}"
+                                           FontWeight="Bold" 
+                                           Foreground="Black" 
+                                           HorizontalAlignment="Right"/>
                             </StackPanel>
                             <TextBlock Grid.Row="3" Grid.Column="1"
                                        Foreground="Black"
                                        Text="{Binding PublicationDate}"/>
 
                             <StackPanel Grid.Column="0" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
-                                <Rectangle Grid.Column="0" Grid.Row="3" Width="15" Height="15" Fill="{DynamicResource BlackBrush}">
+                                <Rectangle Width="15" Height="15" Fill="{DynamicResource BlackBrush}">
                                     <Rectangle.OpacityMask>
                                         <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_group}"/>
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
                                 <TextBlock Text=" "></TextBlock>
                                 <TextBlock Text="{x:Static res:Resources.AuthorDataGrid}" 
-                                            Grid.Row="5" Grid.Column="0"
-                                            FontWeight="Bold" 
-                                            Foreground="Black" 
-                                            HorizontalAlignment="Right"/>
+                                           FontWeight="Bold" 
+                                           Foreground="Black" 
+                                           HorizontalAlignment="Right"/>
                             </StackPanel>
                             <TextBlock Grid.Row="5" Grid.Column="1"
                                         TextWrapping="Wrap"
@@ -342,20 +339,19 @@
                                 </Rectangle>
                                 <TextBlock Text=" "></TextBlock>
                                 <TextBlock Text="{x:Static res:Resources.AbstractDataGrid}" 
-                                       Grid.Row="13" Grid.Column="0"
-                                       FontWeight="Bold" 
-                                       Foreground="Black" 
-                                       HorizontalAlignment="Right"/>
+                                           FontWeight="Bold" 
+                                           Foreground="Black" 
+                                           HorizontalAlignment="Right"/>
                             </StackPanel>
                             <TextBlock Grid.Row="13" Grid.Column="1"
-                                    TextWrapping="Wrap"
-                                    TextAlignment="Justify"
-                                    Foreground="Black"
-                                    Text="{Binding Abstract}" />
+                                        TextWrapping="Wrap"
+                                        TextAlignment="Justify"
+                                        Foreground="Black"
+                                        Text="{Binding Abstract}" />
 
                             <StackPanel Grid.Column="3" Grid.Row="0">
-                                <Button Grid.Row="0" Grid.Column="3"
-                                        Background="Transparent"
+                                <!-- Przycisk pobierania publikacji -->
+                                <Button Background="Transparent"
                                         Foreground="Transparent"
                                         BorderThickness="0" BorderBrush="Transparent"
                                         Width="75" Height="75"
@@ -659,8 +655,8 @@
                                     Text="{Binding Abstract}" />
 
                             <StackPanel Grid.Column="3" Grid.Row="0">
-                                <Button Grid.Row="0" Grid.Column="3"
-                                        Background="Transparent"
+                                <!-- Przycisk pobierania publikacji -->
+                                <Button Background="Transparent"
                                         Foreground="Transparent"
                                         BorderThickness="0" BorderBrush="Transparent"
                                         Width="75" Height="75"
@@ -698,11 +694,13 @@
                 </Rectangle.OpacityMask>
             </Rectangle>
         </Button>
+        
         <TextBlock Text=". . ."
                    FontSize="20"
                    HorizontalAlignment="Center"
                    Visibility="{Binding FullResultsList, Converter={StaticResource NegativeBooleanToVisibilityConverter}}"
                    Margin="368,18,368,464"/>
+        
         <Button x:Name="BtnNext" 
                 Width="35" Height="35" Margin="400,5,325,0"
                 ToolTip="{x:Static res:Resources.NextBtn}" 

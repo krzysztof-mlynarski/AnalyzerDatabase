@@ -1,15 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Xml.Serialization;
 using AnalyzerDatabase.Enums;
 using AnalyzerDatabase.Interfaces;
-using AnalyzerDatabase.Models.Springer;
 
 namespace AnalyzerDatabase.Models.IeeeXplore
 {
     [XmlRoot(ElementName = "document")]
     public class Document : ISearchResultsToDisplay
     {
+        #region Variables
         [XmlElement(ElementName = "rank")]
         public string Rank { get; set; }
 
@@ -99,49 +98,54 @@ namespace AnalyzerDatabase.Models.IeeeXplore
 
         [XmlElement(ElementName = "issn")]
         public string Issn { get; set; }
+        #endregion
 
+        #region Methods
         public List<string> GetCreator()
         {
             return new List<string> {Creator};
         }
+        #endregion
 
-    //    public Document(string rank, string title, string publicationDate, string creator, string affiliations, Controlledterms controlledterms, Thesaurusterms thesaurusterms, string publicationName, string punumber, string pubtype, string publisher, string volume, string issueIdentifier, string py, string spage, string epage, string pageRange, string @abstract, SourceDatabase source, decimal percentComplete, bool isDuplicate, string year, string isbn, string identifier, string openAccess, string htmlFlag, string arnumber, string doi, string pii, string publicationId, string partnum, string mdurl, string pdf, string issue, string issn)
-    //    {
-    //        Rank = rank;
-    //        Title = title;
-    //        PublicationDate = publicationDate;
-    //        Creator = creator;
-    //        Affiliations = affiliations;
-    //        Controlledterms = controlledterms;
-    //        Thesaurusterms = thesaurusterms;
-    //        PublicationName = publicationName;
-    //        Punumber = punumber;
-    //        Pubtype = pubtype;
-    //        Publisher = publisher;
-    //        Volume = volume;
-    //        IssueIdentifier = issueIdentifier;
-    //        Py = py;
-    //        Spage = spage;
-    //        Epage = epage;
-    //        PageRange = pageRange;
-    //        Abstract = @abstract;
-    //        Source = SourceDatabase.IeeeXplore;
-    //        PercentComplete = percentComplete;
-    //        IsDuplicate = isDuplicate;
-    //        Year = year;
-    //        Isbn = isbn;
-    //        Identifier = identifier;
-    //        OpenAccess = openAccess;
-    //        HtmlFlag = htmlFlag;
-    //        Arnumber = arnumber;
-    //        Doi = doi;
-    //        Pii = pii;
-    //        PublicationId = publicationId;
-    //        Partnum = partnum;
-    //        Mdurl = mdurl;
-    //        Pdf = pdf;
-    //        Issue = issue;
-    //        Issn = issn;
-    //    }
+        #region Constructors
+        //    public Document(string rank, string title, string publicationDate, string creator, string affiliations, Controlledterms controlledterms, Thesaurusterms thesaurusterms, string publicationName, string punumber, string pubtype, string publisher, string volume, string issueIdentifier, string py, string spage, string epage, string pageRange, string @abstract, SourceDatabase source, decimal percentComplete, bool isDuplicate, string year, string isbn, string identifier, string openAccess, string htmlFlag, string arnumber, string doi, string pii, string publicationId, string partnum, string mdurl, string pdf, string issue, string issn)
+        //    {
+        //        Rank = rank;
+        //        Title = title;
+        //        PublicationDate = publicationDate;
+        //        Creator = creator;
+        //        Affiliations = affiliations;
+        //        Controlledterms = controlledterms;
+        //        Thesaurusterms = thesaurusterms;
+        //        PublicationName = publicationName;
+        //        Punumber = punumber;
+        //        Pubtype = pubtype;
+        //        Publisher = publisher;
+        //        Volume = volume;
+        //        IssueIdentifier = issueIdentifier;
+        //        Py = py;
+        //        Spage = spage;
+        //        Epage = epage;
+        //        PageRange = pageRange;
+        //        Abstract = @abstract;
+        //        Source = SourceDatabase.IeeeXplore;
+        //        PercentComplete = percentComplete;
+        //        IsDuplicate = isDuplicate;
+        //        Year = year;
+        //        Isbn = isbn;
+        //        Identifier = identifier;
+        //        OpenAccess = openAccess;
+        //        HtmlFlag = htmlFlag;
+        //        Arnumber = arnumber;
+        //        Doi = doi;
+        //        Pii = pii;
+        //        PublicationId = publicationId;
+        //        Partnum = partnum;
+        //        Mdurl = mdurl;
+        //        Pdf = pdf;
+        //        Issue = issue;
+        //        Issn = issn;
+        //    }
+        #endregion
     }
 }

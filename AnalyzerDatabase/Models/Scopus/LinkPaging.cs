@@ -4,6 +4,7 @@ namespace AnalyzerDatabase.Models.Scopus
 {
     public class LinkPaging
     {
+        #region Variables
         [JsonProperty("@_fa")]
         public string Fa { get; set; }
 
@@ -15,7 +16,9 @@ namespace AnalyzerDatabase.Models.Scopus
 
         [JsonProperty("@type")]
         public string Type { get; set; }
+        #endregion
 
+        #region Constructors
         public LinkPaging(string fa, string @ref, string href, string type)
         {
             Fa = fa;
@@ -23,5 +26,6 @@ namespace AnalyzerDatabase.Models.Scopus
             Href = href;
             Type = type;
         }
+        #endregion
     }
 }

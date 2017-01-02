@@ -20,26 +20,16 @@
         <TabControl Margin="30,30,0,0">
             <controls:MetroTabItem Header="{x:Static res:Resources.OverallStatistics}">
                 <Grid Margin="40,50,0,0">
+                    <!-- Informacja o braku danych do wyświetlenia -->
                     <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Text="{x:Static res:Resources.NoDataToDisplay}"
                                    FontSize="20"
                                    Visibility="{Binding IsDataOverall1Empty, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                     </Grid>
-                    <!--<Button HorizontalAlignment="Left" VerticalAlignment="Top"
-                            Margin="-38,-40,0,0"
-                            ToolTip="{x:Static res:Resources.RefreshData}"
-                            Command="{Binding RefreshOverallData}"
-                            CommandParameter="{Binding ElementName=ChartOverall}">
-                        <Rectangle Width="32" Height="32" Fill="{DynamicResource BlackBrush}">
-                            <Rectangle.OpacityMask>
-                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_refresh}"/>
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                    </Button>-->
 
                     <!--<TextBlock Text="TYTUL WYKRESU" FontSize="20" Width="200" Height="30" Margin="527,10,97,553" />-->
 
-                    <!-- Eksport wykresu nr 1 -->
+                    <!-- Eksport wykresu nr 1 do png-->
                     <Button HorizontalAlignment="Left" VerticalAlignment="Top"
                             Margin="667,-40,0,0"
                             ToolTip="{x:Static res:Resources.ExportToPng1}"
@@ -52,6 +42,7 @@
                         </Rectangle>
                     </Button>
 
+                    <!-- Eksport danych z wykresu nr 1 do csv -->
                     <Button HorizontalAlignment="Left" VerticalAlignment="Top"
                             Margin="732,-40,0,0"
                             ToolTip="{x:Static res:Resources.ExportToCsv1}"
@@ -64,8 +55,33 @@
                         </Rectangle>
                     </Button>
 
+                    <!-- Wyświetlenie data gridu z danymi wykresu nr 1 -->
+                    <Button Margin="567,-40,0,0"
+                            HorizontalAlignment="Left" VerticalAlignment="Top"
+                            ToolTip="{x:Static res:Resources.ShowDataInTable}"
+                            Command="{Binding RefreshDataGridOverall1}">
+                        <Rectangle Width="32" Height="32" Fill="{DynamicResource BlackBrush}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_column_two}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
+
+                    <!-- Wyświetlenie wykresu nr 1 -->
+                    <Button Margin="617,-40,0,0"
+                            HorizontalAlignment="Left" VerticalAlignment="Top"
+                            ToolTip="{x:Static res:Resources.ShowChartOverall1}"
+                            Command="{Binding RefreshDataOverall1}">
+                        <Rectangle Width="32" Height="32" Fill="{DynamicResource BlackBrush}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_graph_bar}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
+
+                    <!-- Przycisk do obsługi drugiego wykresu -->
                     <Grid Visibility="{Binding IsDataOverall1Empty, Converter={StaticResource NegativeBooleanToVisibilityConverter}}">
-                        <!-- Eksport wykresu nr 2 -->
+                        <!-- Eksport wykresu nr 2 do png-->
                         <Button HorizontalAlignment="Left" VerticalAlignment="Top"
                             Margin="667,276,0,0"
                             ToolTip="{x:Static res:Resources.ExportToPng2}"
@@ -78,6 +94,7 @@
                             </Rectangle>
                         </Button>
 
+                        <!-- Ekpsort danych z wykresu nr 2 do csv -->
                         <Button HorizontalAlignment="Left" VerticalAlignment="Top"
                             Margin="732,276,0,0"
                             ToolTip="{x:Static res:Resources.ExportToCsv2}"
@@ -90,6 +107,7 @@
                             </Rectangle>
                         </Button>
 
+                        <!-- Wyświetlenie data grida z danymi wykresu nr 2 -->
                         <Button Margin="570,276,0,0"
                             HorizontalAlignment="Left" VerticalAlignment="Top"
                             ToolTip="{x:Static res:Resources.ShowDataInTable}"
@@ -101,6 +119,7 @@
                             </Rectangle>
                         </Button>
 
+                        <!-- Wyświetlenie wykresu nr 2 -->
                         <Button Margin="617,276,0,0"
                             HorizontalAlignment="Left" VerticalAlignment="Top"
                             ToolTip="{x:Static res:Resources.ShowChartOverall2}"
@@ -113,28 +132,7 @@
                         </Button>
                     </Grid>
 
-                    <Button Margin="567,-40,0,0"
-                            HorizontalAlignment="Left" VerticalAlignment="Top"
-                            ToolTip="{x:Static res:Resources.ShowDataInTable}"
-                            Command="{Binding RefreshDataGridOverall1}">
-                        <Rectangle Width="32" Height="32" Fill="{DynamicResource BlackBrush}">
-                            <Rectangle.OpacityMask>
-                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_column_two}"/>
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                    </Button>
-
-                    <Button Margin="617,-40,0,0"
-                            HorizontalAlignment="Left" VerticalAlignment="Top"
-                            ToolTip="{x:Static res:Resources.ShowChartOverall1}"
-                            Command="{Binding RefreshDataOverall1}">
-                        <Rectangle Width="32" Height="32" Fill="{DynamicResource BlackBrush}">
-                            <Rectangle.OpacityMask>
-                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_graph_bar}"/>
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                    </Button>
-
+                    <!-- Panel zawierający informacje o ilości odwołań do danej bazy -->
                     <StackPanel Width="307" HorizontalAlignment="Left" Margin="0,36,0,397"
                                 Visibility="{Binding IsDataOverall1Empty, Converter={StaticResource NegativeBooleanToVisibilityConverter}}">
                         <StackPanel>
@@ -167,6 +165,7 @@
                         </StackPanel>
                     </StackPanel>
 
+                    <!-- Wykres nr 1 -->
                     <lvc:PieChart x:Name="ChartOverall"
                                   LegendLocation="Right"
                                   Visibility="{Binding ChartDataOverall1Loading, Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -176,6 +175,7 @@
                                   VerticalAlignment="Top">
                     </lvc:PieChart>
 
+                    <!-- DataGrid nr 1 -->
                     <DataGrid ItemsSource="{Binding OverallStatisticsObservableCollection}"
                               AutoGenerateColumns="False"
                               Visibility="{Binding DataGridOverall1Loading, Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -189,6 +189,7 @@
                         </DataGrid.Columns>
                     </DataGrid>
 
+                    <!-- Panel zawierający informacje o ilości pobrań publikacji i wykrytych duplikatach -->
                     <StackPanel Visibility="{Binding IsDataOverall2Empty, Converter={StaticResource NegativeBooleanToVisibilityConverter}}"
                                 Margin="0,351,397,137">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
@@ -204,6 +205,7 @@
                         </StackPanel>
                     </StackPanel>
 
+                    <!-- Wykres nr 2 -->
                     <lvc:PieChart x:Name="ChartOverall2"
                                   Series="{Binding SeriesCollectionDuplicateAndDownloadCount}"
                                   Visibility="{Binding ChartDataOverall2Loading, Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -215,6 +217,7 @@
                         </lvc:PieChart.DataTooltip>
                     </lvc:PieChart>
 
+                    <!-- DataGrid nr 2 -->
                     <DataGrid ItemsSource="{Binding OverallStatistics2ObservableCollection}"
                               Visibility="{Binding DataGridOverall2Loading, Converter={StaticResource BooleanToVisibilityConverter}}"
                               HorizontalAlignment="Right"
@@ -232,17 +235,7 @@
             <controls:MetroTabItem Header="{x:Static res:Resources.ByYear}" 
                                    Height="41" VerticalAlignment="Top">
                 <Grid>
-                    <!--<Button HorizontalAlignment="Left" VerticalAlignment="Top"
-                            Margin="0,10,0,0"
-                            ToolTip="{x:Static res:Resources.RefreshData}"
-                            Command="{Binding RefreshData}">
-                        <Rectangle Width="32" Height="32" Fill="{DynamicResource BlackBrush}">
-                            <Rectangle.OpacityMask>
-                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_refresh}"/>
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                    </Button>-->
-
+                    <!-- Eksport wykresu danego wyszukiwania do pliku png -->
                     <Button HorizontalAlignment="Left" VerticalAlignment="Top"
                             Margin="50,10,0,0"
                             ToolTip="{x:Static res:Resources.ExportToPng}"
@@ -256,6 +249,7 @@
                         </Rectangle>
                     </Button>
 
+                    <!-- Eksport wykresu z pełnego przeglądu do pliku png -->
                     <Button HorizontalAlignment="Left" VerticalAlignment="Top"
                             Margin="50,10,0,0"
                             ToolTip="{x:Static res:Resources.ExportToPng}"
@@ -269,6 +263,7 @@
                         </Rectangle>
                     </Button>
 
+                    <!-- Eksport wykresu danego wyszukiwania do pliku csv -->
                     <Button HorizontalAlignment="Left" VerticalAlignment="Top"
                             Margin="117,10,0,0"
                             ToolTip="{x:Static res:Resources.ExportToCsv}"
@@ -281,6 +276,7 @@
                         </Rectangle>
                     </Button>
 
+                    <!-- Eksport wykresu z pełnego przeglądu do pliku csv -->
                     <Button HorizontalAlignment="Left" VerticalAlignment="Top"
                             Margin="167,10,0,0"
                             ToolTip="{x:Static res:Resources.ExportFullDataGrid}"
@@ -293,6 +289,7 @@
                         </Rectangle>
                     </Button>
 
+                    <!-- Wyświetlenie DataGRidu z danego wyszukiwania -->
                     <Button Margin="217,10,0,0"
                             HorizontalAlignment="Left" VerticalAlignment="Top"
                             ToolTip="{x:Static res:Resources.ShowDataInTable}"
@@ -304,6 +301,7 @@
                         </Rectangle>
                     </Button>
 
+                    <!-- Wyświetlenie wykresu z danego wyszukiwania -->
                     <Button Margin="267,10,0,0"
                             HorizontalAlignment="Left" VerticalAlignment="Top"
                             ToolTip="{x:Static res:Resources.ShowChart}"
@@ -315,6 +313,7 @@
                         </Rectangle>
                     </Button>
 
+                    <!-- Wyświetlenie DataGRidu z pełnego przeglądu -->
                     <Button Margin="317,10,0,0"
                             HorizontalAlignment="Left" VerticalAlignment="Top"
                             ToolTip="{x:Static res:Resources.ShowDataInTableFull}"
@@ -326,6 +325,7 @@
                         </Rectangle>
                     </Button>
 
+                    <!-- Wyświetlenie wykresu z pełnego przeglądu -->
                     <Button Margin="367,10,0,0"
                             HorizontalAlignment="Left" VerticalAlignment="Top"
                             ToolTip="{x:Static res:Resources.ShowChartFull}"
@@ -337,6 +337,7 @@
                         </Rectangle>
                     </Button>
 
+                    <!-- Wykres z danego wyszukiwania -->
                     <lvc:CartesianChart x:Name="ChartByYear"
                                         Series="{Binding SeriesCollectionByYear}" 
                                         LegendLocation="None" 
@@ -357,6 +358,7 @@
                         </lvc:CartesianChart.AxisY>
                     </lvc:CartesianChart>
 
+                    <!-- DataGrid z danego przeglądu -->
                     <DataGrid ItemsSource="{Binding DataByYearObservableCollection}"
                               AutoGenerateColumns="False"
                               Visibility="{Binding DataGridByYearLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -373,6 +375,7 @@
                         </DataGrid.Columns>
                     </DataGrid>
 
+                    <!-- Wykres z pełnego przeglądu -->
                     <lvc:CartesianChart x:Name="ChartByYearFull"
                                         Series="{Binding SeriesCollectionByYearFull}" 
                                         LegendLocation="None" 
@@ -393,6 +396,7 @@
                         </lvc:CartesianChart.AxisY>
                     </lvc:CartesianChart>
 
+                    <!-- DataGrid z pełnego przeglądu -->
                     <DataGrid ItemsSource="{Binding DataByYearObservableCollectionFull}"
                               AutoGenerateColumns="False"
                               Visibility="{Binding DataGridByYearFullLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -409,6 +413,7 @@
                         </DataGrid.Columns>
                     </DataGrid>
 
+                    <!-- Informacja o braku danych do wyświetlenia -->
                     <TextBlock Text="{x:Static res:Resources.NoDataToDisplay}"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
@@ -419,7 +424,8 @@
 
             <controls:MetroTabItem Header="{x:Static res:Resources.ByAuthors}">
                 <Grid>
-                    <Button HorizontalAlignment="Left" VerticalAlignment="Top"
+                    <!-- Eksport danych z wykresu do pliku png -->
+                    <!--<Button HorizontalAlignment="Left" VerticalAlignment="Top"
                             Margin="50,10,0,0"
                             ToolTip="{x:Static res:Resources.ExportToPng}"
                             Command="{Binding ExportChartToImageCommand}"
@@ -429,10 +435,11 @@
                                 <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_image_export}"/>
                             </Rectangle.OpacityMask>
                         </Rectangle>
-                    </Button>
+                    </Button>-->
 
+                    <!-- Eksport danych z wykresu do pliku csv -->
                     <Button HorizontalAlignment="Left" VerticalAlignment="Top"
-                            Margin="117,10,0,0"
+                            Margin="50,10,0,0"
                             ToolTip="{x:Static res:Resources.ExportToCsv}"
                             Command="{Binding ExportChartDataToCsvCommand4}"
                             CommandParameter="{Binding ElementName=ChartMagazine}">
@@ -443,7 +450,8 @@
                         </Rectangle>
                     </Button>
 
-                    <Button Margin="167,10,0,0"
+                    <!-- Wyświetlenie data gridu danego wyszukiwania -->
+                    <Button Margin="100,10,0,0"
                             HorizontalAlignment="Left" VerticalAlignment="Top"
                             ToolTip="{x:Static res:Resources.ShowDataInTable}"
                             Command="{Binding RefreshDataGridByAuthor}">
@@ -454,6 +462,7 @@
                         </Rectangle>
                     </Button>
 
+                    <!-- Wykres danego wyszukiwania -->
                     <!--<Button Margin="217,10,0,0"
                             HorizontalAlignment="Left" VerticalAlignment="Top"
                             ToolTip="wlacz wykres"
@@ -465,7 +474,8 @@
                         </Rectangle>
                     </Button>-->
 
-                    <Button Margin="217,10,0,0"
+                    <!-- Wyświetlenie data gridu z pełnego przeglądu -->
+                    <Button Margin="150,10,0,0"
                             HorizontalAlignment="Left" VerticalAlignment="Top"
                             ToolTip="{x:Static res:Resources.ShowDataInTableFull}"
                             Command="{Binding RefreshDataGridByAuthorFull}">
@@ -476,7 +486,8 @@
                         </Rectangle>
                     </Button>
 
-                    <lvc:CartesianChart x:Name="ChartAuthor"
+                    <!-- Wykres danego wyszukiwania -->
+                    <!--<lvc:CartesianChart x:Name="ChartAuthor"
                                         Series="{Binding SeriesCollectionByAuthor}" 
                                         LegendLocation="None"
                                         Visibility="{Binding ChartDataByAuthorLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -487,8 +498,9 @@
                         <lvc:CartesianChart.AxisY>
                             <lvc:Axis LabelFormatter="{Binding Formatter, StringFormat='{}{0:#}'}" FontSize="20"/>
                         </lvc:CartesianChart.AxisY>
-                    </lvc:CartesianChart>
+                    </lvc:CartesianChart>-->
 
+                    <!-- Data grid danego wyszukiwania -->
                     <DataGrid ItemsSource="{Binding DataByAuthorObservableCollection}"
                               AutoGenerateColumns="False"
                               Visibility="{Binding DataGridByAuthorLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -499,6 +511,7 @@
                         </DataGrid.Columns>
                     </DataGrid>
 
+                    <!-- Data grid z pełnego przeglądu -->
                     <DataGrid ItemsSource="{Binding DataByAuthorObservableCollectionFull}"
                               AutoGenerateColumns="False"
                               Visibility="{Binding DataGridByAuthorFullLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -509,6 +522,7 @@
                         </DataGrid.Columns>
                     </DataGrid>
 
+                    <!-- Informacja o braku danych do wyświetlenia -->
                     <TextBlock Text="{x:Static res:Resources.NoDataToDisplay}"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
@@ -519,6 +533,7 @@
 
             <controls:MetroTabItem Header="{x:Static res:Resources.ByMagazine}">
                 <Grid>
+                    <!-- Eksport wykresu do pliku png -->
                     <Button HorizontalAlignment="Left" VerticalAlignment="Top"
                             Margin="50,10,0,0"
                             ToolTip="{x:Static res:Resources.ExportToPng}"
@@ -531,18 +546,7 @@
                         </Rectangle>
                     </Button>
 
-                    <!--<Button HorizontalAlignment="Left" VerticalAlignment="Top"
-                            Margin="50,10,0,0"
-                            ToolTip="{x:Static res:Resources.ExportToPng}"
-                            Command="{Binding ExportChartToImageCommand}"
-                            CommandParameter="{Binding ElementName=ChartByMagazineFull}">
-                        <Rectangle Width="50" Height="32" Fill="{DynamicResource BlackBrush}">
-                            <Rectangle.OpacityMask>
-                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_image_export}"/>
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                    </Button>-->
-
+                    <!-- Eksport danych z wykresu do pliku csv -->
                     <Button HorizontalAlignment="Left" VerticalAlignment="Top"
                             Margin="117,10,0,0"
                             ToolTip="{x:Static res:Resources.ExportToCsv}"
@@ -555,6 +559,7 @@
                         </Rectangle>
                     </Button>
 
+                    <!-- Eksport danych z pełnego wyszukiwania do pliku csv -->
                     <Button HorizontalAlignment="Left" VerticalAlignment="Top"
                             Margin="167,10,0,0"
                             ToolTip="{x:Static res:Resources.ExportFullDataGrid}"
@@ -567,6 +572,7 @@
                         </Rectangle>
                     </Button>
 
+                    <!-- Wyświetlenie data gridu danego wyszukiwania -->
                     <Button Margin="217,10,0,0"
                             HorizontalAlignment="Left" VerticalAlignment="Top"
                             ToolTip="{x:Static res:Resources.ShowDataInTable}"
@@ -578,6 +584,7 @@
                         </Rectangle>
                     </Button>
 
+                    <!-- Wyświetlenie wykresu danego wyszukiwania -->
                     <Button Margin="267,10,0,0"
                             HorizontalAlignment="Left" VerticalAlignment="Top"
                             ToolTip="{x:Static res:Resources.ShowChart}"
@@ -589,6 +596,7 @@
                         </Rectangle>
                     </Button>
 
+                    <!-- Wyświetlenie data gridu z pełnego przeglądu -->
                     <Button Margin="317,10,0,0"
                             HorizontalAlignment="Left" VerticalAlignment="Top"
                             ToolTip="{x:Static res:Resources.ShowDataInTableFull}"
@@ -600,6 +608,7 @@
                         </Rectangle>
                     </Button>
 
+                    <!-- Wykres z pełnego przeglądu -->
                     <!--
                     <Button Margin="367,10,0,0"
                             HorizontalAlignment="Left" VerticalAlignment="Top"
@@ -612,6 +621,7 @@
                         </Rectangle>
                     </Button>-->
 
+                    <!-- Wyświetlenie wykresu danego wyszukiwania -->
                     <lvc:CartesianChart x:Name="ChartByMagazine"
                                         Series="{Binding SeriesCollectionByMagazine}" 
                                         LegendLocation="None"
@@ -628,6 +638,7 @@
                         </lvc:CartesianChart.AxisY>
                     </lvc:CartesianChart>
 
+                    <!-- Wyświetlenie data gridu danego wyszukiwania -->
                     <DataGrid ItemsSource="{Binding DataByMagazineObservableCollection}"
                               AutoGenerateColumns="False"
                               Visibility="{Binding DataGridLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -644,7 +655,8 @@
                         </DataGrid.Columns>
                     </DataGrid>
 
-                    <lvc:CartesianChart x:Name="ChartByMagazineFull"
+                    <!-- Wyświetlenie wykresu z pełnego przeglądu -->
+                    <!--<lvc:CartesianChart x:Name="ChartByMagazineFull"
                                         Series="{Binding SeriesCollectionByMagazineFull}" 
                                         LegendLocation="None"
                                         Visibility="{Binding ChartDataByMagazineFullLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -655,8 +667,9 @@
                         <lvc:CartesianChart.AxisY>
                             <lvc:Axis LabelFormatter="{Binding Formatter, StringFormat='{}{0:#}'}" FontSize="20"/>
                         </lvc:CartesianChart.AxisY>
-                    </lvc:CartesianChart>
+                    </lvc:CartesianChart>-->
 
+                    <!-- Wyświetlenie data gridu z pełnego przeglądu -->
                     <DataGrid ItemsSource="{Binding DataByMagazineObservableCollectionFull}"
                               AutoGenerateColumns="False"
                               Visibility="{Binding DataGridByMagazineFullLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -673,12 +686,12 @@
                         </DataGrid.Columns>
                     </DataGrid>
 
+                    <!-- Informacja o braku danych do wyświetlenia -->
                     <TextBlock Text="{x:Static res:Resources.NoDataToDisplay}"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                FontSize="20"
                                Visibility="{Binding IsDataByMagazineEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-
                 </Grid>
             </controls:MetroTabItem>
         </TabControl>

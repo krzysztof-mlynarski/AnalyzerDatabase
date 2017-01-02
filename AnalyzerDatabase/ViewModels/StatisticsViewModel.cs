@@ -18,6 +18,12 @@ namespace AnalyzerDatabase.ViewModels
     public class StatisticsViewModel : ExtendedViewModelBase
     {
         #region Variables
+        private string[] _labelsYear;
+        private string[] _labelsYearFull;
+        private string[] _labelsMagazine;
+        private string[] _labelsAuthor;
+
+        public Func<double, string> Formatter { get; set; }
 
         private int _currentScienceDirectCount;
         private int _currentScopusCount;
@@ -78,6 +84,7 @@ namespace AnalyzerDatabase.ViewModels
         private RelayCommand _refreshDataGridByMagazineFull;
        
         private RelayCommand<object> _exportChartToImageCommand;
+
         private RelayCommand _exportChartDataToCsvCommand1;
         private RelayCommand _exportChartDataToCsvCommand2;
         private RelayCommand _exportChartDataToCsvCommand3;
@@ -102,16 +109,9 @@ namespace AnalyzerDatabase.ViewModels
         private ObservableCollection<ByMagazine> _dataByMagazineObservableCollection;
         private ObservableCollection<ByMagazine> _dataByMagazineObservableCollectionFull;
 
-        private string[] _labelsYear;
-        private string[] _labelsYearFull;
-        private string[] _labelsMagazine;
-        private string[] _labelsAuthor;
-
-        public Func<double, string> Formatter { get; set; }
-
         #endregion
 
-        #region Constructor
+        #region Constructors
 
         public StatisticsViewModel()
         {
@@ -1016,6 +1016,18 @@ namespace AnalyzerDatabase.ViewModels
         #endregion
 
         #region Private methods
+
+        private void ReinitializeStatistics()
+        {
+            CurrentScienceDirectCount = StatisticsDataService.Instance.GetStatistics.ScienceDirectCount;
+            CurrentScopusCount = StatisticsDataService.Instance.GetStatistics.ScopusCount;
+            CurrentSpringerCount = StatisticsDataService.Instance.GetStatistics.SpringerCount;
+            CurrentIeeeXploreCount = StatisticsDataService.Instance.GetStatistics.IeeeXploreCount;
+            CurrentDuplicateCount = StatisticsDataService.Instance.GetStatistics.DuplicateCount;
+            CurrentPublicationsDownloadCount = StatisticsDataService.Instance.GetStatistics.PublicationsDownloadCount;
+            CurrentSumCount = StatisticsDataService.Instance.GetStatistics.SumCount;
+        }
+
         private void SumCount()
         {
             _currentSumCount = CurrentScienceDirectCount + CurrentScopusCount + CurrentSpringerCount + CurrentIeeeXploreCount;
@@ -1407,16 +1419,5 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
         #endregion
-
-        private void ReinitializeStatistics()
-        {
-            CurrentScienceDirectCount = StatisticsDataService.Instance.GetStatistics.ScienceDirectCount;
-            CurrentScopusCount = StatisticsDataService.Instance.GetStatistics.ScopusCount;
-            CurrentSpringerCount = StatisticsDataService.Instance.GetStatistics.SpringerCount;
-            CurrentIeeeXploreCount = StatisticsDataService.Instance.GetStatistics.IeeeXploreCount;
-            CurrentDuplicateCount = StatisticsDataService.Instance.GetStatistics.DuplicateCount;
-            CurrentPublicationsDownloadCount = StatisticsDataService.Instance.GetStatistics.PublicationsDownloadCount;
-            CurrentSumCount = StatisticsDataService.Instance.GetStatistics.SumCount;
-        }
     }
 }

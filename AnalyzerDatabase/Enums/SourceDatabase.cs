@@ -6,7 +6,5 @@
         Scopus,
         Springer,
         IeeeXplore,
-        Wiley,
-        WebOfScience
     }
 }

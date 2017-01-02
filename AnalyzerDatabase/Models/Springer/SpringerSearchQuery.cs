@@ -5,6 +5,7 @@ namespace AnalyzerDatabase.Models.Springer
 {
     public class SpringerSearchQuery
     {
+        #region Variables
         [JsonProperty("query")]
         public string Query { get; set; }
 
@@ -19,7 +20,9 @@ namespace AnalyzerDatabase.Models.Springer
 
         [JsonProperty("facets")]
         public IList<Facet> Facets { get; set; }
+        #endregion
 
+        #region Constructors
         public SpringerSearchQuery(string query, string apiKey, IList<Result> result, IList<Record> records, IList<Facet> facets)
         {
             Query = query;
@@ -28,5 +31,6 @@ namespace AnalyzerDatabase.Models.Springer
             Records = records;
             Facets = facets;
         }
+        #endregion
     }
 }

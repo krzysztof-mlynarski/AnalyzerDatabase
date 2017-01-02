@@ -20,6 +20,8 @@ namespace AnalyzerDatabase.ViewModels
     {
         #region Variables
 
+        private MetroWindow _windowFullDataGrid;
+
         private readonly IInternetConnectionService _internetConnectionService;
         private readonly IRestService _restService;
         private readonly IStatisticsDataService _statisticsDataService;
@@ -31,7 +33,6 @@ namespace AnalyzerDatabase.ViewModels
         private ObservableCollection<ISearchResultsToDisplay> _searchResultsToDisplay;
         private ObservableCollection<ISearchResultsToDisplay> _searchResultsToDisplayAll;
         private ObservableCollection<ITotalResultsToDisplay> _totalResultsToDisplay;
-        //private ObservableCollection<ICreatorDataToDisplay> _creatorDataToDisplay;
 
         private List<string> _doiList = new List<string>();
         private readonly List<string> _doiListCopy = new List<string>();
@@ -55,13 +56,12 @@ namespace AnalyzerDatabase.ViewModels
         private bool _isGroupDescriptions = true;
         private bool _fullResultsList;
         private bool _dataGridResults = true;
+        private bool _isDataEmpty = true;
 
         private bool _checkBoxScopus = true;
         private bool _checkBoxSpringer = true;
         private bool _checkBoxScienceDirect = true;
         private bool _checkBoxIeeeXplore = true;
-
-        private bool _isDataEmpty = true;
 
         private static int _startUpScienceDirect;
         private static int _startUpScopus;
@@ -71,8 +71,6 @@ namespace AnalyzerDatabase.ViewModels
         private static int _startDownScopus = _startUpScopus;
         private static int _startDownSpringer = _startUpSpringer;
         private static int _startDownIeeeXplore = _startUpIeeeXplore;
-
-        private MetroWindow _windowFullDataGrid;
         #endregion
 
         #region Constructors
@@ -683,8 +681,6 @@ namespace AnalyzerDatabase.ViewModels
                             {
                                 SearchResultsToDisplayAll.Add(item);
                             }
-
-                            //CollectionViewAll?.GroupDescriptions.Add(new PropertyGroupDescription("Source"));
                         }
                     }
                 }
@@ -1213,10 +1209,6 @@ namespace AnalyzerDatabase.ViewModels
                             CollectionView?.GroupDescriptions.Add(new PropertyGroupDescription("Source"));
                         }
                     }
-                    //catch
-                    //{
-                        
-                    //}
                     finally
                     {
                         IsDataLoading = false;
@@ -1240,7 +1232,6 @@ namespace AnalyzerDatabase.ViewModels
                             {
                                 SearchResultsToDisplayAll.Add(item);
                             }
-                            //CollectionViewAll?.GroupDescriptions.Add(new PropertyGroupDescription("Source"));
                         }
                     }
                 }

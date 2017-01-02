@@ -14,7 +14,6 @@
 
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <converters:NegativeBooleanToVisibilityConverter x:Key="NegativeBooleanToVisibilityConverter"/>
     </UserControl.Resources>
 
     <Grid>
@@ -28,6 +27,7 @@
             <RowDefinition Height="9*"/>
         </Grid.RowDefinitions>
 
+        <!-- Pasek wyszukiwania wraz z przyciskiem -->
         <Grid Margin="0,30" Grid.RowSpan="2">
             <TextBox x:Name="QueryTextBox"
                         Background="WhiteSmoke"
@@ -49,6 +49,8 @@
                     IsDefault="True"
                     Command="{Binding SearchCommand}"/>
         </Grid>
+        
+        <!-- CheckBoxy z wyborem baz do przeszukania -->
         <Grid Grid.Row="1" Grid.RowSpan="3" Margin="0,70,0,10">
             <TextBlock Margin="60,-13,505,273" Text="{x:Static res:Resources.SelectDatabase}"/>
             <CheckBox x:Name="CheckBoxScienceDirect" Content="Science Direct" IsChecked="{Binding CheckBoxScienceDirect}" HorizontalAlignment="Left" Margin="100,0,0,0" VerticalAlignment="Top" Height="63" Width="160"/>
@@ -61,11 +63,14 @@
 
         <!--WYSWIETLANIE WYNIKOW WYSZUKIWANIA-->
         <Grid Grid.Row="2" Margin="0,90,0,10" Grid.RowSpan="2">
+            <!-- Informacja o braku danych do wyświetlenia -->
             <TextBlock Text="{x:Static res:Resources.NoDataToDisplayInDataGrid}"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                FontSize="20"
                                Visibility="{Binding IsDataEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            
+            <!-- Wstępne informacje w DataGridzie -->
             <DataGrid x:Name="FirstDataGrid"
                       ItemsSource="{Binding Path=CollectionView}"
                       AutoGenerateColumns="False"

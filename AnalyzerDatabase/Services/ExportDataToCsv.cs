@@ -11,6 +11,7 @@ namespace AnalyzerDatabase.Services
 {
     public class ExportDataToCsv : ExtendedViewModelBase
     {
+        #region Variables
         private readonly string _currentPublicationSavingPath;
         private readonly int _currentScienceDirectCount;
         private readonly int _currentScopusCount;
@@ -18,7 +19,9 @@ namespace AnalyzerDatabase.Services
         private readonly int _currentIeeeXploreCount;
         private readonly int _currentDuplicateCount;
         private readonly int _currentPublicationsDownloadCount;
+        #endregion
 
+        #region Singleton
         private static ExportDataToCsv _instance;
 
         public static ExportDataToCsv Instance
@@ -39,7 +42,9 @@ namespace AnalyzerDatabase.Services
             _currentPublicationsDownloadCount = StatisticsDataService.Instance.GetStatistics.PublicationsDownloadCount;
             _currentPublicationSavingPath = SettingsService.Instance.Settings.SavingPublicationPath;
         }
+        #endregion
 
+        #region Public Methods
         public async void ExportChartDataToCsv1()
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog
@@ -246,9 +251,10 @@ namespace AnalyzerDatabase.Services
                     }
                 }
 
-                if (await ConfirmationDialog(GetString("Confirm"), GetString("OpenExportFile")))
-                    Process.Start(saveFileDialog.FileName);
+                //if (await ConfirmationDialog(GetString("Confirm"), GetString("OpenExportFile")))
+                Process.Start(saveFileDialog.FileName);
             }
         }
+        #endregion
     }
 }

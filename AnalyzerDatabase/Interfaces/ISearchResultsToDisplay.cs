@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
+﻿using System.Collections.Generic;
 using AnalyzerDatabase.Enums;
-using AnalyzerDatabase.Models.Springer;
 
 namespace AnalyzerDatabase.Interfaces
 {
@@ -49,8 +46,10 @@ namespace AnalyzerDatabase.Interfaces
 
         string Year { get; set; }
 
-        List<string> GetCreator();
+        #endregion
 
+        #region Methods
+        List<string> GetCreator();
         #endregion
     }
 }
