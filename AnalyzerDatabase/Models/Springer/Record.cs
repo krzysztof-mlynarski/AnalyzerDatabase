@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using AnalyzerDatabase.Enums;
 using AnalyzerDatabase.Interfaces;
+using LiveCharts.Helpers;
 using Newtonsoft.Json;
 
 namespace AnalyzerDatabase.Models.Springer
@@ -20,7 +23,7 @@ namespace AnalyzerDatabase.Models.Springer
         public string Creator { get; set; }
 
         [JsonProperty("creators")]
-        public IList<Creator> Creators { get; set; }
+        private IList<Creator> Creators { get; set; }
 
         [JsonProperty("volume")]
         public string Volume { get; set; }
@@ -95,6 +98,14 @@ namespace AnalyzerDatabase.Models.Springer
             Genre = genre;
             Abstract = @abstract;
             Source = SourceDatabase.Springer;
+        }
+
+        public List<string> GetCreator()
+        {
+            var list = new List<string>();
+            Creators?.ForEach(x => list.Add(x.Creators));
+
+            return list;
         }
     }
 }

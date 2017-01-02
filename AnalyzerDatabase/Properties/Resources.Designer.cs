@@ -520,6 +520,15 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name and surname.
+        /// </summary>
+        public static string NameAuthor {
+            get {
+                return ResourceManager.GetString("NameAuthor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Next.
         /// </summary>
         public static string NextBtn {

@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using AnalyzerDatabase.Enums;
 using AnalyzerDatabase.Interfaces;
+using AnalyzerDatabase.Models.Springer;
 using Newtonsoft.Json;
 
 namespace AnalyzerDatabase.Models.Scopus
@@ -51,6 +53,10 @@ namespace AnalyzerDatabase.Models.Scopus
         public decimal PercentComplete { get; set; }
         public bool IsDuplicate { get; set; }
         public string Year { get; set; }
+        public List<string> GetCreator()
+        {
+            return new List<string> {Creator};
+        }
 
         //not implemented
         public string OpenAccess { get; set; }

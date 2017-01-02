@@ -439,4 +439,7 @@
     <value>Tak</value>
     <comment>Dialog Affirmative</comment>
   </data>
+  <data name="NameAuthor" xml:space="preserve">
+    <value>Imię i nazwisko</value>
+  </data>
 </root>

@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
 using AnalyzerDatabase.Enums;
 using AnalyzerDatabase.Interfaces;
+using AnalyzerDatabase.Models.Springer;
+using LiveCharts.Helpers;
 using Newtonsoft.Json;
 
 namespace AnalyzerDatabase.Models.ScienceDirect
@@ -19,8 +23,6 @@ namespace AnalyzerDatabase.Models.ScienceDirect
 
         [JsonProperty("dc:creator")]
         public string Creator { get; set; }
-
-        //IList<Creator> Creators {get;set;}
 
         [JsonProperty("prism:volume")]
         public string Volume { get; set; }
@@ -118,6 +120,15 @@ namespace AnalyzerDatabase.Models.ScienceDirect
             Authors = authors;
             Abstract = prismTeaser;
             Source = SourceDatabase.ScienceDirect;
+        }
+
+        public List<string> GetCreator()
+        {
+            var list = new List<string>();
+            Authors?.Author.ForEach(x => list.Add(x.GivenName + " " + x.Surname));
+
+            return list;
+
         }
     }
 }

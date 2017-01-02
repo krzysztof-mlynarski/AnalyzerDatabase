@@ -28,7 +28,8 @@ namespace AnalyzerDatabase.ViewModels
         private int _currentSumCount;
         private readonly string _currentPublicationSavingPath;
 
-        private bool _isDataOverallEmpty = true;
+        private bool _isDataOverall1Empty = true;
+        private bool _isDataOverall2Empty = true;
         private bool _isDataByYearEmpty = true;
         private bool _isDataByAuthorEmpty = true;
         private bool _isDataByMagazineEmpty = true;
@@ -46,13 +47,12 @@ namespace AnalyzerDatabase.ViewModels
 
         private bool _chartDataByAuthorLoading;
         private bool _dataGridByAuthorLoading;
+        private bool _dataGridByAuthorFullLoading;
 
         private bool _chartDataLoading; //Magazine
         private bool _dataGridLoading;
         private bool _chartDataByMagazineFullLoading;
         private bool _dataGridByMagazineFullLoading;
-
-        private string _queryTextBox;
 
         private int _valueLabelRotation;
         private int _valueFontSize;
@@ -70,6 +70,7 @@ namespace AnalyzerDatabase.ViewModels
 
         private RelayCommand _refreshDataByAuthor;
         private RelayCommand _refreshDataGridByAuthor;
+        private RelayCommand _refreshDataGridByAuthorFull;
 
         private RelayCommand _refreshDataByMagazine;
         private RelayCommand _refreshDataGridByMagazine;
@@ -77,7 +78,6 @@ namespace AnalyzerDatabase.ViewModels
         private RelayCommand _refreshDataGridByMagazineFull;
        
         private RelayCommand<object> _exportChartToImageCommand;
-        private RelayCommand _searchCommand;
         private RelayCommand _exportChartDataToCsvCommand1;
         private RelayCommand _exportChartDataToCsvCommand2;
         private RelayCommand _exportChartDataToCsvCommand3;
@@ -98,6 +98,7 @@ namespace AnalyzerDatabase.ViewModels
         private ObservableCollection<ByYear> _dataByYearObservableCollection;
         private ObservableCollection<ByYear> _dataByYearObservableCollectionFull;
         private ObservableCollection<ByAuthor> _dataByAuthorObservableCollection;
+        private ObservableCollection<ByAuthor> _dataByAuthorObservableCollectionFull;
         private ObservableCollection<ByMagazine> _dataByMagazineObservableCollection;
         private ObservableCollection<ByMagazine> _dataByMagazineObservableCollectionFull;
 
@@ -114,13 +115,7 @@ namespace AnalyzerDatabase.ViewModels
 
         public StatisticsViewModel()
         {
-            CurrentScienceDirectCount = StatisticsDataService.Instance.GetStatistics.ScienceDirectCount;
-            CurrentScopusCount = StatisticsDataService.Instance.GetStatistics.ScopusCount;
-            CurrentSpringerCount = StatisticsDataService.Instance.GetStatistics.SpringerCount;
-            CurrentIeeeXploreCount = StatisticsDataService.Instance.GetStatistics.IeeeXploreCount;
-            CurrentDuplicateCount = StatisticsDataService.Instance.GetStatistics.DuplicateCount;
-            CurrentPublicationsDownloadCount = StatisticsDataService.Instance.GetStatistics.PublicationsDownloadCount;
-            CurrentSumCount = StatisticsDataService.Instance.GetStatistics.SumCount;
+            ReinitializeStatistics();
             _currentPublicationSavingPath = SettingsService.Instance.Settings.SavingPublicationPath;
 
             SeriesCollectionSearchCount = new SeriesCollection();
@@ -160,6 +155,7 @@ namespace AnalyzerDatabase.ViewModels
             DataByYearObservableCollection = new ObservableCollection<ByYear>();
             DataByYearObservableCollectionFull = new ObservableCollection<ByYear>();
             DataByAuthorObservableCollection = new ObservableCollection<ByAuthor>();
+            DataByAuthorObservableCollectionFull = new ObservableCollection<ByAuthor>();
             DataByMagazineObservableCollection = new ObservableCollection<ByMagazine>();
             DataByMagazineObservableCollectionFull = new ObservableCollection<ByMagazine>();
         }
@@ -238,6 +234,13 @@ namespace AnalyzerDatabase.ViewModels
                 return _refreshDataGridByAuthor ?? (_refreshDataGridByAuthor = new RelayCommand(FillDataGridByAuthor));
             }
         }
+        public RelayCommand RefreshDataGridByAuthorFull
+        {
+            get
+            {
+                return _refreshDataGridByAuthorFull ?? (_refreshDataGridByAuthorFull = new RelayCommand(FillDataGridByAuthorFull));
+            }
+        }
         public RelayCommand RefreshDataByMagazineChart
         {
             get
@@ -271,13 +274,6 @@ namespace AnalyzerDatabase.ViewModels
             get
             {
                 return _exportChartToImageCommand ?? (_exportChartToImageCommand = new RelayCommand<object>(ExportChartToImage));
-            }
-        }
-        public RelayCommand SearchCommand
-        {
-            get
-            {
-                return _searchCommand ?? (_searchCommand = new RelayCommand(TextBoxSearch));
             }
         }
         public RelayCommand ExportChartDataToCsvCommand1
@@ -485,31 +481,28 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
-        public string QueryTextBox
+        public bool IsDataOverall1Empty
         {
             get
             {
-                return _queryTextBox;
+                return _isDataOverall1Empty;
             }
             set
             {
-                if (_queryTextBox != value)
-                {
-                    _queryTextBox = value;
-                    RaisePropertyChanged();
-                }
+                _isDataOverall1Empty = value;
+                RaisePropertyChanged();
             }
         }
 
-        public bool IsDataOverallEmpty
+        public bool IsDataOverall2Empty
         {
             get
             {
-                return _isDataOverallEmpty;
+                return _isDataOverall2Empty;
             }
             set
             {
-                _isDataOverallEmpty = value;
+                _isDataOverall2Empty = value;
                 RaisePropertyChanged();
             }
         }
@@ -679,6 +672,19 @@ namespace AnalyzerDatabase.ViewModels
             set
             {
                 _dataGridByAuthorLoading = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool DataGridByAuthorFullLoading
+        {
+            get
+            {
+                return _dataGridByAuthorFullLoading;
+            }
+            set
+            {
+                _dataGridByAuthorFullLoading = value;
                 RaisePropertyChanged();
             }
         }
@@ -943,6 +949,19 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
+        public ObservableCollection<ByAuthor> DataByAuthorObservableCollectionFull
+        {
+            get
+            {
+                return _dataByAuthorObservableCollectionFull;
+            }
+            set
+            {
+                _dataByAuthorObservableCollectionFull = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public ObservableCollection<ByMagazine> DataByMagazineObservableCollection
         {
             get
@@ -1073,45 +1092,11 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
-        private void TextBoxSearch()
-        {
-            if (!String.IsNullOrEmpty(QueryTextBox))
-            {
-                string records = null;
-                double val = 0;
-
-                for (int i = 0; i < StatisticsDataService.Instance.ListYear.Count; i++)
-                {
-                    for (int j = 0; j < StatisticsDataService.Instance.ListYearAmount.Count; j++)
-                    {
-                        var item1 = StatisticsDataService.Instance.ListYear[j];
-                        var item2 = StatisticsDataService.Instance.ListYearAmount[j];
-                        if (QueryTextBox.Equals(item1))
-                        {
-                            records = item1;
-                            val = item2;
-                            break;
-                        }
-                    }
-                }
-
-                SeriesCollectionByYear.Clear();
-
-                SeriesCollectionByYear.Add(new ColumnSeries
-                {
-                    Title = records,
-                    DataLabels = true
-                });
-                SeriesCollectionByYear[0].Values = new ChartValues<ObservableValue>
-                {
-                    new ObservableValue(val)
-                };
-            }
-        }
-
         private void FillSeriesCollectionSearchCount()
         {
-            IsDataOverallEmpty = false;
+            ReinitializeStatistics();
+
+            IsDataOverall1Empty = false;
             ChartDataOverall1Loading = true;
             DataGridOverall1Loading = false;
 
@@ -1160,7 +1145,9 @@ namespace AnalyzerDatabase.ViewModels
 
         private void FillDataGridSearchCount()
         {
-            IsDataOverallEmpty = false;
+            ReinitializeStatistics();
+
+            IsDataOverall1Empty = false;
             ChartDataOverall1Loading = false;
             DataGridOverall1Loading = true;
 
@@ -1174,14 +1161,18 @@ namespace AnalyzerDatabase.ViewModels
 
         private void FillSeriesCollectionDuplicateAndDownloadCount()
         {
-            IsDataOverallEmpty = false;
+            ReinitializeStatistics();
+
+            IsDataOverall2Empty = false;
             ChartDataOverall2Loading = true;
             DataGridOverall2Loading = false;
         }
 
         private void FillDataGridDuplicateAndDownloadCount()
         {
-            IsDataOverallEmpty = false;
+            ReinitializeStatistics();
+
+            IsDataOverall2Empty = false;
             ChartDataOverall2Loading = false;
             DataGridOverall2Loading = true;
 
@@ -1193,7 +1184,6 @@ namespace AnalyzerDatabase.ViewModels
 
         private void FillSeriesCollectionYear()
         {
-            QueryTextBox = null;
             IsDataByYearEmpty = false;
             ChartDataByYearLoading = true;
             ChartDataByYearFullLoading = false;
@@ -1290,6 +1280,23 @@ namespace AnalyzerDatabase.ViewModels
             IsDataByAuthorEmpty = false;
             ChartDataByAuthorLoading = true;
             DataGridByAuthorLoading = false;
+            DataGridByAuthorFullLoading = false;
+
+            SeriesCollectionByAuthor.Clear();
+
+            for (int i = 0; i < StatisticsDataService.Instance.ListAuthorAmount.Count; i++)
+            {
+                SeriesCollectionByAuthor.Add(new ColumnSeries
+                {
+                    Title = StatisticsDataService.Instance.ListAuthor[i],
+                    Fill = Brushes.CornflowerBlue,
+                    DataLabels = true
+                });
+                SeriesCollectionByAuthor[i].Values = new ChartValues<ObservableValue>
+                {
+                    new ObservableValue(StatisticsDataService.Instance.ListAuthorAmount[i])
+                };
+            }
         }
 
         private void FillDataGridByAuthor()
@@ -1297,6 +1304,33 @@ namespace AnalyzerDatabase.ViewModels
             IsDataByAuthorEmpty = false;
             ChartDataByAuthorLoading = false;
             DataGridByAuthorLoading = true;
+            DataGridByAuthorFullLoading = false;
+            
+            DataByAuthorObservableCollection.Clear();
+
+            for (int i = 0; i < StatisticsDataService.Instance.ListAuthor.Count; i++)
+            {
+                var name = StatisticsDataService.Instance.ListAuthor[i];
+                var amount = StatisticsDataService.Instance.ListAuthorAmount[i];
+                DataByAuthorObservableCollection.Add(new ByAuthor(name, amount));
+            }
+        }
+
+        private void FillDataGridByAuthorFull()
+        {
+            IsDataByAuthorEmpty = false;
+            ChartDataByAuthorLoading = false;
+            DataGridByAuthorLoading = false;
+            DataGridByAuthorFullLoading = true;
+
+            DataByAuthorObservableCollectionFull.Clear();
+
+            for (int i = 0; i < StatisticsDataService.Instance.ListAuthorFull.Count; i++)
+            {
+                var name = StatisticsDataService.Instance.ListAuthorFull[i];
+                var amount = StatisticsDataService.Instance.ListAuthorAmountFull[i];
+                DataByAuthorObservableCollectionFull.Add(new ByAuthor(name, amount));
+            }
         }
 
         private void FillSeriesCollectionMagazine()
@@ -1318,9 +1352,10 @@ namespace AnalyzerDatabase.ViewModels
                         Fill = Brushes.CornflowerBlue,
                         DataLabels =  true
                 });
-                SeriesCollectionByMagazine[i].Values = new ChartValues<ObservableValue>();
-                var val = StatisticsDataService.Instance.ListMagazineAmount[i];
-                SeriesCollectionByMagazine[i].Values.Add(new ObservableValue(val));
+                SeriesCollectionByMagazine[i].Values = new ChartValues<ObservableValue>
+                {
+                    new ObservableValue(StatisticsDataService.Instance.ListMagazineAmount[i])
+                };
                 //LabelsMagazine[i] = StatisticsDataService.Instance.ListMagazine[i];
             }
         }
@@ -1372,5 +1407,16 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
         #endregion
+
+        private void ReinitializeStatistics()
+        {
+            CurrentScienceDirectCount = StatisticsDataService.Instance.GetStatistics.ScienceDirectCount;
+            CurrentScopusCount = StatisticsDataService.Instance.GetStatistics.ScopusCount;
+            CurrentSpringerCount = StatisticsDataService.Instance.GetStatistics.SpringerCount;
+            CurrentIeeeXploreCount = StatisticsDataService.Instance.GetStatistics.IeeeXploreCount;
+            CurrentDuplicateCount = StatisticsDataService.Instance.GetStatistics.DuplicateCount;
+            CurrentPublicationsDownloadCount = StatisticsDataService.Instance.GetStatistics.PublicationsDownloadCount;
+            CurrentSumCount = StatisticsDataService.Instance.GetStatistics.SumCount;
+        }
     }
 }

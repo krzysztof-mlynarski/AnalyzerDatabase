@@ -1,6 +1,9 @@
-﻿using System.Xml.Serialization;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Xml.Serialization;
 using AnalyzerDatabase.Enums;
 using AnalyzerDatabase.Interfaces;
+using AnalyzerDatabase.Models.Springer;
 
 namespace AnalyzerDatabase.Models.IeeeXplore
 {
@@ -96,6 +99,11 @@ namespace AnalyzerDatabase.Models.IeeeXplore
 
         [XmlElement(ElementName = "issn")]
         public string Issn { get; set; }
+
+        public List<string> GetCreator()
+        {
+            return new List<string> {Creator};
+        }
 
     //    public Document(string rank, string title, string publicationDate, string creator, string affiliations, Controlledterms controlledterms, Thesaurusterms thesaurusterms, string publicationName, string punumber, string pubtype, string publisher, string volume, string issueIdentifier, string py, string spage, string epage, string pageRange, string @abstract, SourceDatabase source, decimal percentComplete, bool isDuplicate, string year, string isbn, string identifier, string openAccess, string htmlFlag, string arnumber, string doi, string pii, string publicationId, string partnum, string mdurl, string pdf, string issue, string issn)
     //    {

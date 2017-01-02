@@ -3,20 +3,16 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Data;
-using System.Windows.Input;
 using AnalyzerDatabase.Enums;
 using AnalyzerDatabase.Interfaces;
-using AnalyzerDatabase.Messengers;
 using AnalyzerDatabase.Services;
 using AnalyzerDatabase.View;
-using CsvHelper;
 using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
-using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace AnalyzerDatabase.ViewModels
 {
@@ -76,6 +72,7 @@ namespace AnalyzerDatabase.ViewModels
         private static int _startDownSpringer = _startUpSpringer;
         private static int _startDownIeeeXplore = _startUpIeeeXplore;
 
+        private MetroWindow _windowFullDataGrid;
         #endregion
 
         #region Constructors
@@ -90,16 +87,9 @@ namespace AnalyzerDatabase.ViewModels
             TotalResultsToDisplay = new ObservableCollection<ITotalResultsToDisplay>();
             CollectionViewAll = CollectionViewSource.GetDefaultView(_searchResultsToDisplayAll);
             CollectionView = CollectionViewSource.GetDefaultView(_searchResultsToDisplay);
-
-            //Messenger.Default.Register<ExceptionToSettingsMessage>(this, HandleMessage);
         }
 
         #endregion
-
-        //private async void HandleMessage(ExceptionToSettingsMessage message)
-        //{
-
-        //}
 
         #region RelayCommand
         public RelayCommand SearchCommand
@@ -116,8 +106,8 @@ namespace AnalyzerDatabase.ViewModels
             {
                 return _fullScreenDataGrid ?? (_fullScreenDataGrid = new RelayCommand(() =>
                 {
-                    var windowFullDataGrid = new FullDataGridView();
-                    windowFullDataGrid.ShowDialog();
+                    _windowFullDataGrid = new FullDataGridView();
+                    _windowFullDataGrid.ShowDialog();
                 }));
             }
         }
@@ -431,18 +421,6 @@ namespace AnalyzerDatabase.ViewModels
             }
         }
 
-        //private ObservableCollection<ICreatorDataToDisplay> CreatorDataToDisplay
-        //{
-        //    get
-        //    {
-        //        return _creatorDataToDisplay;
-        //    }
-        //    set
-        //    {
-        //        _creatorDataToDisplay = value;
-        //        RaisePropertyChanged();
-        //    }
-        //}
         #endregion
 
         #region Private methods
@@ -455,8 +433,7 @@ namespace AnalyzerDatabase.ViewModels
             }
             catch (Exception)
             {
-                //TODO: zmienic okno wyswietlania
-                //ShowDialog(GetString("TitleDialogError"), GetString("ErrorDownloadPublication"));
+                await _windowFullDataGrid.ShowMessageAsync(GetString("TitleDialogError"), GetString("ErrorDownloadPublication"));
             }
             finally
             {
@@ -692,7 +669,7 @@ namespace AnalyzerDatabase.ViewModels
 
                         StatisticsDataService.Instance.PublicationDateFromDatabasesLabels(SearchResultsToDisplay, false, true, false);
                         StatisticsDataService.Instance.PublicationByMagazines(SearchResultsToDisplay, false, true, false);
-                        StatisticsDataService.Instance.PublicationsAuthors(SearchResultsToDisplay);
+                        StatisticsDataService.Instance.PublicationsAuthors(SearchResultsToDisplay, false, true, false);
 
                         CollectionView?.GroupDescriptions.Add(new PropertyGroupDescription("Source"));
                     }
@@ -786,7 +763,7 @@ namespace AnalyzerDatabase.ViewModels
 
                         StatisticsDataService.Instance.PublicationDateFromDatabasesLabels(SearchResultsToDisplay, false, false, true);
                         StatisticsDataService.Instance.PublicationByMagazines(SearchResultsToDisplay, false, false, true);
-                        StatisticsDataService.Instance.PublicationsAuthors(SearchResultsToDisplay);
+                        StatisticsDataService.Instance.PublicationsAuthors(SearchResultsToDisplay, false, false, true);
 
                         CollectionView?.GroupDescriptions.Add(new PropertyGroupDescription("Source"));
                     }
@@ -1229,7 +1206,7 @@ namespace AnalyzerDatabase.ViewModels
 
                         StatisticsDataService.Instance.PublicationDateFromDatabasesLabels(SearchResultsToDisplay, true, false, false);
                         StatisticsDataService.Instance.PublicationByMagazines(SearchResultsToDisplay, true, false, false);
-                        //StatisticsDataService.Instance.PublicationsAuthors(SearchResultsToDisplay);
+                        StatisticsDataService.Instance.PublicationsAuthors(SearchResultsToDisplay, true, false, false);
 
                         if (IsGroupDescriptions)
                         {
@@ -1297,19 +1274,6 @@ namespace AnalyzerDatabase.ViewModels
                 SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
             }
         }
-
-        //private void CreatorHelper(ICreatorDataToDisplay element)
-        //{
-        //    if (element != null)
-        //    {
-        //        CreatorDataToDisplay.Add(element);
-        //    }
-        //    else
-        //    {
-                
-        //    }
-        //}
-        
         #endregion
     }
 }

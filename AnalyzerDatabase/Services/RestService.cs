@@ -230,6 +230,7 @@ namespace AnalyzerDatabase.Services
                 {
                     Exception = ViewModelLocator.Instance.FullDataGrid
                 });
+                //TODO:
 
                 //ShowDialog(GetString("TitleDialogError"), GetString("ErrorDownloadPublication"));
                 throw;

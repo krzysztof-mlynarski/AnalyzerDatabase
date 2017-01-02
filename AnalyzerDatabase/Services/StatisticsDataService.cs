@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Forms;
 using AnalyzerDatabase.Interfaces;
 using AnalyzerDatabase.Models;
 using LiveCharts.Helpers;
@@ -28,6 +26,11 @@ namespace AnalyzerDatabase.Services
         private List<int> _listYearFull = new List<int>();
         private List<int> _listYearAmountFull = new List<int>();
 
+        public readonly List<string> ListAuthor = new List<string>();
+        public readonly List<int> ListAuthorAmount = new List<int>();
+        public readonly List<string> ListAuthorFull = new List<string>();
+        public readonly List<int> ListAuthorAmountFull = new List<int>();
+
         private static StatisticsDataService _instance;
 
         public static StatisticsDataService Instance
@@ -44,14 +47,14 @@ namespace AnalyzerDatabase.Services
 
         public void SaveStatistics()
         {
-            XmlSerialize<AnalyzerDatabaseStatistics>.Serialize(GetStatistics, LocalizationStatisticsService.AnalyzerDatabaseStatisticsPath);
+            XmlSerialize<AnalyzerDatabaseStatistics>.Serialize(_analyzerDatabaseStatistics, LocalizationStatisticsService.AnalyzerDatabaseStatisticsPath);
         }
 
         public AnalyzerDatabaseStatistics GetStatistics
         {
             get
             {
-                return _analyzerDatabaseStatistics ?? (_analyzerDatabaseStatistics = LoadStatistics());
+                return _analyzerDatabaseStatistics = LoadStatistics();
             }
         }
 
@@ -172,9 +175,32 @@ namespace AnalyzerDatabase.Services
             }
         }
 
-        public void PublicationsAuthors(ObservableCollection<ISearchResultsToDisplay> model)
+        public void PublicationsAuthors(ObservableCollection<ISearchResultsToDisplay> model, bool isNewQuery, bool isNextPage, bool isPrevPage)
         {
-            //TODO:
+            if (isNewQuery)
+            {
+                ListAuthor.Clear();
+                ListAuthorAmount.Clear();
+
+                ListAuthorFull.Clear();
+                ListAuthorAmountFull.Clear();
+
+                DataByAuthorHelper(model, true, false, false);
+            }
+            if (isNextPage)
+            {
+                ListAuthor.Clear();
+                ListAuthorAmount.Clear();
+
+                DataByAuthorHelper(model, false, true, false);
+            }
+            if (isPrevPage)
+            {
+                ListAuthor.Clear();
+                ListAuthorAmount.Clear();
+
+                DataByAuthorHelper(model, false, false, true);
+            }
         }
 
         public void IncrementScienceDirect()
@@ -377,6 +403,79 @@ namespace AnalyzerDatabase.Services
                         }
                     }
                 }
+            });
+        }
+
+        private void DataByAuthorHelper(ObservableCollection<ISearchResultsToDisplay> model, bool isNewQuery, bool isNextPage, bool isPrevPage)
+        {
+            char[] stringSeparators = { ';' };
+            string[] authors;
+            string author;
+
+            model.ForEach(x =>
+            {
+                x.GetCreator().ForEach(y =>
+                {
+                    authors = y.Split(stringSeparators, StringSplitOptions.None);
+                    foreach (var item in authors)
+                    {
+                        author = item.TrimStart();
+
+                        if (!ListAuthor.Any())
+                        {
+                            ListAuthor.Add(author);
+                            ListAuthorAmount.Add(1);
+                            if (!ListAuthorFull.Any())
+                            {
+                                ListAuthorFull.Add(author);
+                                ListAuthorAmountFull.Add(1);
+                            }
+                        }
+                        else
+                        {
+                            bool found = false;
+                            bool found2 = false;
+
+                            if (isNewQuery || isNextPage || isPrevPage)
+                            {
+                                for (int i = 0; i < ListAuthor.Count; i++)
+                                {
+                                    if (ListAuthor[i] == author)
+                                    {
+                                        ListAuthorAmount[i]++;
+                                        found = true;
+                                        break;
+                                    }
+                                }
+
+                                if (!found)
+                                {
+                                    ListAuthor.Add(author);
+                                    ListAuthorAmount.Add(1);
+                                }
+                            }
+
+                            if (isNewQuery || isNextPage)
+                            {
+                                for (int i = 0; i < ListAuthorFull.Count; i++)
+                                {
+                                    if (ListAuthorFull[i] == author)
+                                    {
+                                        ListAuthorAmountFull[i]++;
+                                        found2 = true;
+                                        break;
+                                    }
+                                }
+
+                                if (!found2)
+                                {
+                                    ListAuthorFull.Add(author);
+                                    ListAuthorAmountFull.Add(1);
+                                }
+                            }
+                        }
+                    }
+                });
             });
         }
         #endregion

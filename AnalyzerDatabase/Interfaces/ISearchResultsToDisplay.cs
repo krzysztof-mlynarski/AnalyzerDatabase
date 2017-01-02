@@ -1,4 +1,8 @@
-﻿using AnalyzerDatabase.Enums;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
+using AnalyzerDatabase.Enums;
+using AnalyzerDatabase.Models.Springer;
 
 namespace AnalyzerDatabase.Interfaces
 {
@@ -12,8 +16,6 @@ namespace AnalyzerDatabase.Interfaces
         string PublicationDate { get; set; }
 
         string Creator { get; set; }
-
-        //IList<Creator> Creators { get; set; }
 
         string Volume { get; set; }
 
@@ -46,6 +48,9 @@ namespace AnalyzerDatabase.Interfaces
         bool IsDuplicate { get; set; }
 
         string Year { get; set; }
+
+        List<string> GetCreator();
+
         #endregion
     }
 }
