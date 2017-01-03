@@ -451,4 +451,10 @@
   <data name="ReceivedResultsTitleWindow" xml:space="preserve">
     <value>Received results</value>
   </data>
+  <data name="SendEmail" xml:space="preserve">
+    <value>Send a message</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version:</value>
+  </data>
 </root>

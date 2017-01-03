@@ -39,9 +39,9 @@
         <DataTemplate DataType="{x:Type viewModel:SettingsViewModel}">
             <view:SettingsView/>
         </DataTemplate>
-        <!--<DataTemplate DataType="{x:Type viewModel:AboutViewModel}">
+        <DataTemplate DataType="{x:Type viewModel:AboutViewModel}">
             <view:AboutView/>
-        </DataTemplate>-->
+        </DataTemplate>
     </Window.Resources>
 
     <Grid>

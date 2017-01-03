@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using AnalyzerDatabase.Models;
 
 namespace AnalyzerDatabase.Services
@@ -7,7 +6,6 @@ namespace AnalyzerDatabase.Services
     public class SettingsService
     {
         #region Variables
-        private CultureInfo _culture;
         private AnalyzerDatabaseSettings _analyzerDatabaseSettings;
         #endregion
 

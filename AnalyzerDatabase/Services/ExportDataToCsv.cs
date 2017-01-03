@@ -223,7 +223,7 @@ namespace AnalyzerDatabase.Services
             }
         }
          
-        public async void ExportDataGridToCsv(ObservableCollection<ISearchResultsToDisplay> model, string query)
+        public void ExportDataGridToCsv(ObservableCollection<ISearchResultsToDisplay> model, string query)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog
             {

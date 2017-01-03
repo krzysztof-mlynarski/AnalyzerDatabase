@@ -34,7 +34,7 @@ namespace AnalyzerDatabase.ViewModels
             CurrentViewModel = ViewModelLocator.Instance.SearchDatabase;
             CurrentViewModel = ViewModelLocator.Instance.Statistics;
             CurrentViewModel = ViewModelLocator.Instance.Settings;
-            //CurrentViewModel = ViewModelLocator.Instance.About;
+            CurrentViewModel = ViewModelLocator.Instance.About;
             CurrentViewModel = null;
 
             CheckInternetConnection();
@@ -163,7 +163,7 @@ namespace AnalyzerDatabase.ViewModels
 
         private void OpenAbout()
         {
-            //NavigateTo(ViewModelLocator.Instance.About);
+            NavigateTo(ViewModelLocator.Instance.About);
         }
 
         private void CheckInternetConnection()

@@ -817,6 +817,15 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Send a message.
+        /// </summary>
+        public static string SendEmail {
+            get {
+                return ResourceManager.GetString("SendEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         public static string Settings {
@@ -984,6 +993,15 @@ namespace AnalyzerDatabase.Properties {
         public static string TitleDialogError {
             get {
                 return ResourceManager.GetString("TitleDialogError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version:.
+        /// </summary>
+        public static string Version {
+            get {
+                return ResourceManager.GetString("Version", resourceCulture);
             }
         }
         
