@@ -2,9 +2,5 @@
 {
     public class FullDataGridViewModel : ExtendedViewModelBase
     {
-        public FullDataGridViewModel()
-        {
-            
-        }
     }
 }

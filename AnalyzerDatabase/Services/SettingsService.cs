@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Globalization;
-using System.Reflection;
-using System.Resources;
-using AnalyzerDatabase.Interfaces;
+using AnalyzerDatabase.Models;
 
 namespace AnalyzerDatabase.Services
 {
     public class SettingsService
     {
-        private CultureInfo _culture;
+        #region Variables
         private AnalyzerDatabaseSettings _analyzerDatabaseSettings;
+        #endregion
 
+        #region Singleton
         private static SettingsService _instance;
 
         public static SettingsService Instance
@@ -24,19 +23,9 @@ namespace AnalyzerDatabase.Services
         private SettingsService()
         {
         }
+        #endregion
 
-        public CultureInfo Culture
-        {
-            get
-            {
-                return _culture ?? (_culture = new CultureInfo(Settings.CurrentLanguage));
-            }
-            set
-            {
-                _culture = value;
-            }
-        }
-
+        #region Public methods
         public AnalyzerDatabaseSettings Settings
         {
             get
@@ -45,6 +34,13 @@ namespace AnalyzerDatabase.Services
             }
         }
 
+        public void Save()
+        {
+            XmlSerialize<AnalyzerDatabaseSettings>.Serialize(Settings, LocalizationSettingsService.AnalyzerDatabaseConfigPath);
+        }
+        #endregion
+
+        #region Private methods
         private AnalyzerDatabaseSettings LoadSettings()
         {
             try
@@ -64,7 +60,7 @@ namespace AnalyzerDatabase.Services
             }
             catch (Exception)
             {
-                return this.EmptySettings();
+                return EmptySettings();
             }
         }
 
@@ -73,8 +69,6 @@ namespace AnalyzerDatabase.Services
             AnalyzerDatabaseSettings settings = new AnalyzerDatabaseSettings();
             XmlSerialize<AnalyzerDatabaseSettings>.InitEmptyProperties(settings);
 
-            settings.CurrentLanguage = "pl-PL";
-            settings.CurrentStyle = "green.xaml";
             settings.ScienceDirectAndScopusApiKey = "";
             settings.SpringerApiKey = "";
             settings.StartOnLogin = true;
@@ -89,10 +83,6 @@ namespace AnalyzerDatabase.Services
 
             return settings;
         }
-
-        public void Save()
-        {
-            XmlSerialize<AnalyzerDatabaseSettings>.Serialize(Settings, LocalizationSettingsService.AnalyzerDatabaseConfigPath);
-        }
+        #endregion
     }
 }

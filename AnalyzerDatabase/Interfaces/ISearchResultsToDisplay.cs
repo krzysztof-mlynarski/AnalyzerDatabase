@@ -1,4 +1,5 @@
-﻿using AnalyzerDatabase.Enums;
+﻿using System.Collections.Generic;
+using AnalyzerDatabase.Enums;
 
 namespace AnalyzerDatabase.Interfaces
 {
@@ -13,8 +14,6 @@ namespace AnalyzerDatabase.Interfaces
 
         string Creator { get; set; }
 
-        //IList<Creator> Creators { get; set; }
-
         string Volume { get; set; }
 
         string IssueIdentifier { get; set; }
@@ -22,6 +21,10 @@ namespace AnalyzerDatabase.Interfaces
         string Doi { get; set; }
 
         string Pii { get; set; }
+
+        string Eid { get; set; }
+
+        string Arnumber { get; set; }
 
         string Issn { get; set; }
 
@@ -36,6 +39,17 @@ namespace AnalyzerDatabase.Interfaces
         string Abstract { get; set; }
 
         SourceDatabase Source { get; set; }
+
+        decimal PercentComplete { get; set; }
+
+        bool IsDuplicate { get; set; }
+
+        string Year { get; set; }
+
+        #endregion
+
+        #region Methods
+        List<string> GetCreator();
         #endregion
     }
 }

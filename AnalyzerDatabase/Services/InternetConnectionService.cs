@@ -14,7 +14,7 @@ namespace AnalyzerDatabase.Services
 
         public bool CheckConnectedToInternet()
         {
-            bool isConnected = false;
+            bool isConnected;
             try
             {
                 int desc;

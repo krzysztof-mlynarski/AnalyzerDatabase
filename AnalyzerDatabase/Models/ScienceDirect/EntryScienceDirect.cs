@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.Dynamic;
 using AnalyzerDatabase.Enums;
 using AnalyzerDatabase.Interfaces;
+using LiveCharts.Helpers;
 using Newtonsoft.Json;
 
 namespace AnalyzerDatabase.Models.ScienceDirect
 {
     public class EntryScienceDirect : ISearchResultsToDisplay
     {
+        #region Variables
         [JsonProperty("dc:title")]
         public string Title { get; set; }
 
@@ -20,8 +21,6 @@ namespace AnalyzerDatabase.Models.ScienceDirect
         [JsonProperty("dc:creator")]
         public string Creator { get; set; }
 
-        //IList<Creator> Creators {get;set;}
-
         [JsonProperty("prism:volume")]
         public string Volume { get; set; }
 
@@ -33,6 +32,11 @@ namespace AnalyzerDatabase.Models.ScienceDirect
 
         [JsonProperty("pii")]
         public string Pii { get; set; }
+
+        [JsonProperty("eid")]
+        public string Eid { get; set; }
+
+        public string Arnumber { get; set; }
 
         [JsonProperty("prism:issn")]
         public string Issn { get; set; }
@@ -47,6 +51,9 @@ namespace AnalyzerDatabase.Models.ScienceDirect
         public string Abstract { get; set; }
 
         public SourceDatabase Source { get; set; }
+        public decimal PercentComplete { get; set; }
+        public bool IsDuplicate { get; set; }
+        public string Year { get; set; }
 
         //unused
         public string Isbn { get; set; }
@@ -59,9 +66,6 @@ namespace AnalyzerDatabase.Models.ScienceDirect
 
         [JsonProperty("link")]
         public IList<LinkArticle> Link { get; set; }
-
-        [JsonProperty("eid")]
-        public string Eid { get; set; }
 
         [JsonProperty("prism:url")]
         public string PrismUrl { get; set; }
@@ -86,7 +90,9 @@ namespace AnalyzerDatabase.Models.ScienceDirect
 
         [JsonProperty("authors")]
         public Authors Authors { get; set; }
+        #endregion
 
+        #region Constructors
         public EntryScienceDirect(string fa, IList<LinkArticle> link, string dcIdentifier, string eid, string prismUrl, string dcTitle, string dcCreator, string prismPublicationName, string prismIssn, string prismVolume, string prismIssueIdentifier, IList<PrismCoverDate> prismCoverDate, string prismCoverDisplayDate, string prismStartingPage, string prismEndingPage, string prismDoi, string openaccess, bool openaccessArticle, bool openArchiveArticle, string openaccessUserLicense, string pii, Authors authors, string prismTeaser)
         {
             Fa = fa;
@@ -114,5 +120,16 @@ namespace AnalyzerDatabase.Models.ScienceDirect
             Abstract = prismTeaser;
             Source = SourceDatabase.ScienceDirect;
         }
+        #endregion
+
+        #region Public methods
+        public List<string> GetCreator()
+        {
+            var list = new List<string>();
+            Authors?.Author.ForEach(x => list.Add(x.GivenName + " " + x.Surname));
+
+            return list;
+        }
+        #endregion
     }
 }

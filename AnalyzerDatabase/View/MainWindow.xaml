@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AnalyzerDatabase.View"
         xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:viewModel="clr-namespace:AnalyzerDatabase.ViewModels"
         xmlns:view="clr-namespace:AnalyzerDatabase.View"
@@ -17,33 +16,32 @@
         ShowMaxRestoreButton="False"    
         ResizeMode="CanMinimize"              
         WindowTransitionsEnabled="False"
-        WindowStartupLocation="CenterScreen"              
+        WindowStartupLocation="CenterScreen"
+        Icon="../AnalyzerDatabaseIcon2.ico"
         Title="Analyzer Database" Height="720" Width="1024">
 
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
-            <Button Content="Settings" 
+            <Button Content="{x:Static res:Resources.SettingsMenu}" 
                     Command="{Binding GoToSettingsViewCommand}"/>
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
 
     <Window.Resources>
         <converters:ViewModelBaseToVisibilityConverter x:Key="ViewModelBaseToVisibilityConverter"/>
-        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <converters:NegativeBooleanToVisibilityConverter x:Key="NegativeBooleanToVisibilityConverter"/>
 
         <DataTemplate DataType="{x:Type viewModel:SearchDatabaseViewModel}">
             <view:SearchDatabaseView/>
         </DataTemplate>
-        <!--<DataTemplate DataType="{x:Type viewModel:StatisticsViewModel}">
+        <DataTemplate DataType="{x:Type viewModel:StatisticsViewModel}">
             <view:StatisticsView/>
-        </DataTemplate>-->
+        </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:SettingsViewModel}">
             <view:SettingsView/>
         </DataTemplate>
-        <!--<DataTemplate DataType="{x:Type viewModel:AboutViewModel}">
+        <DataTemplate DataType="{x:Type viewModel:AboutViewModel}">
             <view:AboutView/>
-        </DataTemplate>-->
+        </DataTemplate>
     </Window.Resources>
 
     <Grid>
@@ -58,6 +56,7 @@
 
         <!--MENU-->
         <StackPanel Grid.Column="0" Margin="0,25,0,0" Grid.RowSpan="2">
+            <!-- HOME -->
             <Button x:Name="HomeBtn"  
                     Background="#cccccc" 
                     Margin="5,2,0,2"
@@ -75,7 +74,7 @@
                                Margin="0,0,10,0"/>
                 </StackPanel>
             </Button>
-
+            <!-- SEARCH -->
             <Button x:Name="SearchBtn" 
                     Background="#cccccc" 
                     Margin="5,2,0,2" 
@@ -93,7 +92,7 @@
                                Margin="0,0,10,0"/>
                 </StackPanel>
             </Button>
-
+            <!-- STATISTICS -->
             <Button x:Name="StatisticsBtn" 
                     Background="#cccccc" 
                     Margin="5,2,0,2"
@@ -111,7 +110,7 @@
                                Margin="0,0,10,0"/>
                 </StackPanel>
             </Button>
-
+            <!-- SETTINGS -->
             <Button x:Name="SettingsBtn" 
                     Background="#cccccc" 
                     Margin="5,2,0,2"
@@ -129,7 +128,7 @@
                                Margin="0,0,10,0"/>
                 </StackPanel>
             </Button>
-
+            <!-- ABOUT -->
             <Button x:Name="AboutBtn" 
                     Background="#cccccc" 
                     Margin="5,2,0,2"
@@ -152,24 +151,42 @@
         <ContentControl Grid.Row="0" Grid.Column="1" Content="{Binding CurrentViewModel}" Grid.RowSpan="2"/>
 
         <StackPanel Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
+            <!-- LOGO APLIKACJI -->
             <Grid Margin="0,100,0,5">
-                <TextBlock HorizontalAlignment="Center"><InlineUIContainer>
+                <TextBlock HorizontalAlignment="Center">
+                    <InlineUIContainer>
                         <Image Source="../Assets/Logo/AnalyzerDatabaseLogo.png" 
-                            Width="435"
-                            Visibility="{Binding CurrentViewModel, Converter={StaticResource ViewModelBaseToVisibilityConverter}}" Height="239"/>
-                    </InlineUIContainer></TextBlock>
+                            Width="501"
+                            Visibility="{Binding CurrentViewModel, Converter={StaticResource ViewModelBaseToVisibilityConverter}}" Height="275"/>
+                    </InlineUIContainer>
+                </TextBlock>
             </Grid>
 
             <!--LOGA BAZ-->
             <StackPanel Height="424">
-                <TextBlock HorizontalAlignment="Center">
-                        <Image Source="../Assets/Library Icons/Library1.png"                              
-                               Visibility="{Binding CurrentViewModel, Converter={StaticResource ViewModelBaseToVisibilityConverter}}" Height="429" Width="762"/>
-                </TextBlock>
+                <Grid>
+                    <Image Source="../Assets/Library Icons/Scopus.png" 
+                           Width="300"
+                           Margin="50,75,508,-75"    
+                           Visibility="{Binding CurrentViewModel, Converter={StaticResource ViewModelBaseToVisibilityConverter}}"/>
+                    <Image Source="../Assets/Library Icons/Springer.png" 
+                           Width="300"
+                           Margin="410,75,148,-75"
+                           Visibility="{Binding CurrentViewModel, Converter={StaticResource ViewModelBaseToVisibilityConverter}}"/>
+                    <Image Source="../Assets/Library Icons/ScienceDirect.png" 
+                           Width="300"
+                           Margin="520,185,38,-185"
+                           Visibility="{Binding CurrentViewModel, Converter={StaticResource ViewModelBaseToVisibilityConverter}}"/>
+                    <Image Source="../Assets/Library Icons/IEEE Xplore.png" 
+                           Width="300"
+                           Margin="150,185,408,-185"
+                           Visibility="{Binding CurrentViewModel, Converter={StaticResource ViewModelBaseToVisibilityConverter}}"/>
+                </Grid>
             </StackPanel>
         </StackPanel>
+        <!-- DOCK Z INFORMACJĄ NA TEMAT POŁĄCZENIA INTERNETOWEGO -->
         <Grid Grid.Row="1" Grid.Column="1">
-            <Image Source="../Assets/Other Icons/NetworkConnect.png"
+            <!--<Image Source="../Assets/Other Icons/NetworkConnect.png"
                    Visibility="{Binding IsInternetConnection, Converter={StaticResource BooleanToVisibilityConverter}}"
                    ToolTip="Internet Connection"                   
                    Width="25" Margin="793,0,40,0"/>
@@ -184,8 +201,7 @@
             <Image Source="../Assets/Other Icons/VpnDisconnect.png"
                    Visibility="{Binding IsVpnConnection, Converter={StaticResource NegativeBooleanToVisibilityConverter}}"
                    ToolTip="VPN Connection"
-                   Width="25" Margin="823,0,10,0"/>
-
+                   Width="25" Margin="823,0,10,0"/>-->
         </Grid>
     </Grid>
 </controls:MetroWindow>

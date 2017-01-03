@@ -7,7 +7,7 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:res="clr-namespace:AnalyzerDatabase.Properties"
         mc:Ignorable="d"
-        Title="Received results"
+        Title="{x:Static res:Resources.ReceivedResultsTitleWindow}"
         DataContext="{Binding Source={StaticResource Locator}, Path=SearchDatabase}"
                       
         BorderThickness="0" 
@@ -15,17 +15,28 @@
         ResizeMode="CanResizeWithGrip"    
         WindowState="Maximized"
         WindowTransitionsEnabled="False"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Icon="../AnalyzerDatabaseIcon2.ico">
 
     <Window.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converters:NegativeBooleanToVisibilityConverter x:Key="NegativeBooleanToVisibilityConverter"/>
+        <converters:BoolToColorConverter x:Key="BoolToColorConverter"/>
     </Window.Resources>
 
     <Grid>
+        <!-- Informacja o braku danych do wyświetlenia -->
+        <TextBlock Text="{x:Static res:Resources.NoDataToDisplayInDataGrid}"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="20"
+                   Visibility="{Binding IsDataEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        
+        <!-- Extended DataGrid -->
         <DataGrid x:Name="ExtendedDataGrid"
                     ItemsSource="{Binding CollectionView}"
-                    SelectedItem="{Binding DoiAndTitle}"
+                    SelectedItem="{Binding DoiAndTitleAndAbstract}"
+                    Visibility="{Binding DataGridResults, Converter={StaticResource BooleanToVisibilityConverter}}"
                     AutoGenerateColumns="False"
                     HorizontalAlignment="Stretch"
                     Margin="0,45,0,0"
@@ -36,9 +47,9 @@
                     CanUserResizeColumns="True"
                     CanUserResizeRows="True"
                     CanUserSortColumns="True"
-                    FrozenColumnCount="1"
+                    FrozenColumnCount="2"                   
                     Style="{StaticResource AzureDataGrid}">
-            
+
             <!-- Grupowanie po danej bazie -->
             <DataGrid.GroupStyle>
                 <GroupStyle>
@@ -57,9 +68,10 @@
                                         <Expander IsExpanded="True">
                                             <Expander.Header>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding Path=Name}"></TextBlock>
-                                                    <TextBlock Text=" "></TextBlock>
-                                                    <TextBlock Text="{Binding Path=ItemCount}"></TextBlock>
+                                                    <TextBlock Text="{Binding Path=Name}"/>
+                                                    <TextBlock Text=" "/>
+                                                    <TextBlock Text="{Binding Path=ItemCount}"/>
+                                                    <!--<TextBlock Text="{Binding Path=ItemCount, Converter={StaticResource GroupsToTotalConverter}}"/>-->
                                                 </StackPanel>
                                             </Expander.Header>
                                             <Expander.Content>
@@ -73,9 +85,17 @@
                     </GroupStyle.ContainerStyle>
                 </GroupStyle>
             </DataGrid.GroupStyle>
-            
+
             <!-- Kolumny w data gridzie -->
             <DataGrid.Columns>
+                <DataGridTextColumn Header="%" Binding="{Binding PercentComplete, StringFormat='{}{0:0.##}%'}" IsReadOnly="True" CanUserResize="False">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Background" Value="{Binding IsDuplicate, Converter={StaticResource BoolToColorConverter}}"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
                 <!--<DataGridCheckBoxColumn ElementStyle="{DynamicResource MetroDataGridCheckBox}"
                                         EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
                                         CanUserResize="False"
@@ -87,15 +107,42 @@
                             <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
                         </Style>
                     </DataGridTextColumn.ElementStyle>
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Background" Value="{Binding IsDuplicate, Converter={StaticResource BoolToColorConverter}}"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="{x:Static res:Resources.TitleDataGridHeader}" Binding="{Binding Title}"  IsReadOnly="True" Width="850">
+                <DataGridTextColumn Header="{x:Static res:Resources.TitleDataGridHeader}" Binding="{Binding Title}"  IsReadOnly="True" Width="800">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
                             <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
                         </Style>
                     </DataGridTextColumn.ElementStyle>
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Background" Value="{Binding IsDuplicate, Converter={StaticResource BoolToColorConverter}}"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="{x:Static res:Resources.DoiDataGridHeader}" Binding="{Binding Doi}" IsReadOnly="True" CanUserResize="False"/>
+                <DataGridTextColumn Header="ROK" Binding="{Binding Year}" IsReadOnly="True" CanUserResize="False">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Background" Value="{Binding IsDuplicate, Converter={StaticResource BoolToColorConverter}}"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="{x:Static res:Resources.DoiDataGridHeader}" Binding="{Binding Doi}" IsReadOnly="True" CanUserResize="False">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Background" Value="{Binding IsDuplicate, Converter={StaticResource BoolToColorConverter}}"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
             </DataGrid.Columns>
 
             <!-- Szczegółowe informacje po rozwinięciu danego wiersza -->
@@ -103,9 +150,13 @@
                 <DataTemplate>
                     <DockPanel>
                         <StackPanel>
-                            <Image DockPanel.Dock="Left" Source="../Assets/Other Icons/TESTOWY.png" Height="160" Width="120" Margin="10,30,10,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            <TextBlock Text="{x:Static res:Resources.OpenAccessDataGrid}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <TextBlock Text="{Binding OpenAccess}" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <Rectangle DockPanel.Dock="Left" Width="120" Height="160" Fill="{DynamicResource BlackBrush}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,30,10,0">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_image}"/>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                            <!--<TextBlock Text="{x:Static res:Resources.OpenAccessDataGrid}" VerticalAlignment="Center" HorizontalAlignment="Center" />-->
+                            <!--<TextBlock Text="{Binding OpenAccess}" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
                         </StackPanel>
 
                         <Grid Margin="0,10">
@@ -132,21 +183,28 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <!--<TextBlock Text="{x:Static res:Resources.PublicationNameDataGrid}" 
-                                       FontWeight="Bold"
-                                       Foreground="Black" 
-                                       FontSize="20" 
-                                       HorizontalAlignment="Right"/>-->
-                            <TextBlock Grid.Row="0" Grid.Column="1"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       TextWrapping="Wrap"
-                                       TextAlignment="Center"
-                                       FontSize="26"
-                                       Foreground="Black"
-                                       FontWeight="ExtraBold"
-                                       Text="{Binding PublicationName}"/>
-                            
+                            <Button Grid.Column="1" Grid.Row="0"
+                                    HorizontalAlignment="Center"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    Foreground="Black"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    FontStyle="Normal"
+                                    FontSize="11"
+                                    Width="Auto" Height="Auto"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.OpenPageWithPublication}">
+                                <TextBlock Text="{Binding Title}"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           TextWrapping="Wrap"
+                                           TextAlignment="Center"
+                                           FontSize="26"
+                                           Foreground="Blue"
+                                           FontWeight="ExtraBold"
+                                           TextDecorations="Underline"/>
+                            </Button>
+
                             <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
                                 <Rectangle Width="15" Height="15" Fill="{DynamicResource BlackBrush}">
                                     <Rectangle.OpacityMask>
@@ -154,7 +212,309 @@
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
                                 <TextBlock Text=" "></TextBlock>
-                                <TextBlock Text="{x:Static res:Resources.TitleDataGrid}"
+                                <TextBlock Text="{x:Static res:Resources.PublicationNameDataGrid}"
+                                           FontWeight="Bold" 
+                                           Foreground="Black" 
+                                           HorizontalAlignment="Right"/>
+                            </StackPanel>
+                            <TextBlock Text="{Binding PublicationName}"
+                                       Grid.Row="2" Grid.Column="1"
+                                       FontWeight="Bold"
+                                       Foreground="Black"/>
+
+                            <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Rectangle Width="15" Height="15" Fill="{DynamicResource BlackBrush}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_calendar_day}"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Text=" "></TextBlock>
+                                <TextBlock Text="{x:Static res:Resources.PublicationDateDataGrid}"
+                                           FontWeight="Bold" 
+                                           Foreground="Black" 
+                                           HorizontalAlignment="Right"/>
+                            </StackPanel>
+                            <TextBlock Grid.Row="3" Grid.Column="1"
+                                       Foreground="Black"
+                                       Text="{Binding PublicationDate}"/>
+
+                            <StackPanel Grid.Column="0" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Rectangle Width="15" Height="15" Fill="{DynamicResource BlackBrush}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_group}"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Text=" "></TextBlock>
+                                <TextBlock Text="{x:Static res:Resources.AuthorDataGrid}" 
+                                           FontWeight="Bold" 
+                                           Foreground="Black" 
+                                           HorizontalAlignment="Right"/>
+                            </StackPanel>
+                            <TextBlock Grid.Row="5" Grid.Column="1"
+                                        TextWrapping="Wrap"
+                                        Foreground="Black"
+                                        Text="{Binding Creator}"/>
+
+                            <TextBlock Text="{x:Static res:Resources.VolumeDataGrid}" 
+                                       Grid.Row="7" Grid.Column="0"
+                                       FontWeight="Bold" 
+                                       Foreground="Black" 
+                                       HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Column="1" Grid.Row="7"
+                                       Foreground="Black"
+                                       Text="{Binding Volume}"/>
+
+                            <TextBlock Margin="50,0,0,0" Text="{x:Static res:Resources.IssueDataGrid}" 
+                                       Grid.Column="1" Grid.Row="7"
+                                       FontWeight="Bold" 
+                                       Foreground="Black"  
+                                       HorizontalAlignment="Left"/>
+                            <TextBlock Grid.Column="1" Grid.Row="7" 
+                                       Margin="110,0,0,0"
+                                       Foreground="Black"
+                                       Text="{Binding IssueIdentifier}"/>
+
+                            <TextBlock Text="{x:Static res:Resources.PageRangeDataGrid}" 
+                                       Grid.Row="8" Grid.Column="0"
+                                       FontWeight="Bold" 
+                                       Foreground="Black"                                     
+                                       HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Column="1" Grid.Row="8" 
+                                       Foreground="Black"
+                                       Text="{Binding PageRange}" />
+
+                            <TextBlock Text="{x:Static res:Resources.IssnDataGrid}" 
+                                       Grid.Row="9" Grid.Column="0"
+                                       FontWeight="Bold" 
+                                       Foreground="Black" 
+                                       HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Column="1" Grid.Row="9" 
+                                       Foreground="Black"
+                                       Text="{Binding Issn}" />
+
+                            <TextBlock Margin="120,0,0,0" Text="{x:Static res:Resources.IsbnDataGrid}" 
+                                       Grid.Column="1" Grid.Row="9" 
+                                       FontWeight="Bold" 
+                                       Foreground="Black" 
+                                       HorizontalAlignment="Left"/>
+                            <TextBlock Grid.Column="1" Grid.Row="9" 
+                                       Margin="180,0,0,0"
+                                       Foreground="Black"
+                                       Text="{Binding Isbn}" />
+
+                            <TextBlock Text="{x:Static res:Resources.DoiDataGrid}"
+                                       VerticalAlignment="Center"
+                                       Grid.Row="10" Grid.Column="0" 
+                                       FontWeight="Bold" 
+                                       Foreground="Black" 
+                                       HorizontalAlignment="Right"/>
+                            <Button Grid.Column="1" Grid.Row="10"
+                                    HorizontalAlignment="Left"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    Foreground="Black"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    FontStyle="Normal"
+                                    FontSize="11"
+                                    Width="Auto" Height="Auto"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.OpenPageWithDoi}">
+                                <TextBlock Text="{Binding Doi}" TextDecorations="Underline" Foreground="Blue"/>
+                            </Button>
+
+                            <TextBlock Text="{x:Static res:Resources.PiiDataGrid}" 
+                                       Grid.Row="11" Grid.Column="0"
+                                       FontWeight="Bold" 
+                                       Foreground="Black" 
+                                       HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Column="1" Grid.Row="11" 
+                                       Foreground="Black"
+                                       Text="{Binding Pii}" />
+
+                            <StackPanel Grid.Column="0" Grid.Row="13" Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Rectangle Width="20" Height="20" Fill="{DynamicResource BlackBrush}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_book_open_writing}"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Text=" "></TextBlock>
+                                <TextBlock Text="{x:Static res:Resources.AbstractDataGrid}" 
+                                           FontWeight="Bold" 
+                                           Foreground="Black" 
+                                           HorizontalAlignment="Right"/>
+                            </StackPanel>
+                            <TextBlock Grid.Row="13" Grid.Column="1"
+                                        TextWrapping="Wrap"
+                                        TextAlignment="Justify"
+                                        Foreground="Black"
+                                        Text="{Binding Abstract}" />
+
+                            <StackPanel Grid.Column="3" Grid.Row="0">
+                                <!-- Przycisk pobierania publikacji -->
+                                <Button Background="Transparent"
+                                        Foreground="Transparent"
+                                        BorderThickness="0" BorderBrush="Transparent"
+                                        Width="75" Height="75"
+                                        ToolTip="{x:Static res:Resources.DownloadPublication}"
+                                        Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.DownloadArticleToPdf}">
+                                    <Rectangle Width="55" Height="55" Fill="{DynamicResource BlackBrush}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_page_file_pdf_tag}"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Button>
+
+                                <controls:MetroProgressBar Foreground="Blue" IsIndeterminate="True" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.IsDownloadFile, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                            </StackPanel>
+                        </Grid>
+                    </DockPanel>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
+        </DataGrid>
+
+        <!-- Extended DataGrid Full -->
+        <DataGrid x:Name="ExtendedDataGridFull"
+                    ItemsSource="{Binding CollectionViewAll}"
+                    SelectedItem="{Binding DoiAndTitleAndAbstract}"
+                    Visibility="{Binding FullResultsList, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    AutoGenerateColumns="False"
+                    HorizontalAlignment="Stretch"
+                    Margin="0,45,0,0"
+                    VerticalAlignment="Top"
+                    AlternatingRowBackground="Gainsboro"
+                    AlternationCount="2"
+                    CanUserReorderColumns="True"
+                    CanUserResizeColumns="True"
+                    CanUserResizeRows="True"
+                    CanUserSortColumns="True"
+                    FrozenColumnCount="2"
+                    Style="{StaticResource AzureDataGrid}">
+
+            <!-- Kolumny w data gridzie -->
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="%" Binding="{Binding PercentComplete, StringFormat='{}{0:0.##}%'}" IsReadOnly="True" CanUserResize="False">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Background" Value="{Binding IsDuplicate, Converter={StaticResource BoolToColorConverter}}"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="{x:Static res:Resources.AuthorDataGridHeader}" Binding="{Binding Creator}" IsReadOnly="True" CanUserResize="False" Width="150">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Background" Value="{Binding IsDuplicate, Converter={StaticResource BoolToColorConverter}}"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="{x:Static res:Resources.TitleDataGridHeader}" Binding="{Binding Title}"  IsReadOnly="True" Width="800">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Background" Value="{Binding IsDuplicate, Converter={StaticResource BoolToColorConverter}}"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="ROK" Binding="{Binding Year}" IsReadOnly="True" CanUserResize="False">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Background" Value="{Binding IsDuplicate, Converter={StaticResource BoolToColorConverter}}"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="{x:Static res:Resources.DoiDataGridHeader}" Binding="{Binding Doi}" IsReadOnly="True" CanUserResize="False">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Background" Value="{Binding IsDuplicate, Converter={StaticResource BoolToColorConverter}}"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+
+            <!-- Szczegółowe informacje po rozwinięciu danego wiersza -->
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <StackPanel>
+                            <Rectangle DockPanel.Dock="Left" Width="120" Height="160" Fill="{DynamicResource BlackBrush}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,30,10,0">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_image}"/>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                            <!--<TextBlock Text="{x:Static res:Resources.OpenAccessDataGrid}" VerticalAlignment="Center" HorizontalAlignment="Center" />-->
+                            <!--<TextBlock Text="{Binding OpenAccess}" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
+                        </StackPanel>
+
+                        <Grid Margin="0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="600" />
+                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition Width="100" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Button Grid.Column="1" Grid.Row="0"
+                                    HorizontalAlignment="Center"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    Foreground="Black"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    FontStyle="Normal"
+                                    FontSize="11"
+                                    Width="Auto" Height="Auto"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.OpenPageWithPublication}">
+                                <TextBlock Grid.Row="0" Grid.Column="1"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"
+                                       FontSize="26"
+                                       Foreground="Blue"
+                                       FontWeight="ExtraBold"
+                                       Text="{Binding Title}"
+                                       TextDecorations="Underline"/>
+                            </Button>
+
+                            <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Rectangle Width="15" Height="15" Fill="{DynamicResource BlackBrush}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_book}"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Text=" "></TextBlock>
+                                <TextBlock Text="{x:Static res:Resources.PublicationNameDataGrid}"
                                         Grid.Row="2" Grid.Column="0" 
                                         FontWeight="Bold" 
                                         Foreground="Black" 
@@ -163,7 +523,7 @@
                             <TextBlock Grid.Row="2" Grid.Column="1"
                                         FontWeight="Bold"
                                         Foreground="Black"
-                                        Text="{Binding Title}"/>
+                                        Text="{Binding PublicationName}"/>
 
                             <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
                                 <Rectangle Grid.Column="0" Grid.Row="3" Width="15" Height="15" Fill="{DynamicResource BlackBrush}">
@@ -199,7 +559,7 @@
                                         TextWrapping="Wrap"
                                         Foreground="Black"
                                         Text="{Binding Creator}"/>
-                            
+
                             <TextBlock Text="{x:Static res:Resources.VolumeDataGrid}" 
                                        Grid.Row="7" Grid.Column="0"
                                        FontWeight="Bold" 
@@ -252,9 +612,19 @@
                                        FontWeight="Bold" 
                                        Foreground="Black" 
                                        HorizontalAlignment="Right"/>
-                            <TextBlock Grid.Column="1" Grid.Row="10" 
-                                       Foreground="Black"
-                                       Text="{Binding Doi}" />
+                            <Button Grid.Column="1" Grid.Row="10"
+                                    HorizontalAlignment="Left"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    Foreground="Black"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    FontStyle="Normal"
+                                    FontSize="11"
+                                    Width="Auto" Height="Auto"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.OpenPageWithDoi}">
+                                <TextBlock Text="{Binding Doi}" TextDecorations="Underline" Foreground="Blue"/>
+                            </Button>
 
                             <TextBlock Text="{x:Static res:Resources.PiiDataGrid}" 
                                        Grid.Row="11" Grid.Column="0"
@@ -264,7 +634,7 @@
                             <TextBlock Grid.Column="1" Grid.Row="11" 
                                        Foreground="Black"
                                        Text="{Binding Pii}" />
-                            
+
                             <StackPanel Grid.Column="0" Grid.Row="13" Orientation="Horizontal" HorizontalAlignment="Right">
                                 <Rectangle Width="20" Height="20" Fill="{DynamicResource BlackBrush}">
                                     <Rectangle.OpacityMask>
@@ -283,57 +653,107 @@
                                     TextAlignment="Justify"
                                     Foreground="Black"
                                     Text="{Binding Abstract}" />
-                            
+
                             <StackPanel Grid.Column="3" Grid.Row="0">
-                                <Button Grid.Row="0" Grid.Column="3"
-                                        Background="Transparent"
+                                <!-- Przycisk pobierania publikacji -->
+                                <Button Background="Transparent"
                                         Foreground="Transparent"
                                         BorderThickness="0" BorderBrush="Transparent"
                                         Width="75" Height="75"
                                         ToolTip="{x:Static res:Resources.DownloadPublication}"
                                         Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.DownloadArticleToPdf}">
-                                        <Rectangle Width="55" Height="55" Fill="{DynamicResource BlackBrush}">
-                                            <Rectangle.OpacityMask>
-                                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_page_file_pdf_tag}"/>
-                                            </Rectangle.OpacityMask>
-                                        </Rectangle>
+                                    <Rectangle Width="55" Height="55" Fill="{DynamicResource BlackBrush}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_page_file_pdf_tag}"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
                                 </Button>
 
-                                <controls:ProgressRing Grid.Row="0" Grid.Column="3" 
-                                                   Width="60" Foreground="Blue"
-                                                   IsActive="{Binding IsDownloadFile}"/>
+                                <controls:MetroProgressBar Foreground="Blue" IsIndeterminate="True" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.IsDownloadFile, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
                             </StackPanel>
                         </Grid>
                     </DockPanel>
                 </DataTemplate>
             </DataGrid.RowDetailsTemplate>
         </DataGrid>
-        
+
         <controls:ProgressRing IsActive="{Binding IsDataLoading}" />
-        
+
         <!-- Stronicowanie -->
         <Button x:Name="BtnPrev"
                 Margin="325,5,400,0" Width="35" Height="35"
+                IsEnabled="{Binding IsDataLoading, Converter={StaticResource NegativeBooleanToVisibilityConverter}}"
                 Command="{Binding PrevResultPage}"
                 ToolTip="{x:Static res:Resources.PrevBtn}"
+                Visibility="{Binding FullResultsList, Converter={StaticResource NegativeBooleanToVisibilityConverter}}"
                 HorizontalAlignment="Center" VerticalAlignment="Top">
-                <Rectangle Width="17" Height="17" Fill="{DynamicResource BlackBrush}">
-                    <Rectangle.OpacityMask>
-                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_navigate_previous}"/>
-                    </Rectangle.OpacityMask>
-                </Rectangle>
+            <Rectangle Width="17" Height="17" Fill="{DynamicResource BlackBrush}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_navigate_previous}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
         </Button>
+        
+        <TextBlock Text=". . ."
+                   FontSize="20"
+                   HorizontalAlignment="Center"
+                   Visibility="{Binding FullResultsList, Converter={StaticResource NegativeBooleanToVisibilityConverter}}"
+                   Margin="368,18,368,464"/>
         
         <Button x:Name="BtnNext" 
                 Width="35" Height="35" Margin="400,5,325,0"
                 ToolTip="{x:Static res:Resources.NextBtn}" 
-                Command="{Binding NextResultPage}" 
+                Command="{Binding NextResultPage}"
+                IsEnabled="{Binding IsDataLoading, Converter={StaticResource NegativeBooleanToVisibilityConverter}}"
+                Visibility="{Binding FullResultsList, Converter={StaticResource NegativeBooleanToVisibilityConverter}}"
                 HorizontalAlignment="Center" VerticalAlignment="Top">
-                <Rectangle Width="17" Height="17" Fill="{DynamicResource BlackBrush}">
-                    <Rectangle.OpacityMask>
-                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_navigate_next}"/>
-                    </Rectangle.OpacityMask>
-                </Rectangle>
+            <Rectangle Width="17" Height="17" Fill="{DynamicResource BlackBrush}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_navigate_next}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+
+        <!-- Pełna lista wyników -->
+        <Button x:Name="ShowAllResults"
+                Width="35" Height="35" Margin="10,5,0,0"
+                ToolTip="{x:Static res:Resources.ShowFullListWithData}" 
+                Command="{Binding FullResultsListCommand}"
+                Visibility="{Binding FullResultsList, Converter={StaticResource NegativeBooleanToVisibilityConverter}}"
+                HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Rectangle Width="24" Height="24" Fill="{DynamicResource BlackBrush}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_list}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+
+        <Button x:Name="BackToDataGridResults"
+                Width="35" Height="35" Margin="10,5,0,0"
+                ToolTip="{x:Static res:Resources.ShowGroupsResults}" 
+                Command="{Binding FullResultsListCommand}"
+                Visibility="{Binding FullResultsList, Converter={StaticResource BooleanToVisibilityConverter}}"
+                HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Rectangle Width="24" Height="24" Fill="{DynamicResource BlackBrush}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_list_merge}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+
+        <!-- Export DataGrida do pliku .csv -->
+        <Button x:Name="DataGridToCsv" 
+                    Command="{Binding DataGridToCsvExport}"
+                    ToolTip="{x:Static res:Resources.ExportToCsv}"
+                    Visibility="{Binding FullResultsList, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    HorizontalAlignment="Left" VerticalAlignment="Top"
+                    Margin="50,5,0,0" Height="35" Width="35">
+            <Rectangle Width="24" Height="24" Fill="{DynamicResource BlackBrush}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_office_excel}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
         </Button>
     </Grid>
 </controls:MetroWindow>

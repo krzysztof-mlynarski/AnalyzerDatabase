@@ -4,6 +4,7 @@ namespace AnalyzerDatabase.Models.ScienceDirect
 {
     public class OpensearchQuery
     {
+        #region Variables
         [JsonProperty("@role")]
         public string Role { get; set; }
 
@@ -12,12 +13,15 @@ namespace AnalyzerDatabase.Models.ScienceDirect
 
         [JsonProperty("@startPage")]
         public string StartPage { get; set; }
+        #endregion
 
+        #region Constructors
         public OpensearchQuery(string role, string searchTerms, string startPage)
         {
             Role = role;
             SearchTerms = searchTerms;
             StartPage = startPage;
         }
+        #endregion
     }
 }

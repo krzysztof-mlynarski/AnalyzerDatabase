@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using AnalyzerDatabase.Enums;
 using AnalyzerDatabase.Interfaces;
+using LiveCharts.Helpers;
 using Newtonsoft.Json;
 
 namespace AnalyzerDatabase.Models.Springer
 {
     public class Record : ISearchResultsToDisplay
     {
+        #region Variables
         [JsonProperty("title")]
         public string Title { get; set; }
 
@@ -20,7 +22,7 @@ namespace AnalyzerDatabase.Models.Springer
         public string Creator { get; set; }
 
         [JsonProperty("creators")]
-        public IList<Creator> Creators { get; set; }
+        private IList<Creator> Creators { get; set; }
 
         [JsonProperty("volume")]
         public string Volume { get; set; }
@@ -47,9 +49,14 @@ namespace AnalyzerDatabase.Models.Springer
         public string Abstract { get; set; }
 
         public SourceDatabase Source { get; set; }
+        public decimal PercentComplete { get; set; }
+        public bool IsDuplicate { get; set; }
+        public string Year { get; set; }
 
         //unused
         public string Pii { get; set; }
+        public string Eid { get; set; }
+        public string Arnumber { get; set; }
         public string Issn { get; set; }
 
 
@@ -68,7 +75,9 @@ namespace AnalyzerDatabase.Models.Springer
 
         [JsonProperty("genre")]
         public string Genre { get; set; }
+        #endregion
 
+        #region Constructors
         public Record(string identifier, IList<Url> url, string title, IList<Creator> creators, string publicationName, string openaccess, string doi, string printIsbn, string electronicIsbn, string isbn, string publisher, string publicationDate, string volume, string number, string startingPage, string copyright, string genre, string @abstract)
         {
             Identifier = identifier;
@@ -91,5 +100,16 @@ namespace AnalyzerDatabase.Models.Springer
             Abstract = @abstract;
             Source = SourceDatabase.Springer;
         }
+        #endregion
+
+        #region Public methods
+        public List<string> GetCreator()
+        {
+            var list = new List<string>();
+            Creators?.ForEach(x => list.Add(x.Creators));
+
+            return list;
+        }
+        #endregion
     }
 }

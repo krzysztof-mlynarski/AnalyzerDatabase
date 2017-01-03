@@ -4,6 +4,7 @@ namespace AnalyzerDatabase.Models.Scopus
 {
     public class LinkArticle
     {
+        #region Variables
         [JsonProperty("@_fa")]
         public string Fa { get; set; }
 
@@ -12,12 +13,15 @@ namespace AnalyzerDatabase.Models.Scopus
 
         [JsonProperty("@href")]
         public string Href { get; set; }
+        #endregion
 
+        #region Constructors
         public LinkArticle(string fa, string @ref, string href)
         {
             Fa = fa;
             Ref = @ref;
             Href = href;
         }
+        #endregion
     }
 }

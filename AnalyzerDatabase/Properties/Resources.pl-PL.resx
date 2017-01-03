@@ -280,4 +280,181 @@
   <data name="ErrorDownloadPublication" xml:space="preserve">
     <value>Wystąpił problem podczas pobierania publikacji, spróbuj ponownie za chwilę.</value>
   </data>
+  <data name="AmountDownloadedPublications" xml:space="preserve">
+    <value>Ilość pobranych publikacji:</value>
+  </data>
+  <data name="AmountFoundDuplicates" xml:space="preserve">
+    <value>Ilość znalezionych duplikatów:</value>
+  </data>
+  <data name="AmountInquiries" xml:space="preserve">
+    <value>Ilość zapytań skierowanych do baz:</value>
+  </data>
+  <data name="ByAuthors" xml:space="preserve">
+    <value>Wg autorów</value>
+  </data>
+  <data name="ByPublication" xml:space="preserve">
+    <value>Wg publikacji</value>
+  </data>
+  <data name="ByYear" xml:space="preserve">
+    <value>Wg lat</value>
+  </data>
+  <data name="OverallStatistics" xml:space="preserve">
+    <value>Ogólne statystyki</value>
+  </data>
+  <data name="Sum" xml:space="preserve">
+    <value>Łącznie:</value>
+  </data>
+  <data name="ExportToCsv" xml:space="preserve">
+    <value>Eksportuj dane do pliku .csv</value>
+  </data>
+  <data name="GroupDatabase" xml:space="preserve">
+    <value>Grupuj wyniki po nazwie bazy</value>
+  </data>
+  <data name="CountYear" xml:space="preserve">
+    <value>Ilość wystąpień danego roku</value>
+  </data>
+  <data name="ExportToPng" xml:space="preserve">
+    <value>Eksportuj wykres do .png</value>
+  </data>
+  <data name="ExportToPng1" xml:space="preserve">
+    <value>Eksportuj wykres nr 1 do .png</value>
+  </data>
+  <data name="ExportToPng2" xml:space="preserve">
+    <value>Eksportuje wykres nr 2 do .png</value>
+  </data>
+  <data name="FilterData" xml:space="preserve">
+    <value>Filtruj</value>
+  </data>
+  <data name="RefreshData" xml:space="preserve">
+    <value>Odswież</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Lata</value>
+  </data>
+  <data name="ShowFullListWithData" xml:space="preserve">
+    <value>Pokaż pełną listę z dotychczasowymi danymi</value>
+  </data>
+  <data name="ShowGroupsResults" xml:space="preserve">
+    <value>Pokaż widok z grupami po 25 rezultatów</value>
+  </data>
+  <data name="ExportToCsv1" xml:space="preserve">
+    <value>Eksportuj dane wykresu nr 1 do .csv</value>
+  </data>
+  <data name="ExportToCsv2" xml:space="preserve">
+    <value>Eksportuj dane wykresu nr 2 do .csv</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Ilość</value>
+  </data>
+  <data name="ByMagazine" xml:space="preserve">
+    <value>Wg czasopism</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Potwierdź</value>
+    <comment>ConfirmationDialog Title</comment>
+  </data>
+  <data name="Database" xml:space="preserve">
+    <value>Baza</value>
+  </data>
+  <data name="Downloads" xml:space="preserve">
+    <value>Pobrano</value>
+    <comment>Header CSV</comment>
+  </data>
+  <data name="Duplicate" xml:space="preserve">
+    <value>Duplikaty</value>
+    <comment>Title PieSeries</comment>
+  </data>
+  <data name="Duplicates" xml:space="preserve">
+    <value>Duplikatów</value>
+    <comment>Header CSV</comment>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Błąd</value>
+    <comment>ShowDialog Title</comment>
+  </data>
+  <data name="ExportFullDataGrid" xml:space="preserve">
+    <value>Eksportuj dane z pełnego przeglądu do pliku .csv</value>
+  </data>
+  <data name="Magazine" xml:space="preserve">
+    <value>Czasopismo</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nazwa</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Nie</value>
+    <comment>Dialog Negative</comment>
+  </data>
+  <data name="NoDataToDisplay" xml:space="preserve">
+    <value>Brak danych do wyświetlenia, wybierz wykres lub tabelę z danymi!</value>
+  </data>
+  <data name="NoDataToDisplayInDataGrid" xml:space="preserve">
+    <value>Brak danych do wyświetlenia, wprowadź hasło do wyszukania!</value>
+  </data>
+  <data name="NoDataToExport" xml:space="preserve">
+    <value>Brak danych do wyeksportowania!</value>
+  </data>
+  <data name="Occurred" xml:space="preserve">
+    <value>Wystąpił: </value>
+    <comment>ToolTip w wykresie lat</comment>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+    <comment>Dialog Negatice</comment>
+  </data>
+  <data name="OpenExportFile" xml:space="preserve">
+    <value>Czy chcesz otworzyć wyeksportowany plik?</value>
+    <comment>ConfirmationDialog Discription</comment>
+  </data>
+  <data name="Publications" xml:space="preserve">
+    <value>Publikacje</value>
+    <comment>Title PieSeries</comment>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Ustawienia</value>
+    <comment>Dialog Affirmative</comment>
+  </data>
+  <data name="ShowChart" xml:space="preserve">
+    <value>Pokaż wykres dla danej strony w wyszukiwarce</value>
+  </data>
+  <data name="ShowChartFull" xml:space="preserve">
+    <value>Pokaż wykres dla pełnego przeglądu</value>
+  </data>
+  <data name="ShowChartOverall1" xml:space="preserve">
+    <value>Pokaż wykres ilości odwołań do baz</value>
+  </data>
+  <data name="ShowChartOverall2" xml:space="preserve">
+    <value>Pokaż wykres ilości pobrań/duplikatów</value>
+  </data>
+  <data name="ShowDataInTable" xml:space="preserve">
+    <value>Pokaż dane w tabeli dla danej strony w wyszukiwarce</value>
+  </data>
+  <data name="ShowDataInTableFull" xml:space="preserve">
+    <value>Pokaż dane w tabeli z pełnego przeglądu</value>
+  </data>
+  <data name="YearRok" xml:space="preserve">
+    <value>Rok</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Tak</value>
+    <comment>Dialog Affirmative</comment>
+  </data>
+  <data name="NameAuthor" xml:space="preserve">
+    <value>Imię i nazwisko</value>
+  </data>
+  <data name="CheckApiKey" xml:space="preserve">
+    <value>Sprawdź w ustawieniach czy posiadasz wpisany klucz API dla tej bazy!</value>
+  </data>
+  <data name="ConnectionFailed" xml:space="preserve">
+    <value>Wystąpił problem komunikacji z bazą.</value>
+  </data>
+  <data name="ReceivedResultsTitleWindow" xml:space="preserve">
+    <value>Otrzymane wyniki</value>
+  </data>
+  <data name="SendEmail" xml:space="preserve">
+    <value>Wyślij wiadomość</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Wersja:</value>
+  </data>
 </root>

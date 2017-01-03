@@ -243,3 +243,9 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+ModelingProject1/CodeGeneration.Log.xml
+ModelingProject1/ModelDefinition/ModelingProject1.uml
+ModelingProject1/UMLClassDiagram1.classdiagram.layout
+ModelingProject1/ModelingProject1.modelproj
+ModelingProject1/UMLClassDiagram1.classdiagram
+AnalyzerDatabase/DiagramClass.cd

@@ -48,7 +48,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>AnalyzerDatabaseIcon3.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.2.16.3.0\lib\net45\CsvHelper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
       <Private>True</Private>
@@ -59,6 +66,14 @@
     </Reference>
     <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.3.0.19032, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Livecharts, Version=0.8.0.0, Culture=neutral, PublicKeyToken=c5935629d38af058, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.0.8.0\lib\net40\Livecharts.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LiveCharts.Wpf, Version=0.8.0.0, Culture=neutral, PublicKeyToken=3b585c2a5f1a92c1, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.Wpf.0.8.0\lib\net45\LiveCharts.Wpf.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.2.4.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
@@ -104,16 +119,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\BoolToColorConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\DuplicateValueConverter.cs" />
+    <Compile Include="Converters\GroupsToTotalConverter.cs" />
     <Compile Include="Converters\NegativeBooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\MultiValueConverter.cs" />
     <Compile Include="Converters\ViewModelBaseToVisibilityConverter.cs" />
     <Compile Include="Enums\SourceDatabase.cs" />
     <Compile Include="Interfaces\IDeserializeJsonService.cs" />
     <Compile Include="Interfaces\IInternetConnectionService.cs" />
     <Compile Include="Interfaces\IRestService.cs" />
     <Compile Include="Interfaces\ISearchResultsToDisplay.cs" />
+    <Compile Include="Interfaces\IStatisticsDataService.cs" />
     <Compile Include="Interfaces\ITotalResultsToDisplay.cs" />
-    <Compile Include="Models\IeeeXplore\testowa.cs" />
+    <Compile Include="Messengers\ExceptionToSettingsMessage.cs" />
+    <Compile Include="Models\ByMagazine.cs" />
+    <Compile Include="Models\ByYear.cs" />
+    <Compile Include="Models\ByAuthor.cs" />
+    <Compile Include="Models\OverallStatistics.cs" />
+    <Compile Include="Models\IeeeXplore\Controlledterms.cs" />
+    <Compile Include="Models\IeeeXplore\Document.cs" />
+    <Compile Include="Models\IeeeXplore\IeeeXploreSearchQuery.cs" />
+    <Compile Include="Models\IeeeXplore\Thesaurusterms.cs" />
+    <Compile Include="Models\OverallStatistics2.cs" />
     <Compile Include="Models\ScienceDirect\Author.cs" />
     <Compile Include="Models\ScienceDirect\Authors.cs" />
     <Compile Include="Models\ScienceDirect\EntryScienceDirect.cs" />
@@ -137,17 +166,21 @@
     <Compile Include="Models\Springer\SpringerSearchQuery.cs" />
     <Compile Include="Models\Springer\Url.cs" />
     <Compile Include="Models\Springer\Value.cs" />
+    <Compile Include="Models\AnalyzerDatabaseStatistics.cs" />
     <Compile Include="Properties\Resources.pl-PL.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.pl-PL.resx</DependentUpon>
     </Compile>
-    <Compile Include="Services\AnalyzerDatabaseSettings.cs" />
+    <Compile Include="Models\AnalyzerDatabaseSettings.cs" />
     <Compile Include="Services\DeserializeJsonService.cs" />
+    <Compile Include="Services\ExportDataToCsv.cs" />
     <Compile Include="Services\InternetConnectionService.cs" />
     <Compile Include="Services\LocalizationSettingsService.cs" />
+    <Compile Include="Services\LocalizationStatisticsService.cs" />
     <Compile Include="Services\RestService.cs" />
     <Compile Include="Services\SettingsService.cs" />
+    <Compile Include="Services\StatisticsDataService.cs" />
     <Compile Include="Services\XmlService.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\ExtendedViewModelBase.cs" />
@@ -157,6 +190,9 @@
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="View\AboutView.xaml.cs">
+      <DependentUpon>AboutView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\FullDataGridView.xaml.cs">
       <DependentUpon>FullDataGridView.xaml</DependentUpon>
     </Compile>
@@ -165,6 +201,9 @@
     </Compile>
     <Compile Include="View\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\StatisticsView.xaml.cs">
+      <DependentUpon>StatisticsView.xaml</DependentUpon>
     </Compile>
     <Page Include="Resources\ConfigResources.xaml">
       <SubType>Designer</SubType>
@@ -181,6 +220,10 @@
     <Page Include="Simple Styles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\AboutView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\FullDataGridView.xaml">
       <SubType>Designer</SubType>
@@ -206,6 +249,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\StatisticsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -224,6 +271,7 @@
     <EmbeddedResource Include="Properties\Resources.pl-PL.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.pl-PL.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -239,9 +287,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Messages\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -266,17 +311,12 @@
     <Resource Include="Assets\Library Icons\ScienceDirect.png" />
     <Resource Include="Assets\Library Icons\Scopus.png" />
     <Resource Include="Assets\Library Icons\Springer.png" />
-    <Resource Include="Assets\Library Icons\Web of Science.png" />
-    <Resource Include="Assets\Library Icons\Wiley Online Library.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Menu Icons\Statistics.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Logo\AnalyzerDatabaseLogo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Library Icons\Library1.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Other Icons\Network.png" />
@@ -289,15 +329,6 @@
     <Resource Include="Assets\Other Icons\VpnDisconnect.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Other Icons\TESTOWY.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Other Icons\pdf.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Other Icons\ShowMore.png" />
-  </ItemGroup>
-  <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
@@ -305,6 +336,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="AnalyzerDatabaseIcon2.ico" />
+    <Resource Include="AnalyzerDatabaseIcon3.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="AnalyzerDatabaseIcon1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Other Icons\AvatarUser.png" />
+    <Resource Include="Assets\Other Icons\Github.png" />
+    <Resource Include="Assets\Other Icons\Linkedin.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

@@ -14,7 +14,6 @@
 
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <converters:NegativeBooleanToVisibilityConverter x:Key="NegativeBooleanToVisibilityConverter"/>
     </UserControl.Resources>
 
     <Grid>
@@ -28,6 +27,7 @@
             <RowDefinition Height="9*"/>
         </Grid.RowDefinitions>
 
+        <!-- Pasek wyszukiwania wraz z przyciskiem -->
         <Grid Margin="0,30" Grid.RowSpan="2">
             <TextBox x:Name="QueryTextBox"
                         Background="WhiteSmoke"
@@ -49,24 +49,34 @@
                     IsDefault="True"
                     Command="{Binding SearchCommand}"/>
         </Grid>
+        
+        <!-- CheckBoxy z wyborem baz do przeszukania -->
         <Grid Grid.Row="1" Grid.RowSpan="3" Margin="0,70,0,10">
             <TextBlock Margin="60,-13,505,273" Text="{x:Static res:Resources.SelectDatabase}"/>
-            <CheckBox x:Name="CheckBoxScopus" Content="Scopus" IsChecked="{Binding CheckBoxScopus}" HorizontalAlignment="Left" Margin="80,0,0,0" VerticalAlignment="Top" Height="63" Width="160"/>
-            <CheckBox x:Name="CheckBoxSpringer" Content="Springer" IsChecked="{Binding CheckBoxSpringer}" HorizontalAlignment="Left" Margin="80,43,0,0" VerticalAlignment="Top" Height="63" Width="160"/>
-            <CheckBox x:Name="CheckBoxWiley" Content="Wiley Online Library" IsChecked="{Binding CheckBoxWiley}" HorizontalAlignment="Left" Margin="330,0,0,0" Width="160" Height="63" VerticalAlignment="Top"/>
-            <CheckBox x:Name="CheckBoxScienceDirect" Content="Science Direct" IsChecked="{Binding CheckBoxScienceDirect}" HorizontalAlignment="Left" Margin="330,43,0,0" Width="160" Height="63" VerticalAlignment="Top"/>
-            <CheckBox x:Name="CheckBoxWebOfScience" Content="Web Of Science" IsChecked="{Binding CheckBoxWebOfScience}" HorizontalAlignment="Left" Margin="590,0,0,0" Width="160" Height="63"  VerticalAlignment="Top"/>
-            <CheckBox x:Name="CheckBoxIeeeXplore" Content="IEEE Xplore" IsChecked="{Binding CheckBoxIeeeXplore}" HorizontalAlignment="Left" Margin="590,43,0,0" Width="160" Height="63" VerticalAlignment="Top"/>
+            <CheckBox x:Name="CheckBoxScienceDirect" Content="Science Direct" IsChecked="{Binding CheckBoxScienceDirect}" HorizontalAlignment="Left" Margin="100,0,0,0" VerticalAlignment="Top" Height="63" Width="160"/>
+            <CheckBox x:Name="CheckGroupDescriptions" Content="{x:Static res:Resources.GroupDatabase}" IsChecked="{Binding IsGroupDescriptions}" HorizontalAlignment="Left" Margin="100,42,0,0" VerticalAlignment="Top" Height="63" Width="240"/>
+            <CheckBox x:Name="CheckBoxScopus" Content="Scopus" IsChecked="{Binding CheckBoxScopus}" HorizontalAlignment="Left" Margin="280,0,0,0" Width="160" Height="63" VerticalAlignment="Top"/>
+            <!--<CheckBox x:Name="CheckBoxScienceDirect" Content="Science Direct" IsChecked="{Binding CheckBoxScienceDirect}" HorizontalAlignment="Left" Margin="330,43,0,0" Width="160" Height="63" VerticalAlignment="Top"/>-->
+            <CheckBox x:Name="CheckBoxSpringer" Content="Springer" IsChecked="{Binding CheckBoxSpringer}" HorizontalAlignment="Left" Margin="420,0,0,0" Width="160" Height="63"  VerticalAlignment="Top"/>
+            <CheckBox x:Name="CheckBoxIeeeXplore" Content="IEEE Xplore" IsChecked="{Binding CheckBoxIeeeXplore}" HorizontalAlignment="Left" Margin="580,0,0,0" Width="160" Height="63" VerticalAlignment="Top"/>
         </Grid>
 
         <!--WYSWIETLANIE WYNIKOW WYSZUKIWANIA-->
         <Grid Grid.Row="2" Margin="0,90,0,10" Grid.RowSpan="2">
+            <!-- Informacja o braku danych do wyświetlenia -->
+            <TextBlock Text="{x:Static res:Resources.NoDataToDisplayInDataGrid}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="20"
+                               Visibility="{Binding IsDataEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            
+            <!-- Wstępne informacje w DataGridzie -->
             <DataGrid x:Name="FirstDataGrid"
                       ItemsSource="{Binding Path=CollectionView}"
                       AutoGenerateColumns="False"
                       HorizontalAlignment="Center"
                       Margin="20,20,30,35"
-                      Width="700"
+                      Width="750"
                       VerticalAlignment="Top"
                       AlternatingRowBackground="Gainsboro"
                       AlternationCount="2"
@@ -74,7 +84,7 @@
                       CanUserResizeColumns="True"
                       CanUserResizeRows="True"
                       CanUserSortColumns="True"
-                      FrozenColumnCount="1"
+                      FrozenColumnCount="4"
                       Style="{StaticResource AzureDataGrid}">
 
                 <!-- Grupowanie wyników po bazie danych -->
@@ -114,6 +124,7 @@
 
                 <!-- Kolumny w data gridzie -->
                 <DataGrid.Columns>
+                    <DataGridTextColumn Header="%" Binding="{Binding PercentComplete, StringFormat='{}{0:0.##}%'}" IsReadOnly="True" CanUserResize="False"/>
                     <DataGridTextColumn Header="{x:Static res:Resources.AuthorDataGridHeader}" Binding="{Binding Creator}" IsReadOnly="True" CanUserResize="False" Width="130">
                         <DataGridTextColumn.ElementStyle>
                             <Style>
@@ -121,7 +132,7 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="{x:Static res:Resources.TitleDataGridHeader}" Binding="{Binding Title}"  IsReadOnly="True" Width="400">
+                    <DataGridTextColumn Header="{x:Static res:Resources.TitleDataGridHeader}" Binding="{Binding Title}"  IsReadOnly="True" Width="330">
                         <DataGridTextColumn.ElementStyle>
                             <Style>
                                 <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
@@ -146,6 +157,19 @@
                 <Rectangle Width="32" Height="32" Fill="{DynamicResource BlackBrush}">
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_window_maximize}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+
+            <!-- Export DataGrida do pliku .csv -->
+            <Button x:Name="DataGridToCsv" 
+                    Command="{Binding DataGridToCsvExport}"
+                    ToolTip="{x:Static res:Resources.ExportToCsv}"  
+                    HorizontalAlignment="Right" VerticalAlignment="Top"
+                    Margin="0,70,10,0">
+                <Rectangle Width="32" Height="32" Fill="{DynamicResource BlackBrush}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_office_excel}"/>
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Button>

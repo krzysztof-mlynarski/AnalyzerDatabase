@@ -23,9 +23,7 @@ namespace AnalyzerDatabase.ViewModels
         {
             get
             {
-                if (_instance == null)
-                    _instance = new ViewModelLocator();
-                return _instance;
+                return _instance ?? (_instance = new ViewModelLocator());
             }
         }
 
@@ -43,27 +41,19 @@ namespace AnalyzerDatabase.ViewModels
 
             SimpleIoc.Default.Register<FullDataGridViewModel>();
 
-            // if (ViewModelBase.IsInDesignModeStatic)
-            // {
-            //      SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
-            // }
-            // else
-            // {
-            //      SimpleIoc.Default.Register<IDataService, DataService>();
-            // }
-
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 SimpleIoc.Default.Register<IDeserializeJsonService, DeserializeJsonService>();
                 SimpleIoc.Default.Register<IInternetConnectionService, InternetConnectionService>();
                 SimpleIoc.Default.Register<IRestService, RestService>();
-
+                SimpleIoc.Default.Register<IStatisticsDataService, StatisticsDataService>();
             }
             else
             {
                 SimpleIoc.Default.Register<IDeserializeJsonService, DeserializeJsonService>();
                 SimpleIoc.Default.Register<IInternetConnectionService, InternetConnectionService>();
                 SimpleIoc.Default.Register<IRestService, RestService>();
+                SimpleIoc.Default.Register<IStatisticsDataService, StatisticsDataService>();
             }
         }
 

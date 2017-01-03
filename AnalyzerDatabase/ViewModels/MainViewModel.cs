@@ -1,5 +1,8 @@
 ﻿using AnalyzerDatabase.Interfaces;
+using AnalyzerDatabase.Messengers;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace AnalyzerDatabase.ViewModels
 {
@@ -9,6 +12,7 @@ namespace AnalyzerDatabase.ViewModels
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
         #region Variables
+        private ViewModelBase Page { get; set; }
 
         private readonly IInternetConnectionService _internetConnectionService;
         private bool _isInternetConnection;
@@ -23,17 +27,32 @@ namespace AnalyzerDatabase.ViewModels
 
         #endregion
 
-        #region Constructor
+        #region Constructors
         public MainViewModel(IInternetConnectionService internetConnectionService)
         {
             _internetConnectionService = internetConnectionService;
             CurrentViewModel = ViewModelLocator.Instance.SearchDatabase;
-            //CurrentViewModel = ViewModelLocator.Instance.Statistics;
+            CurrentViewModel = ViewModelLocator.Instance.Statistics;
             CurrentViewModel = ViewModelLocator.Instance.Settings;
-            //CurrentViewModel = ViewModelLocator.Instance.About;
+            CurrentViewModel = ViewModelLocator.Instance.About;
             CurrentViewModel = null;
 
             CheckInternetConnection();
+
+            Messenger.Default.Register<ExceptionToSettingsMessage>(this, HandleMessage);
+        }
+
+        #endregion
+
+        #region Message
+
+        private async void HandleMessage(ExceptionToSettingsMessage message)
+        {
+            Page = message.Exception;
+            var source = message.Source;
+
+            if (await ExceptionDialog(GetString("Error") + " - " + source, GetString("ConnectionFailed") + "\n" + GetString("CheckApiKey")))
+                NavigateTo(Page);
         }
 
         #endregion
@@ -134,7 +153,7 @@ namespace AnalyzerDatabase.ViewModels
 
         private void OpenStatistics()
         {
-            //NavigateTo(ViewModelLocator.Instance.Statistics);
+            NavigateTo(ViewModelLocator.Instance.Statistics);
         }
 
         private void OpenSettings()
@@ -144,7 +163,7 @@ namespace AnalyzerDatabase.ViewModels
 
         private void OpenAbout()
         {
-            //NavigateTo(ViewModelLocator.Instance.About);
+            NavigateTo(ViewModelLocator.Instance.About);
         }
 
         private void CheckInternetConnection()
