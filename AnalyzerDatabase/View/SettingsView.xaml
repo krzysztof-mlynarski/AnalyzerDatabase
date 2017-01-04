@@ -77,6 +77,7 @@
                         Text="{Binding CurrentScienceDirectAndScopusApiKey}"
                         Width="350"
                         HorizontalAlignment="Left"
+                        controls:TextBoxHelper.Watermark="{x:Static res:Resources.ApiKeyWatermark}"
                         controls:TextBoxHelper.ClearTextButton="True">
                     </TextBox>
                     <Button Margin="0,5,0,0"
@@ -102,6 +103,7 @@
                         Text="{Binding CurrentSpringerApiKey}"
                         Width="350"
                         HorizontalAlignment="Left"
+                        controls:TextBoxHelper.Watermark="{x:Static res:Resources.ApiKeyWatermark}"
                         controls:TextBoxHelper.ClearTextButton="True">
                     </TextBox>
                     <Button Margin="0,5,0,0"

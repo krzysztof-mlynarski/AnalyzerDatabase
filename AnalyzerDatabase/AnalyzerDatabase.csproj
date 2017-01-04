@@ -137,6 +137,7 @@
     <Compile Include="Models\ByMagazine.cs" />
     <Compile Include="Models\ByYear.cs" />
     <Compile Include="Models\ByAuthor.cs" />
+    <Compile Include="Models\IeeeXplore\Error.cs" />
     <Compile Include="Models\OverallStatistics.cs" />
     <Compile Include="Models\IeeeXplore\Controlledterms.cs" />
     <Compile Include="Models\IeeeXplore\Document.cs" />

@@ -457,4 +457,7 @@
   <data name="Version" xml:space="preserve">
     <value>Wersja:</value>
   </data>
+  <data name="ApiKeyWatermark" xml:space="preserve">
+    <value>Wprowadź swój API key</value>
+  </data>
 </root>

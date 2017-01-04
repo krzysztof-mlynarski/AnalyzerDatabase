@@ -171,11 +171,13 @@ namespace AnalyzerDatabase.Services
 
         public async Task<IeeeXploreSearchQuery> GetSearchQueryIeeeXplore(string query, CancellationTokenSource cts = null)
         {
+            string webPageSource = null;
+            string webPageSource2 = null;
             try
             {
                 string url = String.Format(_resources["SearchQueryIeeeXplore"].ToString(), query);
-                string webPageSource = await GetWebPageSource(url, cts);
-
+                webPageSource = await GetWebPageSource(url, cts);
+                webPageSource2 = webPageSource.ToString();
                 return XmlSerialize<IeeeXploreSearchQuery>.DeserializeXml(webPageSource);
             }
             catch (TaskCanceledException)
@@ -184,11 +186,18 @@ namespace AnalyzerDatabase.Services
             }
             catch (Exception)
             {
-                Messenger.Default.Send(new ExceptionToSettingsMessage
+                if (webPageSource != null && !webPageSource.Equals(webPageSource2))
                 {
-                    Exception = ViewModelLocator.Instance.Settings,
-                    Source = "IEEE Xplore",
-                });
+                    Messenger.Default.Send(new ExceptionToSettingsMessage
+                    {
+                        Exception = ViewModelLocator.Instance.Settings,
+                        Source = "IEEE Xplore",
+                    });
+                }
+                else
+                {
+                    throw;
+                }
                 return null;
             }
         }

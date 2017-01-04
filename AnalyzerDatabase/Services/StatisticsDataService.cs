@@ -425,61 +425,64 @@ namespace AnalyzerDatabase.Services
             {
                 x.GetCreator().ForEach(y =>
                 {
-                    authors = y.Split(stringSeparators, StringSplitOptions.None);
-                    foreach (var item in authors)
+                    authors = y?.Split(stringSeparators, StringSplitOptions.None);
+                    if (authors != null)
                     {
-                        author = item.TrimStart();
-
-                        if (!ListAuthor.Any())
+                        foreach (var item in authors)
                         {
-                            ListAuthor.Add(author);
-                            ListAuthorAmount.Add(1);
-                            if (!ListAuthorFull.Any())
+                            author = item.TrimStart();
+
+                            if (!ListAuthor.Any())
                             {
-                                ListAuthorFull.Add(author);
-                                ListAuthorAmountFull.Add(1);
-                            }
-                        }
-                        else
-                        {
-                            bool found = false;
-                            bool found2 = false;
-
-                            if (isNewQuery || isNextPage || isPrevPage)
-                            {
-                                for (int i = 0; i < ListAuthor.Count; i++)
-                                {
-                                    if (ListAuthor[i] == author)
-                                    {
-                                        ListAuthorAmount[i]++;
-                                        found = true;
-                                        break;
-                                    }
-                                }
-
-                                if (!found)
-                                {
-                                    ListAuthor.Add(author);
-                                    ListAuthorAmount.Add(1);
-                                }
-                            }
-
-                            if (isNewQuery || isNextPage)
-                            {
-                                for (int i = 0; i < ListAuthorFull.Count; i++)
-                                {
-                                    if (ListAuthorFull[i] == author)
-                                    {
-                                        ListAuthorAmountFull[i]++;
-                                        found2 = true;
-                                        break;
-                                    }
-                                }
-
-                                if (!found2)
+                                ListAuthor.Add(author);
+                                ListAuthorAmount.Add(1);
+                                if (!ListAuthorFull.Any())
                                 {
                                     ListAuthorFull.Add(author);
                                     ListAuthorAmountFull.Add(1);
+                                }
+                            }
+                            else
+                            {
+                                bool found = false;
+                                bool found2 = false;
+
+                                if (isNewQuery || isNextPage || isPrevPage)
+                                {
+                                    for (int i = 0; i < ListAuthor.Count; i++)
+                                    {
+                                        if (ListAuthor[i] == author)
+                                        {
+                                            ListAuthorAmount[i]++;
+                                            found = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (!found)
+                                    {
+                                        ListAuthor.Add(author);
+                                        ListAuthorAmount.Add(1);
+                                    }
+                                }
+
+                                if (isNewQuery || isNextPage)
+                                {
+                                    for (int i = 0; i < ListAuthorFull.Count; i++)
+                                    {
+                                        if (ListAuthorFull[i] == author)
+                                        {
+                                            ListAuthorAmountFull[i]++;
+                                            found2 = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (!found2)
+                                    {
+                                        ListAuthorFull.Add(author);
+                                        ListAuthorAmountFull.Add(1);
+                                    }
                                 }
                             }
                         }

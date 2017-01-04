@@ -124,6 +124,15 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter your API key.
+        /// </summary>
+        public static string ApiKeyWatermark {
+            get {
+                return ResourceManager.GetString("ApiKeyWatermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Science Direct and Scopus.
         /// </summary>
         public static string ApiScienceAndScopusSettings {

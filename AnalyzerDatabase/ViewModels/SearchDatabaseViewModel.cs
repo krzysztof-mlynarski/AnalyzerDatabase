@@ -526,6 +526,9 @@ namespace AnalyzerDatabase.ViewModels
                     {
                         if (item1 == item2)
                         {
+                            if (item2 == null || item2 == " ")
+                                continue;
+
                             isDuplicate = true;
                             _statisticsDataService.IncrementDuplicate();
                         }
@@ -1176,22 +1179,29 @@ namespace AnalyzerDatabase.ViewModels
 
                         else if (CheckBoxIeeeXplore)
                         {
-                            var obj = await _restService.GetSearchQueryIeeeXplore(QueryTextBox);
-
-                            obj?.Document.ToList().ForEach(element =>
+                            try
                             {
-                                SearchResultsToDisplay.Add(element);
-                                SearchResultsToDisplay.Last().Year = element.PublicationDate;
-                                SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
-                                SearchResultsToDisplay.Last().PercentComplete =
-                                    DegreeOfCompliance(SearchResultsToDisplay.Last());
-                                SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
-                            });
+                                var obj = await _restService.GetSearchQueryIeeeXplore(QueryTextBox);
 
-                            if (obj != null)
-                                TotalResultsToDisplay.Add(obj);
+                                obj?.Document.ToList().ForEach(element =>
+                                {
+                                    SearchResultsToDisplay.Add(element);
+                                    SearchResultsToDisplay.Last().Year = element.PublicationDate;
+                                    SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
+                                    SearchResultsToDisplay.Last().PercentComplete =
+                                        DegreeOfCompliance(SearchResultsToDisplay.Last());
+                                    SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
+                                });
 
-                            _statisticsDataService.IncrementIeeeXplore();
+                                if (obj != null)
+                                    TotalResultsToDisplay.Add(obj);
+
+                                _statisticsDataService.IncrementIeeeXplore();
+                            }
+                            catch (Exception)
+                            {
+                                
+                            }
                         }
                         else
                         {

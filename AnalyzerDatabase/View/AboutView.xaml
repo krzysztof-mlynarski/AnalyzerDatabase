@@ -61,7 +61,7 @@
                     Style="{DynamicResource MetroCircleButtonStyle}"
                     ToolTip="{x:Static res:Resources.SendEmail}"
                     Command="{Binding OpenEmailClientCommand}" 
-                    Margin="611,54,-350,126">
+                    Margin="609,56,-348,124">
                 <Rectangle Width="16" Height="16" Fill="{DynamicResource BlackBrush}">
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_email}"/>
