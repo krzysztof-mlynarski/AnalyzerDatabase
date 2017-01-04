@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Reflection;
 using System.Windows.Forms;
 using AnalyzerDatabase.Services;
 using GalaSoft.MvvmLight.CommandWpf;
@@ -182,11 +181,11 @@ namespace AnalyzerDatabase.ViewModels
 
             if (isChecked)
             {
-                registryKey?.SetValue("Analyzer Database", Assembly.GetEntryAssembly());
+                registryKey?.SetValue("Analyzer Database", Application.ExecutablePath);
             }
             else
             {
-                registryKey?.DeleteValue("Analyzer Database");
+                registryKey?.DeleteValue("Analyzer Database", false);
             }
         }
 
