@@ -641,31 +641,36 @@ namespace AnalyzerDatabase.ViewModels
 
                         if (CheckBoxIeeeXplore)
                         {
-                            _startUpIeeeXplore += 25;
-                            _startDownIeeeXplore += 25;
-
-                            var obj = await _restService.GetPreviousOrNextResultIeeeXplore(QueryTextBox, _startUpIeeeXplore);
-                            if (obj != null)
+                            try
                             {
-                                obj.Document.ToList().ForEach(element =>
+                                _startUpIeeeXplore += 25;
+                                _startDownIeeeXplore += 25;
+
+                                var obj = await _restService.GetPreviousOrNextResultIeeeXplore(QueryTextBox, _startUpIeeeXplore);
+                                if (obj != null)
                                 {
-                                    var x = CompareDoi(element);
-
-                                    if (!x)
+                                    obj.Document.ToList().ForEach(element =>
                                     {
-                                        SearchResultsToDisplay.Add(element);
-                                        SearchResultsToDisplay.Last().Year = element.PublicationDate;
-                                        SearchResultsToDisplay.Last().IsDuplicate = false;
-                                        SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
-                                        SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
-                                    }
-                                });
-                            }
-                            else
-                            {
-                                _startUpIeeeXplore -= 25;
-                            }
+                                        var x = CompareDoi(element);
 
+                                        if (!x)
+                                        {
+                                            SearchResultsToDisplay.Add(element);
+                                            SearchResultsToDisplay.Last().Year = element.PublicationDate;
+                                            SearchResultsToDisplay.Last().IsDuplicate = false;
+                                            SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
+                                            SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
+                                        }
+                                    });
+                                }
+                                else
+                                {
+                                    _startUpIeeeXplore -= 25;
+                                }
+                            }
+                            catch (Exception)
+                            {
+                            }
                         }
 
                         StatisticsDataService.Instance.PublicationDateFromDatabasesLabels(SearchResultsToDisplay, false, true, false);
@@ -745,18 +750,24 @@ namespace AnalyzerDatabase.ViewModels
 
                         if (CheckBoxIeeeXplore)
                         {
-                            _startDownIeeeXplore -= 25;
-                            _startUpIeeeXplore -= 25;
-
-                            if (_startDownIeeeXplore >= 1)
+                            try
                             {
-                                var obj = await _restService.GetPreviousOrNextResultIeeeXplore(QueryTextBox, _startDownIeeeXplore);
-                                obj?.Document.ToList().ForEach(element =>
+                                _startDownIeeeXplore -= 25;
+                                _startUpIeeeXplore -= 25;
+
+                                if (_startDownIeeeXplore >= 1)
                                 {
-                                    SearchResultsToDisplay.Add(element);
-                                    SearchHelper(null);
-                                    SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
-                                });
+                                    var obj = await _restService.GetPreviousOrNextResultIeeeXplore(QueryTextBox, _startDownIeeeXplore);
+                                    obj?.Document.ToList().ForEach(element =>
+                                    {
+                                        SearchResultsToDisplay.Add(element);
+                                        SearchHelper(null);
+                                        SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
+                                    });
+                                }
+                            }
+                            catch (Exception)
+                            {
                             }
                         }
 
@@ -801,37 +812,43 @@ namespace AnalyzerDatabase.ViewModels
 
                         if (CheckBoxScienceDirect && CheckBoxScopus && CheckBoxSpringer && CheckBoxIeeeXplore)
                         {
-                            var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
-                            var obj1 = await _restService.GetSearchQueryScopus(QueryTextBox);
-                            var obj2 = await _restService.GetSearchQuerySpringer(QueryTextBox);
-                            var obj3 = await _restService.GetSearchQueryIeeeXplore(QueryTextBox);
-
-                            obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
-
-                            if (obj != null)
-                                TotalResultsToDisplay.Add(obj.SearchResults);
-
-                            obj1?.SearchResults.Entry.ToList().ForEach(SearchHelper);
-
-                            if (obj1 != null)
-                                TotalResultsToDisplay.Add(obj1.SearchResults);
-
-                            obj2?.Records.ToList().ForEach(SearchHelper);
-
-                            obj2?.Result.ToList().ForEach(element =>
+                            try
                             {
-                                TotalResultsToDisplay.Add(element);
-                            });
+                                var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
+                                var obj1 = await _restService.GetSearchQueryScopus(QueryTextBox);
+                                var obj2 = await _restService.GetSearchQuerySpringer(QueryTextBox);
+                                var obj3 = await _restService.GetSearchQueryIeeeXplore(QueryTextBox);
 
-                            obj3?.Document.ToList().ForEach(element =>
+                                obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
+
+                                if (obj != null)
+                                    TotalResultsToDisplay.Add(obj.SearchResults);
+
+                                obj1?.SearchResults.Entry.ToList().ForEach(SearchHelper);
+
+                                if (obj1 != null)
+                                    TotalResultsToDisplay.Add(obj1.SearchResults);
+
+                                obj2?.Records.ToList().ForEach(SearchHelper);
+
+                                obj2?.Result.ToList().ForEach(element =>
+                                {
+                                    TotalResultsToDisplay.Add(element);
+                                });
+
+                                obj3?.Document.ToList().ForEach(element =>
+                                {
+                                    SearchResultsToDisplay.Add(element);
+                                    SearchHelper(null);
+                                    SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
+                                });
+
+                                if (obj3 != null)
+                                    TotalResultsToDisplay.Add(obj3);
+                            }
+                            catch (Exception)
                             {
-                                SearchResultsToDisplay.Add(element);
-                                SearchHelper(null);
-                                SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
-                            });
-
-                            if (obj3 != null)
-                                TotalResultsToDisplay.Add(obj3);
+                            }
 
                             _statisticsDataService.IncrementScienceDirect();
                             _statisticsDataService.IncrementScopus();
@@ -843,26 +860,32 @@ namespace AnalyzerDatabase.ViewModels
                         #region ScienceDirect/Scopus/Springer
                         else if (CheckBoxScienceDirect && CheckBoxScopus && CheckBoxSpringer)
                         {
-                            var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
-                            var obj1 = await _restService.GetSearchQueryScopus(QueryTextBox);
-                            var obj2 = await _restService.GetSearchQuerySpringer(QueryTextBox);
-
-                            obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
-
-                            if (obj != null)
-                                TotalResultsToDisplay.Add(obj.SearchResults);
-
-                            obj1?.SearchResults.Entry.ToList().ForEach(SearchHelper);
-
-                            if (obj1 != null)
-                                TotalResultsToDisplay.Add(obj1.SearchResults);
-
-                            obj2?.Records.ToList().ForEach(SearchHelper);
-
-                            obj2?.Result.ToList().ForEach(element =>
+                            try
                             {
-                                TotalResultsToDisplay.Add(element);
-                            });
+                                var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
+                                var obj1 = await _restService.GetSearchQueryScopus(QueryTextBox);
+                                var obj2 = await _restService.GetSearchQuerySpringer(QueryTextBox);
+
+                                obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
+
+                                if (obj != null)
+                                    TotalResultsToDisplay.Add(obj.SearchResults);
+
+                                obj1?.SearchResults.Entry.ToList().ForEach(SearchHelper);
+
+                                if (obj1 != null)
+                                    TotalResultsToDisplay.Add(obj1.SearchResults);
+
+                                obj2?.Records.ToList().ForEach(SearchHelper);
+
+                                obj2?.Result.ToList().ForEach(element =>
+                                {
+                                    TotalResultsToDisplay.Add(element);
+                                });
+                            }
+                            catch (Exception)
+                            {
+                            }
 
                             _statisticsDataService.IncrementScienceDirect();
                             _statisticsDataService.IncrementScopus();
@@ -874,29 +897,35 @@ namespace AnalyzerDatabase.ViewModels
 
                         else if (CheckBoxScienceDirect && CheckBoxScopus && CheckBoxIeeeXplore)
                         {
-                            var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
-                            var obj1 = await _restService.GetSearchQueryScopus(QueryTextBox);
-                            var obj2 = await _restService.GetSearchQueryIeeeXplore(QueryTextBox);
-
-                            obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
-
-                            if (obj != null)
-                                TotalResultsToDisplay.Add(obj.SearchResults);
-
-                            obj1?.SearchResults.Entry.ToList().ForEach(SearchHelper);
-
-                            if (obj1 != null)
-                                TotalResultsToDisplay.Add(obj1.SearchResults);
-
-                            obj2?.Document.ToList().ForEach(element =>
+                            try
                             {
-                                SearchResultsToDisplay.Add(element);
-                                SearchHelper(null);
-                                SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
-                            });
+                                var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
+                                var obj1 = await _restService.GetSearchQueryScopus(QueryTextBox);
+                                var obj2 = await _restService.GetSearchQueryIeeeXplore(QueryTextBox);
 
-                            if (obj2 != null)
-                                TotalResultsToDisplay.Add(obj2);
+                                obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
+
+                                if (obj != null)
+                                    TotalResultsToDisplay.Add(obj.SearchResults);
+
+                                obj1?.SearchResults.Entry.ToList().ForEach(SearchHelper);
+
+                                if (obj1 != null)
+                                    TotalResultsToDisplay.Add(obj1.SearchResults);
+
+                                obj2?.Document.ToList().ForEach(element =>
+                                {
+                                    SearchResultsToDisplay.Add(element);
+                                    SearchHelper(null);
+                                    SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
+                                });
+
+                                if (obj2 != null)
+                                    TotalResultsToDisplay.Add(obj2);
+                            }
+                            catch (Exception)
+                            {
+                            }
 
                             _statisticsDataService.IncrementScienceDirect();
                             _statisticsDataService.IncrementScopus();
@@ -908,31 +937,37 @@ namespace AnalyzerDatabase.ViewModels
 
                         else if (CheckBoxScienceDirect && CheckBoxSpringer && CheckBoxIeeeXplore)
                         {
-                            var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
-                            var obj1 = await _restService.GetSearchQuerySpringer(QueryTextBox);
-                            var obj2 = await _restService.GetSearchQueryIeeeXplore(QueryTextBox);
-
-                            obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
-
-                            if (obj != null)
-                                TotalResultsToDisplay.Add(obj.SearchResults);
-
-                            obj1?.Records.ToList().ForEach(SearchHelper);
-
-                            obj1?.Result.ToList().ForEach(element =>
+                            try
                             {
-                                TotalResultsToDisplay.Add(element);
-                            });
+                                var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
+                                var obj1 = await _restService.GetSearchQuerySpringer(QueryTextBox);
+                                var obj2 = await _restService.GetSearchQueryIeeeXplore(QueryTextBox);
 
-                            obj2?.Document.ToList().ForEach(element =>
-                            {
-                                SearchResultsToDisplay.Add(element);
-                                SearchHelper(null);
-                                SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
-                            });
+                                obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
 
-                            if (obj2 != null)
-                                TotalResultsToDisplay.Add(obj2);
+                                if (obj != null)
+                                    TotalResultsToDisplay.Add(obj.SearchResults);
+
+                                obj1?.Records.ToList().ForEach(SearchHelper);
+
+                                obj1?.Result.ToList().ForEach(element =>
+                                {
+                                    TotalResultsToDisplay.Add(element);
+                                });
+
+                                obj2?.Document.ToList().ForEach(element =>
+                                {
+                                    SearchResultsToDisplay.Add(element);
+                                    SearchHelper(null);
+                                    SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
+                                });
+
+                                if (obj2 != null)
+                                    TotalResultsToDisplay.Add(obj2);
+                            }
+                            catch (Exception)
+                            { 
+                            }
 
                             _statisticsDataService.IncrementScienceDirect();
                             _statisticsDataService.IncrementSpringer();
@@ -943,31 +978,37 @@ namespace AnalyzerDatabase.ViewModels
                         #region Scopus/Springer/IeeeXplore
                         else if (CheckBoxScopus && CheckBoxSpringer && CheckBoxIeeeXplore)
                         {
-                            var obj = await _restService.GetSearchQueryScopus(QueryTextBox);
-                            var obj1 = await _restService.GetSearchQuerySpringer(QueryTextBox);
-                            var obj2 = await _restService.GetSearchQueryIeeeXplore(QueryTextBox);
-
-                            obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
-
-                            if (obj != null)
-                                TotalResultsToDisplay.Add(obj.SearchResults);
-
-                            obj1?.Records.ToList().ForEach(SearchHelper);
-
-                            obj1?.Result.ToList().ForEach(element =>
+                            try
                             {
-                                TotalResultsToDisplay.Add(element);
-                            });
+                                var obj = await _restService.GetSearchQueryScopus(QueryTextBox);
+                                var obj1 = await _restService.GetSearchQuerySpringer(QueryTextBox);
+                                var obj2 = await _restService.GetSearchQueryIeeeXplore(QueryTextBox);
 
-                            obj2?.Document.ToList().ForEach(element =>
+                                obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
+
+                                if (obj != null)
+                                    TotalResultsToDisplay.Add(obj.SearchResults);
+
+                                obj1?.Records.ToList().ForEach(SearchHelper);
+
+                                obj1?.Result.ToList().ForEach(element =>
+                                {
+                                    TotalResultsToDisplay.Add(element);
+                                });
+
+                                obj2?.Document.ToList().ForEach(element =>
+                                {
+                                    SearchResultsToDisplay.Add(element);
+                                    SearchHelper(null);
+                                    SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
+                                });
+
+                                if (obj2 != null)
+                                    TotalResultsToDisplay.Add(obj2);
+                            }
+                            catch (Exception)
                             {
-                                SearchResultsToDisplay.Add(element);
-                                SearchHelper(null);
-                                SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
-                            });
-
-                            if (obj2 != null)
-                                TotalResultsToDisplay.Add(obj2);
+                            }
 
                             _statisticsDataService.IncrementScienceDirect();
                             _statisticsDataService.IncrementSpringer();
@@ -979,18 +1020,24 @@ namespace AnalyzerDatabase.ViewModels
 
                         else if (CheckBoxScienceDirect && CheckBoxScopus)
                         {
-                            var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
-                            var obj1 = await _restService.GetSearchQueryScopus(QueryTextBox);
+                            try
+                            {
+                                var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
+                                var obj1 = await _restService.GetSearchQueryScopus(QueryTextBox);
 
-                            obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
+                                obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
 
-                            if (obj != null)
-                                TotalResultsToDisplay.Add(obj.SearchResults);
+                                if (obj != null)
+                                    TotalResultsToDisplay.Add(obj.SearchResults);
 
-                            obj1?.SearchResults.Entry.ToList().ForEach(SearchHelper);
+                                obj1?.SearchResults.Entry.ToList().ForEach(SearchHelper);
 
-                            if (obj1 != null)
-                                TotalResultsToDisplay.Add(obj1.SearchResults);
+                                if (obj1 != null)
+                                    TotalResultsToDisplay.Add(obj1.SearchResults);
+                            }
+                            catch (Exception)
+                            {
+                            }
 
                             _statisticsDataService.IncrementScienceDirect();
                             _statisticsDataService.IncrementScopus();
@@ -1001,20 +1048,26 @@ namespace AnalyzerDatabase.ViewModels
 
                         else if (CheckBoxScienceDirect && CheckBoxSpringer)
                         {
-                            var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
-                            var obj1 = await _restService.GetSearchQuerySpringer(QueryTextBox);
-
-                            obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
-
-                            if (obj != null)
-                                TotalResultsToDisplay.Add(obj.SearchResults);
-
-                            obj1?.Records.ToList().ForEach(SearchHelper);
-
-                            obj1?.Result.ToList().ForEach(element =>
+                            try
                             {
-                                TotalResultsToDisplay.Add(element);
-                            });
+                                var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
+                                var obj1 = await _restService.GetSearchQuerySpringer(QueryTextBox);
+
+                                obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
+
+                                if (obj != null)
+                                    TotalResultsToDisplay.Add(obj.SearchResults);
+
+                                obj1?.Records.ToList().ForEach(SearchHelper);
+
+                                obj1?.Result.ToList().ForEach(element =>
+                                {
+                                    TotalResultsToDisplay.Add(element);
+                                });
+                            }
+                            catch (Exception)
+                            {
+                            }
 
                             _statisticsDataService.IncrementScienceDirect();
                             _statisticsDataService.IncrementSpringer();
@@ -1025,23 +1078,29 @@ namespace AnalyzerDatabase.ViewModels
 
                         else if (CheckBoxScienceDirect && CheckBoxIeeeXplore)
                         {
-                            var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
-                            var obj1 = await _restService.GetSearchQueryIeeeXplore(QueryTextBox);
-
-                            obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
-
-                            if (obj != null)
-                                TotalResultsToDisplay.Add(obj.SearchResults);
-
-                            obj1?.Document.ToList().ForEach(element =>
+                            try
                             {
-                                SearchResultsToDisplay.Add(element);
-                                SearchHelper(null);
-                                SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
-                            });
+                                var obj = await _restService.GetSearchQueryScienceDirect(QueryTextBox);
+                                var obj1 = await _restService.GetSearchQueryIeeeXplore(QueryTextBox);
 
-                            if (obj1 != null)
-                                TotalResultsToDisplay.Add(obj1);
+                                obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
+
+                                if (obj != null)
+                                    TotalResultsToDisplay.Add(obj.SearchResults);
+
+                                obj1?.Document.ToList().ForEach(element =>
+                                {
+                                    SearchResultsToDisplay.Add(element);
+                                    SearchHelper(null);
+                                    SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
+                                });
+
+                                if (obj1 != null)
+                                    TotalResultsToDisplay.Add(obj1);
+                            }
+                            catch (Exception)
+                            {
+                            }
 
                             _statisticsDataService.IncrementScienceDirect();
                             _statisticsDataService.IncrementIeeeXplore();
@@ -1052,20 +1111,26 @@ namespace AnalyzerDatabase.ViewModels
 
                         else if (CheckBoxScopus && CheckBoxSpringer)
                         {
-                            var obj = await _restService.GetSearchQueryScopus(QueryTextBox);
-                            var obj1 = await _restService.GetSearchQuerySpringer(QueryTextBox);
-
-                            obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
-
-                            if (obj != null)
-                                TotalResultsToDisplay.Add(obj.SearchResults);
-
-                            obj1?.Records.ToList().ForEach(SearchHelper);
-
-                            obj1?.Result.ToList().ForEach(element =>
+                            try
                             {
-                                TotalResultsToDisplay.Add(element);
-                            });
+                                var obj = await _restService.GetSearchQueryScopus(QueryTextBox);
+                                var obj1 = await _restService.GetSearchQuerySpringer(QueryTextBox);
+
+                                obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
+
+                                if (obj != null)
+                                    TotalResultsToDisplay.Add(obj.SearchResults);
+
+                                obj1?.Records.ToList().ForEach(SearchHelper);
+
+                                obj1?.Result.ToList().ForEach(element =>
+                                {
+                                    TotalResultsToDisplay.Add(element);
+                                });
+                            }
+                            catch (Exception)
+                            {
+                            }
 
                             _statisticsDataService.IncrementScopus();
                             _statisticsDataService.IncrementSpringer();
@@ -1076,23 +1141,29 @@ namespace AnalyzerDatabase.ViewModels
 
                         else if (CheckBoxScopus && CheckBoxIeeeXplore)
                         {
-                            var obj = await _restService.GetSearchQueryScopus(QueryTextBox);
-                            var obj1 = await _restService.GetSearchQueryIeeeXplore(QueryTextBox);
-
-                            obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
-
-                            if (obj != null)
-                                TotalResultsToDisplay.Add(obj.SearchResults);
-
-                            obj1?.Document.ToList().ForEach(element =>
+                            try
                             {
-                                SearchResultsToDisplay.Add(element);
-                                SearchHelper(null);
-                                SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
-                            });
+                                var obj = await _restService.GetSearchQueryScopus(QueryTextBox);
+                                var obj1 = await _restService.GetSearchQueryIeeeXplore(QueryTextBox);
 
-                            if (obj1 != null)
-                                TotalResultsToDisplay.Add(obj1);
+                                obj?.SearchResults.Entry.ToList().ForEach(SearchHelper);
+
+                                if (obj != null)
+                                    TotalResultsToDisplay.Add(obj.SearchResults);
+
+                                obj1?.Document.ToList().ForEach(element =>
+                                {
+                                    SearchResultsToDisplay.Add(element);
+                                    SearchHelper(null);
+                                    SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
+                                });
+
+                                if (obj1 != null)
+                                    TotalResultsToDisplay.Add(obj1);
+                            }
+                            catch (Exception)
+                            {
+                            }
 
                             _statisticsDataService.IncrementScopus();
                             _statisticsDataService.IncrementIeeeXplore();
@@ -1103,25 +1174,31 @@ namespace AnalyzerDatabase.ViewModels
 
                         else if (CheckBoxSpringer && CheckBoxIeeeXplore)
                         {
-                            var obj = await _restService.GetSearchQuerySpringer(QueryTextBox);
-                            var obj1 = await _restService.GetSearchQueryIeeeXplore(QueryTextBox);
-
-                            obj?.Records.ToList().ForEach(SearchHelper);
-
-                            obj?.Result.ToList().ForEach(element =>
+                            try
                             {
-                                TotalResultsToDisplay.Add(element);
-                            });
+                                var obj = await _restService.GetSearchQuerySpringer(QueryTextBox);
+                                var obj1 = await _restService.GetSearchQueryIeeeXplore(QueryTextBox);
 
-                            obj1?.Document.ToList().ForEach(element =>
+                                obj?.Records.ToList().ForEach(SearchHelper);
+
+                                obj?.Result.ToList().ForEach(element =>
+                                {
+                                    TotalResultsToDisplay.Add(element);
+                                });
+
+                                obj1?.Document.ToList().ForEach(element =>
+                                {
+                                    SearchResultsToDisplay.Add(element);
+                                    SearchHelper(null);
+                                    SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
+                                });
+
+                                if (obj1 != null)
+                                    TotalResultsToDisplay.Add(obj1);
+                            }
+                            catch (Exception)
                             {
-                                SearchResultsToDisplay.Add(element);
-                                SearchHelper(null);
-                                SearchResultsToDisplay.Last().Source = SourceDatabase.IeeeXplore;
-                            });
-
-                            if (obj1 != null)
-                                TotalResultsToDisplay.Add(obj1);
+                            }
 
                             _statisticsDataService.IncrementSpringer();
                             _statisticsDataService.IncrementIeeeXplore();

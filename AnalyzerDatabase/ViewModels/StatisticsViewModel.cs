@@ -1066,41 +1066,48 @@ namespace AnalyzerDatabase.ViewModels
                 chart = chartOverall;
             }
 
-            Rect bounds = VisualTreeHelper.GetDescendantBounds(chart);
-
-            RenderTargetBitmap renderBitmap = new RenderTargetBitmap(
-                (int)bounds.Width, (int)bounds.Height, 96, 96, PixelFormats.Pbgra32);
-
-            DrawingVisual isolatedVisual = new DrawingVisual();
-            using (DrawingContext drawing = isolatedVisual.RenderOpen())
+            try
             {
-                drawing.DrawRectangle(Brushes.White, null, new Rect(new Point(), bounds.Size));
-                drawing.DrawRectangle(new VisualBrush(chart), null, new Rect(new Point(), bounds.Size));
-            }
+                Rect bounds = VisualTreeHelper.GetDescendantBounds(chart);
 
-            renderBitmap.Render(isolatedVisual);
+                RenderTargetBitmap renderBitmap = new RenderTargetBitmap(
+                    (int)bounds.Width, (int)bounds.Height, 96, 96, PixelFormats.Pbgra32);
 
-            SaveFileDialog saveFileDialog = new SaveFileDialog
-            {
-                Filter = "PNG (*.png)|*.png",
-                FileName = "ChartData_" + DateTime.Now.ToString("yyyy_hh_mm_ss"),
-                InitialDirectory = _currentPublicationSavingPath
-            };
-
-            bool? result = saveFileDialog.ShowDialog();
-            if (result == true)
-            {
-                string fileName = saveFileDialog.FileName;
-
-                using (FileStream outStream = new FileStream(fileName, FileMode.Create))
+                DrawingVisual isolatedVisual = new DrawingVisual();
+                using (DrawingContext drawing = isolatedVisual.RenderOpen())
                 {
-                    PngBitmapEncoder encoder = new PngBitmapEncoder();
-                    encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
-                    encoder.Save(outStream);
+                    drawing.DrawRectangle(Brushes.White, null, new Rect(new Point(), bounds.Size));
+                    drawing.DrawRectangle(new VisualBrush(chart), null, new Rect(new Point(), bounds.Size));
                 }
 
-                if (await ConfirmationDialog(GetString("Confirm"), GetString("OpenExportFile")))
-                    Process.Start(saveFileDialog.FileName);
+                renderBitmap.Render(isolatedVisual);
+
+                SaveFileDialog saveFileDialog = new SaveFileDialog
+                {
+                    Filter = "PNG (*.png)|*.png",
+                    FileName = "ChartData_" + DateTime.Now.ToString("yyyy_hh_mm_ss"),
+                    InitialDirectory = _currentPublicationSavingPath
+                };
+
+                bool? result = saveFileDialog.ShowDialog();
+                if (result == true)
+                {
+                    string fileName = saveFileDialog.FileName;
+
+                    using (FileStream outStream = new FileStream(fileName, FileMode.Create))
+                    {
+                        PngBitmapEncoder encoder = new PngBitmapEncoder();
+                        encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
+                        encoder.Save(outStream);
+                    }
+
+                    if (await ConfirmationDialog(GetString("Confirm"), GetString("OpenExportFile")))
+                        Process.Start(saveFileDialog.FileName);
+                }
+            }
+            catch (Exception)
+            {
+                ShowDialog(GetString("Error"), GetString("NoDataToChartExport"));
             }
         }
 

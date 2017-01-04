@@ -574,6 +574,15 @@ namespace AnalyzerDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is no data to export. Select the chart that you want to export..
+        /// </summary>
+        public static string NoDataToChartExport {
+            get {
+                return ResourceManager.GetString("NoDataToChartExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No data to display, select the graph or table of data!.
         /// </summary>
         public static string NoDataToDisplay {

@@ -460,4 +460,7 @@
   <data name="ApiKeyWatermark" xml:space="preserve">
     <value>Enter your API key</value>
   </data>
+  <data name="NoDataToChartExport" xml:space="preserve">
+    <value>There is no data to export. Select the chart that you want to export.</value>
+  </data>
 </root>
