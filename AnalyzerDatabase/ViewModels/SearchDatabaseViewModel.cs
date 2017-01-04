@@ -1267,6 +1267,14 @@ namespace AnalyzerDatabase.ViewModels
                 SearchResultsToDisplay.Last().Year = RegexYear(SearchResultsToDisplay.Last());
                 SearchResultsToDisplay.Last().IsDuplicate = CompareDoi(SearchResultsToDisplay.Last());
                 SearchResultsToDisplay.Last().PercentComplete = DegreeOfCompliance(SearchResultsToDisplay.Last());
+
+                if (element.Creator == "Springer" || element.Creator == "BioMed Central")
+                {
+                    foreach (var item in element.GetCreator())
+                    {
+                        SearchResultsToDisplay.Last().Creator = item;
+                    }
+                }
             }
             else
             {
