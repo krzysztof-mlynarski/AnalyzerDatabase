@@ -13,7 +13,7 @@ Windows Presentation Foundation (WPF)
 
 ###.Net Version
 
-.Net 4.5
+.Net 4.5 or greater
 
 ###Supported databases
 
