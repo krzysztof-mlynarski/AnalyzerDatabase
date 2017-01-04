@@ -85,12 +85,14 @@ namespace AnalyzerDatabase.ViewModels
        
         private RelayCommand<object> _exportChartToImageCommand;
 
-        private RelayCommand _exportChartDataToCsvCommand1;
-        private RelayCommand _exportChartDataToCsvCommand2;
-        private RelayCommand _exportChartDataToCsvCommand3;
-        private RelayCommand _exportChartDataToCsvCommand3_1;
-        private RelayCommand _exportChartDataToCsvCommand4;
-        private RelayCommand _exportChartDataToCsvCommand4_1;
+        private RelayCommand _exportChartDataToCsvCommand1; //overall 1
+        private RelayCommand _exportChartDataToCsvCommand2; //overall 2
+        private RelayCommand _exportChartDataToCsvCommand3; //year
+        private RelayCommand _exportChartDataToCsvCommand3_1; //year full
+        private RelayCommand _exportChartDataToCsvCommand4; //magazine
+        private RelayCommand _exportChartDataToCsvCommand4_1; //magazine full
+        private RelayCommand _exportChartDataToCsvCommand5; //author
+        private RelayCommand _exportChartDataToCsvCommand5_1; //author full
 
         private SeriesCollection _seriesCollectionSearchCount;
         private SeriesCollection _seriesCollectionDuplicateAndDownloadCount;
@@ -333,6 +335,26 @@ namespace AnalyzerDatabase.ViewModels
                 return _exportChartDataToCsvCommand4_1 ?? (_exportChartDataToCsvCommand4_1 = new RelayCommand(() =>
                 {
                     ExportDataToCsv.Instance.ExportChartDataToCsv4_1();
+                }));
+            }
+        }
+        public RelayCommand ExportChartDataToCsvCommand5
+        {
+            get
+            {
+                return _exportChartDataToCsvCommand5 ?? (_exportChartDataToCsvCommand5 = new RelayCommand(() =>
+                {
+                    ExportDataToCsv.Instance.ExportChartDataToCsv5();
+                }));
+            }
+        }
+        public RelayCommand ExportChartDataToCsvCommand5_1
+        {
+            get
+            {
+                return _exportChartDataToCsvCommand5_1 ?? (_exportChartDataToCsvCommand5_1 = new RelayCommand(() =>
+                {
+                    ExportDataToCsv.Instance.ExportChartDataToCsv5_1();
                 }));
             }
         }

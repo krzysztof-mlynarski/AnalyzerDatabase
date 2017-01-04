@@ -222,7 +222,65 @@ namespace AnalyzerDatabase.Services
                     Process.Start(saveFileDialog.FileName);
             }
         }
-         
+
+        public async void ExportChartDataToCsv5()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "CSV (*.csv)|*.csv",
+                FileName = "ChartDataMagazine_" + DateTime.Now.ToString("yyyy_hh_mm_ss"),
+                InitialDirectory = _currentPublicationSavingPath
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                using (var streamWriter = File.CreateText(saveFileDialog.FileName))
+                {
+                    var writer = new CsvWriter(streamWriter);
+                    writer.Configuration.Delimiter = ";";
+
+                    for (int i = 0; i < StatisticsDataService.Instance.ListAuthor.Count; i++)
+                    {
+                        writer.WriteField(StatisticsDataService.Instance.ListAuthor[i]);
+                        writer.WriteField(StatisticsDataService.Instance.ListAuthorAmount[i]);
+                        writer.NextRecord();
+                    }
+                }
+
+                if (await ConfirmationDialog(GetString("Confirm"), GetString("OpenExportFile")))
+                    Process.Start(saveFileDialog.FileName);
+            }
+        }
+
+        public async void ExportChartDataToCsv5_1()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "CSV (*.csv)|*.csv",
+                FileName = "ChartDataMagazine_" + DateTime.Now.ToString("yyyy_hh_mm_ss"),
+                InitialDirectory = _currentPublicationSavingPath
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                using (var streamWriter = File.CreateText(saveFileDialog.FileName))
+                {
+                    var writer = new CsvWriter(streamWriter);
+                    writer.Configuration.Delimiter = ";";
+
+                    for (int i = 0; i < StatisticsDataService.Instance.ListAuthorFull.Count; i++)
+                    {
+                        writer.WriteField(StatisticsDataService.Instance.ListAuthorFull[i]);
+                        writer.WriteField(StatisticsDataService.Instance.ListAuthorAmountFull[i]);
+                        writer.NextRecord();
+                    }
+                }
+
+                if (await ConfirmationDialog(GetString("Confirm"), GetString("OpenExportFile")))
+                    Process.Start(saveFileDialog.FileName);
+            }
+        }
+
         public void ExportDataGridToCsv(ObservableCollection<ISearchResultsToDisplay> model, string query)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog

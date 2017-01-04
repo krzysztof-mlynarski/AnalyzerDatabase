@@ -422,7 +422,7 @@
                 </Grid>
             </controls:MetroTabItem>
 
-            <controls:MetroTabItem Header="{x:Static res:Resources.ByAuthors}">
+            <controls:MetroTabItem Header="{x:Static res:Resources.ByAuthors}" Height="41" VerticalAlignment="Top">
                 <Grid>
                     <!-- Eksport danych z wykresu do pliku png -->
                     <!--<Button HorizontalAlignment="Left" VerticalAlignment="Top"
@@ -441,7 +441,20 @@
                     <Button HorizontalAlignment="Left" VerticalAlignment="Top"
                             Margin="50,10,0,0"
                             ToolTip="{x:Static res:Resources.ExportToCsv}"
-                            Command="{Binding ExportChartDataToCsvCommand4}"
+                            Command="{Binding ExportChartDataToCsvCommand5}"
+                            CommandParameter="{Binding ElementName=ChartMagazine}">
+                        <Rectangle Width="32" Height="32" Fill="{DynamicResource BlackBrush}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_office_excel}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
+
+                    <!-- Eksport danych pełnego przeglądu z wykresu do pliku csv -->
+                    <Button HorizontalAlignment="Left" VerticalAlignment="Top"
+                            Margin="100,10,0,0"
+                            ToolTip="{x:Static res:Resources.ExportFullDataGrid}"
+                            Command="{Binding ExportChartDataToCsvCommand5_1}"
                             CommandParameter="{Binding ElementName=ChartMagazine}">
                         <Rectangle Width="32" Height="32" Fill="{DynamicResource BlackBrush}">
                             <Rectangle.OpacityMask>
@@ -451,7 +464,7 @@
                     </Button>
 
                     <!-- Wyświetlenie data gridu danego wyszukiwania -->
-                    <Button Margin="100,10,0,0"
+                    <Button Margin="150,10,0,0"
                             HorizontalAlignment="Left" VerticalAlignment="Top"
                             ToolTip="{x:Static res:Resources.ShowDataInTable}"
                             Command="{Binding RefreshDataGridByAuthor}">
@@ -475,7 +488,7 @@
                     </Button>-->
 
                     <!-- Wyświetlenie data gridu z pełnego przeglądu -->
-                    <Button Margin="150,10,0,0"
+                    <Button Margin="200,10,0,0"
                             HorizontalAlignment="Left" VerticalAlignment="Top"
                             ToolTip="{x:Static res:Resources.ShowDataInTableFull}"
                             Command="{Binding RefreshDataGridByAuthorFull}">
