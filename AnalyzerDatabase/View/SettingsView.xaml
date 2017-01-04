@@ -1,0 +1,134 @@
+﻿<UserControl x:Class="AnalyzerDatabase.View.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:res="clr-namespace:AnalyzerDatabase.Properties"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="800"
+             DataContext="{Binding Source={StaticResource Locator}, Path=Settings}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TabControl Margin="30,30,0,0" Height="500">
+            <controls:MetroTabItem Header="{x:Static res:Resources.InterfaceSettings}">
+                <StackPanel Margin="40,50,0,0">
+                    <!-- Wybór startowania z systemem -->
+                    <TextBlock Text="{x:Static res:Resources.StartOnLogin}" 
+                               FontSize="20"/>
+                    
+                    <controls:ToggleSwitchButton HorizontalAlignment="Left"
+                               IsChecked="{Binding StartOnLogin, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <Separator Margin="0,50,70,10"></Separator>
+
+                    <!-- Domyślna lokalizacja zapisu plików -->
+                    <TextBlock Text="{x:Static res:Resources.DefaultSavingLocationSettings}" FontSize="20" Margin="0,20,0,0"/>
+                    
+                    <DockPanel HorizontalAlignment="Left" Margin="0,10,0,0">
+                        <Button 
+                            DockPanel.Dock="Right"
+                            Content=". . ."
+                            Foreground="Black"
+                            Command="{Binding OpenDirectoryFilePicker}"
+                            Margin="5,0,0,0"
+                            Cursor="Hand"/>
+                        <TextBox
+                            DockPanel.Dock="Left"
+                            Text="{Binding CurrentPublicationSavingPath}"
+                            IsReadOnly="True"
+                            Width="Auto"/>
+                    </DockPanel>
+
+                    <Button Margin="0,5,0,0"
+                            Command="{Binding OpenPublicationsDirectory}"
+                            BorderThickness="0" BorderBrush="Transparent"
+                            Background="Transparent" Foreground="Black"
+                            HorizontalAlignment="Left"
+                            Height="Auto"
+                            Cursor="Hand">
+
+                        <TextBlock 
+                                Text="{x:Static res:Resources.OpenContainingFolder}"
+                                FontSize="12"
+                                FontWeight="Light"
+                                TextDecorations="Underline">
+                        </TextBlock>
+                    </Button>
+                </StackPanel>
+            </controls:MetroTabItem>
+            
+            <controls:MetroTabItem Header="{x:Static res:Resources.ConfigApiKeySettings}">
+                <!-- Konfiguracja API Key -->
+                <StackPanel Margin="40,50,0,0">
+                    <TextBlock Text="{x:Static res:Resources.ApiScienceAndScopusSettings}" FontSize="20"/>
+                    <TextBox
+                        Background="WhiteSmoke"
+                        FontSize="18" 
+                        Margin="0,10,0,0"
+                        Text="{Binding CurrentScienceDirectAndScopusApiKey}"
+                        Width="350"
+                        HorizontalAlignment="Left"
+                        controls:TextBoxHelper.Watermark="{x:Static res:Resources.ApiKeyWatermark}"
+                        controls:TextBoxHelper.ClearTextButton="True">
+                    </TextBox>
+                    <Button Margin="0,5,0,0"
+                            Command="{Binding OpenPageDevElsevier}"
+                            BorderThickness="0" BorderBrush="Transparent"
+                            Background="Transparent" Foreground="Black"
+                            HorizontalAlignment="Left"
+                            Height="Auto"
+                            Cursor="Hand">
+                        <TextBlock Text="{x:Static res:Resources.GetApiKeyElsevier}"
+                                           FontSize="12"
+                                           FontWeight="Light"
+                                           TextDecorations="Underline"
+                                           Foreground="Black">
+                        </TextBlock>
+                    </Button>
+
+                    <TextBlock Text="{x:Static res:Resources.ApiSpringerSettings}" FontSize="20" Margin="0,50,0,0"/>
+                    <TextBox
+                        Background="WhiteSmoke"
+                        FontSize="18" 
+                        Margin="0,10,0,0"
+                        Text="{Binding CurrentSpringerApiKey}"
+                        Width="350"
+                        HorizontalAlignment="Left"
+                        controls:TextBoxHelper.Watermark="{x:Static res:Resources.ApiKeyWatermark}"
+                        controls:TextBoxHelper.ClearTextButton="True">
+                    </TextBox>
+                    <Button Margin="0,5,0,0"
+                            Command="{Binding OpenPageDevSpringer}"
+                            BorderThickness="0" BorderBrush="Transparent"
+                            Background="Transparent" Foreground="Black"
+                            HorizontalAlignment="Left"
+                            Height="Auto"
+                            Cursor="Hand">
+                        <TextBlock Text="{x:Static res:Resources.GetApiKeySpringer}"
+                                           FontSize="12"
+                                           FontWeight="Light"
+                                           TextDecorations="Underline">
+                        </TextBlock>
+                    </Button>
+                </StackPanel>
+            </controls:MetroTabItem>
+        </TabControl>
+        
+        <!-- Grafika ustawień -->
+        <Rectangle Grid.Row="0" Width="300" Height="300" Fill="{DynamicResource BlackBrush}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,-150" Grid.RowSpan="3">
+            <Rectangle.OpacityMask>
+                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_cogs}"/>
+            </Rectangle.OpacityMask>
+        </Rectangle>
+    </Grid>
+</UserControl>
+

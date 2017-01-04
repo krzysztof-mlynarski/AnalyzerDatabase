@@ -1,0 +1,463 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AboutMenu" xml:space="preserve">
+    <value>O programie</value>
+  </data>
+  <data name="HomeMenu" xml:space="preserve">
+    <value>Strona główna</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Szukaj</value>
+  </data>
+  <data name="SearchMenu" xml:space="preserve">
+    <value>Szukaj</value>
+  </data>
+  <data name="SettingsMenu" xml:space="preserve">
+    <value>Ustawienia</value>
+  </data>
+  <data name="StatisticsMenu" xml:space="preserve">
+    <value>Statystyki</value>
+  </data>
+  <data name="SelectDatabase" xml:space="preserve">
+    <value>Wybierz bazy danych do przeszukania:</value>
+  </data>
+  <data name="QueryText" xml:space="preserve">
+    <value>Wyszukaj w bazach...</value>
+  </data>
+  <data name="Selected" xml:space="preserve">
+    <value>Wybrany</value>
+  </data>
+  <data name="AuthorDataGrid" xml:space="preserve">
+    <value>Autorzy: </value>
+  </data>
+  <data name="DoiDataGrid" xml:space="preserve">
+    <value>DOI: </value>
+  </data>
+  <data name="IssueDataGrid" xml:space="preserve">
+    <value>Wydanie: </value>
+  </data>
+  <data name="TitleDataGrid" xml:space="preserve">
+    <value>Tytuł: </value>
+  </data>
+  <data name="VolumeDataGrid" xml:space="preserve">
+    <value>Tom: </value>
+  </data>
+  <data name="Source" xml:space="preserve">
+    <value>Źródło: </value>
+  </data>
+  <data name="AbstractDataGrid" xml:space="preserve">
+    <value>Streszczenie: </value>
+  </data>
+  <data name="IssnDataGrid" xml:space="preserve">
+    <value>Issn: </value>
+  </data>
+  <data name="PublicationNameDataGrid" xml:space="preserve">
+    <value>Nazwa publikacji:</value>
+  </data>
+  <data name="AuthorDataGridHeader" xml:space="preserve">
+    <value>Autor</value>
+  </data>
+  <data name="DoiDataGridHeader" xml:space="preserve">
+    <value>DOI</value>
+  </data>
+  <data name="IsbnDataGrid" xml:space="preserve">
+    <value>Isbn: </value>
+  </data>
+  <data name="PageRangeDataGrid" xml:space="preserve">
+    <value>Zakres stron: </value>
+  </data>
+  <data name="PiiDataGrid" xml:space="preserve">
+    <value>Pii: </value>
+  </data>
+  <data name="PublicationDateDataGrid" xml:space="preserve">
+    <value>Data publikacji: </value>
+  </data>
+  <data name="TitleDataGridHeader" xml:space="preserve">
+    <value>Tytuł</value>
+  </data>
+  <data name="OpenAccessDataGrid" xml:space="preserve">
+    <value>Otwarty dostęp</value>
+  </data>
+  <data name="ShowMoreDetailsToolTip" xml:space="preserve">
+    <value>Pokaż więcej informacji</value>
+  </data>
+  <data name="NextBtn" xml:space="preserve">
+    <value>Następna</value>
+  </data>
+  <data name="PrevBtn" xml:space="preserve">
+    <value>Poprzednia</value>
+  </data>
+  <data name="ConfigApiKeySettings" xml:space="preserve">
+    <value>Konfiguracja kluczy do API</value>
+  </data>
+  <data name="InterfaceSettings" xml:space="preserve">
+    <value>Interfejs</value>
+  </data>
+  <data name="CobaltColorSettings" xml:space="preserve">
+    <value>Kobalt</value>
+  </data>
+  <data name="DefaultSavingLocationSettings" xml:space="preserve">
+    <value>Domyślna lokalizacja zapisywania publikacji</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>Angielski</value>
+  </data>
+  <data name="GreenColorSettings" xml:space="preserve">
+    <value>Zielony</value>
+  </data>
+  <data name="IndigoColorSettings" xml:space="preserve">
+    <value>Indygo</value>
+  </data>
+  <data name="LanguageSettings" xml:space="preserve">
+    <value>Język</value>
+  </data>
+  <data name="Polish" xml:space="preserve">
+    <value>Polski</value>
+  </data>
+  <data name="StyleAppSettings" xml:space="preserve">
+    <value>Styl aplikacji</value>
+  </data>
+  <data name="OpenContainingFolder" xml:space="preserve">
+    <value>Otwórz folder</value>
+  </data>
+  <data name="ApiScienceAndScopusSettings" xml:space="preserve">
+    <value>Science Direct i Scopus</value>
+  </data>
+  <data name="ApiSpringerSettings" xml:space="preserve">
+    <value>Springer</value>
+  </data>
+  <data name="GetApiKeyElsevier" xml:space="preserve">
+    <value>Pobierz klucz API do baz Science Direct oraz Scopus</value>
+  </data>
+  <data name="GetApiKeySpringer" xml:space="preserve">
+    <value>Pobierz klucz API do bazy Springer</value>
+  </data>
+  <data name="StartOnLogin" xml:space="preserve">
+    <value>Startuj z Windowsem</value>
+  </data>
+  <data name="DownloadPublication" xml:space="preserve">
+    <value>Pobierz publikację</value>
+  </data>
+  <data name="AboutResult" xml:space="preserve">
+    <value>Około</value>
+    <comment>Do wyświetlania ilości znalezionych wyników</comment>
+  </data>
+  <data name="NoInternet" xml:space="preserve">
+    <value>Brak dostępu do internetu!</value>
+  </data>
+  <data name="NotCriteria" xml:space="preserve">
+    <value>Nie wprowadzono kryteriów do wyszukiwania!</value>
+  </data>
+  <data name="NotSelectedDatabase" xml:space="preserve">
+    <value>Nie została wybrana żadna z baz do przeszukania!</value>
+  </data>
+  <data name="Results" xml:space="preserve">
+    <value>wyników w</value>
+  </data>
+  <data name="Seconds" xml:space="preserve">
+    <value> sekund</value>
+  </data>
+  <data name="TitleDialogError" xml:space="preserve">
+    <value>Błąd!</value>
+  </data>
+  <data name="ErrorDownloadPublication" xml:space="preserve">
+    <value>Wystąpił problem podczas pobierania publikacji, spróbuj ponownie za chwilę.</value>
+  </data>
+  <data name="AmountDownloadedPublications" xml:space="preserve">
+    <value>Ilość pobranych publikacji:</value>
+  </data>
+  <data name="AmountFoundDuplicates" xml:space="preserve">
+    <value>Ilość znalezionych duplikatów:</value>
+  </data>
+  <data name="AmountInquiries" xml:space="preserve">
+    <value>Ilość zapytań skierowanych do baz:</value>
+  </data>
+  <data name="ByAuthors" xml:space="preserve">
+    <value>Wg autorów</value>
+  </data>
+  <data name="ByPublication" xml:space="preserve">
+    <value>Wg publikacji</value>
+  </data>
+  <data name="ByYear" xml:space="preserve">
+    <value>Wg lat</value>
+  </data>
+  <data name="OverallStatistics" xml:space="preserve">
+    <value>Ogólne statystyki</value>
+  </data>
+  <data name="Sum" xml:space="preserve">
+    <value>Łącznie:</value>
+  </data>
+  <data name="ExportToCsv" xml:space="preserve">
+    <value>Eksportuj dane do pliku .csv</value>
+  </data>
+  <data name="GroupDatabase" xml:space="preserve">
+    <value>Grupuj wyniki po nazwie bazy</value>
+  </data>
+  <data name="CountYear" xml:space="preserve">
+    <value>Ilość wystąpień danego roku</value>
+  </data>
+  <data name="ExportToPng" xml:space="preserve">
+    <value>Eksportuj wykres do .png</value>
+  </data>
+  <data name="ExportToPng1" xml:space="preserve">
+    <value>Eksportuj wykres nr 1 do .png</value>
+  </data>
+  <data name="ExportToPng2" xml:space="preserve">
+    <value>Eksportuje wykres nr 2 do .png</value>
+  </data>
+  <data name="FilterData" xml:space="preserve">
+    <value>Filtruj</value>
+  </data>
+  <data name="RefreshData" xml:space="preserve">
+    <value>Odswież</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Lata</value>
+  </data>
+  <data name="ShowFullListWithData" xml:space="preserve">
+    <value>Pokaż pełną listę z dotychczasowymi danymi</value>
+  </data>
+  <data name="ShowGroupsResults" xml:space="preserve">
+    <value>Pokaż widok z grupami po 25 rezultatów</value>
+  </data>
+  <data name="ExportToCsv1" xml:space="preserve">
+    <value>Eksportuj dane wykresu nr 1 do .csv</value>
+  </data>
+  <data name="ExportToCsv2" xml:space="preserve">
+    <value>Eksportuj dane wykresu nr 2 do .csv</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Ilość</value>
+  </data>
+  <data name="ByMagazine" xml:space="preserve">
+    <value>Wg czasopism</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Potwierdź</value>
+    <comment>ConfirmationDialog Title</comment>
+  </data>
+  <data name="Database" xml:space="preserve">
+    <value>Baza</value>
+  </data>
+  <data name="Downloads" xml:space="preserve">
+    <value>Pobrano</value>
+    <comment>Header CSV</comment>
+  </data>
+  <data name="Duplicate" xml:space="preserve">
+    <value>Duplikaty</value>
+    <comment>Title PieSeries</comment>
+  </data>
+  <data name="Duplicates" xml:space="preserve">
+    <value>Duplikatów</value>
+    <comment>Header CSV</comment>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Błąd</value>
+    <comment>ShowDialog Title</comment>
+  </data>
+  <data name="ExportFullDataGrid" xml:space="preserve">
+    <value>Eksportuj dane z pełnego przeglądu do pliku .csv</value>
+  </data>
+  <data name="Magazine" xml:space="preserve">
+    <value>Czasopismo</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nazwa</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Nie</value>
+    <comment>Dialog Negative</comment>
+  </data>
+  <data name="NoDataToDisplay" xml:space="preserve">
+    <value>Brak danych do wyświetlenia, wybierz wykres lub tabelę z danymi!</value>
+  </data>
+  <data name="NoDataToDisplayInDataGrid" xml:space="preserve">
+    <value>Brak danych do wyświetlenia, wprowadź hasło do wyszukania!</value>
+  </data>
+  <data name="NoDataToExport" xml:space="preserve">
+    <value>Brak danych do wyeksportowania!</value>
+  </data>
+  <data name="Occurred" xml:space="preserve">
+    <value>Wystąpił: </value>
+    <comment>ToolTip w wykresie lat</comment>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+    <comment>Dialog Negatice</comment>
+  </data>
+  <data name="OpenExportFile" xml:space="preserve">
+    <value>Czy chcesz otworzyć wyeksportowany plik?</value>
+    <comment>ConfirmationDialog Discription</comment>
+  </data>
+  <data name="Publications" xml:space="preserve">
+    <value>Publikacje</value>
+    <comment>Title PieSeries</comment>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Ustawienia</value>
+    <comment>Dialog Affirmative</comment>
+  </data>
+  <data name="ShowChart" xml:space="preserve">
+    <value>Pokaż wykres dla danej strony w wyszukiwarce</value>
+  </data>
+  <data name="ShowChartFull" xml:space="preserve">
+    <value>Pokaż wykres dla pełnego przeglądu</value>
+  </data>
+  <data name="ShowChartOverall1" xml:space="preserve">
+    <value>Pokaż wykres ilości odwołań do baz</value>
+  </data>
+  <data name="ShowChartOverall2" xml:space="preserve">
+    <value>Pokaż wykres ilości pobrań/duplikatów</value>
+  </data>
+  <data name="ShowDataInTable" xml:space="preserve">
+    <value>Pokaż dane w tabeli dla danej strony w wyszukiwarce</value>
+  </data>
+  <data name="ShowDataInTableFull" xml:space="preserve">
+    <value>Pokaż dane w tabeli z pełnego przeglądu</value>
+  </data>
+  <data name="YearRok" xml:space="preserve">
+    <value>Rok</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Tak</value>
+    <comment>Dialog Affirmative</comment>
+  </data>
+  <data name="NameAuthor" xml:space="preserve">
+    <value>Imię i nazwisko</value>
+  </data>
+  <data name="CheckApiKey" xml:space="preserve">
+    <value>Sprawdź w ustawieniach czy posiadasz wpisany klucz API dla tej bazy!</value>
+  </data>
+  <data name="ConnectionFailed" xml:space="preserve">
+    <value>Wystąpił problem komunikacji z bazą.</value>
+  </data>
+  <data name="ReceivedResultsTitleWindow" xml:space="preserve">
+    <value>Otrzymane wyniki</value>
+  </data>
+  <data name="SendEmail" xml:space="preserve">
+    <value>Wyślij wiadomość</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Wersja:</value>
+  </data>
+  <data name="ApiKeyWatermark" xml:space="preserve">
+    <value>Wprowadź swój API key</value>
+  </data>
+</root>

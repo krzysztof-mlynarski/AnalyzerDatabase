@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
 namespace AnalyzerDatabase
 {
@@ -13,5 +7,14 @@ namespace AnalyzerDatabase
     /// </summary>
     public partial class App : Application
     {
+        //private CultureInfo cultureOverride = new CultureInfo("en-EN");
+        //public App()
+        //{
+        //    if (Debugger.IsAttached == true && cultureOverride != null)
+        //    {
+        //        Thread.CurrentThread.CurrentUICulture = cultureOverride;
+        //        Thread.CurrentThread.CurrentCulture = cultureOverride;
+        //    }
+        //}
     }
 }

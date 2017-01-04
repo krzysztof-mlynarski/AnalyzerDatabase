@@ -3,6 +3,21 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <!-- String resource that can be localized -->
-    <system:String x:Key="SearchQuery">https://api.elsevier.com/content/search/scidir?query={0}&amp;apiKey=b3a71de2bde04544495881ed9d2f9c5b</system:String>
+       
+    <!-- Metody dla bazy ScienceDirect //json-->
+    <system:String x:Key="SearchQueryScienceDirect">https://api.elsevier.com/content/search/scidir?query={0}&amp;apiKey={1}</system:String>
+    <system:String x:Key="ScienceDirectPreviousOrNextPageResult">https://api.elsevier.com/content/search/scidir?start={0}&amp;count=25&amp;query={1}&amp;apiKey={2}</system:String>
+    <system:String x:Key="DownloadArticleFromScienceDirectToPdf">https://api.elsevier.com/content/article/doi/{0}?apiKey={1}&amp;httpAccept=application/pdf</system:String>
 
+    <!-- Metody dla bazy Scopus //json-->
+    <system:String x:Key="SearchQueryScopus">https://api.elsevier.com/content/search/scopus?query={0}&amp;apiKey={1}</system:String>
+    <system:String x:Key="ScopusPreviousOrNextPageResult">https://api.elsevier.com/content/search/scopus?start={0}&amp;count=25&amp;query={1}&amp;apiKey={2}</system:String>
+    
+    <!-- Metody dla bazy Springer //json-->
+    <system:String x:Key="SearchQuerySpringer">https://api.springer.com/metadata/json?api_key={0}&amp;q={1}&amp;s=1&amp;p=25</system:String>
+    <system:String x:Key="SpringerPreviousOrNextPageResult">https://api.springer.com/metadata/json?api_key={0}&amp;q={1}&amp;s={2}&amp;p=25</system:String>
+
+    <!-- Metody dla bazy IEEE Xplore //xml-->
+    <system:String x:Key="SearchQueryIeeeXplore">http://ieeexplore.ieee.org/gateway/ipsSearch.jsp?querytext={0}&amp;hc=25&amp;rs=1</system:String>
+    <system:String x:Key="IeeeXplorePreviousOrNextPageResult">http://ieeexplore.ieee.org/gateway/ipsSearch.jsp?querytext={0}&amp;hc=25&amp;rs={1}</system:String>
 </ResourceDictionary>

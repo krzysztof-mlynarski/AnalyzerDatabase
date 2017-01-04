@@ -48,7 +48,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>AnalyzerDatabaseIcon3.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.2.16.3.0\lib\net45\CsvHelper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
       <Private>True</Private>
@@ -61,10 +68,20 @@
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Livecharts, Version=0.8.0.0, Culture=neutral, PublicKeyToken=c5935629d38af058, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.0.8.0\lib\net40\Livecharts.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LiveCharts.Wpf, Version=0.8.0.0, Culture=neutral, PublicKeyToken=3b585c2a5f1a92c1, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.Wpf.0.8.0\lib\net45\LiveCharts.Wpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.2.4.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Expression.Prototyping.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
@@ -75,6 +92,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -91,29 +109,124 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="ZetaLongPaths, Version=1.0.0.14, Culture=neutral, PublicKeyToken=b764f59068f31f38, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZetaLongPaths.1.0.0.14\lib\net40-full\ZetaLongPaths.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\BoolToColorConverter.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\DuplicateValueConverter.cs" />
+    <Compile Include="Converters\GroupsToTotalConverter.cs" />
+    <Compile Include="Converters\NegativeBooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\MultiValueConverter.cs" />
+    <Compile Include="Converters\ViewModelBaseToVisibilityConverter.cs" />
+    <Compile Include="Enums\SourceDatabase.cs" />
     <Compile Include="Interfaces\IDeserializeJsonService.cs" />
     <Compile Include="Interfaces\IInternetConnectionService.cs" />
-    <Compile Include="Interfaces\IScopusRestService.cs" />
-    <Compile Include="Models\SearchQueryModel.cs" />
+    <Compile Include="Interfaces\IRestService.cs" />
+    <Compile Include="Interfaces\ISearchResultsToDisplay.cs" />
+    <Compile Include="Interfaces\IStatisticsDataService.cs" />
+    <Compile Include="Interfaces\ITotalResultsToDisplay.cs" />
+    <Compile Include="Messengers\ExceptionToSettingsMessage.cs" />
+    <Compile Include="Models\ByMagazine.cs" />
+    <Compile Include="Models\ByYear.cs" />
+    <Compile Include="Models\ByAuthor.cs" />
+    <Compile Include="Models\IeeeXplore\Error.cs" />
+    <Compile Include="Models\OverallStatistics.cs" />
+    <Compile Include="Models\IeeeXplore\Controlledterms.cs" />
+    <Compile Include="Models\IeeeXplore\Document.cs" />
+    <Compile Include="Models\IeeeXplore\IeeeXploreSearchQuery.cs" />
+    <Compile Include="Models\IeeeXplore\Thesaurusterms.cs" />
+    <Compile Include="Models\OverallStatistics2.cs" />
+    <Compile Include="Models\ScienceDirect\Author.cs" />
+    <Compile Include="Models\ScienceDirect\Authors.cs" />
+    <Compile Include="Models\ScienceDirect\EntryScienceDirect.cs" />
+    <Compile Include="Models\ScienceDirect\LinkPaging.cs" />
+    <Compile Include="Models\ScienceDirect\LinkArticle.cs" />
+    <Compile Include="Models\ScienceDirect\OpensearchQuery.cs" />
+    <Compile Include="Models\ScienceDirect\PrismCoverDate.cs" />
+    <Compile Include="Models\ScienceDirect\ScienceDirectSearchQuery.cs" />
+    <Compile Include="Models\ScienceDirect\SearchResults.cs" />
+    <Compile Include="Models\Scopus\Affiliation.cs" />
+    <Compile Include="Models\Scopus\EntryScopus.cs" />
+    <Compile Include="Models\Scopus\LinkArticle.cs" />
+    <Compile Include="Models\Scopus\LinkPaging.cs" />
+    <Compile Include="Models\Scopus\OpensearchQuery.cs" />
+    <Compile Include="Models\Scopus\ScopusSearchQuery.cs" />
+    <Compile Include="Models\Scopus\SearchResults.cs" />
+    <Compile Include="Models\Springer\Creator.cs" />
+    <Compile Include="Models\Springer\Facet.cs" />
+    <Compile Include="Models\Springer\Record.cs" />
+    <Compile Include="Models\Springer\Result.cs" />
+    <Compile Include="Models\Springer\SpringerSearchQuery.cs" />
+    <Compile Include="Models\Springer\Url.cs" />
+    <Compile Include="Models\Springer\Value.cs" />
+    <Compile Include="Models\AnalyzerDatabaseStatistics.cs" />
+    <Compile Include="Properties\Resources.pl-PL.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.pl-PL.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AnalyzerDatabaseSettings.cs" />
     <Compile Include="Services\DeserializeJsonService.cs" />
+    <Compile Include="Services\ExportDataToCsv.cs" />
     <Compile Include="Services\InternetConnectionService.cs" />
-    <Compile Include="Services\ScopusRestService.cs" />
+    <Compile Include="Services\LocalizationSettingsService.cs" />
+    <Compile Include="Services\LocalizationStatisticsService.cs" />
+    <Compile Include="Services\RestService.cs" />
+    <Compile Include="Services\SettingsService.cs" />
+    <Compile Include="Services\StatisticsDataService.cs" />
+    <Compile Include="Services\XmlService.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
+    <Compile Include="ViewModels\ExtendedViewModelBase.cs" />
+    <Compile Include="ViewModels\FullDataGridViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SearchDatabaseViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="View\AboutView.xaml.cs">
+      <DependentUpon>AboutView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FullDataGridView.xaml.cs">
+      <DependentUpon>FullDataGridView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SearchDatabaseView.xaml.cs">
       <DependentUpon>SearchDatabaseView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\StatisticsView.xaml.cs">
+      <DependentUpon>StatisticsView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Resources\ConfigResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\IconsNonShared.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Simple Styles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\AboutView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FullDataGridView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -133,6 +246,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\StatisticsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -148,8 +269,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Properties\Resources.pl-PL.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.pl-PL.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
@@ -158,14 +284,10 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\Entypo.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Converters\" />
-    <Folder Include="Messages\" />
-    <Folder Include="Resources\Themes\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -190,8 +312,6 @@
     <Resource Include="Assets\Library Icons\ScienceDirect.png" />
     <Resource Include="Assets\Library Icons\Scopus.png" />
     <Resource Include="Assets\Library Icons\Springer.png" />
-    <Resource Include="Assets\Library Icons\Web of Science.png" />
-    <Resource Include="Assets\Library Icons\Wiley Online Library.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Menu Icons\Statistics.png" />
@@ -199,7 +319,43 @@
   <ItemGroup>
     <Resource Include="Assets\Logo\AnalyzerDatabaseLogo.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Other Icons\Network.png" />
+    <Resource Include="Assets\Other Icons\Vpn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Other Icons\NetworkConnect.png" />
+    <Resource Include="Assets\Other Icons\NetworkDisconnect.png" />
+    <Resource Include="Assets\Other Icons\VpnConnect.png" />
+    <Resource Include="Assets\Other Icons\VpnDisconnect.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\WindowsIcons-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Entypo-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="AnalyzerDatabaseIcon2.ico" />
+    <Resource Include="AnalyzerDatabaseIcon3.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="AnalyzerDatabaseIcon1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Other Icons\AvatarUser.png" />
+    <Resource Include="Assets\Other Icons\Github.png" />
+    <Resource Include="Assets\Other Icons\Linkedin.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties BuildVersion_StartDate="2000/1/1" />
+    </VisualStudio>
+  </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

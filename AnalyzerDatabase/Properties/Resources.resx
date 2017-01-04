@@ -46,7 +46,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -60,6 +60,7 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
@@ -68,9 +69,10 @@
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="name" use="required" type="xsd:string" />
               <xsd:attribute name="type" type="xsd:string" />
               <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
@@ -85,9 +87,10 @@
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -109,9 +112,352 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AboutMenu" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="AboutResult" xml:space="preserve">
+    <value>About</value>
+    <comment>Do wyświetlania ilości znalezionych wyników</comment>
+  </data>
+  <data name="AbstractDataGrid" xml:space="preserve">
+    <value>Abstract: </value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="AmountDownloadedPublications" xml:space="preserve">
+    <value>Amount downloaded publications:</value>
+  </data>
+  <data name="AmountFoundDuplicates" xml:space="preserve">
+    <value>Amount found duplicates:</value>
+  </data>
+  <data name="AmountInquiries" xml:space="preserve">
+    <value>Amount inquiries to the database:</value>
+  </data>
+  <data name="ApiScienceAndScopusSettings" xml:space="preserve">
+    <value>Science Direct and Scopus</value>
+  </data>
+  <data name="ApiSpringerSettings" xml:space="preserve">
+    <value>Springer</value>
+  </data>
+  <data name="AuthorDataGrid" xml:space="preserve">
+    <value>Authors: </value>
+  </data>
+  <data name="AuthorDataGridHeader" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="ByAuthors" xml:space="preserve">
+    <value>By authors</value>
+  </data>
+  <data name="ByMagazine" xml:space="preserve">
+    <value>By magazine</value>
+  </data>
+  <data name="ByPublication" xml:space="preserve">
+    <value>By publication</value>
+  </data>
+  <data name="ByYear" xml:space="preserve">
+    <value>By year</value>
+  </data>
+  <data name="CobaltColorSettings" xml:space="preserve">
+    <value>Cobalt</value>
+  </data>
+  <data name="ConfigApiKeySettings" xml:space="preserve">
+    <value>Configuration API Key</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirm</value>
+    <comment>ConfirmationDialog Title</comment>
+  </data>
+  <data name="CountYear" xml:space="preserve">
+    <value>The number of occurrences of a given year</value>
+  </data>
+  <data name="Database" xml:space="preserve">
+    <value>Database</value>
+  </data>
+  <data name="DefaultSavingLocationSettings" xml:space="preserve">
+    <value>Default location to save the publication</value>
+  </data>
+  <data name="DoiDataGrid" xml:space="preserve">
+    <value>DOI:</value>
+  </data>
+  <data name="DoiDataGridHeader" xml:space="preserve">
+    <value>DOI</value>
+  </data>
+  <data name="DownloadPublication" xml:space="preserve">
+    <value>Download publication</value>
+  </data>
+  <data name="Downloads" xml:space="preserve">
+    <value>Downloads</value>
+    <comment>Header csv</comment>
+  </data>
+  <data name="Duplicate" xml:space="preserve">
+    <value>Duplicate</value>
+    <comment>Title PieSeries</comment>
+  </data>
+  <data name="Duplicates" xml:space="preserve">
+    <value>Duplicates</value>
+    <comment>Header csv</comment>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+    <comment>ShowDialog Title</comment>
+  </data>
+  <data name="ErrorDownloadPublication" xml:space="preserve">
+    <value>There was a problem downloading the publication, try again in a moment.</value>
+  </data>
+  <data name="ExportFullDataGrid" xml:space="preserve">
+    <value>Export data from a full review to a .csv file</value>
+  </data>
+  <data name="ExportToCsv" xml:space="preserve">
+    <value>Export data to a .csv file</value>
+  </data>
+  <data name="ExportToCsv1" xml:space="preserve">
+    <value>Export chart data number 1 to .csv</value>
+  </data>
+  <data name="ExportToCsv2" xml:space="preserve">
+    <value>Export chart data number 2 to .csv</value>
+  </data>
+  <data name="ExportToPng" xml:space="preserve">
+    <value>Export chart to .png</value>
+  </data>
+  <data name="ExportToPng1" xml:space="preserve">
+    <value>Export chart number 1 to .png</value>
+  </data>
+  <data name="ExportToPng2" xml:space="preserve">
+    <value>Export chart number 2 to .png</value>
+  </data>
+  <data name="FilterData" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="GetApiKeyElsevier" xml:space="preserve">
+    <value>Get API Key for Science Direct and Scopus databases</value>
+  </data>
+  <data name="GetApiKeySpringer" xml:space="preserve">
+    <value>Get API Key for Springer database</value>
+  </data>
+  <data name="GreenColorSettings" xml:space="preserve">
+    <value>Green</value>
+  </data>
+  <data name="GroupDatabase" xml:space="preserve">
+    <value>Group after the name of the database</value>
+  </data>
+  <data name="HomeMenu" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="IndigoColorSettings" xml:space="preserve">
+    <value>Indigo</value>
+  </data>
+  <data name="InterfaceSettings" xml:space="preserve">
+    <value>Interface</value>
+  </data>
+  <data name="IsbnDataGrid" xml:space="preserve">
+    <value>Isbn: </value>
+  </data>
+  <data name="IssnDataGrid" xml:space="preserve">
+    <value>Issn: </value>
+  </data>
+  <data name="IssueDataGrid" xml:space="preserve">
+    <value>Issue: </value>
+  </data>
+  <data name="LanguageSettings" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Magazine" xml:space="preserve">
+    <value>Magazine</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NextBtn" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+    <comment>Dialog Negative</comment>
+  </data>
+  <data name="NoDataToDisplay" xml:space="preserve">
+    <value>No data to display, select the graph or table of data!</value>
+  </data>
+  <data name="NoDataToDisplayInDataGrid" xml:space="preserve">
+    <value>No data to display, enter a search query!</value>
+  </data>
+  <data name="NoDataToExport" xml:space="preserve">
+    <value>There is no data to export!</value>
+  </data>
+  <data name="NoInternet" xml:space="preserve">
+    <value>No access to the internet!</value>
+  </data>
+  <data name="NotCriteria" xml:space="preserve">
+    <value>You did not enter the search criteria!</value>
+  </data>
+  <data name="NotSelectedDatabase" xml:space="preserve">
+    <value>Is not selected, none of the databases to be searched!</value>
+  </data>
+  <data name="Occurred" xml:space="preserve">
+    <value>Occured:</value>
+    <comment>tooltip w wykresie lat</comment>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+    <comment>Dialog negative</comment>
+  </data>
+  <data name="OpenAccessDataGrid" xml:space="preserve">
+    <value>Open Access</value>
+  </data>
+  <data name="OpenContainingFolder" xml:space="preserve">
+    <value>Open containing folder</value>
+  </data>
+  <data name="OpenExportFile" xml:space="preserve">
+    <value>Do you want to open the exported file?</value>
+    <comment>ConfirmationDialog Discription</comment>
+  </data>
+  <data name="OverallStatistics" xml:space="preserve">
+    <value>Overall statistics</value>
+  </data>
+  <data name="PageRangeDataGrid" xml:space="preserve">
+    <value>Page range: </value>
+  </data>
+  <data name="PiiDataGrid" xml:space="preserve">
+    <value>Pii: </value>
+  </data>
+  <data name="Polish" xml:space="preserve">
+    <value>Polish</value>
+  </data>
+  <data name="PrevBtn" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="PublicationDateDataGrid" xml:space="preserve">
+    <value>Publication date: </value>
+  </data>
+  <data name="PublicationNameDataGrid" xml:space="preserve">
+    <value>Publication name:</value>
+  </data>
+  <data name="Publications" xml:space="preserve">
+    <value>Publications</value>
+    <comment>Title PieSeries</comment>
+  </data>
+  <data name="QueryText" xml:space="preserve">
+    <value>Search in database...</value>
+  </data>
+  <data name="RefreshData" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Results" xml:space="preserve">
+    <value>results in</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SearchMenu" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Seconds" xml:space="preserve">
+    <value> seconds</value>
+  </data>
+  <data name="SelectDatabase" xml:space="preserve">
+    <value>Select the database to search:</value>
+  </data>
+  <data name="Selected" xml:space="preserve">
+    <value>Selected</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+    <comment>Dialog affirmative</comment>
+  </data>
+  <data name="SettingsMenu" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="ShowChart" xml:space="preserve">
+    <value>Show chart for the page in the search engine</value>
+  </data>
+  <data name="ShowChartFull" xml:space="preserve">
+    <value>See chart for full review</value>
+  </data>
+  <data name="ShowChartOverall1" xml:space="preserve">
+    <value>Show graph the amount of appeals to the bases</value>
+  </data>
+  <data name="ShowChartOverall2" xml:space="preserve">
+    <value>Show graph number of downloads / duplicate</value>
+  </data>
+  <data name="ShowDataInTable" xml:space="preserve">
+    <value>See details in the table for the page in the search engine</value>
+  </data>
+  <data name="ShowDataInTableFull" xml:space="preserve">
+    <value>See details in the table of the full review</value>
+  </data>
+  <data name="ShowFullListWithData" xml:space="preserve">
+    <value>Show the full list of existing data</value>
+  </data>
+  <data name="ShowGroupsResults" xml:space="preserve">
+    <value>Show groups of 25 results</value>
+  </data>
+  <data name="ShowMoreDetailsToolTip" xml:space="preserve">
+    <value>Show more details</value>
+  </data>
+  <data name="Source" xml:space="preserve">
+    <value>Source: </value>
+  </data>
+  <data name="StartOnLogin" xml:space="preserve">
+    <value>Start on login</value>
+  </data>
+  <data name="StatisticsMenu" xml:space="preserve">
+    <value>Statistics</value>
+  </data>
+  <data name="StyleAppSettings" xml:space="preserve">
+    <value>Style application</value>
+  </data>
+  <data name="Sum" xml:space="preserve">
+    <value>Sum:</value>
+  </data>
+  <data name="TitleDataGrid" xml:space="preserve">
+    <value>Title: </value>
+  </data>
+  <data name="TitleDataGridHeader" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="TitleDialogError" xml:space="preserve">
+    <value>Error!</value>
+  </data>
+  <data name="VolumeDataGrid" xml:space="preserve">
+    <value>Volume: </value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Year</value>
+  </data>
+  <data name="YearRok" xml:space="preserve">
+    <value>Year</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+    <comment>Dialog Affirmative</comment>
+  </data>
+  <data name="NameAuthor" xml:space="preserve">
+    <value>Name and surname</value>
+  </data>
+  <data name="CheckApiKey" xml:space="preserve">
+    <value>Check the settings that you have typed API key for this database!</value>
+  </data>
+  <data name="ConnectionFailed" xml:space="preserve">
+    <value>There was a problem communicating with the database.</value>
+  </data>
+  <data name="ReceivedResultsTitleWindow" xml:space="preserve">
+    <value>Received results</value>
+  </data>
+  <data name="SendEmail" xml:space="preserve">
+    <value>Send a message</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version:</value>
+  </data>
+  <data name="ApiKeyWatermark" xml:space="preserve">
+    <value>Enter your API key</value>
+  </data>
 </root>

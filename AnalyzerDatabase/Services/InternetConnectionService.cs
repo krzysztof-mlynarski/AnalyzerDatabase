@@ -1,37 +1,56 @@
-﻿using System.Net.NetworkInformation;
-using System.Threading.Tasks;
+﻿using System;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using AnalyzerDatabase.Interfaces;
 
 namespace AnalyzerDatabase.Services
 {
+
     public class InternetConnectionService : IInternetConnectionService
     {
-        //public bool CheckConnection()
-        //{
-        //    ConnectionProfile internetConnectionProfile = NetworkInformation.GetInternetConnectionProfile();
+        #region Public methods
+        [DllImport("wininet.dll")]
+        private static extern bool InternetGetConnectedState(out int description, int reservedValue);
 
-        //    if (internetConnectionProfile == null)
-        //    {
-        //        return false;
-        //    }
-
-        //    return true;
-        //}
-
-        public async Task<bool> IsNetworkAvailable()
+        public bool CheckConnectedToInternet()
         {
-            if (!(await Task.Run(() => NetworkInterface.GetIsNetworkAvailable())))
-                return false;
-            else
-                return true;
+            bool isConnected;
+            try
+            {
+                int desc;
+                isConnected = InternetGetConnectedState(out desc, 0);
+            }
+            catch (Exception)
+            {
+                isConnected = false;
+            }
+            return isConnected;
         }
 
-        //public bool IsInternetAccess()
-        //{
-        //    if (!(NetworkInformation.GetInternetConnectionProfile().GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess))
-        //        return false;
-        //    else
-        //        return true;
-        //}
+        public bool CheckConnectedToInternetVpn()
+        {
+            using (Process myProcess = new Process())
+            {
+                myProcess.StartInfo.CreateNoWindow = true;
+                myProcess.StartInfo.UseShellExecute = false;
+                myProcess.StartInfo.RedirectStandardInput = true;
+                myProcess.StartInfo.RedirectStandardOutput = true;
+                myProcess.StartInfo.FileName = "cmd.exe";
+                myProcess.Start();
+                myProcess.StandardInput.WriteLine("ipconfig");
+                myProcess.StandardInput.WriteLine("exit");
+                myProcess.WaitForExit();
+
+                string content = myProcess.StandardOutput.ReadToEnd();
+                if (content.Contains("0.0.0.0"))
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        #endregion
     }
 }

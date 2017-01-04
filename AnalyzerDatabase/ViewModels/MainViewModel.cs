@@ -1,47 +1,99 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AnalyzerDatabase.ViewModels;
+﻿using AnalyzerDatabase.Interfaces;
+using AnalyzerDatabase.Messengers;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Views;
+using GalaSoft.MvvmLight.Messaging;
 
-namespace AnalyzerDatabase.ViewModel
+namespace AnalyzerDatabase.ViewModels
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : ExtendedViewModelBase
     {
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
+        #region Variables
+        private ViewModelBase Page { get; set; }
 
-        private ViewModelBase _currentViewModel;
+        private readonly IInternetConnectionService _internetConnectionService;
+        private bool _isInternetConnection;
+        private bool _isVpnConnection;
+
         private RelayCommand _openSearchDatabaseCommand;
         private RelayCommand _openStatisticsCommand;
         private RelayCommand _openSettingsCommand;
         private RelayCommand _openAboutCommand;
+        private RelayCommand _goToSettingsViewCommand;
+        private RelayCommand _openHomeWindowCommand;
 
-        public MainViewModel()
+        #endregion
+
+        #region Constructors
+        public MainViewModel(IInternetConnectionService internetConnectionService)
         {
-            CurrentViewModel = (new ViewModelLocator()).SearchDatabase;
+            _internetConnectionService = internetConnectionService;
+            CurrentViewModel = ViewModelLocator.Instance.SearchDatabase;
+            CurrentViewModel = ViewModelLocator.Instance.Statistics;
+            CurrentViewModel = ViewModelLocator.Instance.Settings;
+            CurrentViewModel = ViewModelLocator.Instance.About;
             CurrentViewModel = null;
+
+            CheckInternetConnection();
+
+            Messenger.Default.Register<ExceptionToSettingsMessage>(this, HandleMessage);
         }
 
-        #region Getters setters
-        public ViewModelBase CurrentViewModel
+        #endregion
+
+        #region Message
+
+        private async void HandleMessage(ExceptionToSettingsMessage message)
+        {
+            Page = message.Exception;
+            var source = message.Source;
+
+            if (await ExceptionDialog(GetString("Error") + " - " + source, GetString("ConnectionFailed") + "\n" + GetString("CheckApiKey")))
+                NavigateTo(Page);
+        }
+
+        #endregion
+
+        #region Getters/setters
+
+        public bool IsInternetConnection
         {
             get
             {
-                return _currentViewModel;
+                return _isInternetConnection;               
             }
-
             set
             {
-                _currentViewModel = value;
-                RaisePropertyChanged("CurrentViewModel");
+                if (_isInternetConnection != value)
+                {
+                    _isInternetConnection = value;
+                    RaisePropertyChanged();
+                }
             }
         }
+
+        public bool IsVpnConnection
+        {
+            get
+            {
+                return _isVpnConnection;                 
+            }
+            set
+            {
+                if (_isVpnConnection != value)
+                {
+                    _isVpnConnection = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        #endregion
+
+        #region RelayCommand
         public RelayCommand OpenSearchDatabaseCommand
         {
             get
@@ -74,25 +126,51 @@ namespace AnalyzerDatabase.ViewModel
             }
         }
 
+        public RelayCommand GoToSettingsViewCommand
+        {
+            get
+            {
+                return _goToSettingsViewCommand ?? (_goToSettingsViewCommand = new RelayCommand(OpenSettings));
+            }
+        }
+
+        public RelayCommand OpenHomeWindowCommand
+        {
+            get { return _openHomeWindowCommand ?? (_openHomeWindowCommand = new RelayCommand(OpenHomeWindow)); }
+        }
         #endregion
+
+        #region Private methods
+        private void OpenHomeWindow()
+        {
+            NavigateTo(ViewModelLocator.Instance.Main);
+        }
 
         private void OpenSearchDatabase()
         {
-            CurrentViewModel = (new ViewModelLocator()).SearchDatabase;
+            NavigateTo(ViewModelLocator.Instance.SearchDatabase);
         }
 
         private void OpenStatistics()
         {
+            NavigateTo(ViewModelLocator.Instance.Statistics);
         }
 
         private void OpenSettings()
         {
-
+            NavigateTo(ViewModelLocator.Instance.Settings);
         }
 
         private void OpenAbout()
         {
-
+            NavigateTo(ViewModelLocator.Instance.About);
         }
+
+        private void CheckInternetConnection()
+        {
+            IsInternetConnection = _internetConnectionService.CheckConnectedToInternet();
+            IsVpnConnection = _internetConnectionService.CheckConnectedToInternetVpn();
+        }
+        #endregion
     }
 }
